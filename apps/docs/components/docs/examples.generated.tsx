@@ -304,6 +304,7 @@ export const examples: Record<string, React.ComponentType> = {
   "message/system": dynamic(() => import("@/registry/examples/message/system"), { ssr: false }),
   "model-picker/composer-picker": dynamic(() => import("@/registry/examples/model-picker/composer-picker"), { ssr: false }),
   "model-picker/searchable": dynamic(() => import("@/registry/examples/model-picker/searchable"), { ssr: false }),
+  "model-picker/thinking-model": dynamic(() => import("@/registry/examples/model-picker/thinking-model"), { ssr: false }),
   "morphing-modal/no-close-button": dynamic(() => import("@/registry/examples/morphing-modal/no-close-button"), { ssr: false }),
   "morphing-modal/steps": dynamic(() => import("@/registry/examples/morphing-modal/steps"), { ssr: false }),
   "morphing-modal/view-change": dynamic(() => import("@/registry/examples/morphing-modal/view-change"), { ssr: false }),
