@@ -17,7 +17,7 @@ const require = createRequire(
 );
 await mkdir(new URL("fonts/", root), { recursive: true });
 let fontCss = "";
-for (const family of ["inter", "noto-sans-sc", "jetbrains-mono", "source-serif-4", "noto-serif-sc"]) {
+for (const family of ["noto-sans", "noto-sans-sc", "jetbrains-mono", "source-serif-4", "noto-serif-sc"]) {
   const cssPath = require.resolve(`@fontsource-variable/${family}/wght.css`);
   const css = await readFile(cssPath, "utf8");
   await copyFile(join(dirname(cssPath), "LICENSE"), new URL(`fonts/${family}-LICENSE.txt`, root));

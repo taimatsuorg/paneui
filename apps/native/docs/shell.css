@@ -20,7 +20,7 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family:
-    "Inter Variable",
+    "Noto Sans Variable",
     "Noto Sans SC Variable",
     -apple-system,
     BlinkMacSystemFont,
@@ -507,7 +507,7 @@ html[lang] [dir="auto"],
 html[lang] input,
 html[lang] textarea {
   font-family:
-    "Inter Variable",
+    "Noto Sans Variable",
     "Noto Sans SC Variable",
     -apple-system,
     BlinkMacSystemFont,
