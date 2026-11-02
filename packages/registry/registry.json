@@ -6039,7 +6039,9 @@
         "@paneui/button",
         "@paneui/menu",
         "@paneui/locale-provider",
-        "@paneui/combobox"
+        "@paneui/combobox",
+        "@paneui/kbd",
+        "@paneui/slider"
       ],
       "files": [
         {

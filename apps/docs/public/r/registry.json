@@ -6039,7 +6039,9 @@
         "https://paneui.dev/r/button.json",
         "https://paneui.dev/r/menu.json",
         "https://paneui.dev/r/locale-provider.json",
-        "https://paneui.dev/r/combobox.json"
+        "https://paneui.dev/r/combobox.json",
+        "https://paneui.dev/r/kbd.json",
+        "https://paneui.dev/r/slider.json"
       ],
       "files": [
         {
