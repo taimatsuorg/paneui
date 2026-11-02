@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { BoltIcon, CheckIcon, PlusIcon, SearchIcon, ShapesIcon, SidebarIcon } from "@paneui/ui/icons"
+import { BoltIcon, CheckIcon, PlugIcon, PlusIcon, SearchIcon, SidebarIcon } from "@paneui/ui/icons"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@paneui/ui/components/breadcrumb"
 import { Button } from "@paneui/ui/components/button"
 import { EmptyState, EmptyStateDescription } from "@paneui/ui/components/empty-state"
@@ -60,7 +60,7 @@ export function PluginsSidebar({ state, onHide, onNavigate }: { state: PluginsSt
       <SidebarNav indicator="fill">
         <SidebarNavContent aria-label="Plugins">
           <SidebarNavList>
-            <SidebarNavLink render={<button type="button" />} className="w-full text-start" icon={<ShapesIcon />} active={state.page.kind === "browse"} onClick={() => go({ kind: "browse" })}>
+            <SidebarNavLink render={<button type="button" />} className="w-full text-start" icon={<PlugIcon />} active={state.page.kind === "browse"} onClick={() => go({ kind: "browse" })}>
               Browse
             </SidebarNavLink>
             <SidebarNavLink render={<button type="button" />} className="w-full text-start" icon={<BoltIcon />} active={state.page.kind === "skills"} onClick={() => go({ kind: "skills" })}>
@@ -228,7 +228,7 @@ function Detail({ plugin, state, leading }: { plugin: Plugin; state: PluginsStat
             ["Category", plugin.category],
             ["Version", plugin.version],
           ].map(([k, v]) => (
-            <SettingsRow key={k}>
+            <SettingsRow key={k} size="sm">
               <span className="text-muted-foreground">{k}</span>
               <span>{v}</span>
             </SettingsRow>

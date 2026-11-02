@@ -2,9 +2,11 @@
 
 import * as React from "react"
 
+import { ChevronDownIcon } from "@paneui/ui/icons"
 import { cn } from "@paneui/ui/lib/utils"
 import { Button } from "@paneui/ui/components/button"
 import { Kbd } from "@paneui/ui/components/kbd"
+import { Menu, MenuContent, MenuLabel, MenuRadioGroup, MenuRadioItem, MenuSeparator, MenuTrigger } from "@paneui/ui/components/menu"
 import { Tooltip, TooltipContent, TooltipKbd, TooltipTrigger } from "@paneui/ui/components/tooltip"
 
 /** An icon-only button with its name in a tooltip (and the shortcut, when it has one). */
@@ -116,4 +118,51 @@ export function SectionPrimary({
 /** A centred page body for the views beside the chat: a readable column with page padding. */
 export function PageBody({ wide = false, className, children }: { wide?: boolean; className?: string; children: React.ReactNode }) {
   return <div className={cn("mx-auto flex w-full flex-col gap-6 px-5 pt-6 pb-10 md:px-8 md:pt-8", wide ? "max-w-6xl" : "max-w-3xl", className)}>{children}</div>
+}
+
+export type SectionSwitcherGroup = { label?: string; options: { value: string; label: string; icon?: React.ReactNode }[] }
+
+/**
+ * The page's index as a menu beside its title, for when the section column is hidden (⌘B): the
+ * same places as the column, one click away. Render it only while the column is collapsed.
+ */
+export function SectionSwitcher({
+  label,
+  value,
+  onValueChange,
+  groups,
+}: {
+  label: string
+  value: string
+  onValueChange: (value: string) => void
+  groups: SectionSwitcherGroup[]
+}) {
+  return (
+    <Menu>
+      <Tooltip>
+        <TooltipTrigger
+          render={<MenuTrigger render={<Button variant="ghost" size="icon-sm" aria-label={label} className="-ms-1 text-muted-foreground" />} />}
+        >
+          <ChevronDownIcon />
+        </TooltipTrigger>
+        <TooltipContent side="bottom">{label}</TooltipContent>
+      </Tooltip>
+      <MenuContent className="w-52">
+        {groups.map((g, i) => (
+          <React.Fragment key={g.label ?? i}>
+            {i > 0 && <MenuSeparator />}
+            <MenuRadioGroup value={value} onValueChange={(v) => onValueChange(v as string)}>
+              {g.label && <MenuLabel inset>{g.label}</MenuLabel>}
+              {g.options.map((o) => (
+                <MenuRadioItem key={o.value} value={o.value}>
+                  {o.icon}
+                  {o.label}
+                </MenuRadioItem>
+              ))}
+            </MenuRadioGroup>
+          </React.Fragment>
+        ))}
+      </MenuContent>
+    </Menu>
+  )
 }

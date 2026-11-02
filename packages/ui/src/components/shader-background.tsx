@@ -16,6 +16,7 @@ import {
 import { useReducedMotion } from "motion/react"
 
 import { cn } from "@paneui/ui/lib/utils"
+import { seedPalette } from "@paneui/ui/lib/seed-palette"
 
 type ShaderVariant = "mesh-gradient" | "grain-gradient" | "warp" | "waves" | "dot-orbit"
 
@@ -29,47 +30,8 @@ const defaults: Record<ShaderVariant, { colors: string[]; colorBack: string }> =
   "dot-orbit": { colors: ["var(--primary)", tint(35), tint(65)], colorBack: "var(--background)" },
 }
 
-/* ── Seeded palettes ── the same function lives in og-image, so a seed gives the same colours in a PNG. */
-function hashSeed(seed: string) {
-  let h = 0x811c9dc5
-  for (let i = 0; i < seed.length; i++) {
-    h ^= seed.charCodeAt(i)
-    h = Math.imul(h, 0x01000193)
-  }
-  return h >>> 0
-}
-function mix(h: number) {
-  h ^= h >>> 16
-  h = Math.imul(h, 0x85ebca6b)
-  h ^= h >>> 13
-  h = Math.imul(h, 0xc2b2ae35)
-  h ^= h >>> 16
-  return h >>> 0
-}
-function hslHex(h: number, s: number, l: number) {
-  const a = (s / 100) * Math.min(l / 100, 1 - l / 100)
-  const f = (n: number) => {
-    const k = (n + h / 30) % 12
-    const v = l / 100 - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))
-    return Math.round(v * 255).toString(16).padStart(2, "0")
-  }
-  return `#${f(0)}${f(8)}${f(4)}`
-}
-const SCHEMES = [
-  [0, 30, 60, 200],
-  [0, 150, 180, 330],
-  [0, 40, 180, 220],
-] as const
-const LIGHTS = [58, 72, 86, 66]
-
 /** A harmonious palette of `count` hex colours for a seed; the same seed always gives the same colours. */
-function shaderPalette(seed: string, count = 4): string[] {
-  const h = mix(hashSeed(seed))
-  const hue = h % 360
-  const scheme = SCHEMES[(h >>> 9) % SCHEMES.length]
-  const sat = 68 + ((h >>> 12) % 20)
-  return Array.from({ length: count }, (_, i) => hslHex((hue + scheme[i % scheme.length] + Math.floor(i / scheme.length) * 15) % 360, Math.max(40, sat - i * 6), LIGHTS[i % LIGHTS.length]))
-}
+const shaderPalette = seedPalette
 
 /** Seed when given; otherwise a fresh palette after mount, so server and client markup match. */
 function usePalette(colors: string[] | "random" | undefined, seed: string | undefined) {

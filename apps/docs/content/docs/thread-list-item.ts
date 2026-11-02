@@ -24,6 +24,7 @@ export default {
     { id: "pr-states", title: { en: "Pull Request States", zh: "合并请求状态" }, description: { en: "Use in coding-agent sidebars where threads map to pull requests.", zh: "适用于关联代码合并请求的对话列表。" } },
     { id: "actions", title: { en: "Description and Actions", zh: "说明与操作" }, description: { en: "Use for chat lists with a subtitle, a time and a row menu.", zh: "适用于需要副标题和操作菜单的对话列表。" } },
     { id: "minimal", title: { en: "Minimal", zh: "简洁" },  },
+    { id: "compact", title: { en: "Compact", zh: "紧凑" }, description: { en: "Use `size=\"sm\"` for nested lists such as project folders.", zh: "项目文件夹等嵌套列表使用 `size=\"sm\"`。" } },
   ],
   notes: [
     { title: "Truncation", body: { en: "Title, repo and branch truncate independently; the branch gives way first so the PR number stays readable in a narrow sidebar.", zh: "标题、仓库和分支独立截断；分支先让位，以便在狭窄侧边栏中 PR 编号保持可读。" } },
@@ -48,9 +49,11 @@ export default {
         { name: "meta", type: "ReactNode", description: { en: "Quiet text at the end of the title line, such as a relative time. `actions` replace it on hover.", zh: "标题行末尾的低调文本，例如相对时间。悬停时由 `actions` 替换。" } },
         { name: "actions", type: "ReactNode", description: { en: "Row controls, placed over the end of the row outside its button.", zh: "行控件，放在行末尾、行按钮之外。" } },
         { name: "buttonProps", type: `React.ComponentProps<"button">`, description: { en: "Props for the row button, including its `className`. Merged last, so they win over the rest.", zh: "行按钮的 props，包括其 `className`。最后合并，因此优先于其他设置。" } },
+        { name: "size", type: `"default" | "sm"`, default: `"default"`, description: { en: "`sm` is a single 28px line: icon, title, pull request number and `meta`. `description`, `repo` and `branch` are left out.", zh: "`sm` 为单行 28px：图标、标题、合并请求编号和 `meta`。不显示 `description`、`repo` 和 `branch`。" } },
         { name: "trailing", type: "ReactNode", description: { en: "Non-interactive content at the end of the title line, inside the row button.", zh: "标题行末尾的非交互内容，位于行按钮内。" } },
       ],
       dataAttributes: [
+        { name: "data-size", description: { en: "The `size` in use.", zh: "当前使用的 `size`。" } },
         { name: "data-active", description: { en: "Present when active.", zh: "激活时存在。" } },
         { name: "data-running", description: { en: "Present while running.", zh: "运行时存在。" } },
       ],

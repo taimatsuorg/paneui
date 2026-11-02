@@ -606,6 +606,23 @@
       }
     },
     {
+      "name": "seed-palette",
+      "type": "registry:lib",
+      "title": "Seed palette",
+      "description": "Stable colour palettes and mesh gradients from a seed.",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "packages/ui/src/lib/seed-palette.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "meta": {
+        "category": "Foundations",
+        "hidden": true
+      }
+    },
+    {
       "name": "control-size",
       "type": "registry:lib",
       "title": "Control size",
@@ -1593,7 +1610,8 @@
       "registryDependencies": [
         "@paneui/theme",
         "@paneui/locale-provider",
-        "@paneui/shader-background"
+        "@paneui/shader-background",
+        "@paneui/seed-palette"
       ],
       "files": [
         {
@@ -1611,7 +1629,9 @@
       "title": "OG Image",
       "description": "Creates page share images.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "@paneui/seed-palette"
+      ],
       "files": [
         {
           "path": "packages/ui/src/components/og-image.tsx",
@@ -2160,7 +2180,7 @@
         "@paneui/image-generation",
         "@paneui/input-group",
         "@paneui/kbd",
-        "@paneui/og-image",
+        "@paneui/cover-art",
         "@paneui/sidebar-nav",
         "@paneui/simple-table",
         "@paneui/skeleton",
@@ -3649,7 +3669,8 @@
         "motion"
       ],
       "registryDependencies": [
-        "@paneui/theme"
+        "@paneui/theme",
+        "@paneui/seed-palette"
       ],
       "files": [
         {

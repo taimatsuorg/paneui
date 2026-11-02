@@ -11,7 +11,7 @@ import { ScrollArea } from "@paneui/ui/components/scroll-area"
 import { SidebarNav, SidebarNavContent, SidebarNavLink, SidebarNavList, SidebarNavSection } from "@paneui/ui/components/sidebar-nav"
 
 import { ArtTile, SeededArt } from "./art-tile"
-import { IconAction, SectionPanel, SectionPrimary } from "./section-panel"
+import { IconAction, SectionPanel, SectionPrimary, SectionSwitcher } from "./section-panel"
 import { IMAGE_STYLES } from "./workspace-data"
 
 type Collection = "popular" | "templates" | "yours"
@@ -24,6 +24,11 @@ const ASPECTS = [
 ]
 
 const TITLES: Record<Collection, string> = { popular: "Popular", templates: "Templates", yours: "Your images" }
+const COLLECTIONS: { id: Collection; icon: React.ReactNode }[] = [
+  { id: "popular", icon: <StarIcon /> },
+  { id: "templates", icon: <SparklesIcon /> },
+  { id: "yours", icon: <ImageIcon /> },
+]
 
 export function useImages() {
   const [collection, setCollection] = React.useState<Collection>("popular")
@@ -136,6 +141,14 @@ export function ImagesMain({
           <div className="flex items-center gap-2">
             {leading}
             <PageHeaderTitle>{TITLES[state.collection]}</PageHeaderTitle>
+            {leading && (
+              <SectionSwitcher
+                label="Switch collection"
+                value={state.collection}
+                onValueChange={(v) => state.setCollection(v as Collection)}
+                groups={[{ options: COLLECTIONS.map((c) => ({ value: c.id, label: TITLES[c.id], icon: c.icon })) }]}
+              />
+            )}
           </div>
           {state.collection === "yours" ? (
             state.generations.length === 0 ? (

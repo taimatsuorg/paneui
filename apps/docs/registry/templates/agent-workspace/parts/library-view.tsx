@@ -16,7 +16,7 @@ import { Skeleton } from "@paneui/ui/components/skeleton"
 import { ToggleGroup, ToggleGroupItem } from "@paneui/ui/components/toggle-group"
 
 import { SeededArt } from "./art-tile"
-import { IconAction, SectionPanel, SectionPrimary } from "./section-panel"
+import { IconAction, SectionPanel, SectionPrimary, SectionSwitcher } from "./section-panel"
 import { LIBRARY_ITEMS, PROJECTS, type LibraryItem, type LibraryKind } from "./workspace-data"
 
 type Shelf = "recommended" | "favourites" | "images" | "all" | `project:${string}`
@@ -186,6 +186,17 @@ export function LibraryMain({ state, leading }: { state: LibraryState; leading?:
           <div className="flex min-w-0 flex-1 items-center gap-2">
             {leading}
             <PageHeaderTitle className="truncate">{shelfTitle(state.shelf)}</PageHeaderTitle>
+            {leading && (
+              <SectionSwitcher
+                label="Switch shelf"
+                value={state.shelf}
+                onValueChange={(v) => state.setShelf(v as Shelf)}
+                groups={[
+                  { options: SHELVES.map((s) => ({ value: s.id, label: s.label, icon: s.icon })) },
+                  { label: "Folders", options: PROJECTS.map((p) => ({ value: `project:${p.id}`, label: p.name, icon: <FolderIcon /> })) },
+                ]}
+              />
+            )}
           </div>
           <InputGroup className="w-full sm:w-64">
             <InputGroupAddon>
@@ -234,7 +245,7 @@ export function LibraryMain({ state, leading }: { state: LibraryState; leading?:
                 <SimpleTableHead>Name</SimpleTableHead>
                 <SimpleTableHead>Folder</SimpleTableHead>
                 <SimpleTableHead>Updated</SimpleTableHead>
-                <SimpleTableHead align="right">
+                <SimpleTableHead align="end">
                   <span className="sr-only">Favourite</span>
                 </SimpleTableHead>
               </SimpleTableRow>
@@ -250,7 +261,7 @@ export function LibraryMain({ state, leading }: { state: LibraryState; leading?:
                   </SimpleTableCell>
                   <SimpleTableCell>{i.project}</SimpleTableCell>
                   <SimpleTableCell>{i.updated}</SimpleTableCell>
-                  <SimpleTableCell align="right">
+                  <SimpleTableCell align="end">
                     <FavouriteButton on={!!state.favourites[i.id]} onClick={() => state.toggleFavourite(i.id)} title={i.title} />
                   </SimpleTableCell>
                 </SimpleTableRow>

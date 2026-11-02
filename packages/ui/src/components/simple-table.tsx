@@ -59,15 +59,22 @@ function SimpleTableRow({ className, ...props }: React.ComponentProps<"tr">) {
   return <tr data-slot="simple-table-row" className={cn("border-b border-border align-top", className)} {...props} />
 }
 
-type SimpleTableAlign = "left" | "center" | "right" | "justify" | "char"
+type SimpleTableAlign = "start" | "end" | "left" | "center" | "right" | "justify" | "char"
 
 /**
- * `align` takes the Markdown / HTML values: `left` (`:--`), `center` (`:-:`) and `right` (`--:`)
- * map to logical start, center and end, so they flip under RTL. `justify` justifies; `char` is
- * accepted and falls back to start.
+ * `align` is logical: `start` and `end` follow the writing direction. The Markdown / HTML values
+ * work too: `left` (`:--`), `center` (`:-:`) and `right` (`--:`) map to start, center and end, so
+ * they flip under RTL as well. `justify` justifies; `char` is accepted and falls back to start.
+ * A flex child (a row of buttons) is justified to the same edge.
  */
 const alignClass = (align: string | undefined) =>
-  align === "center" ? "text-center" : align === "right" ? "text-end" : align === "justify" ? "text-justify" : "text-start"
+  align === "center"
+    ? "text-center [&>.flex]:justify-center"
+    : align === "right" || align === "end"
+      ? "text-end [&>.flex]:justify-end"
+      : align === "justify"
+        ? "text-justify"
+        : "text-start [&>.flex]:justify-start"
 
 /*
  * Bare `<code>` (what Markdown writes) gets the library's inline-code chip. `:where()` keeps it at
