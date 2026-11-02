@@ -213,7 +213,7 @@ function AlertClose({ className, onClick, children, ...props }: React.ComponentP
       }}
       className={cn(
         size === "sm" ? "-my-0.5 -mr-1 size-6" : "-my-1 -mr-1.5 size-7",
-        "flex shrink-0 cursor-pointer items-center justify-center self-start rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-3.5",
+        "flex shrink-0 cursor-pointer items-center justify-center self-start rounded-control text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-3.5",
         className
       )}
       {...props}

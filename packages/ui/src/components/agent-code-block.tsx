@@ -158,7 +158,7 @@ function AgentCodeBlock({
             </span>
           )}
           {lang !== "text" && (
-            <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-ui-2xs text-muted-foreground shadow-chip">
+            <span className="rounded-control-sm bg-muted px-2 py-0.5 font-mono text-ui-2xs text-muted-foreground shadow-chip">
               {lang}
             </span>
           )}
@@ -166,7 +166,7 @@ function AgentCodeBlock({
         </div>
       )}
       {filename === undefined && copyButton && (
-        <div className="absolute top-2 right-2 z-10 rounded-full bg-code/80 opacity-0 backdrop-blur-sm transition-opacity duration-150 group-hover/code:opacity-100 group-focus-within/code:opacity-100 pointer-coarse:opacity-100">
+        <div className="absolute top-2 right-2 z-10 rounded-control bg-code/80 opacity-0 backdrop-blur-sm transition-opacity duration-150 group-hover/code:opacity-100 group-focus-within/code:opacity-100 pointer-coarse:opacity-100">
           {copyButton}
         </div>
       )}

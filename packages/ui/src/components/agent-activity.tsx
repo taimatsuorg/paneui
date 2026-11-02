@@ -174,7 +174,7 @@ function ActivityRow({ item }: { item: AgentActivityItem }) {
                     target="_blank"
                     rel="noreferrer noopener"
                     title={typeof r.title === "string" ? r.title : undefined}
-                    className="inline-flex h-6 max-w-48 items-center gap-1.5 rounded-full bg-muted pr-2 pl-0.5 text-ui-xs text-muted-foreground shadow-chip outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                    className="inline-flex h-6 max-w-48 items-center gap-1.5 rounded-control-sm bg-muted pr-2 pl-0.5 text-ui-xs text-muted-foreground shadow-chip outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <CitationFavicon source={r} className="size-5 rounded-full shadow-none" />
                     <span className="truncate">{r.domain ?? (typeof r.title === "string" ? r.title : l10n.source)}</span>

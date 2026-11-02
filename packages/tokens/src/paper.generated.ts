@@ -52,7 +52,7 @@ export const paper = {
     "2xl": 16,
     "3xl": 16
   },
-  "controlRadius": null,
+  "controlRadius": 16,
   "headingFont": "\"Source Serif 4 Variable\", \"Source Serif 4\", \"Noto Serif SC Variable\", \"Noto Serif SC\", ui-serif, Georgia, \"Songti SC\", serif",
   "shadows": {
     "light": {

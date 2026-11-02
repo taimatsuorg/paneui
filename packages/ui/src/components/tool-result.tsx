@@ -152,7 +152,7 @@ function AgentIconButton({ className, label, pressed, ...props }: React.Componen
       data-slot="agent-icon-button"
       aria-pressed={pressed}
       className={cn(
-        "inline-grid size-7 shrink-0 cursor-pointer place-items-center rounded-full text-muted-foreground transition-[background-color,color,box-shadow,scale] duration-150 outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-pressed:bg-muted aria-pressed:text-foreground aria-pressed:shadow-chip [&_svg]:size-3.5",
+        "inline-grid size-7 shrink-0 cursor-pointer place-items-center rounded-control text-muted-foreground transition-[background-color,color,box-shadow,scale] duration-150 outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-pressed:bg-muted aria-pressed:text-foreground aria-pressed:shadow-chip [&_svg]:size-3.5",
         className
       )}
       {...props}

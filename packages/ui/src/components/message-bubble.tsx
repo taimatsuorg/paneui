@@ -185,7 +185,7 @@ function MessageBubbleCollapsible({
           aria-expanded={expanded}
           aria-controls={id}
           onClick={() => setExpanded((v) => !v)}
-          className="mt-1 inline-flex w-fit cursor-pointer items-center gap-1 rounded-full text-ui-sm font-medium opacity-75 outline-none hover:opacity-100 focus-visible:ring-2 focus-visible:ring-ring"
+          className="mt-1 inline-flex w-fit cursor-pointer items-center gap-1 rounded-control-sm text-ui-sm font-medium opacity-75 outline-none hover:opacity-100 focus-visible:ring-2 focus-visible:ring-ring"
         >
           {expanded ? lessLabel : moreLabel}
           <ChevronDownIcon

@@ -335,7 +335,7 @@ function ThemeToggle({
         "relative inline-flex shrink-0 cursor-pointer items-center justify-center overflow-hidden transition-[box-shadow,background-color,scale] duration-150 ease-out outline-none select-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
         variant === "ghost"
           ? "size-7 rounded-lg text-foreground hover:bg-secondary [&_svg]:opacity-80"
-          : "size-8 rounded-full bg-card text-secondary-foreground shadow-raised hover:bg-accent hover:shadow-raised-hover",
+          : "size-8 rounded-control bg-card text-secondary-foreground shadow-raised hover:bg-accent hover:shadow-raised-hover",
         className
       )}
       {...props}
@@ -383,7 +383,7 @@ function ThemeSwitch({ className, storageKey, duration, onThemeChange, modes = "
       role="radiogroup"
       aria-label={props["aria-label"] ?? labels.toggleTheme}
       data-slot="theme-switch"
-      className={cn("inline-flex h-7 shrink-0 items-center gap-px rounded-full bg-secondary p-0.5", className)}
+      className={cn("inline-flex h-7 shrink-0 items-center gap-px rounded-control bg-secondary p-0.5", className)}
       {...props}
     >
       {options.map(({ value, label, Icon }) => {
@@ -402,7 +402,7 @@ function ThemeSwitch({ className, storageKey, duration, onThemeChange, modes = "
               setTheme(value, { origin })
             }}
             className={cn(
-              "relative grid h-full w-7 cursor-pointer place-items-center rounded-full text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
+              "relative grid h-full w-7 cursor-pointer place-items-center rounded-[max(calc(var(--radius-control)-var(--spacing)*0.5),1px)] text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
               checked && "text-foreground"
             )}
           >
@@ -411,7 +411,7 @@ function ThemeSwitch({ className, storageKey, duration, onThemeChange, modes = "
                 layoutId={thumbId}
                 aria-hidden
                 transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 700, damping: 50, mass: 0.5 }}
-                className="absolute inset-0 rounded-full bg-background shadow-raised"
+                className="absolute inset-0 rounded-[max(calc(var(--radius-control)-var(--spacing)*0.5),1px)] bg-background shadow-raised"
               />
             )}
             <Icon size={14} className="relative" />

@@ -337,7 +337,7 @@ function StreamingResponse({
                 <button
                   type="button"
                   onClick={onRetry}
-                  className="inline-flex h-7 cursor-pointer items-center gap-1 rounded-full px-2.5 text-ui-sm font-medium outline-none hover:bg-destructive/12 focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex h-7 cursor-pointer items-center gap-1 rounded-control px-2.5 text-ui-sm font-medium outline-none hover:bg-destructive/12 focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <RefreshIcon className="size-3.5" />
                   {l10n.retry}

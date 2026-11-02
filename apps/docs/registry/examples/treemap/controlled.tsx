@@ -25,7 +25,7 @@ export default function TreemapControlled() {
             type="button"
             aria-pressed={active === d.id}
             onClick={() => setActive(active === d.id ? null : d.id)}
-            className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground shadow-chip transition-[color,background-color] duration-150 ease-out hover:text-foreground aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+            className="rounded-control bg-muted px-3 py-1 text-xs font-medium text-muted-foreground shadow-chip transition-[color,background-color] duration-150 ease-out hover:text-foreground aria-pressed:bg-primary aria-pressed:text-primary-foreground"
           >
             {d.label}
           </button>
