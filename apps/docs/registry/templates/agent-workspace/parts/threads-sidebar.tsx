@@ -6,20 +6,25 @@ import {
   CheckIcon,
   ChevronDownIcon,
   EditIcon,
+  FilterIcon,
+  FolderIcon,
+  FolderOpenIcon,
   SearchIcon,
   SettingsIcon,
-  SortIcon,
+  SidebarIcon,
 } from "@paneui/ui/icons"
+import { cn } from "@paneui/ui/lib/utils"
 import { Button } from "@paneui/ui/components/button"
-import { ScrollArea } from "@paneui/ui/components/scroll-area"
 import { Input } from "@paneui/ui/components/input"
-import { Kbd } from "@paneui/ui/components/kbd"
+import { Loader } from "@paneui/ui/components/loader"
 import { Menu, MenuContent, MenuGroup, MenuItem, MenuLabel, MenuSeparator, MenuTrigger } from "@paneui/ui/components/menu"
-import { ThreadList, ThreadListGroup, ThreadListItem, type PullRequestStatus } from "@paneui/ui/components/thread-list-item"
+import { SidebarNav, SidebarNavContent, SidebarNavLink, SidebarNavList, SidebarNavSection } from "@paneui/ui/components/sidebar-nav"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@paneui/ui/components/tooltip"
+import type { PullRequestStatus } from "@paneui/ui/components/thread-list-item"
 
 import type { AgentConfig } from "./agents"
 import { ProviderIcon } from "./provider-icon"
+import { IconAction, SectionPanel, SectionPrimary } from "./section-panel"
 
 export type ThreadSummary = {
   sessionId: string
@@ -35,17 +40,28 @@ export type ThreadSummary = {
 
 type Filter = "all" | "running" | "pr"
 const FILTERS: { id: Filter; label: string }[] = [
-  { id: "all", label: "All activity" },
+  { id: "all", label: "All threads" },
   { id: "running", label: "Running" },
   { id: "pr", label: "With pull request" },
 ]
-const GROUP_ORDER = ["Recent", "Today", "Yesterday", "Earlier"]
 
+const PR_TONE: Record<PullRequestStatus, string> = {
+  open: "text-success-text",
+  draft: "text-muted-foreground",
+  merged: "text-chart-3",
+  closed: "text-destructive-text",
+}
+
+/**
+ * The chat page's index. Every thread lives in exactly one place, its project folder, so the
+ * list never shows the same thread twice; search and the filter open every folder they match in.
+ */
 export function ThreadsSidebar({
   threads,
   activeId,
   onSelect,
   onNewThread,
+  onHide,
   agents,
   agentId,
   onSelectAgent,
@@ -55,6 +71,8 @@ export function ThreadsSidebar({
   activeId: string | null
   onSelect: (sessionId: string) => void
   onNewThread: () => void
+  /** Hides the column; omitted where the column can't hide (the phone drawer). */
+  onHide?: () => void
   agents: AgentConfig[]
   agentId: string
   onSelectAgent: (id: string) => void
@@ -63,7 +81,7 @@ export function ThreadsSidebar({
   const [query, setQuery] = React.useState("")
   const [searching, setSearching] = React.useState(false)
   const [filter, setFilter] = React.useState<Filter>("all")
-  const [newestFirst, setNewestFirst] = React.useState(true)
+  const [closed, setClosed] = React.useState<Record<string, boolean>>({})
   const searchRef = React.useRef<HTMLInputElement>(null)
   const agent = agents.find((a) => a.id === agentId)
 
@@ -74,68 +92,101 @@ export function ThreadsSidebar({
     const q = query.toLowerCase()
     return [t.title, t.repo, t.branch, t.pr ? `#${t.pr.number}` : ""].some((s) => s?.toLowerCase().includes(q))
   })
-  const groups = GROUP_ORDER.map((g) => ({ g, items: visible.filter((t) => t.group === g) }))
-    .concat([{ g: "Other", items: visible.filter((t) => !GROUP_ORDER.includes(t.group)) }])
-    .filter((x) => x.items.length)
-  if (!newestFirst) groups.reverse()
+  const narrowed = query !== "" || filter !== "all"
 
-  return (
-    <div className="flex h-full min-w-0 flex-col">
-      <div className="flex h-10 shrink-0 items-center gap-1 pr-2 pl-2">
-        <Menu>
-          <MenuTrigger
-            render={
-              <Button variant="ghost" size="sm" className="min-w-0" aria-label={`Workspace, agent ${agent?.name ?? "none"}`} />
-            }
-          >
-            <span className="truncate text-ui-lg font-semibold">Workspace</span>
-            <ChevronDownIcon data-icon="inline-end" className="size-3 opacity-64" />
-          </MenuTrigger>
-          <MenuContent className="w-60">
-            <MenuGroup>
-              <MenuLabel>Agent</MenuLabel>
-              {agents.map((a) => (
-                <MenuItem key={a.id} onClick={() => onSelectAgent(a.id)}>
-                  <ProviderIcon provider={a.provider} />
-                  <span className="min-w-0 flex-1 truncate">{a.name}</span>
-                  {a.id === agentId && <CheckIcon className="!text-foreground" />}
-                </MenuItem>
-              ))}
-            </MenuGroup>
-            <MenuSeparator />
-            <MenuItem onClick={onOpenSettings}>
-              <SettingsIcon />
-              Manage agents…
+  const projects = React.useMemo(() => {
+    const map = new Map<string, ThreadSummary[]>()
+    for (const t of visible) {
+      const key = t.repo ?? "Chats"
+      map.set(key, [...(map.get(key) ?? []), t])
+    }
+    return [...map.entries()]
+  }, [visible])
+
+  const openSearch = () => {
+    setSearching((s) => !s)
+    setQuery("")
+    requestAnimationFrame(() => searchRef.current?.focus())
+  }
+
+  const heading = (
+    <Menu>
+      <MenuTrigger render={<Button variant="ghost" size="sm" className="-ms-2 min-w-0" aria-label={`Workspace, agent ${agent?.name ?? "none"}`} />}>
+        <span className="truncate font-heading text-base font-semibold">Workspace</span>
+        <ChevronDownIcon data-icon="inline-end" className="size-3 opacity-64" />
+      </MenuTrigger>
+      <MenuContent className="w-60">
+        <MenuGroup>
+          <MenuLabel>Agent</MenuLabel>
+          {agents.map((a) => (
+            <MenuItem key={a.id} onClick={() => onSelectAgent(a.id)}>
+              <ProviderIcon provider={a.provider} />
+              <span className="min-w-0 flex-1 truncate">{a.name}</span>
+              {a.id === agentId && <CheckIcon className="!text-foreground" />}
             </MenuItem>
-          </MenuContent>
-        </Menu>
-        <div className="flex-1" />
+          ))}
+        </MenuGroup>
+        <MenuSeparator />
+        <MenuItem onClick={onOpenSettings}>
+          <SettingsIcon />
+          Manage agents…
+        </MenuItem>
+      </MenuContent>
+    </Menu>
+  )
+
+  const actions = (
+    <>
+      <Menu>
         <Tooltip>
           <TooltipTrigger
             render={
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                aria-label="Search threads"
-                aria-pressed={searching}
-                className="text-muted-foreground"
-                onClick={() => {
-                  setSearching((s) => !s)
-                  setQuery("")
-                  requestAnimationFrame(() => searchRef.current?.focus())
-                }}
-              >
-                <SearchIcon />
-              </Button>
+              <MenuTrigger
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    aria-label="Filter threads"
+                    className={cn("text-muted-foreground", filter !== "all" && "text-foreground")}
+                  />
+                }
+              />
             }
-          />
-          <TooltipContent side="bottom">Search threads</TooltipContent>
+          >
+            <FilterIcon />
+          </TooltipTrigger>
+          <TooltipContent side="bottom">Filter threads</TooltipContent>
         </Tooltip>
-      </div>
+        <MenuContent className="w-48" align="end">
+          <MenuGroup>
+            <MenuLabel>Show</MenuLabel>
+            {FILTERS.map((f) => (
+              <MenuItem key={f.id} onClick={() => setFilter(f.id)}>
+                <span className="flex-1">{f.label}</span>
+                {f.id === filter && <CheckIcon className="!text-foreground" />}
+              </MenuItem>
+            ))}
+          </MenuGroup>
+        </MenuContent>
+      </Menu>
+      <IconAction label="Search threads" pressed={searching} onClick={openSearch}>
+        <SearchIcon />
+      </IconAction>
+      {onHide && (
+        <IconAction label="Hide sidebar" shortcut="⌘B" onClick={onHide}>
+          <SidebarIcon />
+        </IconAction>
+      )}
+    </>
+  )
 
-      <div className="flex shrink-0 flex-col gap-0.5 px-2">
-        {searching && (
-          <div className="relative mb-1">
+  return (
+    <SectionPanel
+      heading={heading}
+      actions={actions}
+      primary={
+        <>
+          {searching && (
             <Input
               ref={searchRef}
               value={query}
@@ -148,89 +199,73 @@ export function ThreadsSidebar({
               }}
               placeholder="Search threads"
               aria-label="Search threads"
-              className="h-7"
+              size="sm"
+              className="mb-1"
             />
-          </div>
-        )}
-        <Button variant="ghost" className="w-full justify-start" onClick={onNewThread} aria-keyshortcuts="Meta+N">
-          <EditIcon data-icon="inline-start" className="text-muted-foreground" />
-          <span className="font-normal">New thread</span>
-          <Kbd className="ms-auto">⌘N</Kbd>
-        </Button>
-        <div className="flex items-center justify-between">
-          <Menu>
-            <MenuTrigger render={<Button variant="ghost" size="sm" className="text-muted-foreground" />}>
-              <span className="font-normal">{FILTERS.find((f) => f.id === filter)?.label}</span>
-              <ChevronDownIcon data-icon="inline-end" className="size-3" />
-            </MenuTrigger>
-            <MenuContent className="w-48">
-              {FILTERS.map((f) => (
-                <MenuItem key={f.id} onClick={() => setFilter(f.id)}>
-                  <span className="flex-1">{f.label}</span>
-                  {f.id === filter && <CheckIcon className="!text-foreground" />}
-                </MenuItem>
-              ))}
-            </MenuContent>
-          </Menu>
-          <Tooltip>
-            <TooltipTrigger
-              render={
+          )}
+          <SectionPrimary icon={<EditIcon />} label="New chat" shortcut="⌘N" keys="Meta+N" onClick={onNewThread} />
+        </>
+      }
+    >
+      <SidebarNav indicator="fill">
+        <SidebarNavContent aria-label="Threads">
+          {projects.length === 0 ? (
+            <div className="flex flex-col items-center gap-2 px-2 py-6 text-center">
+              <p className="text-ui text-pretty text-muted-foreground">{threads.length ? "No threads match." : "No threads yet."}</p>
+              {narrowed && (
                 <Button
                   variant="ghost"
-                  size="icon-xs"
-                  aria-label={newestFirst ? "Show oldest first" : "Show newest first"}
-                  className="text-muted-foreground"
-                  onClick={() => setNewestFirst((v) => !v)}
+                  size="sm"
+                  onClick={() => {
+                    setQuery("")
+                    setFilter("all")
+                  }}
                 >
-                  <SortIcon />
+                  Clear search and filter
                 </Button>
-              }
-            />
-            <TooltipContent side="bottom">{newestFirst ? "Newest first" : "Oldest first"}</TooltipContent>
-          </Tooltip>
-        </div>
-      </div>
-
-      <ScrollArea className="min-h-0 flex-1" viewportClassName="px-2 pt-1 pb-3">
-        {groups.length === 0 ? (
-          <div className="flex flex-col items-center gap-2 px-2 py-6 text-center">
-            <p className="text-ui text-pretty text-muted-foreground">{threads.length ? "No threads match." : "No threads yet."}</p>
-            {threads.length > 0 && (query || filter !== "all") && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setQuery("")
-                  setFilter("all")
-                }}
-              >
-                Clear search and filter
-              </Button>
-            )}
-          </div>
-        ) : (
-          <ThreadList>
-            {groups.map(({ g, items }) => (
-              <ThreadListGroup key={g} label={g}>
-                {items.map((t) => (
-                  <ThreadListItem
-                    key={t.sessionId}
-                    title={t.title}
-                    icon={<ProviderIcon provider={t.provider} />}
-                    repo={t.repo}
-                    pr={t.pr}
-                    branch={t.branch}
-                    running={t.running}
-                    unread={t.unread}
-                    active={t.sessionId === activeId}
-                    onClick={() => onSelect(t.sessionId)}
-                  />
-                ))}
-              </ThreadListGroup>
-            ))}
-          </ThreadList>
-        )}
-      </ScrollArea>
-    </div>
+              )}
+            </div>
+          ) : (
+            <SidebarNavSection level="label" label="Projects">
+              {projects.map(([project, items]) => {
+                const open = narrowed || !closed[project]
+                return (
+                  <SidebarNavSection
+                    key={project}
+                    level="group"
+                    label={project}
+                    icon={open ? <FolderOpenIcon /> : <FolderIcon />}
+                    open={open}
+                    onOpenChange={(o) => setClosed((c) => ({ ...c, [project]: !o }))}
+                  >
+                    <SidebarNavList>
+                      {items.map((t) => (
+                        <SidebarNavLink
+                          key={t.sessionId}
+                          render={<button type="button" />}
+                          active={t.sessionId === activeId}
+                          onClick={() => onSelect(t.sessionId)}
+                          title={t.title}
+                          className="w-full text-start"
+                          badge={
+                            t.running ? (
+                              <Loader variant="ring" size="sm" label="Agent is working" className="size-3 shrink-0 text-muted-foreground" />
+                            ) : t.pr ? (
+                              <span className={cn("shrink-0 text-ui-xs tabular-nums", PR_TONE[t.pr.status])}>#{t.pr.number}</span>
+                            ) : null
+                          }
+                        >
+                          {t.title}
+                        </SidebarNavLink>
+                      ))}
+                    </SidebarNavList>
+                  </SidebarNavSection>
+                )
+              })}
+            </SidebarNavSection>
+          )}
+        </SidebarNavContent>
+      </SidebarNav>
+    </SectionPanel>
   )
 }
