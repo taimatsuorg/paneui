@@ -119,7 +119,7 @@ function Slider<Value extends number | readonly number[]>({
         <SliderPrimitive.Track
           data-slot="slider-track"
           className={cn(
-            "relative rounded-full bg-muted shadow-well",
+            "relative rounded-control-sm bg-muted shadow-well",
             // the rim: positions below are inside it, so the thumb and fill sit 2px in
             contained && "border-2 border-transparent",
             vertical ? dims.track[1] : dims.track[0]
@@ -134,10 +134,10 @@ function Slider<Value extends number | readonly number[]>({
                   ? { bottom: `calc((100% - 2 * ${thumbInset}) * ${(low - min) / span})`, height: `calc(2 * ${thumbInset} + (100% - 2 * ${thumbInset}) * ${(high - low) / span})` }
                   : { insetInlineStart: `calc((100% - 2 * ${thumbInset}) * ${(low - min) / span})`, width: `calc(2 * ${thumbInset} + (100% - 2 * ${thumbInset}) * ${(high - low) / span})` }
               }
-              className={cn("pointer-events-none absolute rounded-full bg-primary", vertical ? "inset-x-0" : "inset-y-0")}
+              className={cn("pointer-events-none absolute rounded-control-sm bg-primary", vertical ? "inset-x-0" : "inset-y-0")}
             />
           ) : (
-            <SliderPrimitive.Indicator data-slot="slider-indicator" className="rounded-full bg-primary" />
+            <SliderPrimitive.Indicator data-slot="slider-indicator" className="rounded-control-sm bg-primary" />
           )}
           {tickValues.map((tick) => {
             const pct = ((tick - min) / span) * 100

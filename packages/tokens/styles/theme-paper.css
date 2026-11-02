@@ -114,13 +114,15 @@ html[data-style="paper"],
 html[data-style="paper"]:not([data-radius]),
 html:not([data-radius]) [data-style="paper"]:not([data-radius]) {
   --radius: 0.75rem;
-  --control-radius: 2rem;
+  --control-radius: 9999px;
+  --control-radius-sm: 9999px;
 }
 
 html[data-radius] [data-style="paper"],
 [data-style="paper"][data-radius],
 [data-style="paper"] [data-radius] {
-  --control-radius: var(--radius);
+  --control-radius: initial;
+  --control-radius-sm: initial;
 }
 
 html[data-style="paper"].dark,

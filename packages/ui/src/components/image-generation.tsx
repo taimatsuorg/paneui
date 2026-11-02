@@ -203,7 +203,7 @@ function ImageGeneration({
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               exit={{ opacity: 0, y: reduce ? 0 : 4, filter: "blur(2px)" }}
               transition={{ duration: 0.25, ease: AGENT_EASE }}
-              className="inline-flex h-6 items-center gap-1.5 rounded-full bg-popover/85 px-2 text-ui-xs font-medium text-popover-foreground shadow-chip backdrop-blur-md [&_svg]:size-3"
+              className="inline-flex h-6 items-center gap-1.5 rounded-control-sm bg-popover/85 px-2 text-ui-xs font-medium text-popover-foreground shadow-chip backdrop-blur-md [&_svg]:size-3"
             >
               {complete ? (
                 <CheckIcon className="text-success-text" />

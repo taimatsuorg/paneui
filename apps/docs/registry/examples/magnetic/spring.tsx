@@ -12,13 +12,13 @@ export default function MagneticSpring() {
       <div className="flex items-center gap-8">
         <div className="flex flex-col items-center gap-3">
           <Magnetic disabled={!enabled} strength={0.4} spring={{ stiffness: 500, damping: 30, mass: 0.5 }}>
-            <span className="rounded-full bg-secondary px-4 py-2 text-sm font-medium shadow-raised">Tight</span>
+            <span className="rounded-control bg-secondary px-4 py-2 text-sm font-medium shadow-raised">Tight</span>
           </Magnetic>
           <span className="text-xs text-muted-foreground">500 / 30</span>
         </div>
         <div className="flex flex-col items-center gap-3">
           <Magnetic disabled={!enabled} strength={0.4} spring={{ stiffness: 90, damping: 10, mass: 0.6 }}>
-            <span className="rounded-full bg-secondary px-4 py-2 text-sm font-medium shadow-raised">Loose</span>
+            <span className="rounded-control bg-secondary px-4 py-2 text-sm font-medium shadow-raised">Loose</span>
           </Magnetic>
           <span className="text-xs text-muted-foreground">90 / 10</span>
         </div>

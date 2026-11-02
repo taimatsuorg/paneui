@@ -99,7 +99,7 @@ function ExpandableButton({
         if (!event.defaultPrevented) setOpen(!open)
       }}
       className={cn(
-        "inline-flex h-10 shrink-0 cursor-pointer items-center rounded-full p-0.5 text-ui font-medium whitespace-nowrap outline-none select-none",
+        "inline-flex h-10 shrink-0 cursor-pointer items-center rounded-control p-0.5 text-ui font-medium whitespace-nowrap outline-none select-none",
         "transition-[box-shadow,background-color,color,scale] duration-150 ease-out focus-visible:ring-2 focus-visible:ring-ring active:scale-96 disabled:pointer-events-none disabled:opacity-50",
         SURFACE,
         "data-expanded:bg-primary data-expanded:text-primary-foreground data-expanded:shadow-primary data-expanded:hover:bg-primary-hover",
@@ -180,7 +180,7 @@ function ExpandableChip({
         }
       }}
       className={cn(
-        "inline-flex h-8 items-center rounded-full text-ui-sm font-medium transition-shadow duration-150 data-disabled:pointer-events-none data-disabled:opacity-50",
+        "inline-flex h-8 items-center rounded-control text-ui-sm font-medium transition-shadow duration-150 data-disabled:pointer-events-none data-disabled:opacity-50",
         SURFACE,
         className
       )}
@@ -192,7 +192,7 @@ function ExpandableChip({
           aria-expanded={open}
           aria-controls={open ? actionId : undefined}
           onClick={() => setOpen(!open)}
-          className="h-8 cursor-pointer rounded-full px-3 whitespace-nowrap outline-none select-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="h-8 cursor-pointer rounded-control px-3 whitespace-nowrap outline-none select-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           {label}
         </ButtonPrimitive>
@@ -216,7 +216,7 @@ function ExpandableChip({
                   }
                 }}
                 className={cn(
-                  "grid size-6 cursor-pointer place-items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-3.5",
+                  "grid size-6 cursor-pointer place-items-center rounded-control outline-none focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-3.5",
                   actionTone === "destructive"
                     ? "bg-destructive/12 text-destructive-text hover:bg-destructive hover:text-white"
                     : "bg-muted text-muted-foreground shadow-well hover:text-foreground"

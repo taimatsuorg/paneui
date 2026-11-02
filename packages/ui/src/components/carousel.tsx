@@ -216,7 +216,7 @@ function CarouselPrevious({ className, variant = "secondary", size = "icon-sm", 
       size={size}
       disabled={!canPrev}
       onClick={scrollPrev}
-      className={cn("rounded-full", orientation === "vertical" && "rotate-90", className)}
+      className={cn("rounded-control", orientation === "vertical" && "rotate-90", className)}
       {...props}
       aria-label={props["aria-label"] ?? labels.previousSlide}
     >
@@ -235,7 +235,7 @@ function CarouselNext({ className, variant = "secondary", size = "icon-sm", ...p
       size={size}
       disabled={!canNext}
       onClick={scrollNext}
-      className={cn("rounded-full", orientation === "vertical" && "rotate-90", className)}
+      className={cn("rounded-control", orientation === "vertical" && "rotate-90", className)}
       {...props}
       aria-label={props["aria-label"] ?? labels.nextSlide}
     >

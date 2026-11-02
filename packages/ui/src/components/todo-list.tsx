@@ -223,7 +223,7 @@ function TodoList({
           </AnimatePresence>
         </span>
         {failed > 0 && (
-          <span className="rounded-full bg-destructive/12 px-1.5 py-0.5 text-ui-xs font-medium text-destructive-text tabular-nums">
+          <span className="rounded-control-sm bg-destructive/12 px-1.5 py-0.5 text-ui-xs font-medium text-destructive-text tabular-nums">
             {labels.failedTasks(failed)}
           </span>
         )}
@@ -232,7 +232,7 @@ function TodoList({
         </span>
         <span
           aria-hidden
-          className="flex items-center rounded-full bg-muted px-2 py-0.5 text-ui-sm font-medium text-muted-foreground shadow-well tabular-nums"
+          className="flex items-center rounded-control-sm bg-muted px-2 py-0.5 text-ui-sm font-medium text-muted-foreground shadow-well tabular-nums"
         >
           <DigitSwap value={done} direction="auto" />
           <span className="opacity-60">/{total}</span>

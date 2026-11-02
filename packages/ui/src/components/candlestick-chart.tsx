@@ -148,7 +148,7 @@ function CandlestickChart({
             {formatPrice(hovered ? shown.close : lastValue)}
           </span>
           <span
-            className="rounded-full px-2 py-0.5 font-medium shadow-chip"
+            className="rounded-control-sm px-2 py-0.5 font-medium shadow-chip"
             style={{ color: up ? UP : DOWN, background: chartAlpha(up ? UP : DOWN, 12) }}
           >
             {change >= 0 ? "+" : ""}

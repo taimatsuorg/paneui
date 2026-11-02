@@ -159,11 +159,12 @@
   --radius-5xl: min(calc(var(--radius) * 3), var(--radius-max));
   --radius-shell: min(calc(var(--radius) * 1.5), var(--radius-max));
   /*
-   * Controls (buttons, toggles, tabs and segmented wells): rounded-lg by default (rounded-sm at xs). A style sets
-   * --control-radius to turn them into pills; the cap still applies, and the browser rounds a short control fully.
+   * Controls (buttons, toggles, tabs, switches, badges and segmented wells): rounded-lg by default (rounded-sm at
+   * xs), following --radius under the cap. A style sets --control-radius (and --control-radius-sm) to override them,
+   * e.g. 9999px for pills at any height.
    */
-  --radius-control: min(var(--control-radius, var(--radius)), var(--radius-max));
-  --radius-control-sm: min(calc(var(--control-radius, var(--radius)) * 0.5), var(--radius-max));
+  --radius-control: var(--control-radius, min(var(--radius), var(--radius-max)));
+  --radius-control-sm: var(--control-radius-sm, min(calc(var(--radius) * 0.5), var(--radius-max)));
 
   /* Shadow scale: xs a 1px ring, sm resting controls, md/lg floating menus, xl dialogs. */
   --shadow-xs: var(--shadow-border);

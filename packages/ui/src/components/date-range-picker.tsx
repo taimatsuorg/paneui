@@ -311,7 +311,7 @@ function DateRangePickerContent({ className, align = "start", ...props }: React.
 /* ─────────────────────────── calendar ─────────────────────────── */
 
 const navButton =
-  "inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-35"
+  "inline-flex size-8 cursor-pointer items-center justify-center rounded-control text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-35"
 
 /** Header (month names + prev/next) and one grid per visible month. */
 function DateRangePickerCalendar({ className, ...props }: React.ComponentProps<"div">) {
@@ -531,7 +531,7 @@ function DateRangePickerGrid({
                       onFocus={() => range.from && !range.to && setHovered(d)}
                       onKeyDown={(e) => onKeyDown(e, d)}
                       className={cn(
-                        "relative z-10 inline-flex size-9 cursor-pointer items-center justify-center rounded-full tabular-nums outline-none transition-[background-color,color,box-shadow,scale] duration-150",
+                        "relative z-10 inline-flex size-9 cursor-pointer items-center justify-center rounded-control tabular-nums outline-none transition-[background-color,color,box-shadow,scale] duration-150",
                         "hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring",
                         "data-outside:text-muted-foreground/60 data-in-range:hover:bg-primary/12",
                         "data-preview-end:shadow-[inset_0_0_0_1.5px_var(--primary)] data-preview-end:hover:bg-primary/12",

@@ -9,7 +9,7 @@ export default function MarqueeRepeat() {
         <span className="text-xs text-muted-foreground">repeat 2 (default): gaps appear</span>
         <Marquee duration={12} gap="0.5rem">
           {TAGS.map((t) => (
-            <span key={t} className="rounded-full bg-secondary px-3 py-1 text-sm shadow-raised">
+            <span key={t} className="rounded-control-sm bg-secondary px-3 py-1 text-sm shadow-raised">
               {t}
             </span>
           ))}
@@ -19,7 +19,7 @@ export default function MarqueeRepeat() {
         <span className="text-xs text-muted-foreground">repeat 6: the track stays full</span>
         <Marquee duration={12} gap="0.5rem" repeat={6}>
           {TAGS.map((t) => (
-            <span key={t} className="rounded-full bg-secondary px-3 py-1 text-sm shadow-raised">
+            <span key={t} className="rounded-control-sm bg-secondary px-3 py-1 text-sm shadow-raised">
               {t}
             </span>
           ))}
