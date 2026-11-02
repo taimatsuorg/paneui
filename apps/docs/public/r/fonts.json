@@ -4,7 +4,7 @@
   "title": "Fonts",
   "description": "Fonts for interfaces, code and reading.",
   "dependencies": [
-    "@fontsource-variable/inter",
+    "@fontsource-variable/noto-sans",
     "@fontsource-variable/noto-sans-sc",
     "@fontsource-variable/jetbrains-mono",
     "@fontsource-variable/newsreader",
@@ -17,7 +17,7 @@
   "files": [
     {
       "path": "app/fonts.css",
-      "content": "/*\n * Self-hosted fonts for the theme's --font-sans, --font-mono and --font-serif stacks, plus the title serif the\n * Paper style puts in --font-heading.\n * Each face is split by unicode-range, so a page only downloads the glyph sets it uses\n * (CJK glyphs load in small chunks, only for the characters on the page).\n * Import once in the root layout. Without it the theme falls back to system fonts.\n */\n@import \"@fontsource-variable/inter/wght.css\";\n@import \"@fontsource-variable/inter/wght-italic.css\";\n@import \"@fontsource-variable/noto-sans-sc/wght.css\";\n@import \"@fontsource-variable/jetbrains-mono/wght.css\";\n@import \"@fontsource-variable/newsreader/wght.css\";\n@import \"@fontsource-variable/newsreader/wght-italic.css\";\n@import \"@fontsource-variable/noto-serif-sc/wght.css\";\n@import \"@fontsource-variable/source-serif-4/opsz.css\";\n",
+      "content": "/*\n * Self-hosted fonts for the theme's --font-sans, --font-mono and --font-serif stacks, plus the title serif the\n * Paper style puts in --font-heading.\n * Each face is split by unicode-range, so a page only downloads the glyph sets it uses\n * (CJK glyphs load in small chunks, only for the characters on the page).\n * Import once in the root layout. Without it the theme falls back to system fonts.\n */\n@import \"@fontsource-variable/noto-sans/wght.css\";\n@import \"@fontsource-variable/noto-sans/wght-italic.css\";\n@import \"@fontsource-variable/noto-sans-sc/wght.css\";\n@import \"@fontsource-variable/jetbrains-mono/wght.css\";\n@import \"@fontsource-variable/newsreader/wght.css\";\n@import \"@fontsource-variable/newsreader/wght-italic.css\";\n@import \"@fontsource-variable/noto-serif-sc/wght.css\";\n@import \"@fontsource-variable/source-serif-4/opsz.css\";\n",
       "type": "registry:file",
       "target": "app/fonts.css"
     }
