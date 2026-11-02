@@ -45,11 +45,11 @@ export default {
     },
     {
       title: "Icons",
-      body: { en: "A file gets its icon and tint from its extension, and an unknown extension gets a plain file. `getFileKind(name)` returns the same icon and tint for use elsewhere.", zh: "文件根据扩展名获得图标和色调，未知扩展名使用普通文件图标。`getFileKind(name)` 返回相同的图标和色调，可在其他地方使用。" },
+      body: { en: "Folders show an open or closed folder after the chevron. A file gets its icon and tint from its extension, and an unknown extension gets a plain file. `getFileKind(name)` returns the same icon and tint for use elsewhere.", zh: "文件夹在箭头后显示打开或关闭的文件夹图标。文件根据扩展名获得图标和色调，未知扩展名使用普通文件图标。`getFileKind(name)` 返回相同的图标和色调，可在其他地方使用。" },
     },
     {
       title: "Surface",
-      body: { en: "The tree takes the background it sits on and nothing animates, like an editor's explorer. Use `variant=\"card\"` to give it a raised card.", zh: "树沿用所在容器的背景，不做动画，和编辑器的资源管理器一样。需要独立卡片时用 `variant=\"card\"`。" },
+      body: { en: "The tree takes the background it sits on and nothing animates. Use `variant=\"card\"` for a raised card, or `size=\"sm\"` inside an editor.", zh: "树沿用所在容器的背景，不做动画。需要独立卡片时用 `variant=\"card\"`，放在编辑器里用 `size=\"sm\"`。" },
     },
   ],
   api: [
@@ -66,7 +66,8 @@ export default {
         { name: "defaultExpanded", type: "string[]", default: "[]", description: { en: "Folders open on first render.", zh: "首次渲染时展开的文件夹。" } },
         { name: "onExpandedChange", type: "(expanded: string[]) => void", description: { en: "Called when folders open or close.", zh: "文件夹展开或折叠时调用。" } },
         { name: "onOpenFile", type: "(node: FileTreeNode) => void", description: { en: "Called when a file (not a folder) is activated with Enter or a click.", zh: "文件（非文件夹）通过 Enter 或点击激活时调用。" } },
-        { name: "indent", type: "number", default: "10", description: { en: "Indent per level, px.", zh: "每级缩进，单位 px。" } },
+        { name: "indent", type: "number", default: "20", description: { en: "Indent per level, px; 12 at `size=\"sm\"`.", zh: "每级缩进，单位 px；`size=\"sm\"` 时为 12。" } },
+        { name: "size", type: '"default" | "sm"', default: '"default"', description: { en: "32px rounded rows, or 24px editor-density rows.", zh: "32px 圆角行，或 24px 编辑器密度行。" } },
         { name: "variant", type: '"default" | "ghost" | "card"', default: '"default"', description: { en: "Parent's background, or a raised card.", zh: "沿用父级背景，或独立卡片。" } },
         { name: "label", type: "string", default: `"Files"`, description: { en: "Accessible name of the tree.", zh: "树的无障碍名称。" } },
       ],

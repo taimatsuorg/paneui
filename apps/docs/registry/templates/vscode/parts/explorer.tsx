@@ -287,6 +287,7 @@ export function Explorer({
               onOpenFile={(n) => onOpen(n.value)}
               expanded={expanded}
               onExpandedChange={setExpanded}
+              size="sm"
               label="Workspace files"
             />
             {items.length === 0 && <p className="px-2 py-6 text-center text-ui text-muted-foreground">This folder is empty.</p>}

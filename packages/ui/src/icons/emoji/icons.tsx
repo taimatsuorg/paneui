@@ -1042,6 +1042,18 @@ export const FolderIcon = (p: IconProps) => (
 
 export const FolderFilledIcon = FolderIcon;
 
+export const FolderOpenIcon = (p: IconProps) => (
+  <Icon {...p} tones={["sky", "paper"]}>
+    {(c) => (
+      <>
+        <path d="M2.5 6.5 a2 2 0 0 1 2 -2 h4.6 a2 2 0 0 1 1.5 .7 l1.3 1.5 h7.6 a2 2 0 0 1 2 2 v9.8 a2 2 0 0 1 -2 2 h-15 a2 2 0 0 1 -2 -2 Z" fill="#1f6fd0" />
+        <rect x="4.8" y="7.6" width="14.4" height="8" rx="1" fill={c.f("paper")} />
+        <path d="M2.6 18.6 l2.2 -7.4 a2 2 0 0 1 1.9 -1.4 h14.4 a1.4 1.4 0 0 1 1.3 1.8 l-2.1 7.4 a2 2 0 0 1 -1.9 1.4 h-14 a1.9 1.9 0 0 1 -1.8 -1.8 Z" fill={c.f("sky")} />
+      </>
+    )}
+  </Icon>
+);
+
 export const FileIcon = (p: IconProps) => (
   <Icon {...p} tones={["paper", "silver"]}>
     {(c) => (

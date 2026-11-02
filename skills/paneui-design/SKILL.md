@@ -194,12 +194,10 @@ The label names the group for assistive tech, and the primitive label throws out
 
 `<MenuGroup><MenuLabel>Agent</MenuLabel>…items…</MenuGroup>`; the same for select and combobox labels.
 
-### 18. Chevrons for folders, file icons for files
+### 18. Chevron and folder icon for folders, file icons for files
 
-A folder icon next to a chevron says the same thing twice and pushes names apart.
-
-Folders show only the expand chevron; files show their file-type icon in the same column, so names
-at one level line up.
+Folders show the expand chevron, then an open or closed folder icon; files skip the chevron's column,
+so file icons line up under the folder icons at the same level.
 
 ### 19. Draw icons from one family per group
 
