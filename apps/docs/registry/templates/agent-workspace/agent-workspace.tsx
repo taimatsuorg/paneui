@@ -28,7 +28,7 @@ import { Button } from "@paneui/ui/components/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@paneui/ui/components/dialog"
 import { Drawer, DrawerContent, DrawerTitle } from "@paneui/ui/components/drawer"
 import { FileDiff } from "@paneui/ui/components/file-diff"
-import { SidebarRail, SidebarRailAvatar, SidebarRailGroup, SidebarRailItem, SidebarRailSpacer } from "@paneui/ui/components/animated-sidebar"
+import { SidebarRail, SidebarRailGroup, SidebarRailItem, SidebarRailSpacer } from "@paneui/ui/components/animated-sidebar"
 import {
   ResizableHandle,
   ResizablePanel,
@@ -461,23 +461,6 @@ export function AgentWorkspace() {
           {!horizontal && (
             <SidebarRailItem label="Search" shortcut="⌘K" icon={<SearchIcon />} onClick={() => setPaletteOpen(true)} />
           )}
-          {agents
-            .filter((a) => a.id === agentId)
-            .map((a) => (
-              <SidebarRailAvatar
-                key={a.id}
-                label={a.name}
-                hint={state.connection}
-                status={state.connection === "ready" ? "online" : state.connection === "connecting" ? "busy" : "error"}
-                onClick={() => {
-                  if (horizontal) closeNav()
-                  setSettingsPage("agents")
-                  goTo("settings")
-                }}
-              >
-                <ProviderIcon provider={a.provider} />
-              </SidebarRailAvatar>
-            ))}
           <AccountMenu
             side={horizontal ? "top" : "right"}
             onSettings={() => {
@@ -496,6 +479,12 @@ export function AgentWorkspace() {
               goTo("settings")
             }}
             onToggleTheme={toggleTheme}
+            agent={{ name: agent.name, connection: state.connection }}
+            onAgent={() => {
+              closeNav()
+              setSettingsPage("agents")
+              goTo("settings")
+            }}
           />
         </SidebarRailGroup>
       </SidebarRail>
@@ -574,6 +563,7 @@ export function AgentWorkspace() {
     ) : (
       <SettingsMain
         page={settingsPage}
+        onPage={setSettingsPage}
         leading={leading}
         agents={agents}
         activeAgentId={agentId}

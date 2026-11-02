@@ -23,7 +23,7 @@ import { SidebarNav, SidebarNavContent, SidebarNavLink, SidebarNavList, SidebarN
 import { Switch } from "@paneui/ui/components/switch"
 import { Tabs, TabsList, TabsTab } from "@paneui/ui/components/tabs"
 
-import { IconAction, PageBody, SectionPanel, SectionPrimary } from "./section-panel"
+import { IconAction, PageBody, SectionPanel, SectionPrimary, SectionSwitcher } from "./section-panel"
 import { ItemChip, ItemGlyph } from "./view-icons"
 import { PLUGINS, SKILLS, type Plugin } from "./workspace-data"
 
@@ -110,7 +110,7 @@ function PluginRow({ plugin, installed, onOpen, onToggle }: { plugin: Plugin; in
   )
 }
 
-function Browse({ state, leading }: { state: PluginsState; leading?: React.ReactNode }) {
+function Browse({ state, leading, switcher }: { state: PluginsState; leading?: React.ReactNode; switcher?: React.ReactNode }) {
   const [scope, setScope] = React.useState<"public" | "personal">("public")
   const [query, setQuery] = React.useState("")
   const q = query.toLowerCase()
@@ -126,6 +126,7 @@ function Browse({ state, leading }: { state: PluginsState; leading?: React.React
         <div className="flex min-w-0 flex-1 items-center gap-2">
           {leading}
           <PageHeaderTitle>Plugins</PageHeaderTitle>
+          {switcher}
         </div>
         <InputGroup className="w-full sm:w-64">
           <InputGroupAddon>
@@ -170,7 +171,7 @@ function Browse({ state, leading }: { state: PluginsState; leading?: React.React
   )
 }
 
-function Detail({ plugin, state, leading }: { plugin: Plugin; state: PluginsState; leading?: React.ReactNode }) {
+function Detail({ plugin, state, leading, switcher }: { plugin: Plugin; state: PluginsState; leading?: React.ReactNode; switcher?: React.ReactNode }) {
   const installed = !!state.installed[plugin.id]
   return (
     <PageBody>
@@ -189,6 +190,7 @@ function Detail({ plugin, state, leading }: { plugin: Plugin; state: PluginsStat
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
+        {switcher}
       </div>
       <div className="flex flex-wrap items-center gap-4">
         <ItemChip icon={plugin.icon} tone={plugin.tone} size="xl" />
@@ -239,12 +241,13 @@ function Detail({ plugin, state, leading }: { plugin: Plugin; state: PluginsStat
   )
 }
 
-function Skills({ state, leading }: { state: PluginsState; leading?: React.ReactNode }) {
+function Skills({ state, leading, switcher }: { state: PluginsState; leading?: React.ReactNode; switcher?: React.ReactNode }) {
   return (
     <PageBody>
       <div className="flex items-center gap-2">
         {leading}
         <PageHeaderTitle>Skills</PageHeaderTitle>
+        {switcher}
       </div>
       <SettingsGroup>
         {SKILLS.map((s) => (
@@ -263,14 +266,31 @@ function Skills({ state, leading }: { state: PluginsState; leading?: React.React
 
 export function PluginsMain({ state, leading }: { state: PluginsState; leading?: React.ReactNode }) {
   const plugin = state.page.kind === "plugin" ? PLUGINS.find((p) => p.id === (state.page as { id: string }).id) : undefined
+  const value = state.page.kind === "plugin" ? `plugin:${state.page.id}` : state.page.kind
+  const switcher = leading && (
+    <SectionSwitcher
+      label="Switch page"
+      value={value}
+      onValueChange={(v) => state.setPage(v.startsWith("plugin:") ? { kind: "plugin", id: v.slice(7) } : { kind: v as "browse" | "skills" })}
+      groups={[
+        {
+          options: [
+            { value: "browse", label: "Browse", icon: <PlugIcon /> },
+            { value: "skills", label: "Skills", icon: <BoltIcon /> },
+          ],
+        },
+        { label: "Installed", options: PLUGINS.filter((p) => state.installed[p.id]).map((p) => ({ value: `plugin:${p.id}`, label: p.name, icon: <ItemGlyph icon={p.icon} /> })) },
+      ]}
+    />
+  )
   return (
     <ScrollArea className="h-full min-w-0">
       {plugin ? (
-        <Detail plugin={plugin} state={state} leading={leading} />
+        <Detail plugin={plugin} state={state} leading={leading} switcher={switcher} />
       ) : state.page.kind === "skills" ? (
-        <Skills state={state} leading={leading} />
+        <Skills state={state} leading={leading} switcher={switcher} />
       ) : (
-        <Browse state={state} leading={leading} />
+        <Browse state={state} leading={leading} switcher={switcher} />
       )}
     </ScrollArea>
   )
