@@ -50,7 +50,7 @@ export default {
     },
     {
       title: "Inline code and alignment",
-      body: { en: "Bare `<code>` in `default` and `numeric` cells and in headers gets the inline-code chip, inside or outside prose; code with its own `className` keeps it. `align` takes the values Markdown and HTML write: `left` (`:--`), `center` (`:-:`) and `right` (`--:`) map to the start edge, the center and the end edge, so they flip under RTL. `justify` justifies the text and `char` is accepted and falls back to start.", zh: "`default` 和 `numeric` 单元格以及表头中的裸 `<code>` 会获得内联代码芯片，无论在 prose 内外；带有自己 `className` 的代码会保留它。`align` 接受 Markdown 和 HTML 写入的值：`left` (`:--`)、`center` (`:-:`) 和 `right` (`--:`) 分别映射到起始边缘、中心和结束边缘，因此它们在 RTL 下会翻转。`justify` 使文本两端对齐，`char` 被接受并回退到起始。" },
+      body: { en: "Bare `<code>` in `default` and `numeric` cells and in headers gets the inline-code chip, inside or outside prose; code with its own `className` keeps it. `align` is logical: `start` and `end` follow the writing direction. The values Markdown and HTML write work too: `left` (`:--`), `center` (`:-:`) and `right` (`--:`) map to the start edge, the center and the end edge, so they also flip under RTL. A `flex` child, such as a row of buttons, is justified to the same edge. `justify` justifies the text and `char` falls back to start.", zh: "`default` 和 `numeric` 单元格以及表头中的裸 `<code>` 会获得内联代码芯片，无论在 prose 内外；带有自己 `className` 的代码会保留它。`align` 是逻辑值：`start` 和 `end` 跟随书写方向。Markdown 和 HTML 写入的值同样可用：`left` (`:--`)、`center` (`:-:`) 和 `right` (`--:`) 分别映射到起始边缘、中心和结束边缘，在 RTL 下同样翻转。`flex` 子元素（如一排按钮）会对齐到同一边。`justify` 使文本两端对齐，`char` 回退到起始。" },
     },
   ],
   api: [
@@ -69,7 +69,7 @@ export default {
     {
       name: "SimpleTableHead",
       extends: "th",
-      props: [{ name: "align", type: `"left" | "center" | "right" | "justify" | "char"`, description: { en: "The Markdown or HTML value: `left` maps to start, `center` to center, `right` to end; `justify` and `char` are accepted. Without it, start.", zh: "Markdown 或 HTML 值：`left` 映射到起始，`center` 到中心，`right` 到结束；`justify` 和 `char` 被接受。没有它时，为起始。" } }],
+      props: [{ name: "align", type: `"start" | "end" | "center" | "left" | "right" | "justify" | "char"`, description: { en: "Logical `start` or `end`, or the Markdown / HTML value: `left` maps to start, `right` to end. A `flex` child is justified to match. Without it, start.", zh: "逻辑值 `start` 或 `end`，或 Markdown / HTML 值：`left` 映射到起始，`right` 到结束。`flex` 子元素随之对齐。没有它时，为起始。" } }],
     },
     {
       name: "SimpleTableCell",
@@ -81,7 +81,7 @@ export default {
           default: `"default"`,
           description: { en: "`code` for names, `code-muted` for defaults, `type` for long type strings, `numeric` for aligned numbers.", zh: "`code` 用于名称，`code-muted` 用于默认值，`type` 用于长类型字符串，`numeric` 用于对齐的数字。" },
         },
-        { name: "align", type: `"left" | "center" | "right" | "justify" | "char"`, description: { en: "Same as `SimpleTableHead`. Without it, the cell follows the table.", zh: "与 `SimpleTableHead` 相同。没有它时，单元格跟随表格。" } },
+        { name: "align", type: `"start" | "end" | "center" | "left" | "right" | "justify" | "char"`, description: { en: "Same as `SimpleTableHead`. Without it, the cell follows the table.", zh: "与 `SimpleTableHead` 相同。没有它时，单元格跟随表格。" } },
       ],
     },
   ],

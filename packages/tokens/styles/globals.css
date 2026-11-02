@@ -660,6 +660,10 @@ html[data-accent="violet"].dark {
     color-scheme: light;
     scrollbar-gutter: stable;
   }
+  /* Full-viewport app shells never scroll the document, so a reserved gutter would only show as an empty strip. */
+  html[data-fullscreen] {
+    scrollbar-gutter: auto;
+  }
   html.dark {
     color-scheme: dark;
   }

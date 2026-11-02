@@ -1037,3 +1037,17 @@ export const Heading3Icon = (p: IconProps) => (
     <path {...line} d="M3.5 5.5v13M11.5 5.5v13M3.5 12h8M15.5 8.5h4.5l-2.6 3.6a3 3 0 11-2.2 5.6" />
   </Icon>
 );
+export const LibraryIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect {...line} x="2.25" y="3" width="4.25" height="18" rx="1.75" />
+    <rect {...line} x="8.75" y="5.5" width="4.25" height="15.5" rx="1.75" />
+    <path {...line} d="M8.75 10h4.25" />
+    <path {...line} d="M16.27 4.07L17.05 3.90A1.6 1.6 0 0 1 18.95 5.13L21.81 18.63A1.6 1.6 0 0 1 20.58 20.53L19.80 20.70A1.6 1.6 0 0 1 17.90 19.46L15.03 5.97A1.6 1.6 0 0 1 16.27 4.07z" />
+  </Icon>
+);
+export const PlugIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path {...line} d="M9 2.5v4M15 2.5v4M12 17v4.5" />
+    <path {...line} d="M7.5 6.5h9A1.5 1.5 0 0 1 18 8v3a6 6 0 0 1-12 0V8a1.5 1.5 0 0 1 1.5-1.5z" />
+  </Icon>
+);

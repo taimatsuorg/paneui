@@ -5,7 +5,6 @@ import * as React from "react"
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
-  BookmarkIcon,
   ClockIcon,
   Columns2Icon,
   EditIcon,
@@ -13,12 +12,13 @@ import {
   HistoryIcon,
   HomeIcon,
   ImageIcon,
+  LibraryIcon,
   MoonIcon,
   PanelRightIcon,
+  PlugIcon,
   PlusIcon,
   SearchIcon,
   SettingsIcon,
-  ShapesIcon,
   SidebarIcon,
   TerminalSquareIcon,
 } from "@paneui/ui/icons"
@@ -83,8 +83,8 @@ const VIEWS: { id: Exclude<View, "settings">; label: string; icon: React.ReactNo
   { id: "home", label: "Home", icon: <HomeIcon /> },
   { id: "images", label: "Images", icon: <ImageIcon /> },
   { id: "tasks", label: "Scheduled", icon: <ClockIcon /> },
-  { id: "library", label: "Library", icon: <BookmarkIcon /> },
-  { id: "plugins", label: "Plugins", icon: <ShapesIcon /> },
+  { id: "library", label: "Library", icon: <LibraryIcon /> },
+  { id: "plugins", label: "Plugins", icon: <PlugIcon /> },
   { id: "projects", label: "Projects", icon: <FolderIcon /> },
 ]
 

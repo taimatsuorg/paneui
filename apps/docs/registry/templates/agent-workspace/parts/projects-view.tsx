@@ -102,7 +102,7 @@ export function ProjectsMain({ state, leading, onOpen }: { state: ProjectsState;
                 <SimpleTableHead>Name</SimpleTableHead>
                 <SimpleTableHead>Threads</SimpleTableHead>
                 <SimpleTableHead>Updated</SimpleTableHead>
-                <SimpleTableHead align="right">
+                <SimpleTableHead align="end">
                   <span className="sr-only">Actions</span>
                 </SimpleTableHead>
               </SimpleTableRow>
@@ -121,7 +121,7 @@ export function ProjectsMain({ state, leading, onOpen }: { state: ProjectsState;
                   </SimpleTableCell>
                   <SimpleTableCell variant="numeric">{p.threads}</SimpleTableCell>
                   <SimpleTableCell>{p.updated}</SimpleTableCell>
-                  <SimpleTableCell align="right">
+                  <SimpleTableCell align="end">
                     <span className="inline-flex items-center gap-0.5">
                       <IconAction label={`New chat in ${p.name}`} size="icon-xs" onClick={() => onOpen(p.name)}>
                         <EditIcon />

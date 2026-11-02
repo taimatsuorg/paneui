@@ -606,6 +606,23 @@
       }
     },
     {
+      "name": "seed-palette",
+      "type": "registry:lib",
+      "title": "Seed palette",
+      "description": "Stable colour palettes and mesh gradients from a seed.",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "lib/seed-palette.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "meta": {
+        "category": "Foundations",
+        "hidden": true
+      }
+    },
+    {
       "name": "control-size",
       "type": "registry:lib",
       "title": "Control size",
@@ -1593,7 +1610,8 @@
       "registryDependencies": [
         "https://paneui.dev/r/theme.json",
         "https://paneui.dev/r/locale-provider.json",
-        "https://paneui.dev/r/shader-background.json"
+        "https://paneui.dev/r/shader-background.json",
+        "https://paneui.dev/r/seed-palette.json"
       ],
       "files": [
         {
@@ -1611,7 +1629,9 @@
       "title": "OG Image",
       "description": "Creates page share images.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "https://paneui.dev/r/seed-palette.json"
+      ],
       "files": [
         {
           "path": "registry/web/ui/og-image.tsx",
@@ -2160,7 +2180,7 @@
         "https://paneui.dev/r/image-generation.json",
         "https://paneui.dev/r/input-group.json",
         "https://paneui.dev/r/kbd.json",
-        "https://paneui.dev/r/og-image.json",
+        "https://paneui.dev/r/cover-art.json",
         "https://paneui.dev/r/sidebar-nav.json",
         "https://paneui.dev/r/simple-table.json",
         "https://paneui.dev/r/skeleton.json",
@@ -3649,7 +3669,8 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://paneui.dev/r/theme.json"
+        "https://paneui.dev/r/theme.json",
+        "https://paneui.dev/r/seed-palette.json"
       ],
       "files": [
         {

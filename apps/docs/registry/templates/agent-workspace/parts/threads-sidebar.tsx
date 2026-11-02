@@ -16,11 +16,10 @@ import {
 import { cn } from "@paneui/ui/lib/utils"
 import { Button } from "@paneui/ui/components/button"
 import { Input } from "@paneui/ui/components/input"
-import { Loader } from "@paneui/ui/components/loader"
 import { Menu, MenuContent, MenuGroup, MenuItem, MenuLabel, MenuSeparator, MenuTrigger } from "@paneui/ui/components/menu"
-import { SidebarNav, SidebarNavContent, SidebarNavLink, SidebarNavList, SidebarNavSection } from "@paneui/ui/components/sidebar-nav"
+import { SidebarNav, SidebarNavContent, SidebarNavSection } from "@paneui/ui/components/sidebar-nav"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@paneui/ui/components/tooltip"
-import type { PullRequestStatus } from "@paneui/ui/components/thread-list-item"
+import { ThreadList, ThreadListItem, type PullRequestStatus } from "@paneui/ui/components/thread-list-item"
 
 import type { AgentConfig } from "./agents"
 import { ProviderIcon } from "./provider-icon"
@@ -44,13 +43,6 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: "running", label: "Running" },
   { id: "pr", label: "With pull request" },
 ]
-
-const PR_TONE: Record<PullRequestStatus, string> = {
-  open: "text-success-text",
-  draft: "text-muted-foreground",
-  merged: "text-chart-3",
-  closed: "text-destructive-text",
-}
 
 /**
  * The chat page's index. Every thread lives in exactly one place, its project folder, so the
@@ -238,27 +230,20 @@ export function ThreadsSidebar({
                     open={open}
                     onOpenChange={(o) => setClosed((c) => ({ ...c, [project]: !o }))}
                   >
-                    <SidebarNavList>
+                    <ThreadList className="gap-px">
                       {items.map((t) => (
-                        <SidebarNavLink
+                        <ThreadListItem
                           key={t.sessionId}
-                          render={<button type="button" />}
+                          size="sm"
+                          title={t.title}
+                          pr={t.pr}
+                          running={t.running}
+                          unread={t.unread}
                           active={t.sessionId === activeId}
                           onClick={() => onSelect(t.sessionId)}
-                          title={t.title}
-                          className="w-full text-start"
-                          badge={
-                            t.running ? (
-                              <Loader variant="ring" size="sm" label="Agent is working" className="size-3 shrink-0 text-muted-foreground" />
-                            ) : t.pr ? (
-                              <span className={cn("shrink-0 text-ui-xs tabular-nums", PR_TONE[t.pr.status])}>#{t.pr.number}</span>
-                            ) : null
-                          }
-                        >
-                          {t.title}
-                        </SidebarNavLink>
+                        />
                       ))}
-                    </SidebarNavList>
+                    </ThreadList>
                   </SidebarNavSection>
                 )
               })}

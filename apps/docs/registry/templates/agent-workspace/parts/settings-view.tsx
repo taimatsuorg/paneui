@@ -303,7 +303,7 @@ function Shortcuts() {
   return (
     <SettingsGroup>
       {SHORTCUTS.map((s) => (
-        <SettingsRow key={s.keys}>
+        <SettingsRow key={s.keys} size="sm">
           <span>{s.label}</span>
           <Kbd>{s.keys}</Kbd>
         </SettingsRow>

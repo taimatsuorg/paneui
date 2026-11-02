@@ -3,8 +3,8 @@
 import * as React from "react"
 
 import { cn } from "@paneui/ui/lib/utils"
+import { CoverArt } from "@paneui/ui/components/cover-art"
 import { GeneratedAvatarImage } from "@paneui/ui/components/generated-avatar"
-import { OgCoverArt } from "@paneui/ui/components/og-image"
 
 /**
  * Stand-in artwork drawn from a seed: a still mesh of the seed's palette, with a face on top for
@@ -14,7 +14,7 @@ import { OgCoverArt } from "@paneui/ui/components/og-image"
 export function SeededArt({ seed, portrait = false, className }: { seed: string; portrait?: boolean; className?: string }) {
   return (
     <div aria-hidden className={cn("absolute inset-0 overflow-hidden", className)}>
-      <OgCoverArt seed={seed} width={720} height={960} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} />
+      <CoverArt seed={seed} renderer="css" aria-hidden className="absolute inset-0" />
       {portrait && (
         <div className="absolute inset-x-0 bottom-0 flex justify-center">
           <div className="aspect-square w-4/5">

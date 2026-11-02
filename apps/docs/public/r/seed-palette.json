@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "seed-palette",
+  "title": "Seed palette",
+  "description": "Stable colour palettes and mesh gradients from a seed.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "lib/seed-palette.ts",
+      "content": "/*\n * Seeded colour: one palette per seed (a post slug, a file name), the same on the page, in the\n * shader and in a share image. Plain functions with no browser APIs, so they also run in the PNG\n * renderer.\n *\n *   seedPalette(\"post-slug\")            // four harmonious hex colours\n *   meshGradient(colors, \"post-slug\")   // a CSS background-image: a still mesh of those colours\n */\n\n/** A 32-bit hash of a string (FNV-1a). */\nfunction hashSeed(seed: string) {\n  let h = 0x811c9dc5\n  for (let i = 0; i < seed.length; i++) {\n    h ^= seed.charCodeAt(i)\n    h = Math.imul(h, 0x01000193)\n  }\n  return h >>> 0\n}\n\n/** Scrambles a hash so nearby seeds land far apart. */\nfunction mixHash(h: number) {\n  h ^= h >>> 16\n  h = Math.imul(h, 0x85ebca6b)\n  h ^= h >>> 13\n  h = Math.imul(h, 0xc2b2ae35)\n  h ^= h >>> 16\n  return h >>> 0\n}\n\nfunction hslHex(h: number, s: number, l: number) {\n  const a = (s / 100) * Math.min(l / 100, 1 - l / 100)\n  const f = (n: number) => {\n    const k = (n + h / 30) % 12\n    const v = l / 100 - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))\n    return Math.round(v * 255).toString(16).padStart(2, \"0\")\n  }\n  return `#${f(0)}${f(8)}${f(4)}`\n}\n\nconst SCHEMES = [\n  [0, 30, 60, 200],\n  [0, 150, 180, 330],\n  [0, 40, 180, 220],\n] as const\nconst LIGHTS = [58, 72, 86, 66]\n\n/** A harmonious palette of `count` hex colours for a seed; the same seed always gives the same colours. */\nfunction seedPalette(seed: string, count = 4): string[] {\n  const h = mixHash(hashSeed(seed))\n  const hue = h % 360\n  const scheme = SCHEMES[(h >>> 9) % SCHEMES.length]\n  const sat = 68 + ((h >>> 12) % 20)\n  return Array.from({ length: count }, (_, i) =>\n    hslHex((hue + scheme[i % scheme.length] + Math.floor(i / scheme.length) * 15) % 360, Math.max(40, sat - i * 6), LIGHTS[i % LIGHTS.length])\n  )\n}\n\n/**\n * A still frame of the mesh-gradient shader as CSS: one radial colour field per colour after the\n * first, placed by the seed. Use it as `background-image` over `background-color: colors[0]`.\n * Hex colours fade cleanly; other CSS colours fade through `transparent`.\n */\nfunction meshGradient(colors: string[], seed: string): string {\n  const h = mixHash(hashSeed(seed))\n  return colors\n    .slice(1)\n    .map((color, i) => {\n      const r = mixHash(h ^ Math.imul(i + 1, 0x9e3779b9))\n      const x = r % 101\n      const y = (r >>> 8) % 101\n      const size = 55 + ((r >>> 16) % 30)\n      const clear = /^#[0-9a-f]{6}$/i.test(color) ? `${color}00` : \"transparent\"\n      return `radial-gradient(circle at ${x}% ${y}%, ${color} 0%, ${clear} ${size}%)`\n    })\n    .reverse()\n    .join(\", \")\n}\n\nexport { hashSeed, meshGradient, mixHash, seedPalette }\n",
+      "type": "registry:lib"
+    }
+  ],
+  "meta": {
+    "category": "Foundations",
+    "hidden": true
+  },
+  "type": "registry:lib"
+}

@@ -16,9 +16,11 @@ type Props = {
   absoluteTitle?: boolean
   description?: string
   noindex?: boolean
+  /** A full-viewport app page (a template shell) that never scrolls the document: no reserved scrollbar gutter. */
+  fullscreen?: boolean
 }
 
-const { title, absoluteTitle = false, description = "React components you own and edit.", noindex = false } = Astro.props
+const { title, absoluteTitle = false, description = "React components you own and edit.", noindex = false, fullscreen = false } = Astro.props
 const fullTitle = !title ? "PaneUI" : absoluteTitle ? title : `${title} · PaneUI`
 const base = import.meta.env.BASE_URL.replace(/\/+$/, "")
 const site = new URL(import.meta.env.SITE ?? "https://paneui.dev").origin
@@ -26,7 +28,7 @@ const ogUrl = `${site}${base}/og.png`
 ---
 
 <!doctype html>
-<html lang="en" data-style="paper">
+<html lang="en" data-style="paper" data-fullscreen={fullscreen ? "" : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

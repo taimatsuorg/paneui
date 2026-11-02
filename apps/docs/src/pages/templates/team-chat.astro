@@ -6,6 +6,6 @@ import { siteNavGroups } from "@/lib/build"
 const site = { pathname: Astro.url.pathname, groups: siteNavGroups() }
 ---
 
-<Base title="Team Chat template">
+<Base fullscreen title="Team Chat template">
   <TeamChatTemplateRoute client:load site={site} />
 </Base>
