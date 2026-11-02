@@ -68,8 +68,9 @@ export function applyRootTheme(doc: Document, { dark, accent, custom = null, rad
   else root.removeAttribute("data-accent")
   const win = doc.defaultView
   if (!win) return mute.remove()
-  void win.getComputedStyle(root).opacity
-  win.requestAnimationFrame(() => win.requestAnimationFrame(() => mute.remove()))
+  // No forced recalc here: the mute and the flip share the frame's one recalc. Lift the mute after
+  // the toggle's reveal has played, so its recalc never lands inside the animation.
+  win.setTimeout(() => mute.remove(), 700)
 }
 
 /** Theme state as stored in localStorage (what the pre-paint script reads). */

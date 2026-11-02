@@ -11,8 +11,6 @@ html[data-style="paper"],
   /* Titles take the text serif; body text stays on --font-sans. */
   --heading-font: "Source Serif 4 Variable", "Source Serif 4", "Noto Serif SC Variable", "Noto Serif SC", ui-serif, Georgia, "Songti SC", serif;
   --heading-font-features: normal;
-  /* Controls (buttons, tabs, segmented, toggles) turn into pills; every other radius stays on the scale. */
-  --control-radius: 2rem;
   --background: oklch(99% 0.002 234.82);
   --card: oklch(99.8% 0.001 234.82);
   --popover: oklch(99.8% 0.001 234.82);
@@ -111,10 +109,18 @@ html[data-style="paper"],
   --tag-red-fill: oklch(93% 0.0355 25);
 }
 
-/* Softer corners by default; a radius preset or a custom value still wins. */
+/* Softer corners and pill controls (buttons, tabs, switches, badges) by default. A radius preset or a custom value
+ * wins, and then controls follow --radius like every other corner. */
 html[data-style="paper"]:not([data-radius]),
 html:not([data-radius]) [data-style="paper"]:not([data-radius]) {
   --radius: 0.75rem;
+  --control-radius: 2rem;
+}
+
+html[data-radius] [data-style="paper"],
+[data-style="paper"][data-radius],
+[data-style="paper"] [data-radius] {
+  --control-radius: var(--radius);
 }
 
 html[data-style="paper"].dark,

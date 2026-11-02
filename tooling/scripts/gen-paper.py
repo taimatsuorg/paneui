@@ -189,10 +189,9 @@ f"""{sel(P, E)} {{
   /* Titles take the text serif; body text stays on --font-sans. */
   --heading-font: "Source Serif 4 Variable", "Source Serif 4", "Noto Serif SC Variable", "Noto Serif SC", ui-serif, Georgia, "Songti SC", serif;
   --heading-font-features: normal;
-  /* Controls (buttons, tabs, segmented, toggles) turn into pills; every other radius stays on the scale. */
-  --control-radius: 2rem;
 """ + ''.join(f"  --{k}: {v};\n" for k,v in light.items()) + "}\n\n",
-f"/* Softer corners by default; a radius preset or a custom value still wins. */\n{sel(P+':not([data-radius])', 'html:not([data-radius]) '+E+':not([data-radius])')} {{\n  --radius: 0.75rem;\n}}\n\n",
+f"/* Softer corners and pill controls (buttons, tabs, switches, badges) by default. A radius preset or a custom value\n * wins, and then controls follow --radius like every other corner. */\n{sel(P+':not([data-radius])', 'html:not([data-radius]) '+E+':not([data-radius])')} {{\n  --radius: 0.75rem;\n  --control-radius: 2rem;\n}}\n\n",
+f"{sel('html[data-radius] '+E, E+'[data-radius]', E+' [data-radius]')} {{\n  --control-radius: var(--radius);\n}}\n\n",
 block(sel(P+'.dark', '.dark '+E), dark), '\n',
 "/* Accents: dusty solids with white text on paper, pastel solids with ink text in dark; text, ring and selection follow. Blue (no data-accent) is the default. */\n",
 block(sel(P+':not([data-accent])', E+':not([data-accent])'), acc_light(*ACC['blue'])),

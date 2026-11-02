@@ -109,7 +109,7 @@ const SHADOW_SCALE: { cls: string; token: string; use: Prose }[] = [
 ]
 
 const FONTS: { cls: string; face: string; use: Prose }[] = [
-  { cls: "font-sans", face: "Inter, Noto Sans SC", use: { en: "All UI text. Inter's ss03 set is on.", zh: "所有界面文字。已开启 Inter 的 ss03 字型集。" } },
+  { cls: "font-sans", face: "Noto Sans, Noto Sans SC", use: { en: "All UI text.", zh: "所有界面文字。" } },
   { cls: "font-mono", face: "JetBrains Mono", use: { en: "Code, keys, terminals and tabular IDs.", zh: "代码、按键、终端和对齐的 ID。" } },
   { cls: "font-serif", face: "Newsreader, Noto Serif SC", use: { en: "Long-form reading (the reading typeset preset).", zh: "长文阅读（阅读排版预设）。" } },
 ]
