@@ -2150,7 +2150,27 @@
         "@paneui/settings-section",
         "@paneui/code-block",
         "@paneui/action-swap-blur",
-        "@paneui/animated-sidebar"
+        "@paneui/animated-sidebar",
+        "@paneui/accent-picker",
+        "@paneui/breadcrumb",
+        "@paneui/chart-utils",
+        "@paneui/empty-state",
+        "@paneui/heat-calendar",
+        "@paneui/icon-chip",
+        "@paneui/image-generation",
+        "@paneui/input-group",
+        "@paneui/kbd",
+        "@paneui/og-image",
+        "@paneui/sidebar-nav",
+        "@paneui/simple-table",
+        "@paneui/skeleton",
+        "@paneui/stat-card",
+        "@paneui/switch",
+        "@paneui/tabs",
+        "@paneui/toggle-group",
+        "@paneui/usage-meter",
+        "@paneui/user-menu",
+        "@paneui/avatar-generator"
       ],
       "files": [
         {
@@ -2232,6 +2252,66 @@
           "path": "apps/docs/registry/templates/agent-workspace/parts/code.ts",
           "type": "registry:component",
           "target": "components/agent-workspace/parts/code.ts"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/account-menu.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/account-menu.tsx"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/art-tile.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/art-tile.tsx"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/images-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/images-view.tsx"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/library-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/library-view.tsx"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/new-chat.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/new-chat.tsx"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/plugins-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/plugins-view.tsx"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/projects-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/projects-view.tsx"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/section-panel.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/section-panel.tsx"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/settings-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/settings-view.tsx"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/tasks-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/tasks-view.tsx"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/view-icons.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/view-icons.tsx"
+        },
+        {
+          "path": "apps/docs/registry/templates/agent-workspace/parts/workspace-data.ts",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/workspace-data.ts"
         }
       ],
       "meta": {

@@ -5,32 +5,29 @@ import * as React from "react"
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
-  ClipboardListIcon,
+  BookmarkIcon,
+  ClockIcon,
   Columns2Icon,
   EditIcon,
   FolderIcon,
-  GitBranchIcon,
-  GridIcon,
-  HelpCircleIcon,
   HistoryIcon,
   HomeIcon,
-  InboxIcon,
+  ImageIcon,
   MoonIcon,
   PanelRightIcon,
   PlusIcon,
   SearchIcon,
   SettingsIcon,
+  ShapesIcon,
   SidebarIcon,
   TerminalSquareIcon,
 } from "@paneui/ui/icons"
-import { cn } from "@paneui/ui/lib/utils"
 import { CommandPalette, type CommandPaletteItem } from "@paneui/ui/blocks/command-palette/command-palette"
 import { BottomSheet, BottomSheetContent, BottomSheetTitle } from "@paneui/ui/components/bottom-sheet"
 import { Button } from "@paneui/ui/components/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@paneui/ui/components/dialog"
 import { Drawer, DrawerContent, DrawerTitle } from "@paneui/ui/components/drawer"
 import { FileDiff } from "@paneui/ui/components/file-diff"
-import { Kbd } from "@paneui/ui/components/kbd"
 import { SidebarRail, SidebarRailAvatar, SidebarRailGroup, SidebarRailItem, SidebarRailSpacer } from "@paneui/ui/components/animated-sidebar"
 import {
   ResizableHandle,
@@ -40,14 +37,23 @@ import {
 } from "@paneui/ui/components/resizable"
 import { TabStrip, TabStripItem } from "@paneui/ui/components/tab-strip"
 import { useThemeToggle } from "@paneui/ui/components/theme-toggle"
-import { Tooltip, TooltipContent, TooltipKbd, TooltipProvider, TooltipTrigger } from "@paneui/ui/components/tooltip"
+import { TooltipProvider } from "@paneui/ui/components/tooltip"
 
 import { AcpClient, useAcpClient, type EditedFileState } from "./acp/client"
 import { DEMO_CWD, DEMO_STATUS, DEMO_TERMINAL } from "./acp/demo-data"
 import { createMockTransport } from "./acp/mock-agent"
 import { createWebSocketTransport } from "./acp/transport"
 import { DEMO_AGENT, loadAgents, loadBridge, saveAgents, saveBridge, type AgentConfig, type BridgeConfig } from "./parts/agents"
-import { ChatPane } from "./parts/chat-pane"
+import { AccountMenu } from "./parts/account-menu"
+import { ChatPane, sessionModelChoice } from "./parts/chat-pane"
+import { ImagesMain, ImagesSidebar, useImages } from "./parts/images-view"
+import { LibraryMain, LibrarySidebar, useLibrary } from "./parts/library-view"
+import { NewChat, type ModelChoice } from "./parts/new-chat"
+import { PluginsMain, PluginsSidebar, usePlugins } from "./parts/plugins-view"
+import { ProjectsMain, ProjectsSidebar, useProjects } from "./parts/projects-view"
+import { IconAction } from "./parts/section-panel"
+import { SettingsMain, SettingsSidebar, type SettingsPage } from "./parts/settings-view"
+import { TasksMain, TasksSidebar, useScheduledTasks } from "./parts/tasks-view"
 import { Dock, type DockTab } from "./parts/dock"
 import { ProviderIcon } from "./parts/provider-icon"
 import { SettingsDialog } from "./parts/settings-dialog"
@@ -70,44 +76,38 @@ function useIsMobile() {
   )
 }
 
-function ToolbarButton({
-  label,
-  shortcut,
-  onClick,
-  pressed,
-  size = "icon-sm",
-  children,
-}: {
-  label: string
-  shortcut?: string
-  onClick?: () => void
-  pressed?: boolean
-  size?: "icon-sm" | "icon"
-  children: React.ReactNode
-}) {
-  return (
-    <Tooltip>
-      <TooltipTrigger
-        render={
-          <Button variant="ghost" size={size} aria-label={label} aria-pressed={pressed} onClick={onClick} className={cn("text-muted-foreground", pressed && "text-foreground")}>
-            {children}
-          </Button>
-        }
-      />
-      <TooltipContent side="bottom">
-        {label}
-        {shortcut && <TooltipKbd>{shortcut}</TooltipKbd>}
-      </TooltipContent>
-    </Tooltip>
-  )
+type View = "home" | "images" | "tasks" | "library" | "plugins" | "projects" | "settings"
+
+/** The rail's pages, in order; ⇧⌘1–6 jump to them. */
+const VIEWS: { id: Exclude<View, "settings">; label: string; icon: React.ReactNode }[] = [
+  { id: "home", label: "Home", icon: <HomeIcon /> },
+  { id: "images", label: "Images", icon: <ImageIcon /> },
+  { id: "tasks", label: "Scheduled", icon: <ClockIcon /> },
+  { id: "library", label: "Library", icon: <BookmarkIcon /> },
+  { id: "plugins", label: "Plugins", icon: <ShapesIcon /> },
+  { id: "projects", label: "Projects", icon: <FolderIcon /> },
+]
+
+const VIEW_TITLES: Record<View, string> = {
+  home: "Home",
+  images: "Images",
+  tasks: "Scheduled",
+  library: "Library",
+  plugins: "Plugins",
+  projects: "Projects",
+  settings: "Settings",
 }
 
+const ToolbarButton = IconAction
+
 /**
- * Multi-provider coding-agent workspace, wired to the Agent Client Protocol:
- * an icon rail, a threads sidebar, tabs of open threads, one or two chat
- * panes and a dock with terminal, explorer and browser. Below `md` it becomes
- * a phone layout: a header with the tabs, the rail and threads in a drawer,
- * the dock in a bottom sheet and one full-width chat (no split).
+ * Multi-provider coding-agent workspace, wired to the Agent Client Protocol.
+ * A rail of pages (home, images, scheduled tasks, library, plugins, projects),
+ * a second column that is each page's own index, and the page itself. Home is
+ * a new chat, or the open threads: tabs, one or two chat panes and a dock with
+ * terminal, explorer and browser. Below `md` it becomes a phone layout: a
+ * header, the page index and the rail in a drawer, the dock in a bottom sheet
+ * and one full-width chat (no split).
  * Starts on the offline demo agent; Settings → Agents connects real ACP
  * agents through server/acp-bridge.mjs.
  */
@@ -121,6 +121,19 @@ export function AgentWorkspace() {
   const [agentId, setAgentId] = React.useState("demo")
   const [settingsOpen, setSettingsOpen] = React.useState(false)
   const [paletteOpen, setPaletteOpen] = React.useState(false)
+  const [view, setView] = React.useState<View>("home")
+  const [settingsPage, setSettingsPage] = React.useState<SettingsPage>("general")
+  const [draftProject, setDraftProject] = React.useState("workspace")
+  const [choiceOverride, setChoiceOverride] = React.useState<ModelChoice | null>(null)
+  const sessionProjects = React.useRef<Record<string, string>>({})
+  const heroRef = React.useRef<HTMLTextAreaElement>(null)
+  const imageComposerRef = React.useRef<HTMLTextAreaElement>(null)
+
+  const tasks = useScheduledTasks()
+  const images = useImages()
+  const library = useLibrary()
+  const plugins = usePlugins()
+  const projects = useProjects()
 
   const [tabs, setTabs] = React.useState<string[]>([])
   const [left, setLeft] = React.useState<string | null>(null)
@@ -168,7 +181,7 @@ export function AgentWorkspace() {
         sessionId: s.id,
         title: s.title,
         provider: agent.provider,
-        repo: s.cwd.split("/").filter(Boolean).pop(),
+        repo: sessionProjects.current[s.id] ?? s.cwd.split("/").filter(Boolean).pop(),
         group: "Recent",
         running: s.status === "working",
       }))
@@ -220,12 +233,39 @@ export function AgentWorkspace() {
     if (left === id) setLeft(rest[Math.min(i, rest.length - 1)] ?? null)
   }
 
-  const newThread = React.useCallback(async () => {
+  // A new chat is a draft until its first message: Home with no thread in the pane.
+  const newThread = React.useCallback(() => {
+    setView("home")
+    setRight(null)
+    setFocus("left")
+    setLeft(null)
+    requestAnimationFrame(() => heroRef.current?.focus())
+  }, [])
+
+  const heroBase = sessionModelChoice(state.sessions[tabs[0] ?? ""] ?? Object.values(state.sessions)[0])
+  const heroChoice = choiceOverride ?? heroBase
+
+  const startChat = async (text: string) => {
     if (client.getState().connection !== "ready") return
-    const cwd = client.getState().workspaceRoot ?? DEMO_CWD
-    const id = await client.newSession(cwd)
-    show(id)
-  }, [client, show])
+    const id = await client.newSession(client.getState().workspaceRoot ?? DEMO_CWD)
+    sessionProjects.current[id] = draftProject
+    if (choiceOverride && heroBase) {
+      await client.setConfigOption(id, heroBase.modelId, choiceOverride.model).catch(() => undefined)
+      await client.setConfigOption(id, heroBase.effortId, choiceOverride.effort).catch(() => undefined)
+    }
+    show(id, "left")
+    void client.prompt(id, text)
+  }
+
+  const goTo = (next: View) => {
+    setView(next)
+    if (next === "images") requestAnimationFrame(() => imageComposerRef.current?.focus())
+  }
+
+  const startChatIn = (project: string) => {
+    setDraftProject(project)
+    newThread()
+  }
 
   const fork = async (text: string) => {
     const id = await client.newSession(client.getState().workspaceRoot ?? DEMO_CWD)
@@ -314,11 +354,17 @@ export function AgentWorkspace() {
       if (!(e.metaKey || e.ctrlKey) || e.altKey) return
       const k = e.key.toLowerCase()
       if (k === "b") toggleSidebar()
-      else if (k === "j") toggleDock()
-      else if (k === "n") void newThread()
-      else if (k === "\\") toggleSplit()
-      else if (k === ",") setSettingsOpen(true)
-      else if (/^[1-9]$/.test(k) && tabs[Number(k) - 1]) show(tabs[Number(k) - 1])
+      else if (e.shiftKey && /^Digit[1-6]$/.test(e.code)) goTo(VIEWS[Number(e.code.slice(5)) - 1].id)
+      else if (k === "j" && view === "home") toggleDock()
+      else if (k === "n") newThread()
+      else if (k === "\\" && view === "home") toggleSplit()
+      else if (k === "[") go(-1)
+      else if (k === "]") go(1)
+      else if (k === ",") goTo("settings")
+      else if (/^[1-9]$/.test(k) && tabs[Number(k) - 1]) {
+        setView("home")
+        show(tabs[Number(k) - 1])
+      }
       else return
       e.preventDefault()
     }
@@ -327,13 +373,34 @@ export function AgentWorkspace() {
   })
 
   const paletteItems: CommandPaletteItem[] = [
-    { id: "new", label: "New thread", group: "Threads", shortcut: ["⌘", "N"], icon: EditIcon, onSelect: () => void newThread() },
+    { id: "new", label: "New chat", group: "Threads", shortcut: ["⌘", "N"], icon: EditIcon, onSelect: newThread },
+    { id: "back", label: "Back", group: "Threads", shortcut: ["⌘", "["], icon: ArrowLeftIcon, onSelect: () => go(-1) },
+    { id: "forward", label: "Forward", group: "Threads", shortcut: ["⌘", "]"], icon: ArrowRightIcon, onSelect: () => go(1) },
+    ...VIEWS.map((v, i) => ({
+      id: `view-${v.id}`,
+      label: `Go to ${v.label}`,
+      group: "Pages",
+      shortcut: ["⇧", "⌘", String(i + 1)],
+      icon: () => v.icon,
+      onSelect: () => goTo(v.id),
+    })),
     ...(mobile ? [] : [{ id: "split", label: right ? "Close split view" : "Split chats side by side", group: "View", shortcut: ["⌘", "\\"], icon: Columns2Icon, onSelect: toggleSplit }]),
     { id: "sidebar", label: "Toggle threads sidebar", group: "View", shortcut: ["⌘", "B"], icon: SidebarIcon, onSelect: toggleSidebar },
     { id: "dock", label: "Toggle terminal panel", group: "View", shortcut: ["⌘", "J"], icon: TerminalSquareIcon, onSelect: toggleDock },
     { id: "theme", label: "Toggle dark mode", group: "View", icon: MoonIcon, onSelect: toggleTheme },
-    { id: "agents", label: "Manage agents…", group: "Settings", shortcut: ["⌘", ","], icon: SettingsIcon, onSelect: () => setSettingsOpen(true) },
-    ...threads.map((t) => ({ id: `t-${t.sessionId}`, label: t.title, group: "Open thread", description: t.branch, icon: HistoryIcon, onSelect: () => show(t.sessionId) })),
+    { id: "settings", label: "Settings", group: "Settings", shortcut: ["⌘", ","], icon: SettingsIcon, onSelect: () => goTo("settings") },
+    { id: "agents", label: "Manage agents…", group: "Settings", icon: SettingsIcon, onSelect: () => setSettingsOpen(true) },
+    ...threads.map((t) => ({
+      id: `t-${t.sessionId}`,
+      label: t.title,
+      group: "Open thread",
+      description: t.branch,
+      icon: HistoryIcon,
+      onSelect: () => {
+        setView("home")
+        show(t.sessionId)
+      },
+    })),
   ]
 
   /* ------------------------------- render ------------------------------- */
@@ -366,77 +433,159 @@ export function AgentWorkspace() {
 
   const closeNav = () => setNavOpen(false)
 
+  const showSidebarButton = !mobile && !sidebarOpen ? (
+    <ToolbarButton label="Show sidebar" shortcut="⌘B" onClick={toggleSidebar}>
+      <SidebarIcon />
+    </ToolbarButton>
+  ) : null
+
   const rail = (orientation: "vertical" | "horizontal") => {
     const horizontal = orientation === "horizontal"
-    // In the phone drawer, items that open something else close the drawer first.
-    const then = (fn: () => void) => () => {
-      if (horizontal) closeNav()
-      fn()
-    }
     return (
-      <SidebarRail aria-label="App" orientation={orientation}>
+      <SidebarRail aria-label="Pages" orientation={orientation}>
         <SidebarRailGroup>
-          <SidebarRailItem label="Home" icon={<HomeIcon />} onClick={then(() => left && show(left))} />
-          <SidebarRailItem label="Inbox" icon={<InboxIcon />} />
-          <SidebarRailItem label="Tasks" icon={<ClipboardListIcon />} />
-          <SidebarRailItem
-            label="Branches"
-            icon={<GitBranchIcon />}
-            onClick={then(() => {
-              setDockTab("explorer")
-              if (horizontal) setDockSheetOpen(true)
-            })}
-          />
-          <SidebarRailItem label="History" shortcut="⌘K" icon={<HistoryIcon />} onClick={then(() => setPaletteOpen(true))} />
-          <SidebarRailItem label="Agents" icon={<GridIcon />} onClick={then(() => setSettingsOpen(true))} />
-          {!horizontal && <SidebarRailItem label="Threads" shortcut="⌘B" icon={<FolderIcon />} active={sidebarOpen} onClick={toggleSidebar} />}
+          {VIEWS.map((v, i) => (
+            <SidebarRailItem
+              key={v.id}
+              label={v.label}
+              shortcut={`⇧⌘${i + 1}`}
+              icon={v.icon}
+              active={view === v.id}
+              badge={v.id === "tasks" ? tasks.tasks.filter((t) => t.enabled).length || undefined : undefined}
+              onClick={() => (v.id === "home" && view === "home" && !horizontal ? newThread() : goTo(v.id))}
+            />
+          ))}
         </SidebarRailGroup>
         <SidebarRailSpacer />
         <SidebarRailGroup>
-          {/* The phone row has room for the connected agent only; the rest are in the threads header menu. */}
-          {(horizontal ? agents.filter((a) => a.id === agentId) : agents.slice(0, 3)).map((a) => (
-            <SidebarRailAvatar
-              key={a.id}
-              label={a.name}
-              hint={a.id === agentId ? state.connection : "not connected"}
-              status={a.id !== agentId ? "offline" : state.connection === "ready" ? "online" : state.connection === "connecting" ? "busy" : "error"}
-              onClick={then(() => (a.builtin ? void connect(a, bridge) : setSettingsOpen(true)))}
-            >
-              <ProviderIcon provider={a.provider} />
-            </SidebarRailAvatar>
-          ))}
-          <SidebarRailItem label="Command palette" shortcut="⌘K" icon={<HelpCircleIcon />} onClick={then(() => setPaletteOpen(true))} />
-          <SidebarRailItem label="Settings" shortcut="⌘," icon={<SettingsIcon />} onClick={then(() => setSettingsOpen(true))} />
+          {!horizontal && (
+            <SidebarRailItem label="Search" shortcut="⌘K" icon={<SearchIcon />} onClick={() => setPaletteOpen(true)} />
+          )}
+          {agents
+            .filter((a) => a.id === agentId)
+            .map((a) => (
+              <SidebarRailAvatar
+                key={a.id}
+                label={a.name}
+                hint={state.connection}
+                status={state.connection === "ready" ? "online" : state.connection === "connecting" ? "busy" : "error"}
+                onClick={() => {
+                  if (horizontal) closeNav()
+                  setSettingsPage("agents")
+                  goTo("settings")
+                }}
+              >
+                <ProviderIcon provider={a.provider} />
+              </SidebarRailAvatar>
+            ))}
+          <AccountMenu
+            side={horizontal ? "top" : "right"}
+            onSettings={() => {
+              closeNav()
+              setSettingsPage("general")
+              goTo("settings")
+            }}
+            onShortcuts={() => {
+              closeNav()
+              setSettingsPage("shortcuts")
+              goTo("settings")
+            }}
+            onUsage={() => {
+              closeNav()
+              setSettingsPage("usage")
+              goTo("settings")
+            }}
+            onToggleTheme={toggleTheme}
+          />
         </SidebarRailGroup>
       </SidebarRail>
     )
   }
 
-  const sidebar = (
-    <ThreadsSidebar
-      threads={threads}
-      activeId={active}
-      onSelect={(id) => {
-        show(id)
-        closeNav()
-      }}
-      onNewThread={() => {
-        closeNav()
-        void newThread()
-      }}
-      agents={agents}
-      agentId={agentId}
-      onSelectAgent={(id) => {
-        const a = agents.find((x) => x.id === id)
-        if (a?.builtin) void connect(a, bridge)
-        else setSettingsOpen(true)
-      }}
-      onOpenSettings={() => {
-        closeNav()
-        setSettingsOpen(true)
-      }}
-    />
-  )
+  // Every page's index sits in the same column; on the phone it lives in the drawer.
+  const hide = mobile ? undefined : toggleSidebar
+  const sidebar =
+    view === "images" ? (
+      <ImagesSidebar
+        state={images}
+        onHide={hide}
+        onNavigate={closeNav}
+        onNew={() => {
+          closeNav()
+          images.setCollection("popular")
+          requestAnimationFrame(() => imageComposerRef.current?.focus())
+        }}
+      />
+    ) : view === "tasks" ? (
+      <TasksSidebar state={tasks} onHide={hide} onNavigate={closeNav} />
+    ) : view === "library" ? (
+      <LibrarySidebar state={library} onHide={hide} onNavigate={closeNav} onNew={newThread} />
+    ) : view === "plugins" ? (
+      <PluginsSidebar state={plugins} onHide={hide} onNavigate={closeNav} />
+    ) : view === "projects" ? (
+      <ProjectsSidebar
+        state={projects}
+        onHide={hide}
+        onOpen={(p) => {
+          closeNav()
+          startChatIn(p)
+        }}
+      />
+    ) : view === "settings" ? (
+      <SettingsSidebar page={settingsPage} onPage={setSettingsPage} onHide={hide} onNavigate={closeNav} />
+    ) : (
+      <ThreadsSidebar
+        threads={threads}
+        activeId={active}
+        onSelect={(id) => {
+          show(id)
+          closeNav()
+        }}
+        onNewThread={() => {
+          closeNav()
+          newThread()
+        }}
+        onHide={hide}
+        agents={agents}
+        agentId={agentId}
+        onSelectAgent={(id) => {
+          const a = agents.find((x) => x.id === id)
+          if (a?.builtin) void connect(a, bridge)
+          else setSettingsOpen(true)
+        }}
+        onOpenSettings={() => {
+          closeNav()
+          setSettingsOpen(true)
+        }}
+      />
+    )
+
+  const page = (leading: React.ReactNode) =>
+    view === "images" ? (
+      <ImagesMain state={images} leading={leading} composerRef={imageComposerRef} />
+    ) : view === "tasks" ? (
+      <TasksMain state={tasks} leading={leading} />
+    ) : view === "library" ? (
+      <LibraryMain state={library} leading={leading} />
+    ) : view === "plugins" ? (
+      <PluginsMain state={plugins} leading={leading} />
+    ) : view === "projects" ? (
+      <ProjectsMain state={projects} leading={leading} onOpen={startChatIn} />
+    ) : (
+      <SettingsMain
+        page={settingsPage}
+        leading={leading}
+        agents={agents}
+        activeAgentId={agentId}
+        connection={state.connection}
+        onManageAgents={() => setSettingsOpen(true)}
+        onConnect={(id) => {
+          const target = agents.find((a) => a.id === id)
+          if (target?.builtin) void connect(target, bridge)
+          else setSettingsOpen(true)
+        }}
+      />
+    )
 
   const tabStrip = (
     <TabStrip
@@ -469,50 +618,18 @@ export function AgentWorkspace() {
       </div>
     ) : null
 
-  // No thread open: start one, or pick up one of the latest; both one click away.
-  const recent = threads.slice(0, 4)
-  const emptyState = (
-    <div className="flex h-full items-center justify-center overflow-y-auto p-6">
-      <div className="flex w-full max-w-sm flex-col gap-6">
-        <div className="flex flex-col gap-1">
-          <h2 className="text-ui-lg font-semibold text-balance">{state.connection === "connecting" ? "Connecting to the agent…" : "No thread open"}</h2>
-          <p className="text-ui text-pretty text-muted-foreground">
-            {state.connection === "ready" ? "Start a thread, or pick up where you left off." : `Threads open once ${agent.name} is connected.`}
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button onClick={() => void newThread()} disabled={state.connection !== "ready"}>
-            <EditIcon data-icon="inline-start" />
-            New thread
-            <Kbd className="ms-1">⌘N</Kbd>
-          </Button>
-          <Button variant="outline" onClick={() => setPaletteOpen(true)}>
-            <SearchIcon data-icon="inline-start" />
-            Search
-          </Button>
-        </div>
-        {recent.length > 0 && (
-          <div className="flex flex-col gap-1">
-            <h3 className="text-ui-sm font-medium text-muted-foreground">Recent</h3>
-            <ul aria-label="Recent threads" className="-mx-2 flex flex-col">
-              {recent.map((t) => (
-                <li key={t.sessionId}>
-                  <button
-                    type="button"
-                    onClick={() => show(t.sessionId)}
-                    className="flex h-8 w-full items-center gap-2 rounded-md px-2 text-start text-ui transition-colors duration-150 outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring active:bg-secondary"
-                  >
-                    <ProviderIcon provider={t.provider} />
-                    <span className="min-w-0 flex-1 truncate">{t.title}</span>
-                    {t.pr && <span className="shrink-0 text-ui-sm text-muted-foreground tabular-nums">#{t.pr.number}</span>}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    </div>
+  const newChat = (
+    <NewChat
+      provider={agent.provider}
+      ready={state.connection === "ready"}
+      projects={projects.projects.map((p) => p.name)}
+      project={draftProject}
+      onProjectChange={setDraftProject}
+      choice={heroChoice}
+      onChoiceChange={setChoiceOverride}
+      onSubmit={(text) => void startChat(text)}
+      composerRef={heroRef}
+    />
   )
 
   const dock = (onCollapse: () => void, compact = false) => (
@@ -531,27 +648,31 @@ export function AgentWorkspace() {
     />
   )
 
+  const home = view === "home"
+
   return (
     <TooltipProvider>
-      <h1 className="sr-only">{threadOf(active)?.title ?? "Agent workspace"}</h1>
+      <h1 className="sr-only">{home ? (threadOf(active)?.title ?? "New chat") : VIEW_TITLES[view]}</h1>
       {mobile ? (
-        /* Phone layout: header (threads, tabs, new, panel), one full-width chat. */
+        /* Phone layout: header (index, tabs or page title, actions), one full-width page. */
         <div className="flex h-dvh w-full flex-col overflow-hidden bg-shell text-foreground">
           <header className="flex h-12 shrink-0 items-center gap-1 px-1.5">
-            <ToolbarButton label="Threads and navigation" shortcut="⌘B" size="icon" pressed={navOpen} onClick={() => setNavOpen(true)}>
+            <ToolbarButton label="Pages and index" shortcut="⌘B" size="icon" pressed={navOpen} onClick={() => setNavOpen(true)}>
               <SidebarIcon />
             </ToolbarButton>
-            {tabStrip}
-            <ToolbarButton label="New thread" shortcut="⌘N" size="icon" onClick={() => void newThread()}>
+            {home ? tabStrip : <span className="min-w-0 flex-1 truncate px-1 text-ui-lg font-semibold">{VIEW_TITLES[view]}</span>}
+            <ToolbarButton label="New chat" shortcut="⌘N" size="icon" onClick={newThread}>
               <PlusIcon />
             </ToolbarButton>
-            <ToolbarButton label="Terminal, files and browser" shortcut="⌘J" size="icon" pressed={dockSheetOpen} onClick={() => setDockSheetOpen(true)}>
-              <TerminalSquareIcon />
-            </ToolbarButton>
+            {home && (
+              <ToolbarButton label="Terminal, files and browser" shortcut="⌘J" size="icon" pressed={dockSheetOpen} onClick={() => setDockSheetOpen(true)}>
+                <TerminalSquareIcon />
+              </ToolbarButton>
+            )}
           </header>
           <main className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-shell border-t border-shell-border bg-background">
             {errorBanner}
-            <div className="min-h-0 flex-1">{left ? pane(left, "left") : emptyState}</div>
+            <div className="min-h-0 flex-1">{home ? (left ? pane(left, "left") : newChat) : page(null)}</div>
           </main>
         </div>
       ) : (
@@ -560,70 +681,59 @@ export function AgentWorkspace() {
 
           <ResizablePanelGroup direction="horizontal" autoSaveId="agent-workspace-shell" handleRef={outer} className="min-w-0 flex-1">
             <ResizablePanel id="threads" defaultSize="248px" minSize="220px" maxSize="420px" collapsible onCollapsedChange={(c) => setSidebarOpen(!c)}>
-              <div className="flex h-full flex-col">
-                {/* eslint-disable-next-line shadcn/no-arbitrary-values -- 3px inset gap + 0.5px panel border, so this row centres with the chat toolbar */}
-                <div className="mt-[3.5px] flex h-10 shrink-0 items-center gap-1 px-2">
-                  <ToolbarButton label="Hide sidebar" shortcut="⌘B" onClick={toggleSidebar}>
-                    <SidebarIcon />
-                  </ToolbarButton>
-                  <ToolbarButton label="Back" onClick={() => go(-1)}>
-                    <ArrowLeftIcon className="rtl:-scale-x-100" />
-                  </ToolbarButton>
-                  <ToolbarButton label="Forward" onClick={() => go(1)}>
-                    <ArrowRightIcon className="rtl:-scale-x-100" />
-                  </ToolbarButton>
-                </div>
-                <div className="min-h-0 flex-1">{sidebar}</div>
-              </div>
+              {sidebar}
             </ResizablePanel>
             <ResizableHandle variant="hidden" />
             <ResizablePanel id="main" minSize={40}>
               <div className="shell-inset mt-0.75 flex h-full min-h-0 flex-col overflow-hidden">
-                <ResizablePanelGroup direction="horizontal" autoSaveId="agent-workspace-content" handleRef={inner}>
-                  <ResizablePanel id="chat" minSize="360px">
-                    <div className="flex h-full min-w-0 flex-col">
-                      <div className="flex h-10 shrink-0 items-center gap-1 border-b border-border px-2">
-                        {!sidebarOpen && (
-                          <ToolbarButton label="Show sidebar" shortcut="⌘B" onClick={toggleSidebar}>
-                            <SidebarIcon />
+                {!home ? (
+                  <>
+                    {errorBanner}
+                    <div className="min-h-0 flex-1">{page(showSidebarButton)}</div>
+                  </>
+                ) : (
+                  <ResizablePanelGroup direction="horizontal" autoSaveId="agent-workspace-content" handleRef={inner}>
+                    <ResizablePanel id="chat" minSize="360px">
+                      <div className="flex h-full min-w-0 flex-col">
+                        <div className="flex h-10 shrink-0 items-center gap-1 border-b border-border px-2">
+                          {showSidebarButton}
+                          {tabStrip}
+                          <ToolbarButton label={right ? "Close split" : "Split chats"} shortcut="⌘\" pressed={!!right} onClick={toggleSplit}>
+                            <Columns2Icon />
                           </ToolbarButton>
-                        )}
-                        {tabStrip}
-                        <ToolbarButton label={right ? "Close split" : "Split chats"} shortcut="⌘\" pressed={!!right} onClick={toggleSplit}>
-                          <Columns2Icon />
-                        </ToolbarButton>
-                        <ToolbarButton label="New thread" shortcut="⌘N" onClick={() => void newThread()}>
-                          <PlusIcon />
-                        </ToolbarButton>
-                        <ToolbarButton label={dockOpen ? "Hide panel" : "Show panel"} shortcut="⌘J" pressed={dockOpen} onClick={toggleDock}>
-                          <PanelRightIcon />
-                        </ToolbarButton>
+                          <ToolbarButton label="New chat" shortcut="⌘N" onClick={newThread}>
+                            <PlusIcon />
+                          </ToolbarButton>
+                          <ToolbarButton label={dockOpen ? "Hide panel" : "Show panel"} shortcut="⌘J" pressed={dockOpen} onClick={toggleDock}>
+                            <PanelRightIcon />
+                          </ToolbarButton>
+                        </div>
+                        <div className="min-h-0 flex-1">
+                          {errorBanner}
+                          {right ? (
+                            <ResizablePanelGroup direction="horizontal" autoSaveId="agent-workspace-split">
+                              <ResizablePanel id="left" minSize="320px">
+                                {pane(left, "left")}
+                              </ResizablePanel>
+                              <ResizableHandle />
+                              <ResizablePanel id="right" minSize="320px">
+                                {pane(right, "right")}
+                              </ResizablePanel>
+                            </ResizablePanelGroup>
+                          ) : left ? (
+                            pane(left, "left")
+                          ) : (
+                            newChat
+                          )}
+                        </div>
                       </div>
-                      <div className="min-h-0 flex-1">
-                        {errorBanner}
-                        {right ? (
-                          <ResizablePanelGroup direction="horizontal" autoSaveId="agent-workspace-split">
-                            <ResizablePanel id="left" minSize="320px">
-                              {pane(left, "left")}
-                            </ResizablePanel>
-                            <ResizableHandle />
-                            <ResizablePanel id="right" minSize="320px">
-                              {pane(right, "right")}
-                            </ResizablePanel>
-                          </ResizablePanelGroup>
-                        ) : left ? (
-                          pane(left, "left")
-                        ) : (
-                          emptyState
-                        )}
-                      </div>
-                    </div>
-                  </ResizablePanel>
-                  <ResizableHandle />
-                  <ResizablePanel id="dock" defaultSize={44} minSize="300px" collapsible onCollapsedChange={(c) => setDockOpen(!c)}>
-                    {dock(() => inner.current?.collapse("dock"))}
-                  </ResizablePanel>
-                </ResizablePanelGroup>
+                    </ResizablePanel>
+                    <ResizableHandle />
+                    <ResizablePanel id="dock" defaultSize={44} minSize="300px" collapsible onCollapsedChange={(c) => setDockOpen(!c)}>
+                      {dock(() => inner.current?.collapse("dock"))}
+                    </ResizablePanel>
+                  </ResizablePanelGroup>
+                )}
               </div>
             </ResizablePanel>
           </ResizablePanelGroup>
@@ -634,7 +744,7 @@ export function AgentWorkspace() {
         <>
           <Drawer side="left" open={navOpen} onOpenChange={setNavOpen}>
             <DrawerContent showClose={false} className="p-0">
-              <DrawerTitle className="sr-only">Threads</DrawerTitle>
+              <DrawerTitle className="sr-only">{VIEW_TITLES[view]}</DrawerTitle>
               <div className="min-h-0 flex-1 pt-2">{sidebar}</div>
               <div className="shrink-0 border-t border-border">{rail("horizontal")}</div>
             </DrawerContent>

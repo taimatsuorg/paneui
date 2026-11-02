@@ -6,7 +6,7 @@ import { FolderIcon, GitBranchIcon, GitPullRequestIcon, ShieldIcon } from "@pane
 import { AgentComposer, AgentComposerBanner } from "@paneui/ui/blocks/agent-composer/agent-composer"
 import { Loader } from "@paneui/ui/components/loader"
 import { MessageScroller } from "@paneui/ui/components/message-scroller"
-import { EffortPicker, ModelPicker, ModePicker } from "@paneui/ui/components/model-picker"
+import { EffortPicker, ModelPicker, ModePicker, ThinkingModelPicker, type ModelOption } from "@paneui/ui/components/model-picker"
 import { Skeleton } from "@paneui/ui/components/skeleton"
 import { TodoList } from "@paneui/ui/components/todo-list"
 
@@ -16,6 +16,33 @@ import type { ThreadSummary } from "./threads-sidebar"
 import { Timeline } from "./turn-timeline"
 
 const isRisky = (id: string, name: string) => /full|bypass|yolo|danger/i.test(`${id} ${name}`)
+
+type SelectConfig = NonNullable<ReturnType<typeof configByCategory>>
+
+/** The model list of a session's model option, with each vendor's mark. */
+function modelOptions(model: SelectConfig): ModelOption[] {
+  return flatOptions(model.options).map((o) => ({
+    id: o.value,
+    name: o.name,
+    provider: o.group,
+    icon: <ProviderIcon provider={o.group?.toLowerCase() ?? modelProvider(o.value)} />,
+  }))
+}
+
+/** Model and effort of a session, for a composer that has no session yet (a new chat). */
+export function sessionModelChoice(session: SessionState | undefined) {
+  const model = configByCategory(session, "model")
+  const effort = configByCategory(session, "thought_level")
+  if (!model || !effort) return null
+  return {
+    models: modelOptions(model),
+    levels: flatOptions(effort.options).map((o) => ({ value: o.value, label: o.name })),
+    model: model.currentValue,
+    effort: effort.currentValue,
+    modelId: model.id,
+    effortId: effort.id,
+  }
+}
 
 /**
  * A thread with no turns yet. The prompt sits at the foot of the column, just above the composer
@@ -186,16 +213,21 @@ export function ChatPane({
             toolbarEnd={
               <>
                 {working && <Loader variant="ring" size="sm" label="Agent is working" className="mr-0.5 size-3.5 text-muted-foreground" />}
-                {model ? (
+                {model && effort ? (
+                  <ThinkingModelPicker
+                    value={model.currentValue}
+                    onValueChange={(v) => void client.setConfigOption(session.id, model.id, v)}
+                    models={modelOptions(model)}
+                    levels={flatOptions(effort.options).map((o) => ({ value: o.value, label: o.name }))}
+                    effort={effort.currentValue}
+                    onEffortChange={(v) => void client.setConfigOption(session.id, effort.id, v)}
+                    align="end"
+                  />
+                ) : model ? (
                   <ModelPicker
                     value={model.currentValue}
                     onValueChange={(v) => void client.setConfigOption(session.id, model.id, v)}
-                    models={flatOptions(model.options).map((o) => ({
-                      id: o.value,
-                      name: o.name,
-                      provider: o.group,
-                      icon: <ProviderIcon provider={o.group?.toLowerCase() ?? modelProvider(o.value)} />,
-                    }))}
+                    models={modelOptions(model)}
                     align="end"
                   />
                 ) : session.models ? (
@@ -209,7 +241,7 @@ export function ChatPane({
                     align="end"
                   />
                 ) : null}
-                {effort && (
+                {effort && !model && (
                   <EffortPicker
                     value={effort.currentValue}
                     onValueChange={(v) => void client.setConfigOption(session.id, effort.id, v)}
