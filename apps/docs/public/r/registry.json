@@ -2150,7 +2150,27 @@
         "https://paneui.dev/r/settings-section.json",
         "https://paneui.dev/r/code-block.json",
         "https://paneui.dev/r/action-swap-blur.json",
-        "https://paneui.dev/r/animated-sidebar.json"
+        "https://paneui.dev/r/animated-sidebar.json",
+        "https://paneui.dev/r/accent-picker.json",
+        "https://paneui.dev/r/breadcrumb.json",
+        "https://paneui.dev/r/chart-utils.json",
+        "https://paneui.dev/r/empty-state.json",
+        "https://paneui.dev/r/heat-calendar.json",
+        "https://paneui.dev/r/icon-chip.json",
+        "https://paneui.dev/r/image-generation.json",
+        "https://paneui.dev/r/input-group.json",
+        "https://paneui.dev/r/kbd.json",
+        "https://paneui.dev/r/og-image.json",
+        "https://paneui.dev/r/sidebar-nav.json",
+        "https://paneui.dev/r/simple-table.json",
+        "https://paneui.dev/r/skeleton.json",
+        "https://paneui.dev/r/stat-card.json",
+        "https://paneui.dev/r/switch.json",
+        "https://paneui.dev/r/tabs.json",
+        "https://paneui.dev/r/toggle-group.json",
+        "https://paneui.dev/r/usage-meter.json",
+        "https://paneui.dev/r/user-menu.json",
+        "https://paneui.dev/r/avatar-generator.json"
       ],
       "files": [
         {
@@ -2232,6 +2252,66 @@
           "path": "registry/web/templates/agent-workspace/parts/code.ts",
           "type": "registry:component",
           "target": "components/agent-workspace/parts/code.ts"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/account-menu.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/account-menu.tsx"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/art-tile.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/art-tile.tsx"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/images-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/images-view.tsx"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/library-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/library-view.tsx"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/new-chat.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/new-chat.tsx"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/plugins-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/plugins-view.tsx"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/projects-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/projects-view.tsx"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/section-panel.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/section-panel.tsx"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/settings-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/settings-view.tsx"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/tasks-view.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/tasks-view.tsx"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/view-icons.tsx",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/view-icons.tsx"
+        },
+        {
+          "path": "registry/web/templates/agent-workspace/parts/workspace-data.ts",
+          "type": "registry:component",
+          "target": "components/agent-workspace/parts/workspace-data.ts"
         }
       ],
       "meta": {
