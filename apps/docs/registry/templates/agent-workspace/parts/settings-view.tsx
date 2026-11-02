@@ -32,7 +32,7 @@ import { UsageMeter } from "@paneui/ui/components/usage-meter"
 
 import type { AgentConfig } from "./agents"
 import { ProviderIcon } from "./provider-icon"
-import { IconAction, PageBody, SectionPanel } from "./section-panel"
+import { IconAction, PageBody, SectionPanel, SectionSwitcher } from "./section-panel"
 import { PROJECTS, USAGE_STATS } from "./workspace-data"
 
 export type SettingsPage = "general" | "appearance" | "agents" | "usage" | "shortcuts"
@@ -314,6 +314,7 @@ function Shortcuts() {
 
 export function SettingsMain({
   page,
+  onPage,
   leading,
   agents,
   activeAgentId,
@@ -322,6 +323,7 @@ export function SettingsMain({
   onConnect,
 }: {
   page: SettingsPage
+  onPage: (page: SettingsPage) => void
   leading?: React.ReactNode
   agents: AgentConfig[]
   activeAgentId: string
@@ -336,6 +338,14 @@ export function SettingsMain({
         <div className="flex items-center gap-2">
           {leading}
           <PageHeaderTitle>{title}</PageHeaderTitle>
+          {leading && (
+            <SectionSwitcher
+              label="Switch section"
+              value={page}
+              onValueChange={(v) => onPage(v as SettingsPage)}
+              groups={[{ options: PAGES.map((p) => ({ value: p.id, label: p.label, icon: p.icon })) }]}
+            />
+          )}
         </div>
         {page === "general" && <General />}
         {page === "appearance" && <Appearance />}

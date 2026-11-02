@@ -26,7 +26,7 @@ import { SidebarNav, SidebarNavContent, SidebarNavLink, SidebarNavList } from "@
 import { Switch } from "@paneui/ui/components/switch"
 import { Textarea } from "@paneui/ui/components/textarea"
 
-import { IconAction, PageBody, SectionPanel, SectionPrimary } from "./section-panel"
+import { IconAction, PageBody, SectionPanel, SectionPrimary, SectionSwitcher } from "./section-panel"
 import { ItemChip, ItemGlyph } from "./view-icons"
 import { PROJECTS, SCHEDULE_OPTIONS, TASK_TEMPLATES, type ScheduledTask, type TaskTemplate } from "./workspace-data"
 
@@ -157,17 +157,48 @@ function TaskTemplates({ onPick, onBlank }: { onPick: (t: TaskTemplate) => void;
 
 export function TasksMain({ state, leading }: { state: ScheduledTasksState; leading?: React.ReactNode }) {
   const task = state.tasks.find((t) => t.id === state.selected)
+  const switcher = leading && state.tasks.length > 0 && (
+    <SectionSwitcher
+      label="Switch task"
+      value={state.selected ?? "new"}
+      onValueChange={(v) => state.setSelected(v === "new" ? null : v)}
+      groups={[
+        { options: [{ value: "new", label: "New task", icon: <PlusIcon /> }] },
+        { label: "Tasks", options: state.tasks.map((t) => ({ value: t.id, label: t.title, icon: <ItemGlyph icon={t.icon} /> })) },
+      ]}
+    />
+  )
   return (
     <div className="flex h-full min-w-0 flex-col">
-      {leading && <div className="flex h-10 shrink-0 items-center px-2">{leading}</div>}
+      {leading && !task && (
+        <div className="flex h-10 shrink-0 items-center gap-1 px-2">
+          {leading}
+          {switcher && <span className="ms-1 text-ui font-medium">New task</span>}
+          {switcher}
+        </div>
+      )}
       <ScrollArea className="min-h-0 flex-1">
-        {task ? <TaskDetail task={task} state={state} /> : <TaskTemplates onPick={state.create} onBlank={() => state.create(null)} />}
+        {task ? (
+          <TaskDetail task={task} state={state} leading={leading} switcher={switcher} />
+        ) : (
+          <TaskTemplates onPick={state.create} onBlank={() => state.create(null)} />
+        )}
       </ScrollArea>
     </div>
   )
 }
 
-function TaskDetail({ task, state }: { task: ScheduledTask; state: ScheduledTasksState }) {
+function TaskDetail({
+  task,
+  state,
+  leading,
+  switcher,
+}: {
+  task: ScheduledTask
+  state: ScheduledTasksState
+  leading?: React.ReactNode
+  switcher?: React.ReactNode
+}) {
   const runNow = () =>
     state.update(task.id, {
       runs: [{ at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), ok: task.prompt.trim().length > 0 }, ...task.runs].slice(0, 6),
@@ -175,8 +206,12 @@ function TaskDetail({ task, state }: { task: ScheduledTask; state: ScheduledTask
   return (
     <PageBody>
       <div className="flex items-center gap-3">
+        {leading}
         <ItemChip icon={task.icon} tone={task.tone} size="lg" />
-        <PageHeaderTitle className="min-w-0 flex-1 truncate">{task.title}</PageHeaderTitle>
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <PageHeaderTitle className="truncate">{task.title}</PageHeaderTitle>
+          {switcher}
+        </div>
         <Button variant="outline" size="sm" onClick={runNow}>
           <PlayIcon data-icon="inline-start" />
           Run now
