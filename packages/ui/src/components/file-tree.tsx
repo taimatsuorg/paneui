@@ -8,9 +8,11 @@ import {
   AlignLeftIcon,
   BoltIcon,
   BracesIcon,
-  ChevronRightIcon,
+  ChevronDownIcon,
   CodeIcon,
   FileIcon,
+  FolderIcon,
+  FolderOpenIcon,
   ImageIcon,
   InfoIcon,
   LockIcon,
@@ -22,14 +24,12 @@ import {
 import { cn } from "@paneui/ui/lib/utils"
 
 /*
- * File / folder primitives, laid out like an editor's explorer. <FileTreeFolder> and
- * <FileTreeFile> are declarative: <FileTree> reads them into one flattened, keyboard-navigable
- * collection (WAI-ARIA tree pattern, roving tabindex, typeahead). Density and geometry: 22px
- * full-width rows (under the 24px target floor on purpose: editor density, arrow-key navigation),
- * 10px indent per level and one 16px leading slot per row. A folder's slot holds its chevron, a
- * file's slot holds its file-type icon, so at the same level chevrons and file icons share one
- * column. Indent guides show while the pointer is over the tree. Nothing animates: rows appear
- * and the chevron turns on the click, the way an editor's explorer does.
+ * File / folder primitives, laid out like a file explorer. <FileTreeFolder> and <FileTreeFile> are
+ * declarative: <FileTree> reads them into one flattened, keyboard-navigable collection (WAI-ARIA
+ * tree pattern, roving tabindex, typeahead). Geometry: rounded 32px rows 2px apart (`size="sm"`:
+ * 24px rows that touch), 20px indent per level. A folder row is chevron + folder icon (open or
+ * closed) + name; a file row skips the chevron's column, so its type icon lines up under the
+ * folder icons at the same level. Nothing animates: rows appear and the chevron turns on the click.
  */
 
 type FileTreeNode = {
@@ -176,21 +176,27 @@ function getFileKind(name: string): FileKind {
 }
 
 /** Left padding of a depth-0 row, px. */
-const PAD = 8
+const PAD = { default: 8, sm: 6 } as const
+/** Chevron (16px) + gap (4px): how far a file's icon sits in, so it lines up with folder icons. */
+const CHEVRON = 20
 
 /**
  * `default` takes the surface it sits on (the page, a sidebar, a panel), like an editor's
  * explorer; `card` puts it on its own raised card. `ghost` is the same as `default`.
  */
-const fileTreeVariants = cva("group/file-tree relative flex min-w-0 flex-col text-ui text-foreground", {
+const fileTreeVariants = cva("group/file-tree relative flex min-w-0 flex-col text-foreground", {
   variants: {
     variant: {
       default: "",
       ghost: "",
       card: "frame-xl frame-p-2 bg-card shadow-raised",
     },
+    size: {
+      default: "gap-0.5 text-ui-lg",
+      sm: "text-ui",
+    },
   },
-  defaultVariants: { variant: "default" },
+  defaultVariants: { variant: "default", size: "default" },
 })
 
 type FileTreeProps = Omit<React.ComponentProps<"div">, "children" | "defaultValue" | "onChange"> & {
@@ -205,10 +211,12 @@ type FileTreeProps = Omit<React.ComponentProps<"div">, "children" | "defaultValu
   onExpandedChange?: (expanded: string[]) => void
   /** Called when a file (not a folder) is activated with Enter or a click. */
   onOpenFile?: (node: FileTreeNode) => void
-  /** Indent per level, px. */
+  /** Indent per level, px (20, or 12 at `size="sm"`). */
   indent?: number
   /** Surface: `default` (and `ghost`) take the parent's background, `card` raises its own. */
   variant?: "default" | "ghost" | "card"
+  /** Row size: `default` 32px rounded rows, `sm` 24px editor-density rows. */
+  size?: "default" | "sm"
   label?: string
 }
 
@@ -222,13 +230,15 @@ function FileTree({
   defaultExpanded = [],
   onExpandedChange,
   onOpenFile,
-  indent = 10,
+  indent: indentProp,
   label,
   variant = "default",
+  size = "default",
   className,
   ...props
 }: FileTreeProps) {
   const l10n = useLocale().labels
+  const indent = indentProp ?? (size === "sm" ? 12 : 20)
   if (label === undefined) label = l10n.files
 
   const [internalValue, setInternalValue] = React.useState(defaultValue)
@@ -340,7 +350,8 @@ function FileTree({
       role="tree"
       data-slot="file-tree"
       data-variant={variant}
-      className={cn(fileTreeVariants({ variant }), className)}
+      data-size={size}
+      className={cn(fileTreeVariants({ variant, size }), className)}
       {...props}
       aria-label={props["aria-label"] ?? label}
     >
@@ -373,49 +384,41 @@ function FileTree({
               setFocused(node.value)
               activate(row)
             }}
-            style={{ paddingLeft: PAD + row.depth * indent }}
+            style={{ paddingLeft: PAD[size] + row.depth * indent + (isFolder ? 0 : CHEVRON) }}
             className={cn(
-              "relative flex h-5.5 shrink-0 cursor-pointer items-center gap-1.5 pr-2 outline-none select-none",
+              "relative flex shrink-0 cursor-pointer items-center gap-2 pr-2 outline-none select-none",
+              size === "sm" ? "h-6" : "h-8 rounded-md",
               "group-data-[variant=card]/file-tree:rounded-inner-or-sm",
               // Hover and selection fills are the theme's own tokens, so the tree reads on any surface.
-              "hover:bg-muted",
-              "focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-inset",
-              isSelected && "bg-secondary hover:bg-secondary",
+              "hover:bg-accent",
+              "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+              isSelected && "bg-accent text-accent-foreground",
               node.disabled && "cursor-not-allowed opacity-45 hover:bg-transparent",
               node.className
             )}
           >
-            {/* indent guides, one per ancestor level, under that ancestor's chevron */}
-            {Array.from({ length: row.depth }, (_, d) => (
-              <span
-                key={d}
-                aria-hidden
-                style={{ left: PAD + d * indent + 7 }}
-                className="absolute inset-y-0 w-px bg-foreground/15 opacity-0 group-hover/file-tree:opacity-100 group-focus-within/file-tree:opacity-100"
-              />
-            ))}
-
-            {/* one leading slot: the chevron for a folder, the file-type icon for a file */}
-            {isFolder ? (
+            {isFolder && (
               <span
                 aria-hidden
                 data-slot="file-tree-chevron"
                 className={cn(
-                  "grid size-4 shrink-0 place-items-center text-foreground/80 [&_svg]:size-3.5",
-                  isOpen ? "rotate-90 rtl:-rotate-90" : "rtl:-scale-x-100"
+                  "-me-1 grid size-4 shrink-0 place-items-center text-muted-foreground [&_svg]:size-4",
+                  !isOpen && "-rotate-90 rtl:rotate-90"
                 )}
               >
-                {node.icon ?? <ChevronRightIcon />}
-              </span>
-            ) : (
-              <span
-                aria-hidden
-                data-slot="file-tree-icon"
-                className={cn("grid size-4 shrink-0 place-items-center [&_svg]:size-4", !node.icon && getFileKind(node.name).className)}
-              >
-                {node.icon ?? getFileKind(node.name).icon}
+                <ChevronDownIcon />
               </span>
             )}
+            <span
+              aria-hidden
+              data-slot="file-tree-icon"
+              className={cn(
+                "grid size-4 shrink-0 place-items-center [&_svg]:size-4",
+                !node.icon && (isFolder ? "text-chart-6" : getFileKind(node.name).className)
+              )}
+            >
+              {node.icon ?? (isFolder ? isOpen ? <FolderOpenIcon /> : <FolderIcon /> : getFileKind(node.name).icon)}
+            </span>
 
             <span data-slot="file-tree-label" className="min-w-0 flex-1 truncate">
               {node.name}

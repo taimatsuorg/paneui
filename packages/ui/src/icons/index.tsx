@@ -717,6 +717,13 @@ export const FolderIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const FolderOpenIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path {...line} d="M2.5 17V7.5A3.5 3.5 0 0 1 6 4h2.6a2 2 0 0 1 1.6.8l1 1.4a2 2 0 0 0 1.6.8H17a3 3 0 0 1 3 3v.5" />
+    <path {...line} d="M2.5 17l2.2-5.3A2.8 2.8 0 0 1 7.3 10H20a1.8 1.8 0 0 1 1.7 2.4l-1.8 5.6a3.6 3.6 0 0 1-3.4 2.5H6A3.5 3.5 0 0 1 2.5 17z" />
+  </Icon>
+);
+
 export const FolderFilledIcon = (p: IconProps) => (
   <Icon {...p}>
     <path {...fillShape} d="M2.5 7.5A3.5 3.5 0 0 1 6 4h2.6a2 2 0 0 1 1.6.8l1 1.4a2 2 0 0 0 1.6.8H18a3.5 3.5 0 0 1 3.5 3.5V17a3.5 3.5 0 0 1-3.5 3.5H6A3.5 3.5 0 0 1 2.5 17z" />
