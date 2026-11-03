@@ -31,6 +31,7 @@ import { Tabs, TabsList, TabsPanel, TabsTab } from "@paneui/ui/components/tabs"
 import { LocalizedText } from "@/components/docs/localized"
 import { REGISTRY_NAME } from "@/lib/site-constants"
 import type { ComponentDoc, DocNav, PartDoc } from "@/lib/doc-types"
+import { variantAnchor } from "@/lib/doc-merges"
 
 /** The subset of the registry item a page needs (the rest of DocItem is build-time detail). */
 export type DocItemData = {
@@ -48,6 +49,17 @@ export type DocFileData = { path: string; language: string; html: string }
 /** One docs example: its id, its localised title and description, and the highlighted sample. */
 export type DocExampleData = { id: string; title: Localized; description?: Localized; html: string }
 
+/** A variant documented on this page (lib/doc-merges.ts): its own item, install files, usage, demo and examples. */
+export type VariantData = {
+  item: DocItemData
+  label: Localized
+  doc?: ComponentDoc
+  files: DocFileData[]
+  usage: { imports?: string; code?: string }
+  examples: DocExampleData[]
+  demo: { html: string; filename: string; language: string }
+}
+
 /** Everything the page needs, computed at build time in src/pages/docs/[name].astro. */
 export type ComponentDocData = {
   item: DocItemData
@@ -61,6 +73,8 @@ export type ComponentDocData = {
   usage: { imports?: string; code?: string; composition?: string }
   /** Examples in `doc.examples` order, with their highlighted source. */
   examples: DocExampleData[]
+  /** Variants shown after the examples, each with its own install command. */
+  variants: VariantData[]
   /** The demo shown in the page's first preview tab. */
   demo: { html: string; filename: string; language: string }
   /** Site origin as the build sees it (SITE_URL), for the icon-style install commands. */
@@ -195,9 +209,128 @@ function ApiPart({ part }: { part: PartDoc }) {
   )
 }
 
+/** The install command, and the manual route: dependencies, registry items it builds on, then the files. */
+function Install({ item, files }: { item: DocItemData; files: DocFileData[] }) {
+  return (
+    <Tabs defaultValue="command">
+      <TabsList>
+        <TabsTab value="command"><T en="Command" zh="命令" /></TabsTab>
+        <TabsTab value="manual"><LocalizedText text="Manual" /></TabsTab>
+      </TabsList>
+      <TabsPanel value="command" className="pt-2">
+        <InstallCommand args={`add @${REGISTRY_NAME}/${item.name}`} />
+      </TabsPanel>
+      <TabsPanel value="manual" className="flex flex-col gap-5 pt-2">
+        {item.dependencies.length > 0 && (
+          <div className="flex flex-col gap-2.5">
+            <p className="font-medium"><T en="Install the dependencies:" zh="安装依赖：" /></p>
+            <PackageInstall packages={item.dependencies} />
+          </div>
+        )}
+        {item.registryDependencies.length > 0 && (
+          <p className="text-muted-foreground">
+            <T en="Add the registry items it builds on first: " zh="先添加它所依赖的组件库条目：" />
+            {item.registryDependencies.map((d, i) => (
+              <React.Fragment key={d}>
+                {i > 0 && <T en=", " zh="、" />}
+                <code className="rounded-md bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+                  {d}
+                </code>
+              </React.Fragment>
+            ))}
+            <T en="." zh="。" />
+          </p>
+        )}
+        <div className="flex flex-col gap-2.5">
+          <p className="font-medium"><T en="Copy the source into your project:" zh="将源码复制到你的项目：" /></p>
+          {files.map((f) => (
+            <StaticCode key={f.path} html={f.html} filename={f.path} language={f.language} maxHeight={420} />
+          ))}
+        </div>
+        <p className="text-muted-foreground"><T en="Update the import paths to match your project setup." zh="按项目配置调整导入路径。" /></p>
+      </TabsPanel>
+    </Tabs>
+  )
+}
+
+/** Notes a variant carries over to its host page ("Related" would only point back to the host). */
+const variantNotes = (doc?: ComponentDoc) => (doc?.notes ?? []).filter((n) => n.title !== "Related")
+const noteId = (title: string, prefix = "") => `note-${prefix}${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
+
+/** One variant's section: its demo, install command, usage, examples and notes, under its own heading. */
+function VariantSection({ variant }: { variant: VariantData }) {
+  const { item, doc } = variant
+  const anchor = variantAnchor(item.name)
+  return (
+    <section className="flex flex-col gap-6">
+      <div className="flex flex-col gap-3">
+        <H2 id={anchor}>
+          <LocalizedText text={variant.label} />
+        </H2>
+        <p className="text-pretty text-muted-foreground">
+          <Inline text={doc?.summary ?? item.summary} />
+        </p>
+      </div>
+      <PreviewTabs name={item.name} code={<StaticCode html={variant.demo.html} filename={variant.demo.filename} language={variant.demo.language} maxHeight={520} />} />
+      <div className="flex flex-col gap-4">
+        <DocHeading as="h3" id={`${anchor}-installation`}>
+          <LocalizedText text="Installation" />
+        </DocHeading>
+        <Install item={item} files={variant.files} />
+      </div>
+      {doc && (
+        <div className="flex flex-col gap-4">
+          <DocHeading as="h3" id={`${anchor}-usage`}>
+            <LocalizedText text="Usage" />
+          </DocHeading>
+          <StaticCode html={variant.usage.imports ?? ""} language="tsx" />
+          <StaticCode html={variant.usage.code ?? ""} language="tsx" />
+        </div>
+      )}
+      {variant.examples.map((ex) => (
+        <div key={ex.id} className="flex flex-col gap-3">
+          <DocHeading as="h3" id={`example-${item.name}-${ex.id}`}>
+            <LocalizedText text={ex.title} />
+          </DocHeading>
+          {ex.description && (
+            <div className="typeset typeset-docs text-muted-foreground">
+              <p>
+                <Inline text={ex.description} />
+              </p>
+            </div>
+          )}
+          <PreviewTabs
+            example={`${item.name}/${ex.id}`}
+            code={<StaticCode html={ex.html} filename={`${ex.id}.tsx`} language="tsx" maxHeight={420} />}
+          />
+        </div>
+      ))}
+      {variantNotes(doc).map((n) => (
+        <div key={n.title} className="flex flex-col gap-3">
+          <DocHeading as="h3" id={noteId(n.title, `${item.name}-`)}>
+            {n.title}
+          </DocHeading>
+          <div className="typeset typeset-docs text-muted-foreground">
+            <p>
+              <Inline text={n.body} />
+            </p>
+          </div>
+        </div>
+      ))}
+    </section>
+  )
+}
+
 export default function ComponentDocPage({ site, data }: { site: SiteProps; data: ComponentDocData }) {
   const { item, doc, isTemplate } = data
   const name = item.name
+
+  // API parts of the host first, then each variant's parts not already listed.
+  const apiParts: PartDoc[] = []
+  for (const part of [...(doc?.api ?? []), ...data.variants.flatMap((v) => v.doc?.api ?? [])]) {
+    if (!apiParts.some((p) => p.name === part.name)) apiParts.push(part)
+  }
+  const hasApi = apiParts.length > 0 || Boolean(doc?.baseUi)
 
   // Prev/next follow the sidebar: Getting started, the overview, categories in order (A–Z inside each), templates.
   const { prev, next } = data.nav
@@ -217,6 +350,7 @@ export default function ComponentDocPage({ site, data }: { site: SiteProps; data
           })),
         ]
       : []),
+    ...data.variants.map((v) => ({ id: variantAnchor(v.item.name), title: v.label })),
     ...(doc?.notes ?? []).map((n) => ({
       id: `note-${n.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
       title: n.title,
@@ -228,7 +362,7 @@ export default function ComponentDocPage({ site, data }: { site: SiteProps; data
           { id: "all-icons", title: "All icons" },
         ]
       : []),
-    ...(doc && (doc.api.length > 0 || doc.baseUi) ? [{ id: "api-reference", title: "API Reference" }] : []),
+    ...(hasApi ? [{ id: "api-reference", title: "API Reference" }] : []),
   ]
 
   return (
@@ -257,44 +391,7 @@ export default function ComponentDocPage({ site, data }: { site: SiteProps; data
 
       <section className="flex flex-col gap-4">
         <H2 id="installation">Installation</H2>
-        <Tabs defaultValue="command">
-          <TabsList>
-            <TabsTab value="command"><T en="Command" zh="命令" /></TabsTab>
-            <TabsTab value="manual"><LocalizedText text="Manual" /></TabsTab>
-          </TabsList>
-          <TabsPanel value="command" className="pt-2">
-            <InstallCommand args={`add @${REGISTRY_NAME}/${name}`} />
-          </TabsPanel>
-          <TabsPanel value="manual" className="flex flex-col gap-5 pt-2">
-            {item.dependencies.length > 0 && (
-              <div className="flex flex-col gap-2.5">
-                <p className="font-medium"><T en="Install the dependencies:" zh="安装依赖：" /></p>
-                <PackageInstall packages={item.dependencies} />
-              </div>
-            )}
-            {item.registryDependencies.length > 0 && (
-              <p className="text-muted-foreground">
-                <T en="Add the registry items it builds on first: " zh="先添加它所依赖的组件库条目：" />
-                {item.registryDependencies.map((d, i) => (
-                  <React.Fragment key={d}>
-                    {i > 0 && <T en=", " zh="、" />}
-                    <code className="rounded-md bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-                      {d}
-                    </code>
-                  </React.Fragment>
-                ))}
-                <T en="." zh="。" />
-              </p>
-            )}
-            <div className="flex flex-col gap-2.5">
-              <p className="font-medium"><T en="Copy the source into your project:" zh="将源码复制到你的项目：" /></p>
-              {data.files.map((f) => (
-                <StaticCode key={f.path} html={f.html} filename={f.path} language={f.language} maxHeight={420} />
-              ))}
-            </div>
-            <p className="text-muted-foreground"><T en="Update the import paths to match your project setup." zh="按项目配置调整导入路径。" /></p>
-          </TabsPanel>
-        </Tabs>
+        <Install item={item} files={data.files} />
       </section>
 
       {doc && (
@@ -336,6 +433,10 @@ export default function ComponentDocPage({ site, data }: { site: SiteProps; data
           ))}
         </section>
       )}
+
+      {data.variants.map((v) => (
+        <VariantSection key={v.item.name} variant={v} />
+      ))}
 
       {doc?.notes?.map((n) => (
         <section key={n.title} className="flex flex-col gap-3">
@@ -440,11 +541,11 @@ export default function ComponentDocPage({ site, data }: { site: SiteProps; data
         </section>
       )}
 
-      {doc && (doc.api.length > 0 || doc.baseUi) && (
+      {hasApi && (
         <section className="flex flex-col gap-8">
           <div className="flex flex-col gap-3">
             <H2 id="api-reference">API Reference</H2>
-            {doc.baseUi && (
+            {doc?.baseUi && (
               <p className="text-muted-foreground">
                 <T en="Built on " zh="基于 " />
                 <a
@@ -460,7 +561,7 @@ export default function ComponentDocPage({ site, data }: { site: SiteProps; data
               </p>
             )}
           </div>
-          {doc.api.map((part) => (
+          {apiParts.map((part) => (
             <ApiPart key={part.name} part={part} />
           ))}
         </section>

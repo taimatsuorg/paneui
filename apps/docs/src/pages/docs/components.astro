@@ -5,7 +5,7 @@ import ComponentsGalleryPage, {
   type GalleryGroup,
 } from "@/components/pages/components-gallery-page"
 import { siteNavGroups } from "@/lib/build"
-import { getGroups, getItems } from "@/lib/docs"
+import { getGroups, getItems, getPageItems } from "@/lib/docs"
 
 /** Documented and installable, but not shown as gallery cards. */
 const notInGallery = new Set(["theme-paper"])
@@ -17,7 +17,7 @@ const groups: GalleryGroup[] = getGroups()
   }))
   .filter((g) => g.items.length > 0)
 
-const data: ComponentsGalleryData = { groups, total: getItems().length }
+const data: ComponentsGalleryData = { groups, total: getPageItems().length }
 const site = { pathname: Astro.url.pathname, groups: siteNavGroups() }
 ---
 
