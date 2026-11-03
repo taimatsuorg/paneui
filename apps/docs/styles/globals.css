@@ -10,7 +10,14 @@
  */
 @utility tile {
   position: relative;
-  border-radius: 1.75rem;
+  /*
+   * The largest radius token, so presets and the radius slider rescale it. It is also a frame:
+   * add frame-p-* (or frame-inset-*) and children take rounded-inner to stay concentric.
+   */
+  --frame-r: var(--radius-3xl);
+  border-radius: var(--radius-3xl);
+  --frame-inner-1: max(calc(var(--frame-r) - var(--frame-p) - var(--frame-b)), 0px);
+  --frame-inner-2: initial;
   background-color: var(--card);
 }
 

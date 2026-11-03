@@ -4,7 +4,7 @@ import { T } from "@/lib/site-locale"
 
 import Link from "next/link"
 
-import { ArrowRightIcon } from "@paneui/ui/icons"
+import { ArrowUpRightIcon } from "@paneui/ui/icons"
 import { categorySlug } from "@/components/docs/category-icons"
 import { LazyDemo } from "@/components/docs/lazy-demo"
 import { SiteRoot, type SiteProps } from "@/components/site/site-root"
@@ -39,21 +39,6 @@ export type ComponentsGalleryData = {
   total: number
 }
 
-/** Wide items take the whole row; a lone half-width item at the end does too, so no empty bay shows the hairline colour. */
-function spans<I extends { name: string }>(items: I[]) {
-  const out = items.map((item) => ({ item, span: wide.has(item.name) }))
-  let open: { item: I; span: boolean } | null = null
-  for (const cell of out) {
-    if (cell.span) {
-      if (open) open.span = true
-      open = null
-    } else if (open) open = null
-    else open = cell
-  }
-  if (open) open.span = true
-  return out
-}
-
 export default function ComponentsGalleryPage({ site, data }: { site: SiteProps; data: ComponentsGalleryData }) {
   // Templates have their own section in the header and sidebar.
   const groups = data.groups.filter((g) => g.category !== "Templates")
@@ -75,26 +60,30 @@ export default function ComponentsGalleryPage({ site, data }: { site: SiteProps;
               <T en={g.category} zh={CATEGORY_ZH[g.category] ?? g.category} />
               <span className="text-base font-normal tabular-nums text-muted-foreground">{g.items.length}</span>
             </h2>
-            {/* One grey tile per item: its name over the live preview (copy-density rule 1), the name its one link. */}
-            <div>
-              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-                {spans(g.items).map(({ item, span }, index) => (
-                  <article key={item.name} className={`tile group/gallery flex min-w-0 flex-col overflow-hidden ${span ? "xl:col-span-2" : ""}`}>
+            {/*
+              A dense grid of equal cards (copy-density rule 1: name and preview only). Each card is a grey
+              tile framing the live preview, scaled to fit, over a footer with the name and an open button.
+              Wide demos take two columns; dense flow fills the bays they leave.
+            */}
+            <div className="grid grid-flow-row-dense grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {g.items.map((item, index) => {
+                const span = wide.has(item.name)
+                return (
+                  <article key={item.name} className={`tile frame-p-1.5 group/gallery flex min-w-0 flex-col ${span ? "sm:col-span-2" : ""}`}>
+                    {/* Demos mount near the viewport and unmount when far away; see LazyDemo. */}
+                    <LazyDemo name={item.name} fit={span ? 880 : 440} eager={gi === 0 && index < 6} className="h-60 rounded-inner bg-background" />
                     <Link
                       href={`/docs/${item.name}`}
-                      className="flex items-center gap-2 px-5 pt-4 outline-none focus-visible:underline"
+                      className="flex min-w-0 items-center gap-2 rounded-b-inner py-1.5 ps-2.5 pe-1 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
-                      <span className="tile-label transition-colors duration-150 group-hover/gallery:text-foreground">{item.title}</span>
-                      <ArrowRightIcon
-                        size={14}
-                        className="ms-auto shrink-0 text-muted-foreground transition-transform duration-150 group-hover/gallery:translate-x-0.5 group-hover/gallery:text-foreground rtl:-scale-x-100 rtl:group-hover/gallery:-translate-x-0.5"
-                      />
+                      <span className="min-w-0 flex-1 truncate text-ui-sm font-medium text-muted-foreground transition-colors duration-150 group-hover/gallery:text-foreground">{item.title}</span>
+                      <span aria-hidden className="flex size-7 shrink-0 items-center justify-center rounded-control bg-background text-muted-foreground shadow-raised transition-colors duration-150 group-hover/gallery:text-foreground">
+                        <ArrowUpRightIcon size={14} className="rtl:-scale-x-100" />
+                      </span>
                     </Link>
-                    {/* Demos mount near the viewport and unmount when far away; see LazyDemo. */}
-                    <LazyDemo name={item.name} eager={gi === 0 && index < 4} className="flex-1 border-b-0 bg-transparent" />
                   </article>
-                ))}
-              </div>
+                )
+              })}
             </div>
           </section>
         )

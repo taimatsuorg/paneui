@@ -18,21 +18,21 @@ import { useFrameThemeSync } from "./theme-sync"
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? ""
 
 /** "fit" renders inline at the card's width; the others load the /preview frame at a device width. */
-type Viewport = "fit" | "desktop" | "tablet" | "mobile"
-const VIEWPORTS: { value: Viewport; label: string; icon: React.ComponentType; width?: number }[] = [
+export type Viewport = "fit" | "desktop" | "tablet" | "mobile"
+export const VIEWPORTS: { value: Viewport; label: string; icon: React.ComponentType; width?: number }[] = [
   { value: "fit", label: "Fit", icon: MaximizeIcon },
   { value: "desktop", label: "Desktop", icon: MonitorIcon, width: 1024 },
   { value: "tablet", label: "Tablet", icon: TabletIcon, width: 768 },
   { value: "mobile", label: "Mobile", icon: SmartphoneIcon, width: 390 },
 ]
 
-const isViewport = (v: unknown): v is Viewport => VIEWPORTS.some((x) => x.value === v)
+export const isViewport = (v: unknown): v is Viewport => VIEWPORTS.some((x) => x.value === v)
 
 /**
  * A device-width preview: the /preview frame in an iframe at `width`, scaled down to fit the
  * card when it is wider, grown to its content's height, and kept in the docs' theme.
  */
-function DeviceFrame({ src, width, title }: { src: string; width: number; title: string }) {
+export function DeviceFrame({ src, width, title }: { src: string; width: number; title: string }) {
   const boxRef = React.useRef<HTMLDivElement>(null)
   const frameRef = React.useRef<HTMLIFrameElement>(null)
   const [box, setBox] = React.useState(0)

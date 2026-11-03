@@ -52,7 +52,7 @@ export function ExampleCard({
         </div>
         <div className="flex items-center gap-2">
           <InstallChip item={item} registry={registry} />
-          <Button size="sm" variant="secondary" className="bg-background shadow-raised" aria-expanded={open} aria-controls={codeId} onClick={() => setOpen((v) => !v)}>
+          <Button size="sm" variant="outline" aria-expanded={open} aria-controls={codeId} onClick={() => setOpen((v) => !v)}>
             {t(siteCopy(open ? "Hide code" : "View code"))}
           </Button>
         </div>

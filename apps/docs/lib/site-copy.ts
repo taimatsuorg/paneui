@@ -247,6 +247,9 @@ export const SITE_COPY: Record<string, string> = {
   Manual: "手动安装", "Open template": "打开模板", "Icon styles": "图标风格", "Make your own icons": "绘制图标", "All icons": "全部图标",
   Light: "浅色", Dark: "深色", System: "跟随系统", Theme: "主题", Accent: "主题色", Custom: "自定义", Default: "默认",
   Style: "风格", Paper: "纸张", Styles: "界面风格",
+  Install: "安装", Example: "示例", Share: "分享", "Copy install": "复制安装命令", "Back to components": "返回组件列表",
+  "Install command copied": "安装命令已复制", "Couldn't copy the command": "无法复制命令", "Open": "打开", API: "API",
+  "Copy code": "复制代码", "Code copied": "代码已复制",
   Neutral: "中性", Blue: "蓝色", Green: "绿色", Orange: "橙色", Rose: "玫瑰色", Violet: "紫色",
 }
 

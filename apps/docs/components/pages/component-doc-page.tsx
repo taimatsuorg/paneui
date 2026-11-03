@@ -11,9 +11,10 @@ import { IconGrid } from "@/components/docs/icon-grid"
 import { AgentSkill } from "@/components/docs/agent-skill"
 import { Inline } from "@/components/docs/doc-inline"
 import { DocHeading } from "@/components/docs/doc-heading"
-import { DocFooter, DocHeader, DocLayout } from "@/components/docs/doc-layout"
+import { DocFooter, DocHeader, DocLayout, markdownPath } from "@/components/docs/doc-layout"
+import { codeText, ComponentStudio, type StudioCodeRow } from "@/components/docs/component-studio"
 import type { TocEntry } from "@/components/docs/doc-toc"
-import { InstallCommand, PackageInstall } from "@/components/docs/install-command"
+import { addCommand, InstallCommand, PackageInstall, usePackageManager } from "@/components/docs/install-command"
 import { PreviewTabs } from "@/components/docs/preview-tabs"
 import { ExampleCard } from "@/components/docs/example-card"
 import { StaticCode } from "@/components/site/static-code"
@@ -31,6 +32,7 @@ import {
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@paneui/ui/components/tabs"
 import { LocalizedText } from "@/components/docs/localized"
 import { REGISTRY_NAME } from "@/lib/site-constants"
+import { siteCopy } from "@/lib/site-copy"
 import type { ComponentDoc, DocNav, PartDoc } from "@/lib/doc-types"
 import { variantAnchor } from "@/lib/doc-merges"
 
@@ -360,9 +362,74 @@ export default function ComponentDocPage({ site, data }: { site: SiteProps; data
     ...(hasApi ? [{ id: "api-reference", title: "API Reference" }] : []),
   ]
 
+  const pm = usePackageManager()
+  // The Code view of the first screen: install, usage, then (after the selected example's source) the API parts.
+  const codeRows: StudioCodeRow[] = [
+    {
+      id: "install",
+      title: siteCopy("Install"),
+      defaultOpen: true,
+      body: <InstallCommand args={`add @${REGISTRY_NAME}/${name}`} />,
+      copy: () => addCommand(pm, REGISTRY_NAME, name),
+    },
+    ...(doc
+      ? [
+          {
+            id: "usage",
+            title: siteCopy("Usage"),
+            body: (
+              <>
+                <StaticCode html={data.usage.imports ?? ""} language="tsx" />
+                <StaticCode html={data.usage.code ?? ""} language="tsx" />
+              </>
+            ),
+            copy: () => `${codeText(data.usage.imports ?? "")}\n\n${codeText(data.usage.code ?? "")}`.trim(),
+          },
+        ]
+      : []),
+    ...(apiParts.length > 0
+      ? [
+          {
+            id: "api",
+            title: siteCopy("API"),
+            body: (
+              <ul className="flex flex-col gap-1 px-1.5 pb-1">
+                {apiParts.map((part) => (
+                  <li key={part.name} className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-0.5 text-ui-sm">
+                    <a href={`#api-${part.name.toLowerCase()}`} className="font-mono font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+                      {part.name}
+                    </a>
+                    {part.props.length > 0 && (
+                      <span className="min-w-0 font-mono text-ui-xs break-words text-muted-foreground">{part.props.map((p) => p.name).join(", ")}</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ),
+          },
+        ]
+      : []),
+  ]
+
   return (
     <SiteRoot {...site}>
+    <div className="flex flex-col gap-12">
+    {!isTemplate && (
+      <ComponentStudio
+        name={name}
+        title={item.title}
+        summary={<Inline text={doc?.summary ?? item.summary} />}
+        registry={REGISTRY_NAME}
+        backHref={`/docs/components/#${categorySlug(item.category)}`}
+        markdownPath={markdownPath(`/docs/${name}`)}
+        pagePath={`/docs/${name}/`}
+        demo={{ html: data.demo.html, filename: data.demo.filename }}
+        items={data.examples.map((ex) => ({ id: ex.id, title: ex.title, html: ex.html }))}
+        codeRows={codeRows}
+      />
+    )}
     <DocLayout toc={toc} wide={isTemplate}>
+      {isTemplate && (
       <DocHeader
         href={`/docs/${name}`}
         eyebrow={item.category}
@@ -379,10 +446,13 @@ export default function ComponentDocPage({ site, data }: { site: SiteProps; data
           </div>
         )}
       </DocHeader>
+      )}
 
-      <div id="preview" className="scroll-mt-24 xl:scroll-mt-20">
-        <PreviewTabs name={name} code={<StaticCode html={data.demo.html} filename={data.demo.filename} language={data.demo.language} maxHeight={520} />} />
-      </div>
+      {isTemplate && (
+        <div id="preview" className="scroll-mt-24 xl:scroll-mt-20">
+          <PreviewTabs name={name} code={<StaticCode html={data.demo.html} filename={data.demo.filename} language={data.demo.language} maxHeight={520} />} />
+        </div>
+      )}
 
       <section className="flex flex-col gap-4">
         <H2 id="installation">Installation</H2>
@@ -570,6 +640,7 @@ export default function ComponentDocPage({ site, data }: { site: SiteProps; data
 
       <DocFooter prev={prev} next={next} updated={data.nav.updated} />
     </DocLayout>
+    </div>
     </SiteRoot>
   )
 }

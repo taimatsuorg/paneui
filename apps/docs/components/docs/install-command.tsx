@@ -5,11 +5,12 @@ import { siteCopy } from "@/lib/site-copy"
 
 import * as React from "react"
 
-import { CheckIcon, CopyIcon } from "@paneui/ui/icons"
+import { CheckIcon, ChevronDownIcon, CopyIcon } from "@paneui/ui/icons"
 import { cn } from "@paneui/ui/lib/utils"
 import { ActionSwapBlurButton, type ActionSwapItem } from "@paneui/ui/components/action-swap-blur"
 import { CommandGroup } from "@paneui/ui/components/command-copy"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paneui/ui/components/select"
+import { Button } from "@paneui/ui/components/button"
+import { Menu, MenuContent, MenuRadioGroup, MenuRadioItem, MenuTrigger } from "@paneui/ui/components/menu"
 import cliPackage from "@paneui/cli-metadata/package.json"
 
 const MANAGERS = {
@@ -47,7 +48,7 @@ function setManager(pm: Manager) {
   } catch {}
   listeners.forEach((fn) => fn())
 }
-function usePackageManager() {
+export function usePackageManager() {
   React.useEffect(() => {
     try {
       const stored = localStorage.getItem(PM_KEY)
@@ -149,6 +150,11 @@ export function PackageInstall({ packages, className }: { packages: string[]; cl
   return <CommandGroup items={items} value={pm} onValueChange={(v) => isManager(v) && setManager(v)} storageKey={PM_KEY} className={className} />
 }
 
+/** The shadcn add command for one registry item with the given package manager. */
+export function addCommand(pm: Manager, registry: string, item: string) {
+  return `${MANAGERS[pm]} add @${registry}/${item}`
+}
+
 const MANAGER_LABELS = { pnpm: "pnpm", npm: "npm", yarn: "yarn", bun: "bun" } as const satisfies Record<Manager, string>
 
 /**
@@ -158,21 +164,24 @@ const MANAGER_LABELS = { pnpm: "pnpm", npm: "npm", yarn: "yarn", bun: "bun" } as
 export function InstallChip({ item, registry, className }: { item: string; registry: string; className?: string }) {
   const t = useT()
   const pm = usePackageManager()
-  const command = `${MANAGERS[pm]} add @${registry}/${item}`
+  const command = addCommand(pm, registry, item)
   const items = React.useMemo(() => COPY_ITEMS.map((i) => ({ ...i, label: t(siteCopy(i.label)), ariaLabel: t(siteCopy(i.ariaLabel ?? "Copy command")) })), [t])
   const [state, setState] = React.useState("copy")
   return (
     <div data-slot="install-chip" className={cn("flex h-7 min-w-0 items-center rounded-control bg-background text-ui-sm shadow-raised", className)}>
-      <Select value={pm} onValueChange={(v) => isManager(v) && setManager(v)}>
-        <SelectTrigger size="sm" aria-label={t(siteCopy("Package manager"))} className="h-7 w-auto min-w-0 gap-1 rounded-s-control rounded-e-none border-0 bg-transparent font-mono shadow-none">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent className="min-w-28">
-          {(Object.keys(MANAGER_LABELS) as Manager[]).map((m) => (
-            <SelectItem key={m} value={m}>{MANAGER_LABELS[m]}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <Menu>
+        <MenuTrigger render={<Button variant="ghost" size="xs" className="text-muted-foreground" aria-label={t(siteCopy("Package manager"))} />}>
+          <span className="font-mono">{MANAGER_LABELS[pm]}</span>
+          <ChevronDownIcon data-icon="inline-end" />
+        </MenuTrigger>
+        <MenuContent className="min-w-28">
+          <MenuRadioGroup value={pm} onValueChange={(v) => isManager(v) && setManager(v)}>
+            {(Object.keys(MANAGER_LABELS) as Manager[]).map((m) => (
+              <MenuRadioItem key={m} value={m}>{MANAGER_LABELS[m]}</MenuRadioItem>
+            ))}
+          </MenuRadioGroup>
+        </MenuContent>
+      </Menu>
       <span aria-hidden className="h-4 w-px bg-border" />
       <code className="min-w-0 truncate ps-2.5 font-mono text-ui-xs text-muted-foreground">@{registry}/{item}</code>
       <ActionSwapBlurButton
