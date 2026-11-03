@@ -71,6 +71,7 @@ const variants: VariantData[] = await Promise.all(
       usage: {
         imports: vDoc ? await highlight(vDoc.usage.imports, "tsx") : undefined,
         code: vDoc ? await highlight(vDoc.usage.code, "tsx") : undefined,
+        composition: vDoc?.composition ? await highlight(vDoc.composition, "text") : undefined,
       },
       examples: await Promise.all(
         (vDoc?.examples ?? []).map(async (ex) => ({

@@ -249,7 +249,7 @@ export const SITE_COPY: Record<string, string> = {
   Style: "风格", Paper: "纸张", Styles: "界面风格",
   Install: "安装", Example: "示例", Share: "分享", "Copy install": "复制安装命令", "Back to components": "返回组件列表",
   "Install command copied": "安装命令已复制", "Couldn't copy the command": "无法复制命令", "Open": "打开", API: "API",
-  "Copy code": "复制代码", "Code copied": "代码已复制",
+  "Copy code": "复制代码", "Code copied": "代码已复制", Notes: "说明", View: "视图", Pagination: "翻页", "All components": "全部组件", Categories: "分类",
   Neutral: "中性", Blue: "蓝色", Green: "绿色", Orange: "橙色", Rose: "玫瑰色", Violet: "紫色",
 }
 
