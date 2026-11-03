@@ -88,3 +88,20 @@ Left custom on purpose: `DocHeading` anchors (copy-link behaviour specific to th
 pill tied to the docs' install store), `PreviewTabs` / `TemplatePreview` / `DeviceFrame` (preview iframes and theme sync),
 the theming widgets' swatches inside `theming-accent.tsx` / `theming-radius.tsx` (they are the demo itself), and the
 sidebar's "What's new" row (a status dot plus count; one row, no list).
+
+## Component pages and the gallery (2026-11-03)
+
+- **Component pages are two panels and nothing else.** The stage shows the selected example (Preview) or the
+  docs as white rows (Code: Install with Command / Manual, Usage, the selected example's source, Composition,
+  API with the full prop tables, Notes). The side panel holds the title, the summary, the example list, the
+  selected example's "when to use" line, Viewport, Share and Copy install. Merged variants are groups in the
+  example list; picking one switches the install command and every Code row to that variant's item.
+- From `lg` both panels fill the viewport (`--studio-h`); the side panel is sticky and only its example list scrolls.
+- No outline: nothing long-form is left to outline. The sidebar stays for navigation; a one-line prev / next sits
+  under the panels for phones, where the sidebar is a drawer.
+- Old anchors still land: `#variant-<name>` selects the variant, `#example-<id>` the example, `#installation`,
+  `#usage`, `#composition`, `#api-*` and `#note-*` open the Code view on that row.
+- The icons page uses the icon grid as its stage; icon styles and making icons are Code rows.
+- The Markdown twins (`pnpm docs:md`) are written from the docs data, not the page HTML, so they keep the full text.
+- Template pages keep the long-form layout.
+- The gallery has no sidebar: a full-width grid (up to five columns) under a sticky row of category chips.

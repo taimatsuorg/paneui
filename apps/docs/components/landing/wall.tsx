@@ -23,6 +23,7 @@ import { useT, type Localized } from "@/lib/site-locale"
 
 import { cn } from "@paneui/ui/lib/utils"
 
+import { BasicsPlate } from "./basics"
 import { AccentControls } from "./features"
 import { FRAME } from "./landing-chrome"
 import { Checklist, Composer, Messages, Usage } from "./pieces"
@@ -327,8 +328,8 @@ export function WallGrid({ columns: count = 4, className }: { columns?: 3 | 4; c
 
 /**
  * The component wall, the page's stage: the heading on the left and the accent and radius controls
- * at the far end of the same row, then the live components on a full-width band one tone off the
- * page. Changing either control repaints every card at once.
+ * at the far end of the same row, then the everyday components on one tile. Changing either
+ * control repaints every bay at once. WallGrid (the blocks) stays for the Customize preview.
  */
 export function Wall({ footer }: { footer?: React.ReactNode }) {
   const t = useT()
@@ -341,18 +342,16 @@ export function Wall({ footer }: { footer?: React.ReactNode }) {
           </h2>
           <p className="max-w-xl text-base text-pretty text-muted-foreground sm:text-lg">
             {t({
-              en: "Press anything. Then change the accent or the corners: every card reads the same tokens.",
-              zh: "随便点点看。再换个主题色或圆角：所有卡片读取同一套变量。",
+              en: "Press anything. Then change the accent or the corners: every part reads the same tokens.",
+              zh: "随便点点看。再换个主题色或圆角：所有组件读取同一套变量。",
             })}
           </p>
         </div>
         <AccentControls className="lg:col-span-5 lg:justify-end" />
       </div>
-      <div className="bg-shell py-6 sm:py-8">
-        <div className={`${FRAME} flex flex-col gap-8`}>
-          <WallGrid className="max-w-none" />
-          {footer}
-        </div>
+      <div className={`${FRAME} flex flex-col gap-8`}>
+        <BasicsPlate />
+        {footer}
       </div>
     </section>
   )

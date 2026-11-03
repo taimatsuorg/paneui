@@ -117,6 +117,8 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
   ]
   // The theme builder brings its own control column, so it gets the header without the sidebar.
   const bare = section === "themes"
+  // The gallery is a full-width grid with its own category row, so it drops the sidebar too.
+  const gallery = pathname === COMPONENTS_HREF
   const openSearch = React.useCallback(() => {
     setDrawerOpen(false)
     setSearchOpen(true)
@@ -178,7 +180,7 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
         </header>
 
         <div className="flex">
-          {!bare && (
+          {!bare && !gallery && (
           <aside
             // Fills the viewport under the header and sticks while the page scrolls.
             style={{ "--docs-aside-h": "calc(100svh - 3rem)" } as React.CSSProperties}
@@ -193,7 +195,7 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
               children
             ) : (
               <div className="px-5 py-8 sm:px-8 lg:px-10 lg:py-10">
-                <div className="mx-auto w-full max-w-6xl">{children}</div>
+                <div className={gallery ? "mx-auto w-full max-w-(--breakpoint-2xl)" : "mx-auto w-full max-w-6xl"}>{children}</div>
               </div>
             )}
           </main>

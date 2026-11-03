@@ -4,6 +4,7 @@
 @import "./typeset.css";
 @import "./theme-accents.css";
 @import "./theme-paper.css";
+@import "./theme-studio.css";
 
 /* The desktop example has its own install; never scan it for classes. */
 @source not "../apps";
