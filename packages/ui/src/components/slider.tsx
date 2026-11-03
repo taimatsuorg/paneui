@@ -16,12 +16,12 @@ const sliderSizes: Record<SliderSize, { control: [string, string]; track: [strin
   lg: { control: ["h-6 w-full", "h-full w-6 flex-col justify-center"], track: ["h-2.5 w-full", "h-full w-2.5"], thumb: "size-6", inset: "0.75rem" },
 }
 
-// `contained`: the track is as tall as the thumb plus a 2px rim, the thumb rides inside it and
-// the fill runs to the thumb's far edge.
+// `contained`: the track is as tall as the thumb and a 2px rim is drawn around it; the fill
+// runs to the thumb's centre (the track's end at max).
 const containedSizes: Record<SliderSize, { control: [string, string]; track: [string, string]; thumb: string; inset: string }> = {
-  sm: { control: ["h-6 w-full", "h-full w-6 flex-col justify-center"], track: ["h-6 w-full", "h-full w-6"], thumb: "size-5", inset: "0.625rem" },
-  default: { control: ["h-7 w-full", "h-full w-7 flex-col justify-center"], track: ["h-7 w-full", "h-full w-7"], thumb: "size-6", inset: "0.75rem" },
-  lg: { control: ["h-9 w-full", "h-full w-9 flex-col justify-center"], track: ["h-9 w-full", "h-full w-9"], thumb: "size-8", inset: "1rem" },
+  sm: { control: ["h-6 w-full", "h-full w-6 flex-col justify-center"], track: ["h-5 w-full", "h-full w-5"], thumb: "size-5", inset: "0.625rem" },
+  default: { control: ["h-7 w-full", "h-full w-7 flex-col justify-center"], track: ["h-6 w-full", "h-full w-6"], thumb: "size-6", inset: "0.75rem" },
+  lg: { control: ["h-9 w-full", "h-full w-9 flex-col justify-center"], track: ["h-8 w-full", "h-full w-8"], thumb: "size-8", inset: "1rem" },
 }
 
 type SliderProps<Value extends number | readonly number[] = number | readonly number[]> =
@@ -79,6 +79,13 @@ function Slider<Value extends number | readonly number[]>({
   const low = values.length > 1 ? Math.min(...values) : min
   const high = Math.max(...values)
 
+  // contained fill: thumb centre to thumb centre, so each end hides under a thumb whatever the
+  // radius; an end at min or max runs to the track's edge instead, leaving no gap there.
+  const centre = (v: number) => `calc(${thumbInset} + (100% - 2 * ${thumbInset}) * ${(v - min) / span})`
+  const fillFrom = values.length > 1 && low > min ? centre(low) : "0%"
+  // a lone thumb at min shows no fill: half a fill under a round thumb leaves a sliver at its edge
+  const fillTo = high >= max ? "100%" : high <= min ? fillFrom : centre(high)
+
   const tickValues = React.useMemo(() => {
     if (!ticks) return []
     const count = typeof ticks === "number" ? ticks : Math.floor(span / step) + 1
@@ -119,20 +126,28 @@ function Slider<Value extends number | readonly number[]>({
         <SliderPrimitive.Track
           data-slot="slider-track"
           className={cn(
-            "relative rounded-control-sm bg-muted shadow-well",
-            // the rim: positions below are inside it, so the thumb and fill sit 2px in
-            contained && "border-2 border-transparent",
+            "relative rounded-control-sm",
+            // contained: the track is the inner box the thumb travels; the 2px rim is drawn
+            // outside it, so the thumb, the fill and the ticks share one coordinate space
+            contained ? (vertical ? "my-0.5 isolate" : "mx-0.5 isolate") : "bg-muted shadow-well",
             vertical ? dims.track[1] : dims.track[0]
           )}
         >
+          {contained && (
+            <span
+              aria-hidden
+              data-slot="slider-rim"
+              className="pointer-events-none absolute -inset-0.5 -z-10 rounded-[calc(var(--radius-control-sm)+2px)] bg-muted shadow-well"
+            />
+          )}
           {contained ? (
             <span
               aria-hidden
               data-slot="slider-indicator"
               style={
                 vertical
-                  ? { bottom: `calc((100% - 2 * ${thumbInset}) * ${(low - min) / span})`, height: `calc(2 * ${thumbInset} + (100% - 2 * ${thumbInset}) * ${(high - low) / span})` }
-                  : { insetInlineStart: `calc((100% - 2 * ${thumbInset}) * ${(low - min) / span})`, width: `calc(2 * ${thumbInset} + (100% - 2 * ${thumbInset}) * ${(high - low) / span})` }
+                  ? { bottom: fillFrom, height: `calc(${fillTo} - ${fillFrom})` }
+                  : { insetInlineStart: fillFrom, width: `calc(${fillTo} - ${fillFrom})` }
               }
               className={cn("pointer-events-none absolute rounded-control-sm bg-primary", vertical ? "inset-x-0" : "inset-y-0")}
             />
