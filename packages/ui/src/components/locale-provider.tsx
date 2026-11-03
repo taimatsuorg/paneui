@@ -560,6 +560,11 @@ type LocaleLabels = {
   effortMediumDescription: string
   effortHigh: string
   effortHighDescription: string
+  effortExtraHigh: string
+  /* Comparison table */
+  feature: string
+  included: string
+  notIncluded: string
   /* Page navigation */
   onThisPage: string
   backToTop: string
@@ -1242,6 +1247,10 @@ const en: LocaleLabels = {
   effortMediumDescription: "Balanced",
   effortHigh: "High",
   effortHighDescription: "Thinks longer on hard problems",
+  effortExtraHigh: "Extra high",
+  feature: "Feature",
+  included: "Included",
+  notIncluded: "Not included",
   onThisPage: "On this page",
   backToTop: "Back to top",
   toggleSection: "Toggle section",
@@ -1913,6 +1922,10 @@ const zhCN: LocaleLabels = {
   effortMediumDescription: "兼顾速度和深度",
   effortHigh: "高",
   effortHighDescription: "难题上想得更久",
+  effortExtraHigh: "极高",
+  feature: "功能",
+  included: "包含",
+  notIncluded: "不包含",
   onThisPage: "本页目录",
   backToTop: "回到顶部",
   toggleSection: "展开或收起分组",

@@ -173,6 +173,8 @@ import CoverArtDemo from "@/registry/examples/cover-art-demo"
 import OgImageDemo from "@/registry/examples/og-image-demo"
 import SidebarNavDemo from "@/registry/examples/sidebar-nav-demo"
 import SimpleTableDemo from "@/registry/examples/simple-table-demo"
+import ComparisonTableDemo from "@/registry/examples/comparison-table-demo"
+import ReasoningEffortDemo from "@/registry/examples/reasoning-effort-demo"
 import SeparatorDemo from "@/registry/examples/separator-demo"
 import KbdDemo from "@/registry/examples/kbd-demo"
 import InputOTPDemo from "@/registry/examples/input-otp-demo"
@@ -371,6 +373,8 @@ export const demos: Record<string, React.ComponentType> = {
   "og-image": OgImageDemo,
   "sidebar-nav": SidebarNavDemo,
   "simple-table": SimpleTableDemo,
+  "comparison-table": ComparisonTableDemo,
+  "reasoning-effort": ReasoningEffortDemo,
   "kbd": KbdDemo,
   "input-otp": InputOTPDemo,
   "input-group": InputGroupDemo,

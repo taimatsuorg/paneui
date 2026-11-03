@@ -1758,6 +1758,27 @@
       }
     },
     {
+      "name": "comparison-table",
+      "type": "registry:ui",
+      "title": "Comparison Table",
+      "description": "Compares features across plans with included and excluded marks.",
+      "dependencies": [],
+      "registryDependencies": [
+        "https://paneui.dev/r/theme.json",
+        "https://paneui.dev/r/icons.json",
+        "https://paneui.dev/r/locale-provider.json"
+      ],
+      "files": [
+        {
+          "path": "registry/web/ui/comparison-table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Data"
+      }
+    },
+    {
       "name": "saas",
       "type": "registry:block",
       "title": "SaaS",
@@ -6154,6 +6175,28 @@
       }
     },
     {
+      "name": "reasoning-effort",
+      "type": "registry:ui",
+      "title": "Reasoning Effort",
+      "description": "Sets how much a model reasons before it answers.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://paneui.dev/r/theme.json",
+        "https://paneui.dev/r/locale-provider.json"
+      ],
+      "files": [
+        {
+          "path": "registry/web/ui/reasoning-effort.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Agents"
+      }
+    },
+    {
       "name": "model-picker",
       "type": "registry:ui",
       "title": "Model Picker",
@@ -6166,7 +6209,7 @@
         "https://paneui.dev/r/locale-provider.json",
         "https://paneui.dev/r/combobox.json",
         "https://paneui.dev/r/kbd.json",
-        "https://paneui.dev/r/slider.json"
+        "https://paneui.dev/r/reasoning-effort.json"
       ],
       "files": [
         {
@@ -6178,7 +6221,8 @@
         "category": "Agents"
       },
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react",
+        "motion"
       ]
     },
     {
