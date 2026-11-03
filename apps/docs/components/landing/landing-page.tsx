@@ -9,7 +9,7 @@ import { useSiteLocale, useT } from "@/lib/site-locale"
 
 import { Hero } from "./hero"
 import { LandingFooter, LandingHeader } from "./landing-chrome"
-import { Accents, Faq, Figures } from "./sections"
+import { Faq } from "./sections"
 import { Wall } from "./wall"
 
 
@@ -19,11 +19,10 @@ function Band({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * The homepage on one frame: the hero (headline left, command and actions right), the wall of
- * live components on a full-width tone band as its picture, a board of capabilities, the accents
- * as a list beside a plate, and questions beside their heading. It follows the site theme.
+ * The homepage on one frame: the hero (headline, command and actions over a row of live parts), the wall of
+ * everyday components with the accent and radius controls, and questions beside their heading. It follows the site theme.
  */
-export function LandingPage({ codeHtml }: { count: number; codeHtml: string }) {
+export function LandingPage() {
   const locale = useSiteLocale()
   const t = useT()
   return (
@@ -48,12 +47,6 @@ export function LandingPage({ codeHtml }: { count: number; codeHtml: string }) {
               </div>
             }
           />
-          <Band>
-            <Figures codeHtml={codeHtml} />
-          </Band>
-          <Band>
-            <Accents />
-          </Band>
           <Band>
             <Faq />
           </Band>

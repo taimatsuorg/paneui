@@ -101,6 +101,7 @@ morphing-tabs, or anything under `app/`. They are being edited now, so re-run af
   date-range-picker presets/clear, popover close.
 - `citation-favicon` img: a square favicon inside a round badge.
 - `project-folder`: drawn illustration (flaps, paper sheets), not nested surfaces.
+- Gallery card open button (`/docs/components`, should): the chip keeps the control radius inside a footer link that paints no fill. Surfaced on 2026-11-03 when the Studio style stopped forcing pill controls.
 
 ## Follow-ups (outside this assignment's files)
 

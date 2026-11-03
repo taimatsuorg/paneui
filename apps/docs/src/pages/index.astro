@@ -1,35 +1,8 @@
 ---
 import Base from "@/src/layouts/Base.astro"
-import LandingRoute, { type LandingData } from "@/components/pages/landing-route"
-import { highlight, siteNavGroups } from "@/lib/build"
-import { getItems } from "@/lib/docs"
+import LandingRoute from "@/components/pages/landing-route"
+import { siteNavGroups } from "@/lib/build"
 
-/* The file shown in the homepage's "own the code" card, highlighted at build time. */
-const BUTTON_SOURCE = `import { cva } from "class-variance-authority"
-import { cn } from "@/lib/utils"
-
-const button = cva("h-8 rounded-lg px-3", {
-  variants: {
-    tone: {
-      solid: "bg-primary",
-      ghost: "hover:bg-secondary",
-    },
-  },
-})
-
-export function Button({ tone, ...props }) {
-  return (
-    <button
-      className={cn(button({ tone }))}
-      {...props}
-    />
-  )
-}
-`
-
-// Components and blocks you can install; theme presets and helper files are left out.
-const count = getItems().filter((item) => item.type === "registry:ui" || item.type === "registry:block").length
-const data: LandingData = { count, codeHtml: await highlight(BUTTON_SOURCE, "tsx") }
 const site = { pathname: Astro.url.pathname, groups: siteNavGroups() }
 ---
 
@@ -38,5 +11,5 @@ const site = { pathname: Astro.url.pathname, groups: siteNavGroups() }
   absoluteTitle
   description="React components for app interfaces. The source lands in your app."
 >
-  <LandingRoute client:load site={site} data={data} />
+  <LandingRoute client:load site={site} />
 </Base>

@@ -6,7 +6,7 @@ import { siteCopy } from "@/lib/site-copy"
 import * as React from "react"
 import Link from "next/link"
 
-import { ArrowUpRightIcon } from "@paneui/ui/icons"
+import { ArrowRightIcon } from "@paneui/ui/icons"
 import { categorySlug } from "@/components/docs/category-icons"
 import { LazyDemo } from "@/components/docs/lazy-demo"
 import { SiteRoot, type SiteProps } from "@/components/site/site-root"
@@ -128,7 +128,7 @@ export default function ComponentsGalleryPage({ site, data }: { site: SiteProps;
                     >
                       <span className="min-w-0 flex-1 truncate text-ui-sm font-medium text-muted-foreground transition-colors duration-150 group-hover/gallery:text-foreground">{item.title}</span>
                       <span aria-hidden className="flex size-7 shrink-0 items-center justify-center rounded-control bg-background text-muted-foreground shadow-raised transition-colors duration-150 group-hover/gallery:text-foreground">
-                        <ArrowUpRightIcon size={14} className="rtl:-scale-x-100" />
+                        <ArrowRightIcon size={14} className="rtl:-scale-x-100" />
                       </span>
                     </Link>
                   </article>

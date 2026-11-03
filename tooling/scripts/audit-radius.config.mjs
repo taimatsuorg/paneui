@@ -73,6 +73,14 @@ export default {
       reason: "Decorative folder illustration: tab/flap shapes and paper sheets are drawn shapes, not nested surfaces.",
     },
     {
+      page: "components",
+      selector: "a.flex.min-w-0 > span.flex.size-7",
+      level: "should",
+      reason:
+        "Gallery card open button: a control chip on the control radius inside the card's footer link, which paints no fill " +
+        "(only a focus ring), so the link's square top corners never show next to it.",
+    },
+    {
       slot: "segmented-control",
       minInset: 9,
       level: "should",

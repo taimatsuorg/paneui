@@ -497,6 +497,30 @@
         "--scroll-fade-bottom": "0px"
       }
     },
+    "@utility scroll-fade-x": {
+      "@supports (animation-timeline: scroll())": {
+        "mask-image": "linear-gradient(to right, transparent, #000 var(--scroll-fade-start, 0px), #000 calc(100% - var(--scroll-fade-end, 0px)), transparent)",
+        "animation": "scroll-fade-start linear both, scroll-fade-end linear both",
+        "animation-timeline": "scroll(self inline), scroll(self inline)",
+        "animation-range": "0 2px, calc(100% - 2px) 100%"
+      }
+    },
+    "@keyframes scroll-fade-start": {
+      "from": {
+        "--scroll-fade-start": "0px"
+      },
+      "to": {
+        "--scroll-fade-start": "24px"
+      }
+    },
+    "@keyframes scroll-fade-end": {
+      "from": {
+        "--scroll-fade-end": "24px"
+      },
+      "to": {
+        "--scroll-fade-end": "0px"
+      }
+    },
     "@supports (color: color(display-p3 1 1 1))": {
       "@media (color-gamut: p3)": {
         ":root": {
