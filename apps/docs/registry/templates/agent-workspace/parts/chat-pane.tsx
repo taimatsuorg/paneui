@@ -6,7 +6,7 @@ import { FolderIcon, GitBranchIcon, GitPullRequestIcon, ShieldIcon } from "@pane
 import { AgentComposer, AgentComposerBanner } from "@paneui/ui/blocks/agent-composer/agent-composer"
 import { Loader } from "@paneui/ui/components/loader"
 import { MessageScroller } from "@paneui/ui/components/message-scroller"
-import { EffortPicker, ModelPicker, ModePicker, ThinkingModelPicker, type ModelOption } from "@paneui/ui/components/model-picker"
+import { EffortPicker, ModePicker, ThinkingModelPicker, type ModelOption } from "@paneui/ui/components/model-picker"
 import { Skeleton } from "@paneui/ui/components/skeleton"
 import { TodoList } from "@paneui/ui/components/todo-list"
 
@@ -213,35 +213,26 @@ export function ChatPane({
             toolbarEnd={
               <>
                 {working && <Loader variant="ring" size="sm" label="Agent is working" className="mr-0.5 size-3.5 text-muted-foreground" />}
-                {model && effort ? (
+                {model || session.models ? (
                   <ThinkingModelPicker
-                    value={model.currentValue}
-                    onValueChange={(v) => void client.setConfigOption(session.id, model.id, v)}
-                    models={modelOptions(model)}
-                    levels={flatOptions(effort.options).map((o) => ({ value: o.value, label: o.name }))}
-                    effort={effort.currentValue}
-                    onEffortChange={(v) => void client.setConfigOption(session.id, effort.id, v)}
-                    align="end"
-                  />
-                ) : model ? (
-                  <ModelPicker
-                    value={model.currentValue}
-                    onValueChange={(v) => void client.setConfigOption(session.id, model.id, v)}
-                    models={modelOptions(model)}
-                    align="end"
-                  />
-                ) : session.models ? (
-                  <ModelPicker
-                    value={session.models.currentModelId}
-                    onValueChange={(v) => void client.setModel(session.id, v)}
-                    models={session.models.availableModels.map((m) => {
-                      const provider = modelProvider(m.modelId) ?? modelProvider(m.name)
-                      return { id: m.modelId, name: m.name, icon: provider ? <ProviderIcon provider={provider} /> : undefined }
-                    })}
+                    value={model ? model.currentValue : session.models!.currentModelId}
+                    onValueChange={(v) =>
+                      void (model ? client.setConfigOption(session.id, model.id, v) : client.setModel(session.id, v))
+                    }
+                    models={(model
+                      ? modelOptions(model)
+                      : session.models!.availableModels.map((m) => {
+                          const provider = modelProvider(m.modelId) ?? modelProvider(m.name)
+                          return { id: m.modelId, name: m.name, icon: provider ? <ProviderIcon provider={provider} /> : undefined }
+                        })
+                    ).map((m) => (effort ? m : { ...m, reasoning: false }))}
+                    levels={effort ? flatOptions(effort.options).map((o) => ({ value: o.value, label: o.name })) : undefined}
+                    effort={effort?.currentValue}
+                    onEffortChange={(v) => effort && void client.setConfigOption(session.id, effort.id, v)}
                     align="end"
                   />
                 ) : null}
-                {effort && !model && (
+                {effort && !model && !session.models && (
                   <EffortPicker
                     value={effort.currentValue}
                     onValueChange={(v) => void client.setConfigOption(session.id, effort.id, v)}
