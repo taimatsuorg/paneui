@@ -40,3 +40,20 @@
   background-color: var(--primary);
   box-shadow: 0 0 0 2px var(--primary-subtle), 0 0 8px var(--primary);
 }
+
+/*
+ * Docs sidebar on the instrument plate: group names are stencilled labels, and the current page is a
+ * raised key on the grey band (card face, keycap shadow) rather than a darker wash.
+ */
+[data-docs-nav] [data-slot="sidebar-nav-section-label"] {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+[data-docs-nav] [aria-current="page"] {
+  background-color: var(--card);
+  color: var(--foreground);
+  box-shadow: var(--shadow-raised);
+}

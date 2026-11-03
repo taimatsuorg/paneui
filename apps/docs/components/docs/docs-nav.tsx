@@ -79,7 +79,7 @@ export function DocsNav({
   )
 
   return (
-    <SidebarNav variant="fill" indicator="fill" className={className}>
+    <SidebarNav variant="fill" indicator="fill" data-docs-nav="" className={className}>
       {showSearch && (
         <SidebarNavSearch shortcut={searchShortcut} onClick={onSearch} aria-label={label("Search docs")}>
           {label("Search docs…")}

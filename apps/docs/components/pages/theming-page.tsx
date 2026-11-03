@@ -345,8 +345,8 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
         <p className="text-muted-foreground">
           <Inline
             text={{
-              en: "Paper is the style of this site: pale surfaces, serif titles and pill controls. Install it, import `theme-paper.css` after the theme and set `data-style=\"paper\"` on `<html>`.",
-              zh: "Paper 是本站使用的样式：浅色纸面、衬线标题与胶囊形控件。安装后在主题之后导入 `theme-paper.css`，并在 `<html>` 上设置 `data-style=\"paper\"`。",
+              en: "Paper gives pale surfaces, serif titles and pill controls. Install it, import `theme-paper.css` after the theme and set `data-style=\"paper\"` on `<html>`.",
+              zh: "Paper 提供浅色纸面、衬线标题与胶囊形控件。安装后在主题之后导入 `theme-paper.css`，并在 `<html>` 上设置 `data-style=\"paper\"`。",
             }}
           />
         </p>

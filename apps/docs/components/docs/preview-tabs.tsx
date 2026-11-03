@@ -165,8 +165,8 @@ export function PreviewTabs({
           <div
             className={
               example
-                ? "flex min-h-56 items-center justify-center rounded-xl bg-card p-5 shadow-raised sm:p-8"
-                : "flex min-h-80 items-center justify-center rounded-xl bg-card p-5 shadow-raised sm:p-10"
+                ? "faceplate flex min-h-56 items-center justify-center p-6 sm:p-8"
+                : "faceplate flex min-h-80 items-center justify-center p-6 sm:p-10"
             }
           >
             {Demo ? <Demo /> : null}
