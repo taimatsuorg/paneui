@@ -3,3 +3,40 @@
 @source "../../../packages/ui/src";
 @source "../registry";
 @source "../components";
+
+/*
+ * Instrument parts for the site's own pages. A faceplate is a machined panel: card face, firm hairline,
+ * a drop shadow and four screw heads in its corners. A plate label is stencilled mono type. The signal
+ * lamp is the one place the accent glows.
+ */
+@utility faceplate {
+  position: relative;
+  border-radius: var(--radius-2xl);
+  background-color: var(--card);
+  box-shadow: var(--shadow-lg);
+  --screw: radial-gradient(circle, var(--border-strong) 0 2.5px, transparent 3px);
+  background-image: var(--screw), var(--screw), var(--screw), var(--screw);
+  background-size: 8px 8px;
+  background-repeat: no-repeat;
+  background-position: 8px 8px, calc(100% - 8px) 8px, 8px calc(100% - 8px), calc(100% - 8px) calc(100% - 8px);
+}
+
+@utility plate-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+@utility signal-lamp {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-subtle), 0 0 8px var(--primary);
+}
