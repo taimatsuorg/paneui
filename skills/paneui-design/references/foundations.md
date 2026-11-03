@@ -45,7 +45,8 @@ active items, accent icons; ≥ 4.5:1 on the page and the subtle fill), `ring` (
 `selection` (`::selection`). The default is blue `oklch(56% 0.167 252)`.
 
 Presets (neutral, green, orange, rose, violet) are `html[data-accent="…"]` blocks that swap the ten; neutral
-is the inverted black/white solid and orange keeps a vivid solid with dark text. Each ships as a
+is the inverted black/white solid; every coloured solid takes white text (orange at hue 40, which stays orange
+at that depth). Each ships as a
 `theme-<name>` registry item. Filled controls hover to `bg-primary-hover`; text on any solid is its
 `*-foreground`. Charts and tags never follow the accent.
 
@@ -82,7 +83,8 @@ utility (0.5px hairline, `rounded-shell`, 3px gap).
 | `rounded-shell` | 1.5 | 12px | the rail's inset panel |
 | `rounded-4xl`, `rounded-5xl` | | 16px | old names at the cap; don't use |
 
-Presets: none 0, sm 0.375rem, default 0.5rem, lg 0.625rem, xl 0.875rem; a custom value goes up to 1rem.
+Presets: none 0, sm 0.25rem, default 0.5rem, lg 0.6875rem, xl 0.875rem (controls 0, 4, 8, 11, 14px: even steps, and
+XL stays short of a pill on a 32px button); a custom value goes up to 1rem.
 `html[data-radius="…"]` or an inline `--radius` on `<html>` switches them.
 
 Buttons, toggles, tab lists and segmented wells read `rounded-control` (`rounded-control-sm` at xs, and

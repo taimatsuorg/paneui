@@ -9,7 +9,7 @@ export type RadiusChoice = RadiusPreset | "custom"
 export type RadiusState = { radius: RadiusChoice; custom: number | null }
 
 /** Each preset's `--radius` (mirrors the `html[data-radius]` blocks in packages/tokens/styles/globals.css). */
-export const RADIUS_VALUES: Record<RadiusPreset, number> = { none: 0, sm: 0.375, default: 0.5, lg: 0.625, xl: 0.875 }
+export const RADIUS_VALUES: Record<RadiusPreset, number> = { none: 0, sm: 0.25, default: 0.5, lg: 0.6875, xl: 0.875 }
 export const RADIUS_LABELS: Record<RadiusPreset, string> = { none: "None", sm: "Small", default: "Default", lg: "Large", xl: "Extra large" }
 export const DEFAULT_RADIUS: RadiusPreset = "default"
 /** Bounds of the custom slider, in rem. 1rem matches --radius-max in packages/tokens/styles/globals.css: no token goes past 16px. */

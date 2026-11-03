@@ -136,14 +136,14 @@ export default function CliPage({ site, data }: { site: SiteProps; data: CliData
           en={
             <>
               Move <Code>accent-*</Code> classes to <Code>primary</Code> roles, then delete the ramp (<Code>--fix</Code>). Keep
-              0.625rem with <Code>theme-radius-lg</Code> if you prefer it. Install <Code>fonts</Code> to self-host the fonts.
+              0.625rem with <Code>--radius: 0.625rem</Code> if you prefer it. Install <Code>fonts</Code> to self-host the fonts.
               Reinstall components so nested corners use the frame utilities.
             </>
           }
           zh={
             <>
               把 <Code>accent-*</Code> 类改为 <Code>primary</Code> 角色，然后删除色阶（<Code>--fix</Code>）。如果更喜欢
-              0.625rem，可用 <Code>theme-radius-lg</Code> 保留它。安装 <Code>fonts</Code> 以自托管字体。重新安装组件，让嵌套圆角使用
+              0.625rem，可用 <Code>--radius: 0.625rem</Code> 保留它。安装 <Code>fonts</Code> 以自托管字体。重新安装组件，让嵌套圆角使用
               frame 工具类。
             </>
           }
