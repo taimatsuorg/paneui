@@ -244,7 +244,7 @@ export const SITE_COPY: Record<string, string> = {
   Fit: "适应宽度", Desktop: "桌面", Tablet: "平板", Mobile: "手机", Viewport: "视口",
   "Open preview in a new tab": "在新标签页预览", "Open in a new tab": "在新标签页打开",
   "Nothing to preview.": "暂无预览。", Copied: "已复制", "Copy link to section": "复制章节链接",
-  Manual: "手动安装", "Open template": "打开模板", "Icon styles": "图标风格", "Make your own icons": "绘制图标", "All icons": "全部图标",
+  "Open template": "打开模板", "Icon styles": "图标风格", "Make your own icons": "绘制图标", "All icons": "全部图标",
   Light: "浅色", Dark: "深色", System: "跟随系统", Theme: "主题", Accent: "主题色", Custom: "自定义", Default: "默认",
   Style: "风格", Paper: "纸张", Styles: "界面风格",
   Install: "安装", Example: "示例", Share: "分享", "Copy install": "复制安装命令", "Back to components": "返回组件列表",

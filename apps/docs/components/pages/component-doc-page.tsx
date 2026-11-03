@@ -15,7 +15,7 @@ import { DocHeading } from "@/components/docs/doc-heading"
 import { DocFooter, DocHeader, DocLayout, markdownPath } from "@/components/docs/doc-layout"
 import { ComponentStudio, type StudioCodeRow, type StudioGroup } from "@/components/docs/component-studio"
 import type { TocEntry } from "@/components/docs/doc-toc"
-import { addCommand, InstallCommand, PackageInstall, usePackageManager } from "@/components/docs/install-command"
+import { addCommand, InstallCommand, usePackageManager } from "@/components/docs/install-command"
 import { PreviewTabs } from "@/components/docs/preview-tabs"
 import { StaticCode } from "@/components/site/static-code"
 import { SiteRoot, type SiteProps } from "@/components/site/site-root"
@@ -29,7 +29,6 @@ import {
   SimpleTableHeader,
   SimpleTableRow,
 } from "@paneui/ui/components/simple-table"
-import { Tabs, TabsList, TabsPanel, TabsTab } from "@paneui/ui/components/tabs"
 import { LocalizedText } from "@/components/docs/localized"
 import { REGISTRY_NAME } from "@/lib/site-constants"
 import { siteCopy } from "@/lib/site-copy"
@@ -215,48 +214,9 @@ function ApiPart({ part, compact }: { part: PartDoc; compact?: boolean }) {
   )
 }
 
-/** The install command, and the manual route: dependencies, registry items it builds on, then the files. */
-function Install({ item, files }: { item: DocItemData; files: DocFileData[] }) {
-  return (
-    <Tabs defaultValue="command">
-      <TabsList>
-        <TabsTab value="command"><T en="Command" zh="命令" /></TabsTab>
-        <TabsTab value="manual"><LocalizedText text="Manual" /></TabsTab>
-      </TabsList>
-      <TabsPanel value="command" className="pt-2">
-        <InstallCommand args={`add @${REGISTRY_NAME}/${item.name}`} />
-      </TabsPanel>
-      <TabsPanel value="manual" className="flex flex-col gap-5 pt-2">
-        {item.dependencies.length > 0 && (
-          <div className="flex flex-col gap-2.5">
-            <p className="font-medium"><T en="Install the dependencies:" zh="安装依赖：" /></p>
-            <PackageInstall packages={item.dependencies} />
-          </div>
-        )}
-        {item.registryDependencies.length > 0 && (
-          <p className="text-muted-foreground">
-            <T en="Add the registry items it builds on first: " zh="先添加它所依赖的组件库条目：" />
-            {item.registryDependencies.map((d, i) => (
-              <React.Fragment key={d}>
-                {i > 0 && <T en=", " zh="、" />}
-                <code className="rounded-md bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-                  {d}
-                </code>
-              </React.Fragment>
-            ))}
-            <T en="." zh="。" />
-          </p>
-        )}
-        <div className="flex flex-col gap-2.5">
-          <p className="font-medium"><T en="Copy the source into your project:" zh="将源码复制到你的项目：" /></p>
-          {files.map((f) => (
-            <StaticCode key={f.path} html={f.html} filename={f.path} language={f.language} maxHeight={420} />
-          ))}
-        </div>
-        <p className="text-muted-foreground"><T en="Update the import paths to match your project setup." zh="按项目配置调整导入路径。" /></p>
-      </TabsPanel>
-    </Tabs>
-  )
+/** The install command. */
+function Install({ item }: { item: DocItemData; files?: DocFileData[] }) {
+  return <InstallCommand args={`add @${REGISTRY_NAME}/${item.name}`} />
 }
 
 const muted = "rounded-md bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground"
