@@ -23,12 +23,9 @@ import { useT, type Localized } from "@/lib/site-locale"
 function Bay({ index, name, children }: { index: number; name: Localized; children: React.ReactNode }) {
   const t = useT()
   return (
-    <div data-ui className="flex min-h-48 min-w-0 flex-col gap-4 p-5">
-      <p className="plate-label flex items-center gap-2">
-        <span className="text-foreground">{String(index).padStart(2, "0")}</span>
-        {t(name)}
-      </p>
-      <div className="flex flex-1 items-center justify-center">{children}</div>
+    <div data-ui data-index={index} className="tile flex min-h-52 min-w-0 flex-col gap-4 p-5">
+      <p className="tile-label">{t(name)}</p>
+      <div className="flex flex-1 items-center justify-center pb-4">{children}</div>
     </div>
   )
 }
@@ -41,7 +38,7 @@ const REGIONS = [
 ]
 
 /**
- * The everyday parts on one faceplate, numbered on from the hero's modules: buttons, fields, choices,
+ * The everyday parts on one tile, numbered on from the hero's modules: buttons, fields, choices,
  * tabs, status and feedback. Hairlines draw the bays, so the components carry their own edges.
  */
 export function BasicsPlate({ start = 5 }: { start?: number }) {
@@ -196,8 +193,8 @@ export function BasicsPlate({ start = 5 }: { start?: number }) {
     },
   ]
   return (
-    <div className="faceplate overflow-hidden">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 [&>*]:border-border [&>*]:border-b sm:[&>*]:border-e sm:[&>*:nth-child(2n)]:border-e-0 lg:[&>*:nth-child(2n)]:border-e lg:[&>*:nth-child(4n)]:border-e-0 lg:[&>*:nth-last-child(-n+4)]:border-b-0">
+    <div>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {bays.map((bay, i) => (
           <Bay key={i} index={start + i} name={bay.name}>
             {bay.body}

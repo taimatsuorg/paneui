@@ -224,7 +224,7 @@ export const SITE_COPY: Record<string, string> = {
   "The library grows: motion, agents, charts and blocks": "动效、助手、图表与组合组件",
   "First release": "首次发布",
   "The PaneUI CLI": "PaneUI 命令行工具", "Install by URL": "通过链接安装",
-  Copy: "复制", "Copy command": "复制命令", Download: "下载",
+  Copy: "复制", "Copy command": "复制命令", Download: "下载", "Package manager": "包管理器", "View code": "查看代码", "Hide code": "收起代码",
   "Getting started": "开始使用", Docs: "文档", Components: "组件", Templates: "模板", "All templates": "全部模板",
   Foundations: "基础", Forms: "表单", Overlays: "浮层", Display: "展示",
   Navigation: "导航", Text: "文本", Motion: "动效", Data: "数据", Agents: "助手",

@@ -73,20 +73,18 @@ export default function ComponentsGalleryPage({ site, data }: { site: SiteProps;
           <section key={g.category} id={categorySlug(g.category)} aria-labelledby={`${categorySlug(g.category)}-title`} className="flex scroll-mt-20 flex-col gap-6">
             <h2 id={`${categorySlug(g.category)}-title`} className="font-heading flex items-baseline gap-3 text-2xl font-semibold tracking-tight text-balance">
               <T en={g.category} zh={CATEGORY_ZH[g.category] ?? g.category} />
-              <span className="plate-label tabular-nums">{String(g.items.length).padStart(2, "0")}</span>
+              <span className="text-base font-normal tabular-nums text-muted-foreground">{g.items.length}</span>
             </h2>
-            {/* One faceplate per category: hairlines draw the bays, each bay is its stencilled number and
-                name over the live preview (copy-density rule 1), the name the bay's one link. */}
-            <div className="faceplate overflow-hidden">
-              <div className="grid grid-cols-1 gap-px bg-border xl:grid-cols-2">
+            {/* One grey tile per item: its name over the live preview (copy-density rule 1), the name its one link. */}
+            <div>
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 {spans(g.items).map(({ item, span }, index) => (
-                  <article key={item.name} className={`group/gallery flex min-w-0 flex-col bg-card ${span ? "xl:col-span-2" : ""}`}>
+                  <article key={item.name} className={`tile group/gallery flex min-w-0 flex-col overflow-hidden ${span ? "xl:col-span-2" : ""}`}>
                     <Link
                       href={`/docs/${item.name}`}
                       className="flex items-center gap-2 px-5 pt-4 outline-none focus-visible:underline"
                     >
-                      <span className="plate-label tabular-nums text-foreground">{String(index + 1).padStart(2, "0")}</span>
-                      <span className="plate-label transition-colors duration-150 group-hover/gallery:text-foreground">{item.title}</span>
+                      <span className="tile-label transition-colors duration-150 group-hover/gallery:text-foreground">{item.title}</span>
                       <ArrowRightIcon
                         size={14}
                         className="ms-auto shrink-0 text-muted-foreground transition-transform duration-150 group-hover/gallery:translate-x-0.5 group-hover/gallery:text-foreground rtl:-scale-x-100 rtl:group-hover/gallery:-translate-x-0.5"

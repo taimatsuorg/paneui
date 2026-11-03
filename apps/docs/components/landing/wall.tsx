@@ -328,7 +328,7 @@ export function WallGrid({ columns: count = 4, className }: { columns?: 3 | 4; c
 
 /**
  * The component wall, the page's stage: the heading on the left and the accent and radius controls
- * at the far end of the same row, then the everyday components on one faceplate. Changing either
+ * at the far end of the same row, then the everyday components on one tile. Changing either
  * control repaints every bay at once. WallGrid (the blocks) stays for the Customize preview.
  */
 export function Wall({ footer }: { footer?: React.ReactNode }) {

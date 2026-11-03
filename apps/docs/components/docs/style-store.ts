@@ -4,8 +4,8 @@ import * as React from "react"
 
 import { STYLE_CHANGE_EVENT, STYLE_KEY, STYLES, type StylePreset } from "./theme-script"
 
-export const DEFAULT_STYLE: StylePreset = "instrument"
-export const STYLE_LABELS: Record<StylePreset, string> = { instrument: "Instrument" }
+export const DEFAULT_STYLE: StylePreset = "studio"
+export const STYLE_LABELS: Record<StylePreset, string> = { studio: "Studio" }
 
 const isStyle = (v: unknown): v is StylePreset => typeof v === "string" && (STYLES as readonly string[]).includes(v)
 
@@ -19,7 +19,7 @@ export function readStyle(): StylePreset {
   }
 }
 
-/** Apply a style to a document's <html> as `data-style`. Instrument is the only style, so anything else falls back to it. Colours swap at once, without transitions. */
+/** Apply a style to a document's <html> as `data-style`. Studio is the only style, so anything else falls back to it. Colours swap at once, without transitions. */
 export function applyStyle(root: HTMLElement, style: string | null) {
   const next: string = isStyle(style) ? style : DEFAULT_STYLE
   if (root.getAttribute("data-style") === next) return

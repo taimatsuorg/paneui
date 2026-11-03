@@ -15,6 +15,7 @@ import { DocFooter, DocHeader, DocLayout } from "@/components/docs/doc-layout"
 import type { TocEntry } from "@/components/docs/doc-toc"
 import { InstallCommand, PackageInstall } from "@/components/docs/install-command"
 import { PreviewTabs } from "@/components/docs/preview-tabs"
+import { ExampleCard } from "@/components/docs/example-card"
 import { StaticCode } from "@/components/site/static-code"
 import { SiteRoot, type SiteProps } from "@/components/site/site-root"
 import { Button } from "@paneui/ui/components/button"
@@ -288,22 +289,16 @@ function VariantSection({ variant }: { variant: VariantData }) {
         </div>
       )}
       {variant.examples.map((ex) => (
-        <div key={ex.id} className="flex flex-col gap-3">
-          <DocHeading as="h3" id={`example-${item.name}-${ex.id}`}>
-            <LocalizedText text={ex.title} />
-          </DocHeading>
-          {ex.description && (
-            <div className="typeset typeset-docs text-muted-foreground">
-              <p>
-                <Inline text={ex.description} />
-              </p>
-            </div>
-          )}
-          <PreviewTabs
-            example={`${item.name}/${ex.id}`}
-            code={<StaticCode html={ex.html} filename={`${ex.id}.tsx`} language="tsx" maxHeight={420} />}
-          />
-        </div>
+        <ExampleCard
+          key={ex.id}
+          id={`example-${item.name}-${ex.id}`}
+          example={`${item.name}/${ex.id}`}
+          item={item.name}
+          registry={REGISTRY_NAME}
+          title={<LocalizedText text={ex.title} />}
+          description={ex.description ? <Inline text={ex.description} /> : undefined}
+          code={<StaticCode html={ex.html} filename={`${ex.id}.tsx`} language="tsx" maxHeight={420} />}
+        />
       ))}
       {variantNotes(doc).map((n) => (
         <div key={n.title} className="flex flex-col gap-3">
@@ -410,27 +405,33 @@ export default function ComponentDocPage({ site, data }: { site: SiteProps; data
       )}
 
       {doc && doc.examples.length > 0 && (
-        <section className="flex flex-col gap-10">
+        <section className="flex flex-col gap-4">
           <H2 id="examples">Examples</H2>
-          {data.examples.map((ex) => (
-            <div key={ex.id} className="flex flex-col gap-3">
-              <DocHeading as="h3" id={`example-${ex.id}`}>
-                <LocalizedText text={ex.title} />
-              </DocHeading>
-              {ex.description && (
-                <div className="typeset typeset-docs text-muted-foreground">
-                  <p>
-                    <Inline text={ex.description} />
-                  </p>
-                </div>
-              )}
-              <PreviewTabs
+          {data.examples.map((ex) =>
+            isTemplate ? (
+              <div key={ex.id} className="flex flex-col gap-3">
+                <DocHeading as="h3" id={`example-${ex.id}`}>
+                  <LocalizedText text={ex.title} />
+                </DocHeading>
+                <PreviewTabs
+                  example={`${name}/${ex.id}`}
+                  templatePath={templateRoute(name, ex.id)}
+                  code={<StaticCode html={ex.html} filename={`${ex.id}.tsx`} language="tsx" maxHeight={420} />}
+                />
+              </div>
+            ) : (
+              <ExampleCard
+                key={ex.id}
+                id={`example-${ex.id}`}
                 example={`${name}/${ex.id}`}
-                templatePath={isTemplate ? templateRoute(name, ex.id) : undefined}
+                item={name}
+                registry={REGISTRY_NAME}
+                title={<LocalizedText text={ex.title} />}
+                description={ex.description ? <Inline text={ex.description} /> : undefined}
                 code={<StaticCode html={ex.html} filename={`${ex.id}.tsx`} language="tsx" maxHeight={420} />}
               />
-            </div>
-          ))}
+            ),
+          )}
         </section>
       )}
 
