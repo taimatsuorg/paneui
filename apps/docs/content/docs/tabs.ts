@@ -86,12 +86,12 @@ export default {
     },
     {
       name: "TabsList",
-      description: { en: "Segmented track. Renders the sliding indicator after its children.", zh: "分段轨道。在其子元素之后渲染滑动指示器。" },
+      description: { en: "Segmented track. Renders the sliding indicator after its children; a row that overflows scrolls sideways.", zh: "分段轨道。在其子元素之后渲染滑动指示器；放不下时横向滚动。" },
       extends: "Tabs.List",
       extendsHref: "https://base-ui.com/react/components/tabs#list",
       props: [
         { name: "size", type: `"xs" | "sm" | "default" | "lg"`, default: `"default"`, description: { en: "Height 24 / 28 / 32 / 36px for the list, the Button heights. Applies to every tab.", zh: "列表高度 24 / 28 / 32 / 36px，对应 Button 高度。应用于每个标签。" } },
-        { name: "variant", type: `"default" | "underline" | "ghost"`, default: `"default"`, description: { en: "`default` is a raised indicator on a well; `underline` is a 2px bar on a hairline; `ghost` is a soft fill with no track.", zh: "`default` 是凹槽上的凸起指示器；`underline` 是细线上的 2px 条；`ghost` 是无轨道的柔和填充。" } },
+        { name: "variant", type: `"default" | "underline" | "ghost"`, default: `"default"`, description: { en: "`default` is a raised chip on a flat grey track; `underline` is a 2px bar on a hairline; `ghost` is a soft fill with no track.", zh: "`default` 是浅灰轨道上的凸起滑块；`underline` 是细线上的 2px 条；`ghost` 是无轨道的柔和填充。" } },
         {
           name: "activateOnFocus",
           type: "boolean",
