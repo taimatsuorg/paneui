@@ -120,10 +120,10 @@ const OG_IMAGE_TOKENS = {
       foreground: "#202020",
       mutedForeground: "#646464",
       border: "#e8e8e8",
-      primary: "#f76b15",
-      primaryForeground: "#2a140a",
-      primarySubtle: "#fef0e8",
-      primaryBorder: "#fcd0b4"
+      primary: "#ce4700",
+      primaryForeground: "#ffffff",
+      primarySubtle: "#faede6",
+      primaryBorder: "#efc4ad"
     },
     dark: {
       background: "#0b0b0b",
@@ -131,10 +131,10 @@ const OG_IMAGE_TOKENS = {
       foreground: "#eeeeee",
       mutedForeground: "#9d9d9d",
       border: "#252525",
-      primary: "#f76b15",
-      primaryForeground: "#2a140a",
-      primarySubtle: "#311a0d",
-      primaryBorder: "#6e330f"
+      primary: "#ce4700",
+      primaryForeground: "#ffffff",
+      primarySubtle: "#2a1509",
+      primaryBorder: "#5d2406"
     }
   },
   rose: {

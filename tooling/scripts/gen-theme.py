@@ -141,9 +141,12 @@ def preset(name, mode):
         return neutral_preset(mode)
     L, C, H = hue(PRESET_HEX[name])
     pages = [PAGE[mode], CARD[mode], POPOVER[mode], PAPER_PAGE[mode], PAPER_POPOVER[mode]]
-    # Orange keeps its vivid solid with dark text, like warning; the rest darken until white text reaches AA.
-    fg = Ok(0.22, 0.04, H) if name == "orange" else WHITE
-    solid = solid_for(fg, H, C, L)
+    # Every accent darkens until white text reaches AA. Orange moves its hue to 40 there: at that lightness hue 45
+    # only holds a muted, brownish chroma, while 40 keeps a clear orange.
+    if name == "orange":
+        H, C = 40.0, 0.22
+    solid = solid_for(WHITE, H, C, L)
+    fg = WHITE
     return accent_roles(solid, fg, PAGE[mode], pages, mode)
 
 
@@ -289,7 +292,7 @@ acc_css = [
     "/*",
     " * Accent presets: `data-accent` on <html> swaps the ten accent roles (default, no attribute, is blue).",
     " * Every preset meets the same contrast floor: label on the solid, hover and active ≥ 4.5:1, primary-text ≥ 4.5:1 on",
-    " * the page and the subtle fill, ring ≥ 3:1. Orange keeps its vivid solid with dark text; neutral is the black / white",
+    " * the page and the subtle fill, ring ≥ 3:1. Every coloured solid takes white text; neutral is the black / white",
     " * solid. The docs header persists the pick in localStorage[\"accent\"]; registry items theme-<name> ship the same values.",
     " */",
 ]

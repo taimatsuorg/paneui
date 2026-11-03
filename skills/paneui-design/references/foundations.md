@@ -45,7 +45,8 @@ active items, accent icons; ≥ 4.5:1 on the page and the subtle fill), `ring` (
 `selection` (`::selection`). The default is blue `oklch(56% 0.167 252)`.
 
 Presets (neutral, green, orange, rose, violet) are `html[data-accent="…"]` blocks that swap the ten; neutral
-is the inverted black/white solid and orange keeps a vivid solid with dark text. Each ships as a
+is the inverted black/white solid; every coloured solid takes white text (orange at hue 40, which stays orange
+at that depth). Each ships as a
 `theme-<name>` registry item. Filled controls hover to `bg-primary-hover`; text on any solid is its
 `*-foreground`. Charts and tags never follow the accent.
 
