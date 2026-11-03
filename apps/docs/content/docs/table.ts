@@ -30,6 +30,11 @@ export default {
       title: { en: "Row Click and Density", zh: "行点击与密度" },
     },
     {
+      id: "plain",
+      title: { en: "Plain", zh: "简洁样式" },
+      description: { en: "Use inside a surface that already frames the rows, such as a card.", zh: "适用于已有外框的容器，例如卡片内部。" },
+    },
+    {
       id: "scroll-to-index",
       title: { en: "Scroll to Row", zh: "滚动到指定行" },
       description: { en: "Use to jump to a search hit or a newly added row in a long list.", zh: "适用于跳转到搜索结果或新增行。" },
@@ -89,6 +94,7 @@ export default {
         { name: "gutter", type: "{ width: number; header?: ReactNode; cell: (ctx: TableRowContext<T>) => ReactNode }", description: { en: "Leading lane before the checkbox, e.g. row handles.", zh: "复选框前的引导列，例如行手柄。" } },
         { name: "onRowClick", type: "(ctx: TableRowContext<T>, event: MouseEvent) => void", description: { en: "Called when a row is clicked.", zh: "点击行时调用。" } },
         { name: "rowClassName", type: "(ctx: TableRowContext<T>) => string | undefined", description: { en: "Class per row from its context, e.g. `text-muted-foreground` for archived rows. Tokens only.", zh: "根据行上下文为每行设置的类，例如归档行的 `text-muted-foreground`。仅限变量。" } },
+        { name: "variant", type: `"sheet" | "plain"`, default: `"sheet"`, description: { en: "`sheet` puts the header on a tinted band, lays the rows on a sheet over it and divides the columns. `plain` keeps row lines only, with small uppercase headers.", zh: "`sheet` 将表头放在浅色底带上，行铺在其上的面板中，并以竖线分隔各列。`plain` 只保留行线，表头为小号大写。" } },
         { name: "animateLayout", type: "boolean", default: "true", description: { en: "Slide rows and columns into new positions on insert, delete, sort and reorder. Off under reduced motion.", zh: "插入、删除、排序和重新排序时，行和列滑动到新位置。减少动态效果下关闭。" } },
         { name: "className", type: "string", description: { en: "Class for the outer surface.", zh: "外层表面的类。" } },
         { name: "ref", type: "Ref<TableHandle>", description: { en: "`scrollToIndex(index, { align, behavior })`, `scrollToTop(behavior)` and `element()`.", zh: "`scrollToIndex(index, { align, behavior })`、`scrollToTop(behavior)` 和 `element()`。" } },

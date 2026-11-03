@@ -82,6 +82,8 @@ type DataTableProps<T> = {
   rowHeight?: number
   onRowClick?: (ctx: TableRowContext<T>, event: React.MouseEvent<HTMLDivElement>) => void
   rowClassName?: (ctx: TableRowContext<T>) => string | undefined
+  /** The table's look: `sheet` (header band, column lines) or `plain`. */
+  variant?: "sheet" | "plain"
   className?: string
 }
 
@@ -123,6 +125,7 @@ function DataTable<T>({
   rowHeight = 48,
   onRowClick,
   rowClassName,
+  variant,
   className,
 }: DataTableProps<T>) {
   const l10n = useLocale().labels
@@ -384,6 +387,7 @@ function DataTable<T>({
         emptyState={empty}
         onRowClick={onRowClick}
         rowClassName={rowClassName}
+        variant={variant}
       />
 
       {/* Footer ------------------------------------------------------------- */}
