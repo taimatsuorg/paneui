@@ -77,7 +77,7 @@ export function SectionPanel({
 }) {
   return (
     <div className={cn("flex h-full min-w-0 flex-col", className)}>
-      <div className="flex h-12 shrink-0 items-center gap-1 ps-3 pe-2">
+      <div className="flex h-12 shrink-0 items-center gap-1 ps-5 pe-2">
         <div className="flex min-w-0 flex-1 items-center">
           {heading ?? <h2 className="truncate font-heading text-base font-semibold">{title}</h2>}
         </div>
@@ -106,7 +106,7 @@ export function SectionPrimary({
 }) {
   return (
     <Button variant="ghost" className="w-full justify-start text-foreground" onClick={onClick} aria-keyshortcuts={keys}>
-      <span data-icon="inline-start" className="flex text-muted-foreground [&_svg]:size-4">
+      <span data-icon="inline-start" className="ms-0.5 flex text-muted-foreground [&_svg]:size-4">
         {icon}
       </span>
       <span className="font-normal">{label}</span>

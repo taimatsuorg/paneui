@@ -103,7 +103,7 @@ export function ThreadsSidebar({
 
   const heading = (
     <Menu>
-      <MenuTrigger render={<Button variant="ghost" size="sm" className="-ms-2 min-w-0" aria-label={`Workspace, agent ${agent?.name ?? "none"}`} />}>
+      <MenuTrigger render={<Button variant="ghost" size="sm" className="-ms-2.5 min-w-0" aria-label={`Workspace, agent ${agent?.name ?? "none"}`} />}>
         <span className="truncate font-heading text-base font-semibold">Workspace</span>
         <ChevronDownIcon data-icon="inline-end" className="size-3 opacity-64" />
       </MenuTrigger>
