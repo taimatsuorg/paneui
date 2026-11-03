@@ -364,6 +364,9 @@ function SidebarNavLink({ active = false, badge, icon, className, children, rend
           "aria-[current=page]:bg-secondary aria-[current=page]:font-medium aria-[current=page]:text-foreground",
           // fill indicator: taller rows, a stronger fill on the band, no gutter bar
           "group-data-[indicator=fill]/sidebar-nav:h-8 group-data-[indicator=fill]/sidebar-nav:hover:bg-foreground/5 group-data-[indicator=fill]/sidebar-nav:aria-[current=page]:bg-foreground/7",
+          // A trailing badge sits 6px inside the row: concentric with it at large radii, its own token below that.
+          // A style that sets --control-radius-sm (pill badges) keeps its value.
+          "[&>[data-slot=badge]]:rounded-[var(--control-radius-sm,min(var(--radius-control-sm),max(calc(var(--radius-md)-0.375rem),0.25rem)))]",
           className
         ),
         children: (

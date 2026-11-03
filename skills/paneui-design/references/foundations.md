@@ -82,7 +82,8 @@ utility (0.5px hairline, `rounded-shell`, 3px gap).
 | `rounded-shell` | 1.5 | 12px | the rail's inset panel |
 | `rounded-4xl`, `rounded-5xl` | | 16px | old names at the cap; don't use |
 
-Presets: none 0, sm 0.375rem, default 0.5rem, lg 0.625rem, xl 0.875rem; a custom value goes up to 1rem.
+Presets: none 0, sm 0.25rem, default 0.5rem, lg 0.6875rem, xl 0.875rem (controls 0, 4, 8, 11, 14px: even steps, and
+XL stays short of a pill on a 32px button); a custom value goes up to 1rem.
 `html[data-radius="…"]` or an inline `--radius` on `<html>` switches them.
 
 Buttons, toggles, tab lists and segmented wells read `rounded-control` (`rounded-control-sm` at xs, and
