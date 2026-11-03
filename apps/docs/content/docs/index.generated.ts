@@ -40,6 +40,7 @@ import d_color_picker from "./color-picker"
 import d_combobox from "./combobox"
 import d_command from "./command"
 import d_command_copy from "./command-copy"
+import d_comparison_table from "./comparison-table"
 import d_composition_chart from "./composition-chart"
 import d_context_menu from "./context-menu"
 import d_cover_art from "./cover-art"
@@ -99,6 +100,7 @@ import d_progress from "./progress"
 import d_pull_to_refresh from "./pull-to-refresh"
 import d_radio from "./radio"
 import d_range_slider_inline from "./range-slider-inline"
+import d_reasoning_effort from "./reasoning-effort"
 import d_reasoning_text from "./reasoning-text"
 import d_resizable from "./resizable"
 import d_scroll_area from "./scroll-area"
@@ -203,6 +205,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "combobox": d_combobox,
   "command": d_command,
   "command-copy": d_command_copy,
+  "comparison-table": d_comparison_table,
   "composition-chart": d_composition_chart,
   "context-menu": d_context_menu,
   "cover-art": d_cover_art,
@@ -262,6 +265,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "pull-to-refresh": d_pull_to_refresh,
   "radio": d_radio,
   "range-slider-inline": d_range_slider_inline,
+  "reasoning-effort": d_reasoning_effort,
   "reasoning-text": d_reasoning_text,
   "resizable": d_resizable,
   "scroll-area": d_scroll_area,

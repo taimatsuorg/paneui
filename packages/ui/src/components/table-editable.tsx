@@ -19,6 +19,7 @@ import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from "@paneui
 import {
   Table,
   tableHeaderLabelClass,
+  tablePlainHeaderLabelClass,
   useControllableState,
   type TableCellContext,
   type TableColumn,
@@ -59,6 +60,7 @@ type PassThrough = Pick<
   | "onColumnResize"
   | "animateLayout"
   | "emptyState"
+  | "variant"
   | "className"
 >
 
@@ -390,7 +392,7 @@ function EditableTable({
             setRenaming({ key, draft: String(ctx.column.header) })
           }
         }}
-        className={cn(tableHeaderLabelClass, "touch-none pe-8", ctx.column.align === "right" && "justify-end")}
+        className={cn(tableProps.variant === "plain" ? tablePlainHeaderLabelClass : tableHeaderLabelClass, "touch-none pe-8", ctx.column.align === "right" && "justify-end")}
       >
         <span className="truncate">{ctx.column.header}</span>
       </div>

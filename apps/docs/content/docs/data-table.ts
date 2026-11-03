@@ -43,6 +43,7 @@ export default {
         { name: "emptyState", type: "ReactNode", description: { en: "Shown when `data` is empty.", zh: "当 `data` 为空时显示。" } },
         { name: "noun", type: "string", default: `"rows"`, description: { en: "Used in the footer and empty copy.", zh: "用于页脚和空状态的文案。" } },
         { name: "rowHeight", type: "number", default: "48", description: { en: "Row height in px.", zh: "行高，单位为 px。" } },
+        { name: "variant", type: `"sheet" | "plain"`, default: `"sheet"`, description: { en: "The table's look, as on [Table](/docs/table).", zh: "表格样式，同 [Table](/docs/table)。" } },
         { name: "onRowClick", type: "(ctx, event) => void", description: { en: "Row click, e.g. to open a detail drawer.", zh: "行点击，例如打开详情抽屉。" } },
       ],
     },

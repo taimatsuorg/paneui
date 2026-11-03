@@ -7,7 +7,7 @@ import { BoltIcon, CheckIcon, ChevronDownIcon, ShieldIcon } from "@paneui/ui/ico
 import { cn } from "@paneui/ui/lib/utils"
 import { Button } from "@paneui/ui/components/button"
 import { Kbd } from "@paneui/ui/components/kbd"
-import { Slider } from "@paneui/ui/components/slider"
+import { ReasoningEffort } from "@paneui/ui/components/reasoning-effort"
 import {
   ComboboxContent,
   ComboboxEmpty,
@@ -370,9 +370,9 @@ type ThinkingModelPickerProps = Omit<ModelPickerProps, "footer" | "triggerSuffix
 }
 
 /**
- * Model and reasoning effort in one trigger: the model list with a stepped effort slider pinned under
+ * Model and reasoning effort in one trigger: the model list with a stepped effort track pinned under
  * it, and the effort echoed after the model name. Tab cycles the effort while the list is open. The
- * slider and the echo hide for a model with `reasoning: false`.
+ * track and the echo hide for a model with `reasoning: false`.
  */
 function ThinkingModelPicker({ models, levels, effort, onEffortChange, value, ...props }: ThinkingModelPickerProps) {
   const { labels } = useLocale()
@@ -394,20 +394,13 @@ function ThinkingModelPicker({ models, levels, effort, onEffortChange, value, ..
       onKeyDown={(e) => e.key !== "Tab" && e.key !== "Escape" && e.stopPropagation()}
       className="flex items-center gap-2.5 px-1.5 py-1"
     >
-      <Slider
-        aria-label={labels.reasoningEffort}
-        variant="contained"
+      <ReasoningEffort
         size="sm"
-        min={0}
-        max={steps.length - 1}
-        step={1}
-        ticks
-        value={index}
-        onValueChange={(v) => {
-          const next = steps[typeof v === "number" ? v : v[0]]
-          if (next) onEffortChange?.(next.value)
-        }}
-        className="min-w-0 flex-1"
+        levels={steps}
+        value={current?.value}
+        onValueChange={(next) => onEffortChange?.(next)}
+        // The tab rises over the list's last row while dragging; the track sits on the popover.
+        className="-mt-4 w-auto min-w-0 flex-1 [--reasoning-effort-surface:var(--popover)]"
       />
       <span className="w-12 shrink-0 truncate text-ui-sm text-muted-foreground">{current?.label}</span>
       <Kbd size="sm" className="shrink-0">Tab</Kbd>

@@ -37,6 +37,7 @@ export default {
     { id: "numbers", title: { en: "Numbers", zh: "数值" },  },
     { id: "comparison", title: { en: "Comparisons", zh: "比较" }, description: { en: "Short values across many columns fit a reading column without scrolling.", zh: "适用于列数较多、单元格内容较短的参考表。" } },
     { id: "markdown", title: { en: "Markdown Tables", zh: "Markdown 表格" }, description: { en: "Map the table elements in your MDX components so GFM tables render as SimpleTable.", zh: "适用于 MDX 中的 Markdown 表格。" } },
+    { id: "plain", title: { en: "Plain", zh: "简洁样式" }, description: { en: "Use for long reference lists where column lines add noise.", zh: "适用于列线会显得杂乱的长参考列表。" } },
     { id: "rtl", title: { en: "RTL", zh: "从右到左" },  },
   ],
   notes: [
@@ -59,9 +60,13 @@ export default {
       extends: "table",
       props: [
         { name: "containerClassName", type: "string", description: { en: "Class for the raised, scrolling surface around the table.", zh: "表格周围凸起、可滚动表面的 class。" } },
+        { name: "variant", type: `"sheet" | "plain"`, default: `"sheet"`, description: { en: "`sheet`: the header sits on a tinted band and the body is a sheet over it, with column lines. `plain`: row lines only and a muted header.", zh: "`sheet`：表头位于浅色底带上，表体是覆盖其上的面板，带列线。`plain`：只有行线，表头为次要色。" } },
         { name: "cellMinWidth", type: `"auto" | "always" | "none"`, default: `"auto"`, description: { en: "Floor for body-text cells: 8rem below 40rem of viewport with `auto`, always with `always`, never with `none`.", zh: "正文文本单元格的下限：视口低于 40rem 时为 8rem（`auto`），`always` 时始终，`none` 时从不。" } },
       ],
-      dataAttributes: [{ name: "data-cell-min-width", description: { en: "On the container, the `cellMinWidth` in use.", zh: "在容器上，当前使用的 `cellMinWidth`。" } }],
+      dataAttributes: [
+        { name: "data-cell-min-width", description: { en: "On the container, the `cellMinWidth` in use.", zh: "在容器上，当前使用的 `cellMinWidth`。" } },
+        { name: "data-variant", description: { en: "On the table, `sheet` or `plain`.", zh: "在表格上，`sheet` 或 `plain`。" } },
+      ],
     },
     { name: "SimpleTableHeader", extends: "thead", props: [] },
     { name: "SimpleTableBody", extends: "tbody", props: [] },
