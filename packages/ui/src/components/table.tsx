@@ -240,7 +240,7 @@ const plainHeaderLabelClass = cn(headerLabelBase, "text-ui-sm tracking-wide text
 /*
  * The sheet's top edge, hung under the sticky header so rows scroll beneath it. Its middle is
  * clear (the first row shows through); only the two corner pieces outside the curve are painted,
- * in the band's colour (card under the muted fill), so rows passing under them are hidden.
+ * in the band's colour (the page colour under a light muted fill: half in light mode, full in dark), so rows passing under them are hidden.
  */
 const sheetCornerMask = {
   left: "[mask-image:radial-gradient(circle_at_100%_100%,transparent_calc(var(--radius-xl)-0.5px),#000_var(--radius-xl))]",
@@ -253,9 +253,9 @@ function TableSheetEdge() {
       {(["left", "right"] as const).map((side) => (
         <span
           key={side}
-          className={cn("absolute top-0 size-(--radius-xl) bg-card", side === "left" ? "left-0" : "right-0", sheetCornerMask[side])}
+          className={cn("absolute top-0 size-(--radius-xl) bg-background", side === "left" ? "left-0" : "right-0", sheetCornerMask[side])}
         >
-          <span className="absolute inset-0 bg-muted" />
+          <span className="absolute inset-0 bg-muted/50 dark:bg-muted" />
         </span>
       ))}
       <span className="absolute inset-0 rounded-t-xl border-t border-border" />
@@ -744,7 +744,7 @@ function Table<T>({
         tabIndex: role === "table" ? 0 : undefined,
       }}
       data-variant={variant}
-      // The sheet's rows sit on the page colour (white in light mode in every style); the header keeps the card under its band.
+      // The sheet's rows sit on the page colour (white in light mode in every style); the header band is that colour under a light muted fill.
       className={cn("w-full rounded-xl text-ui text-card-foreground shadow-raised", sheet ? "bg-background" : "bg-card", className)}
       style={{ height }}
     >
@@ -753,12 +753,12 @@ function Table<T>({
         <div
           ref={headerRef}
           role="rowgroup"
-          className={cn("sticky top-0 z-20 bg-card", !sheet && "shadow-[0_1px_0_var(--border)]")}
+          className={cn("sticky top-0 z-20", sheet ? "bg-background" : "bg-card shadow-[0_1px_0_var(--border)]")}
           style={{ height: headerHeight }}
         >
           {sheet ? (
             <>
-              <span aria-hidden className="pointer-events-none absolute inset-0 bg-muted" />
+              <span aria-hidden className="pointer-events-none absolute inset-0 bg-muted/50 dark:bg-muted" />
               <TableSheetEdge />
             </>
           ) : null}
@@ -800,7 +800,7 @@ function Table<T>({
                     "group/header absolute inset-y-0 left-0 flex items-center hover:z-10 focus-within:z-10",
                     !canResize && divided(column.key),
                     cellMotion(column.key),
-                    isDragging && "z-30 hover:z-30 rounded-xl bg-card shadow-raised-hover",
+                    isDragging && cn("z-30 hover:z-30 rounded-xl shadow-raised-hover", sheet ? "bg-background" : "bg-card"),
                     column.headerClassName
                   )}
                   style={{ width, transform: `translateX(${columnX(column.key)}px)` }}
