@@ -18,7 +18,7 @@ import { Tabs, TabsList, TabsPanel, TabsTab } from "@paneui/ui/components/tabs"
 const commandCopyVariants = cva("flex w-full min-w-0 items-center text-card-foreground", {
   variants: {
     variant: {
-      default: "bg-card shadow-raised",
+      default: "bg-code shadow-raised",
       floating: "bg-card/80 shadow-xl backdrop-blur-xl",
       /** Inside a `CommandGroup`: the group owns the frame, the row is just the command line. */
       plain: "bg-transparent",
@@ -212,7 +212,7 @@ function CommandGroup({
   return (
     <div
       data-slot="command-group"
-      className={cn("frame-xl frame-inset-1.5 overflow-hidden bg-card text-ui text-card-foreground shadow-raised", className)}
+      className={cn("frame-xl frame-inset-1.5 overflow-hidden bg-code text-ui text-card-foreground shadow-raised", className)}
       {...props}
     >
       <Tabs value={active.value} onValueChange={(v) => select(String(v))} className="gap-0">
