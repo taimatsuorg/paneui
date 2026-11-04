@@ -68,8 +68,8 @@ type ComparisonTableProps = Omit<React.ComponentProps<"table">, "children"> & {
   containerClassName?: string
 }
 
-/* Sticky cells sit on the band, so they paint it opaquely: card underneath, the muted fill on top. */
-const band = "bg-card shadow-[inset_0_0_0_100vmax_var(--muted)]"
+/* Sticky cells sit on the band, so they paint it opaquely: the page colour underneath, a light muted fill on top (half in light mode, full in dark). */
+const band = "bg-background shadow-[inset_0_0_0_100vmax_color-mix(in_oklab,var(--muted)_50%,transparent)] dark:shadow-[inset_0_0_0_100vmax_var(--muted)]"
 const highlightFill = "shadow-[inset_0_0_0_100vmax_var(--primary-subtle)]"
 
 function ComparisonMark({ value, labels }: { value: ComparisonValue; labels: { included: string; notIncluded: string } }) {
@@ -124,12 +124,12 @@ function ComparisonTable({
   return (
     <div
       data-slot="comparison-table-container"
-      className={cn("overflow-auto overscroll-x-contain rounded-xl bg-card shadow-raised", containerClassName)}
+      className={cn("overflow-auto overscroll-x-contain rounded-xl bg-background shadow-raised", containerClassName)}
       style={maxHeight !== undefined ? { maxHeight } : undefined}
     >
       <table
         data-slot="comparison-table"
-        className={cn("w-full table-fixed border-separate border-spacing-0 bg-muted text-start text-ui", className)}
+        className={cn("w-full table-fixed border-separate border-spacing-0 bg-muted/50 text-start text-ui dark:bg-muted", className)}
         {...props}
       >
         <thead data-slot="comparison-table-header">
@@ -158,7 +158,7 @@ function ComparisonTable({
                     "px-3 py-2 text-start align-bottom font-medium text-foreground",
                     i < plans.length - 1 && "border-e border-border",
                     stickyHeader && cn("sticky top-0 z-20", band),
-                    on && (stickyHeader ? "shadow-[inset_0_0_0_100vmax_var(--primary-subtle),inset_0_0_0_100vmax_var(--muted)]" : "bg-primary-subtle")
+                    on && (stickyHeader ? "shadow-[inset_0_0_0_100vmax_var(--primary-subtle),inset_0_0_0_100vmax_color-mix(in_oklab,var(--muted)_50%,transparent)] dark:shadow-[inset_0_0_0_100vmax_var(--primary-subtle),inset_0_0_0_100vmax_var(--muted)]" : "bg-primary-subtle")
                   )}
                 >
                   <span className="flex min-w-0 items-center gap-1.5">

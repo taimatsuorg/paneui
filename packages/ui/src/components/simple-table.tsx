@@ -31,14 +31,14 @@ const cellMinWidths = {
 } as const
 
 /*
- * `sheet`: the band is the table's own fill over the card; body cells take the page colour (white
+ * `sheet`: the band is a light muted fill over the page colour; body cells take the page colour (white
  * in light mode in every style), so only the band shows around the sheet's rounded top. Cell borders draw the grid (the table is
  * `border-separate`, so corner radii apply to cells). The sheet's top edge thins out along its
  * corner curves and meets the surface's own ring at the sides.
  */
 const tableVariants = {
   sheet: cn(
-    "border-separate border-spacing-0 bg-muted",
+    "border-separate border-spacing-0 bg-muted/50 dark:bg-muted",
     "[&_th]:border-e [&_th]:border-border [&_th:last-child]:border-e-0",
     "[&>tbody>tr>td]:bg-background [&>tbody>tr>td]:border-e [&>tbody>tr>td]:border-border [&>tbody>tr>td:last-child]:border-e-0",
     "[&>tbody>tr:not(:last-child)>td]:border-b",
@@ -62,7 +62,7 @@ function SimpleTable({ className, containerClassName, cellMinWidth = "auto", var
     <div
       data-slot="simple-table-container"
       data-cell-min-width={cellMinWidth}
-      className={cn("overflow-x-auto rounded-xl bg-card shadow-raised", cellMinWidths[cellMinWidth], containerClassName)}
+      className={cn("overflow-x-auto rounded-xl shadow-raised", variant === "sheet" ? "bg-background" : "bg-card", cellMinWidths[cellMinWidth], containerClassName)}
     >
       <table
         data-slot="simple-table"
