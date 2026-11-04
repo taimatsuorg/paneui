@@ -37,7 +37,7 @@ export function GuideRow({ label, children, className }: { label: React.ReactNod
   return (
     <div className={cn("grid grid-cols-1 gap-2 sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-8", className)}>
       <div className="flex min-w-0 flex-col gap-1">{label}</div>
-      <div className="flex min-w-0 flex-col gap-3">{children}</div>
+      <div className="flex min-w-0 flex-col gap-4">{children}</div>
     </div>
   )
 }
@@ -65,7 +65,7 @@ export function GuideStep({
       <span data-md-skip aria-hidden className={cn("hidden font-heading leading-7 font-semibold text-muted-foreground tabular-nums sm:block", as === "h2" ? "text-xl" : "text-lg")}>
         {n}
       </span>
-      <div className="flex min-w-0 flex-col gap-3">
+      <div className="flex min-w-0 flex-col gap-4">
         <DocHeading as={as} id={id} className="text-balance">
           <span data-md-skip className="me-2 text-muted-foreground tabular-nums sm:hidden">
             {n}
@@ -80,7 +80,7 @@ export function GuideStep({
 
 /** Inline code in reading copy. */
 export function Code({ children }: { children: React.ReactNode }) {
-  return <code className={`${INLINE_CODE_CLS} text-xs`}>{codeContent(children)}</code>
+  return <code className={INLINE_CODE_CLS}>{codeContent(children)}</code>
 }
 
 

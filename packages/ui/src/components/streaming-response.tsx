@@ -194,7 +194,7 @@ function ResponseMarkdown({
         if (block.type === "code") {
           const lang = (CODE_LANGS.has(block.lang) ? block.lang : "text") as CodeLanguage
           return (
-            <div key={k} className="not-typeset mt-(--typeset-flow) overflow-hidden rounded-xl bg-code p-3 shadow-well first:mt-0">
+            <div key={k} className="not-typeset mt-(--typeset-flow-block) overflow-hidden rounded-xl bg-code p-3 shadow-well first:mt-0">
               <CodeHighlight code={block.code} language={lang} streaming={caret && last} />
               {last && tail}
             </div>

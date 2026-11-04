@@ -1,7 +1,9 @@
 /*
  * typeset: long-form text inside a `typeset` container (docs prose, articles,
- * chat messages). Three controls drive the rhythm: --typeset-size (base size),
- * --typeset-leading (line height) and --typeset-flow (space between blocks).
+ * chat messages). Four controls drive the rhythm: --typeset-size (base size),
+ * --typeset-leading (line height), --typeset-flow (space between text blocks) and
+ * --typeset-flow-block (the wider space around code blocks, tables, figures and
+ * components placed in the flow).
  * Elements with data-slot (every library component) and anything inside
  * .not-typeset / [data-not-typeset] are left alone. A component content slot
  * that itself has `.typeset` or `data-typeset` (a tab or accordion panel, card
@@ -21,6 +23,7 @@
     --typeset-size: 1em;
     --typeset-leading: 1.75;
     --typeset-flow: 1.25em;
+    --typeset-flow-block: calc(var(--typeset-flow) * 1.5);
   }
 }
 
@@ -103,20 +106,21 @@
       line-height: 1.3;
       margin-block-start: var(--typeset-flow);
     }
+    /* Space above a heading is in the heading's own em, so divide by its size. */
     &:where(h2) {
       font-size: 1.25em;
       line-height: 1.4;
-      margin-block-start: calc(var(--typeset-flow) * 1.4);
+      margin-block-start: calc(var(--typeset-flow) * 2 / 1.25);
     }
     &:where(h3) {
       font-size: 1.125em;
       line-height: 1.45;
-      margin-block-start: var(--typeset-flow);
+      margin-block-start: calc(var(--typeset-flow) * 1.6 / 1.125);
     }
     &:where(h4) {
       font-size: 1em;
       line-height: 1.5;
-      margin-block-start: var(--typeset-flow);
+      margin-block-start: calc(var(--typeset-flow) * 1.5);
     }
     &:where(h5) {
       font-size: 0.875em;
@@ -140,8 +144,11 @@
     }
 
     /* Headings own the space below them. */
-    &:where(h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + *) {
+    &:where(h1 + *, h2 + *) {
       margin-block-start: 1em;
+    }
+    &:where(h3 + *, h4 + *, h5 + *, h6 + *) {
+      margin-block-start: 0.75em;
     }
     &:where(:is(h1, h2, h3, h4) :is(code)) {
       font-size: 0.9em;
@@ -315,9 +322,12 @@
         color-mix(in oklab, currentColor 8%, transparent)
       );
       font-family: var(--typeset-font-mono);
-      font-size: 0.85em;
+      font-size: 0.875em;
+      /* Leading 1 keeps the chip from growing the line box, and the thin vertical
+         padding keeps its background inside the line, so chips on wrapped lines never touch. */
+      line-height: 1;
       border-radius: min(calc(var(--radius, 0.5em) * 0.6), 0.35em);
-      padding: 0.125em 0.3em;
+      padding: 0.1em 0.3em;
       /* A wrapped chip keeps its padding, background and radius on every line. */
       -webkit-box-decoration-break: clone;
       box-decoration-break: clone;
@@ -341,7 +351,7 @@
       border-radius: var(--radius, 0.5em);
       padding: 0.75em 1em;
       overflow-x: auto;
-      margin-block-start: calc(var(--typeset-flow) / 0.875);
+      margin-block-start: calc(var(--typeset-flow-block) / 0.875);
       margin-block-end: 0;
     }
     &:where(pre code) {
@@ -383,7 +393,7 @@
 
     /* Math. */
     &:where(math[display="block"]) {
-      margin-block-start: var(--typeset-flow);
+      margin-block-start: var(--typeset-flow-block);
       margin-block-end: 0;
       overflow-x: auto;
       overflow-y: hidden;
@@ -395,14 +405,14 @@
       border-radius: var(--radius, 0.5em);
       max-width: 100%;
       height: auto;
-      margin-block-start: var(--typeset-flow);
+      margin-block-start: var(--typeset-flow-block);
       margin-block-end: 0;
     }
     &:where(p img) {
       margin-block-start: 0;
     }
     &:where(figure) {
-      margin-block-start: var(--typeset-flow);
+      margin-block-start: var(--typeset-flow-block);
       margin-block-end: 0;
       margin-inline: 0;
     }
@@ -426,7 +436,7 @@
       border-collapse: separate;
       border-spacing: 0;
       border-block-end: 1px solid var(--typeset-rule);
-      margin-block-start: var(--typeset-flow);
+      margin-block-start: var(--typeset-flow-block);
       margin-block-end: 0;
     }
 
@@ -435,7 +445,7 @@
        instead of compress. */
     &:where(.typeset-scroll) {
       overflow-x: auto;
-      margin-block-start: var(--typeset-flow);
+      margin-block-start: var(--typeset-flow-block);
     }
     &:where(.typeset-scroll > *) {
       margin-block-start: 0;
@@ -469,8 +479,20 @@
       text-align: end;
     }
 
+    /* Text after a wide block (code, table, figure, a component) gets the same
+       wider space back, so the block sits evenly between paragraphs. Headings keep their own. */
+    &:where(
+        :is(pre, figure, table, .typeset-scroll, math[display="block"], [data-slot], .not-typeset, [data-not-typeset])
+          + :is(p, ul, ol, dl, blockquote, details, img, video)
+      ) {
+      margin-block-start: var(--typeset-flow-block);
+    }
+    &:where(:is(h1, h2, h3, h4, h5, h6) + :is(pre, figure, table, .typeset-scroll, img, video, math[display="block"])) {
+      margin-block-start: 0.75em;
+    }
+
     /* Blocks inside list items keep the list's tighter rhythm. */
-    &:where(li > blockquote, li > table, li > figure) {
+    &:where(li > blockquote, li > table, li > figure, li > :is(pre, figure, table, [data-slot], .not-typeset, [data-not-typeset]) + *) {
       margin-block-start: 0.5em;
     }
     &:where(li > pre) {
@@ -494,18 +516,18 @@
     }
   }
 
-  /* Components (anything with data-slot) keep their own styles. A component
-     placed directly in the flow gets the same space above as a paragraph. */
-  :is(.typeset, [data-typeset])
-    > :where([data-slot]):not(
-      :where(
-        .not-typeset,
-        [data-not-typeset],
-        .not-typeset *,
-        [data-not-typeset] *
-      )
-    ) {
-    margin-block-start: var(--typeset-flow);
+  /* Components (anything with data-slot) and .not-typeset wrappers keep their own
+     styles. Placed directly in the flow they get the wider block space above, like a
+     code block; right under a heading they sit as close as text does. A margin
+     utility on the element still wins. */
+  :is(.typeset, [data-typeset]) > :where([data-slot], .not-typeset, [data-not-typeset]) {
+    margin-block-start: var(--typeset-flow-block);
+  }
+  :is(.typeset, [data-typeset]) > :where(h1, h2) + :where([data-slot], .not-typeset, [data-not-typeset]) {
+    margin-block-start: 1em;
+  }
+  :is(.typeset, [data-typeset]) > :where(h3, h4, h5, h6) + :where([data-slot], .not-typeset, [data-not-typeset]) {
+    margin-block-start: 0.75em;
   }
 
   /* First child adds no space above. Last so it wins ties. */
@@ -571,6 +593,7 @@
     --typeset-size: 14px;
     --typeset-leading: 1.6;
     --typeset-flow: 0.75em;
+    --typeset-flow-block: calc(var(--typeset-flow) * 4 / 3);
   }
   /* The first block never adds space above the container (margin-trim is not everywhere yet). */
   :is(.typeset, [data-typeset]) > :first-child {

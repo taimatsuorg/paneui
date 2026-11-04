@@ -37,6 +37,17 @@
   background-color: var(--primary);
 }
 
+/*
+ * Inline code in the site's hand-written doc strings, sized in em so it follows the text around it.
+ * The same values as the typeset inline code rule: leading 1 and thin vertical padding keep the chip
+ * inside its line, so chips on wrapped lines never touch.
+ */
+@utility doc-code {
+  font-size: 0.875em;
+  line-height: 1;
+  padding: 0.1em 0.3em;
+}
+
 /* Docs sidebar: the current page is a soft grey pill. */
 [data-docs-nav] [aria-current="page"] {
   background-color: var(--fill-hover);
