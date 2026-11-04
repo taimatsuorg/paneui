@@ -253,10 +253,12 @@ function NotesBody({ notes }: { notes: NonNullable<ComponentDoc["notes"]> }) {
     <div className="flex flex-col gap-4 px-1.5 pb-2">
       {notes.map((n) => (
         <div key={n.title} className="flex flex-col gap-1">
-          <h4 className="text-ui font-medium text-foreground">{n.title}</h4>
-          <p className="max-w-2xl text-ui text-pretty text-muted-foreground">
-            <Inline text={n.body} />
-          </p>
+          <h4 className="text-sm font-medium text-foreground">{n.title}</h4>
+          <div className="typeset typeset-docs max-w-2xl text-pretty text-muted-foreground">
+            <p>
+              <Inline text={n.body} />
+            </p>
+          </div>
         </div>
       ))}
     </div>
