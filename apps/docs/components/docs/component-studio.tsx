@@ -108,8 +108,9 @@ function CodeRow({ row, open, onOpenChange, copyLabel }: { row: StudioCodeRow; o
           <CopyButton text={row.copy} label={copyLabel} />
         </div>
       )}
+      {/* The panel clips while it animates, so its body starts 2px down: the first sheet keeps its top hairline. */}
       <CollapsiblePrimitive.Panel className="h-(--collapsible-panel-height) overflow-hidden transition-[height] duration-300 ease-out data-ending-style:h-0 data-starting-style:h-0 motion-reduce:transition-none">
-        <div className="flex min-w-0 flex-col gap-3 px-2 pb-2">{row.body}</div>
+        <div className="flex min-w-0 flex-col gap-3 px-2 pt-0.5 pb-2">{row.body}</div>
       </CollapsiblePrimitive.Panel>
     </CollapsiblePrimitive.Root>
   )
@@ -248,7 +249,7 @@ export function ComponentStudio({
     {
       id: "code",
       title: siteCopy("Code"),
-      body: <StaticCode html={sourceHtml} filename={sourceName} language="tsx" maxHeight={480} />,
+      body: <StaticCode html={sourceHtml} filename={sourceName} language="tsx" />,
       copy: () => codeText(sourceHtml),
     },
     ...group.tail,

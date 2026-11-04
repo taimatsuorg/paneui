@@ -6,9 +6,9 @@ export type CodeTokenLines = CodeToken[][]
 const theme: Theme = { name: "tokens", appearance: "light", cssVariables: true, style: {} }
 const colors: Record<string, string> = {
   comment: "muted-foreground", string: "success", keyword: "chart-5",
-  function: "chart-4", type: "chart-4", constructor: "chart-4",
+  function: "chart-3", type: "chart-3", constructor: "chart-3",
   number: "chart-1", boolean: "chart-1", constant: "chart-1",
-  attribute: "chart-1", property: "chart-1", tag: "success", selector: "chart-4",
+  attribute: "chart-1", property: "chart-1", tag: "success", selector: "chart-3",
 }
 const load = () => import("@pierre/highlights")
 const tone = (role: string) => role === "foreground" || role === "muted-foreground"

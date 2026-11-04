@@ -23,8 +23,8 @@ def css(v): return v.css() if isinstance(v, Ok) else v
 
 def surfaces(mode):
     if mode == 'light':
-        return dict(bg=Ok(1, 0, 0), card=Ok(0.961, 0, 0), pop=Ok(1, 0, 0), shell=Ok(1, 0, 0), code=Ok(0.975, 0, 0))
-    return dict(bg=Ok(0.1, 0, 0), card=Ok(0.2, 0, 0), pop=Ok(0.235, 0, 0), shell=Ok(0.1, 0, 0), code=Ok(0.17, 0, 0))
+        return dict(bg=Ok(1, 0, 0), card=Ok(0.961, 0, 0), pop=Ok(1, 0, 0), shell=Ok(1, 0, 0), code=Ok(1, 0, 0))
+    return dict(bg=Ok(0.1, 0, 0), card=Ok(0.2, 0, 0), pop=Ok(0.235, 0, 0), shell=Ok(0.1, 0, 0), code=Ok(0.1, 0, 0))
 
 def solve(make, target, pages, under):
     return solve_alpha(make, lambda c: all(ratio(c, p, under) >= target for p in pages), 0.02, 1)

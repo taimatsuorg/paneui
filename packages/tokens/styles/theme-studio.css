@@ -34,7 +34,7 @@ html[data-style="studio"],
   --border-strong: oklch(20.5% 0.004 265 / 0.2);
   --border-control: oklch(20.5% 0.004 265 / 0.48);
   --input: oklch(20.5% 0.004 265 / 0.12);
-  --code: oklch(97.5% 0 0);
+  --code: oklch(100% 0 0);
   --scrollbar: oklch(20.5% 0.004 265 / 0.2);
   --scrollbar-hover: oklch(20.5% 0.004 265 / 0.34);
   --shell: oklch(100% 0 0);
@@ -136,7 +136,7 @@ html[data-style="studio"].dark,
   --border-strong: oklch(97% 0 0 / 0.2);
   --border-control: oklch(97% 0 0 / 0.37);
   --input: oklch(97% 0 0 / 0.12);
-  --code: oklch(17% 0 0);
+  --code: oklch(10% 0 0);
   --scrollbar: oklch(97% 0 0 / 0.2);
   --scrollbar-hover: oklch(97% 0 0 / 0.34);
   --shell: oklch(10% 0 0);
