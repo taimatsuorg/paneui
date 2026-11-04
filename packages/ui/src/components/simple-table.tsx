@@ -31,8 +31,8 @@ const cellMinWidths = {
 } as const
 
 /*
- * `sheet`: the band is the table's own fill over the card; body cells are card again, so only the
- * band shows around the sheet's rounded top. Cell borders draw the grid (the table is
+ * `sheet`: the band is the table's own fill over the card; body cells take the page colour (white
+ * in light mode in every style), so only the band shows around the sheet's rounded top. Cell borders draw the grid (the table is
  * `border-separate`, so corner radii apply to cells). The sheet's top edge thins out along its
  * corner curves and meets the surface's own ring at the sides.
  */
@@ -40,7 +40,7 @@ const tableVariants = {
   sheet: cn(
     "border-separate border-spacing-0 bg-muted",
     "[&_th]:border-e [&_th]:border-border [&_th:last-child]:border-e-0",
-    "[&>tbody>tr>td]:bg-card [&>tbody>tr>td]:border-e [&>tbody>tr>td]:border-border [&>tbody>tr>td:last-child]:border-e-0",
+    "[&>tbody>tr>td]:bg-background [&>tbody>tr>td]:border-e [&>tbody>tr>td]:border-border [&>tbody>tr>td:last-child]:border-e-0",
     "[&>tbody>tr:not(:last-child)>td]:border-b",
     "[&>thead+tbody>tr:first-child>td]:border-t",
     "[&>thead+tbody>tr:first-child>td:first-child]:rounded-ss-xl [&>thead+tbody>tr:first-child>td:last-child]:rounded-se-xl"

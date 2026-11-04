@@ -16,7 +16,7 @@ import { useLocale } from "@paneui/ui/components/locale-provider"
  *
  * `true` draws the included mark, `false` / `null` the excluded dash, anything else (a string, a
  * number, a node) is shown as is. `sections` groups rows under a heading row instead of `features`.
- * The header band and the body sheet match Table and SimpleTable.
+ * The header band and the body sheet match Table and SimpleTable: the body takes the page colour.
  */
 
 type ComparisonValue = boolean | null | undefined | React.ReactNode
@@ -189,7 +189,7 @@ function ComparisonTable({
                           scope="colgroup"
                           colSpan={columns}
                           className={cn(
-                            "border-b border-border bg-card px-3 pt-3 pb-1.5 text-start text-ui-sm font-medium text-muted-foreground",
+                            "border-b border-border bg-background px-3 pt-3 pb-1.5 text-start text-ui-sm font-medium text-muted-foreground",
                             first && "rounded-t-xl border-t"
                           )}
                         >
@@ -207,7 +207,7 @@ function ComparisonTable({
                       <th
                         scope="row"
                         className={cn(
-                          "border-e border-border bg-card px-3 py-2 text-start font-normal text-foreground",
+                          "border-e border-border bg-background px-3 py-2 text-start font-normal text-foreground",
                           !end && "border-b",
                           first && "rounded-ss-xl border-t",
                           stickyFeatureColumn && "sticky start-0 z-10"
@@ -223,7 +223,7 @@ function ComparisonTable({
                             key={plan.id}
                             data-highlighted={highlighted(plan) || undefined}
                             className={cn(
-                              "bg-card px-3 py-2 text-start text-foreground tabular-nums",
+                              "bg-background px-3 py-2 text-start text-foreground tabular-nums",
                               !lastCol && "border-e border-border",
                               !end && "border-b border-border",
                               first && "border-t border-border",

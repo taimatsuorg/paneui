@@ -744,7 +744,8 @@ function Table<T>({
         tabIndex: role === "table" ? 0 : undefined,
       }}
       data-variant={variant}
-      className={cn("w-full rounded-xl bg-card text-ui text-card-foreground shadow-raised", className)}
+      // The sheet's rows sit on the page colour (white in light mode in every style); the header keeps the card under its band.
+      className={cn("w-full rounded-xl text-ui text-card-foreground shadow-raised", sheet ? "bg-background" : "bg-card", className)}
       style={{ height }}
     >
       <div className="relative min-w-full" style={{ width: contentWidth }}>
@@ -972,7 +973,7 @@ function Table<T>({
                           divided(column.key),
                           alignClass(column.align),
                           cellMotion(column.key),
-                          isDragging && "z-20 bg-card/90 shadow-raised",
+                          isDragging && cn("z-20 shadow-raised", sheet ? "bg-background/90" : "bg-card/90"),
                           column.className
                         )}
                         style={{ width: widths[column.key] ?? 0, transform: `translateX(${columnX(column.key)}px)` }}
