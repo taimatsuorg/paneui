@@ -60,8 +60,10 @@ export function AgentSkill({ name, skill, html }: { name: string; skill: string;
             <T en="Download" zh="下载" />
           </Button>
         </div>
-        <CollapsiblePanel>
-          <div className="pt-2">
+        {/* The panel clips while it animates. The negative margin and matching padding give the
+            sheet's outer hairline room inside that clip, so it keeps its edge on the page colour. */}
+        <CollapsiblePanel className="-mx-1 -mb-1">
+          <div className="px-1 pt-2 pb-1">
             <CodeBlock html={html} maxHeight={480} copyable={false} />
           </div>
         </CollapsiblePanel>
