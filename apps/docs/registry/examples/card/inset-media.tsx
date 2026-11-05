@@ -6,7 +6,7 @@ export default function CardInsetMedia() {
   return (
     <Card variant="inset" className="w-full max-w-sm">
       <CardPanel className="pt-0">
-        <div className="flex aspect-video items-center justify-center bg-linear-to-br from-primary/25 to-primary/5 text-primary">
+        <div className="flex aspect-video items-center justify-center bg-linear-to-br from-primary/25 to-primary/5 text-primary-text">
           <ImageIcon className="size-6" />
         </div>
         <CardHeader>

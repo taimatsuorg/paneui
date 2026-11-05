@@ -20,7 +20,7 @@ export default function DigitSwapAutoDirection() {
       <div className="flex items-baseline gap-2">
         <span className="text-sm font-medium text-muted-foreground">ACME</span>
         <DigitSwap value={`$${price.toFixed(2)}`} className="text-3xl font-semibold tracking-tight" />
-        <span className={last >= 0 ? "text-sm font-medium text-success tabular-nums" : "text-sm font-medium text-destructive tabular-nums"}>
+        <span className={last >= 0 ? "text-sm font-medium text-success-text tabular-nums" : "text-sm font-medium text-destructive-text tabular-nums"}>
           {last >= 0 ? "+" : "−"}
           {Math.abs(last).toFixed(2)}
         </span>

@@ -15,7 +15,7 @@ export default function MarqueeNoFade() {
         {TICKERS.map((t) => (
           <span key={t.symbol} className="flex items-center gap-2 font-mono text-sm whitespace-nowrap tabular-nums">
             <span className="font-medium">{t.symbol}</span>
-            <span className={t.up ? "text-success" : "text-destructive"}>{t.change}</span>
+            <span className={t.up ? "text-success-text" : "text-destructive-text"}>{t.change}</span>
           </span>
         ))}
       </Marquee>

@@ -5,12 +5,22 @@ import * as React from "react"
 import { Button } from "@paneui/ui/components/button"
 import { Tooltip, TooltipContent, TooltipKbd, TooltipTrigger } from "@paneui/ui/components/tooltip"
 
-/** Title row of a sidebar view, with its actions on the right. */
+/** Title row of a sidebar view, with its actions on the right. The view name leads; section labels sit one step quieter. */
 export function SidebarHeader({ title, children }: { title: string; children?: React.ReactNode }) {
   return (
-    <div className="flex h-9 shrink-0 items-center gap-0.5 pr-1.5 pl-3">
-      <h2 className="min-w-0 flex-1 truncate text-ui-sm font-semibold text-muted-foreground">{title}</h2>
+    <div className="flex h-10 shrink-0 items-center gap-0.5 pe-1.5 ps-3">
+      <h2 className="min-w-0 flex-1 truncate text-ui font-semibold">{title}</h2>
       {children}
+    </div>
+  )
+}
+
+/** A group label inside a view (the workspace, Changes, Built-in): sentence case, muted, with an optional count. */
+export function SectionLabel({ children, count }: { children: React.ReactNode; count?: number }) {
+  return (
+    <div className="flex h-7 shrink-0 items-center gap-1.5 pe-3 ps-3 text-ui-sm font-medium text-muted-foreground">
+      <span className="min-w-0 flex-1 truncate">{children}</span>
+      {count !== undefined && <span className="tabular-nums">{count}</span>}
     </div>
   )
 }

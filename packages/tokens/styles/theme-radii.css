@@ -8,7 +8,7 @@ html[data-radius="none"] {
 }
 
 html[data-radius="sm"] {
-  --radius: 0.375rem;
+  --radius: 0.25rem;
 }
 
 html[data-radius="default"] {
@@ -16,7 +16,7 @@ html[data-radius="default"] {
 }
 
 html[data-radius="lg"] {
-  --radius: 0.625rem;
+  --radius: 0.6875rem;
 }
 
 html[data-radius="xl"] {

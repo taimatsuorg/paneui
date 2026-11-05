@@ -26,11 +26,11 @@ export const DEMO_THREADS: DemoThread[] = [
   { sessionId: "sess_chat_error", title: "Unexpected chat error 52a79f2a-5cfd-4c1e", provider: "codex", repo: "workspace", pr: { number: 1521, status: "open" }, branch: "feat/investigate-chat-error", group: "Recent" },
   { sessionId: "sess_long_chat", title: "Check long-chat and multi-agent bug fixes", provider: "codex", repo: "workspace", pr: { number: 1523, status: "open" }, branch: "feat/fix-chat-reliability", group: "Recent" },
   { sessionId: "sess_scrollbar", title: "Scrollbar orizzontale indesiderata nella sidebar", provider: "codex", repo: "workspace", pr: { number: 1519, status: "open" }, branch: "feat/remove-unwanted-scrollbar", group: "Today" },
-  { sessionId: "sess_screenshot", title: "Check if screenshot behavior is normal", provider: "claude", repo: "workspace", branch: "main", group: "Today" },
-  { sessionId: "sess_icons", title: "Sostituire icone search bar con il set emoji", provider: "claude", repo: "workspace", branch: "main", group: "Today" },
-  { sessionId: "sess_spacing", title: "Aumentare spaziatura icone come archivio", provider: "claude", repo: "workspace", branch: "main", group: "Today" },
-  { sessionId: "sess_shortcuts", title: "Personalizzazione shortcut con tastiera", provider: "codex", repo: "workspace", pr: { number: 1508, status: "merged" }, branch: "main", group: "Yesterday" },
-  { sessionId: "sess_expiry", title: "Configurable expiry with 24h option", provider: "codex", repo: "workspace", pr: { number: 1507, status: "merged" }, branch: "feat/configurable-expiry", group: "Yesterday" },
+  { sessionId: "sess_screenshot", title: "Check if screenshot behavior is normal", provider: "claude", repo: "landing-site", branch: "main", group: "Today" },
+  { sessionId: "sess_icons", title: "Sostituire icone search bar con il set emoji", provider: "claude", repo: "landing-site", branch: "main", group: "Today" },
+  { sessionId: "sess_spacing", title: "Aumentare spaziatura icone come archivio", provider: "claude", repo: "landing-site", branch: "main", group: "Today" },
+  { sessionId: "sess_shortcuts", title: "Personalizzazione shortcut con tastiera", provider: "codex", repo: "billing-api", pr: { number: 1508, status: "merged" }, branch: "main", group: "Yesterday" },
+  { sessionId: "sess_expiry", title: "Configurable expiry with 24h option", provider: "codex", repo: "billing-api", pr: { number: 1507, status: "merged" }, branch: "feat/configurable-expiry", group: "Yesterday" },
 ]
 
 export const DEMO_FILES = [
@@ -147,19 +147,15 @@ export const DEMO_EDITS: { path: string; oldText: string | null; newText: string
 const E = "\u001b["
 export const DEMO_TERMINAL = [
   "",
-  `${E}31m ▗▄▄▖ ${E}0m   ${E}1mClaude Code${E}0m ${E}2mv2.1.289${E}0m`,
-  `${E}31m▐▛██▜▌${E}0m   ${E}2mSonnet 5.5 with high effort · Claude Max${E}0m`,
+  `${E}31m ▗▄▄▖ ${E}0m   ${E}1mAgent CLI${E}0m ${E}2mv2.1.289${E}0m`,
+  `${E}31m▐▛██▜▌${E}0m   ${E}2mVerse 5.5 with high effort · Max plan${E}0m`,
   `${E}31m ▘▘▝▝ ${E}0m   ${E}2m~/.workspace-canary/worktrees/2d53/workspace · /rc${E}0m`,
-  "",
-  `${E}33mYour voice can help guide AI${E}0m`,
-  "Take 15 min to share your experiences with Anthropic Interviewer. Start now",
-  "(https://clau.de/yourthoughts)",
   "",
   `${E}7m❯ what is this repo? tldr                                                   ${E}0m`,
   "",
   "● Workspace is a multi-provider coding-agent workspace. It runs as a web app,",
-  "  server, CLI, and desktop app (Electron), with adapters for providers such as",
-  "  Codex and Claude, so you can drive coding agents from one place.",
+  "  server, CLI, and desktop app, with adapters for several agent providers, so",
+  "  you can drive coding agents from one place.",
   "",
   `  - Releases: the desktop app ships as Workspace (Stable) and Workspace Beta from`,
   `    the same ${E}34mmain${E}0m branch. The release tag picks which one.`,
@@ -172,7 +168,7 @@ export const DEMO_TERMINAL = [
   "",
 ].join("\n")
 
-export const DEMO_STATUS = `${E}34mSonnet 5.5${E}0m  ${E}2mhigh${E}0m  ${E}2mworkspace:workspace75/${E}0m${E}35mfeat/fix-chat-dragging${E}0m  ${E}34m#1526 pending${E}0m\n${E}32m5%${E}0m  ${E}2m1.0M${E}0m  ${E}32m3%${E}0m  ${E}31m95%${E}0m  ${E}33m▸▸ auto mode on${E}0m ${E}2m(shift+tab to cycle) · PR #1526 · ← 1 agent${E}0m`
+export const DEMO_STATUS = `${E}34mVerse 5.5${E}0m  ${E}2mhigh${E}0m  ${E}2mworkspace:workspace75/${E}0m${E}35mfeat/fix-chat-dragging${E}0m  ${E}34m#1526 pending${E}0m\n${E}32m5%${E}0m  ${E}2m1.0M${E}0m  ${E}32m3%${E}0m  ${E}31m95%${E}0m  ${E}33m▸▸ auto mode on${E}0m ${E}2m(shift+tab to cycle) · PR #1526 · ← 1 agent${E}0m`
 
 /** Canned replies for the demo terminal's command line. */
 export function demoShell(command: string): string {

@@ -10,7 +10,7 @@ import { cn } from "@paneui/ui/lib/utils"
 
 /*
  * Accent colour picker for an app's appearance settings. Switches the
- * eight accent roles (`--primary` … `--ring`) the theme defines, by setting
+ * ten accent roles (`--primary` … `--selection`) the theme defines, by setting
  * `data-accent` on <html> (blue, the default, has no attribute), and remembers
  * the pick in localStorage["accent"].
  *
@@ -41,18 +41,28 @@ const ACCENT_LABELS = getAccentLabels()
 /** Each preset's light-mode primary (neutral follows the foreground). */
 const SWATCH: Record<Accent, string> = {
   neutral: "var(--foreground)",
-  blue: "#0090ff",
-  green: "#30a46c",
-  orange: "#f76b15",
-  rose: "#e93d82",
-  violet: "#6e56cf",
+  blue: "oklch(56% 0.1671 251.78)",
+  green: "oklch(54.5% 0.1286 157.68)",
+  orange: "oklch(58% 0.1827 40)",
+  rose: "oklch(59% 0.213 1.28)",
+  violet: "oklch(54.17% 0.179 288.03)",
+}
+
+/** The label colour on each swatch (the preset's light-mode primary-foreground). */
+const SWATCH_FG: Record<Accent, string> = {
+  neutral: "var(--background)",
+  blue: "oklch(100% 0 0)",
+  green: "oklch(100% 0 0)",
+  orange: "oklch(100% 0 0)",
+  rose: "oklch(100% 0 0)",
+  violet: "oklch(100% 0 0)",
 }
 
 const STORAGE_KEY = "accent"
 const STYLE_ID = "qy-accent-presets"
 /** Same-tab broadcast so every picker (and the PaneUI docs header) stays in step. */
 const ACCENT_CHANGE_EVENT = "qy-accent-change"
-const PRESETS_CSS = `html[data-accent="neutral"] { --primary: #000000f2; --primary-hover: #000c; --primary-active: #000000b3; --primary-foreground: #fff; --primary-subtle: #0000000f; --primary-subtle-hover: #00000017; --primary-border: #00000026; --ring: #0004; }} html[data-accent="neutral"].dark { --primary: #fffffff2; --primary-hover: #fffc; --primary-active: #ffffffb3; --primary-foreground: #000; --primary-subtle: #ffffff12; --primary-subtle-hover: #ffffff1b; --primary-border: #ffffff2c; --ring: #fff5; }} html[data-accent="green"] { --primary: #30a46c; --primary-hover: #2b9a66; --primary-active: #218358; --primary-foreground: #fff; --primary-subtle: #00a43319; --primary-subtle-hover: #00a83829; --primary-border: #00963c52; --ring: #00924ba4; }} html[data-accent="green"].dark { --primary: #30a46c; --primary-hover: #33b074; --primary-active: #3dd68c; --primary-foreground: #fff; --primary-subtle: #22ff991e; --primary-subtle-hover: #11ff992d; --primary-border: #44ffaa4b; --ring: #44ffa49e; }} html[data-accent="orange"] { --primary: #f76b15; --primary-hover: #ef5f00; --primary-active: #cc4e00; --primary-foreground: #fff; --primary-subtle: #ff9c0029; --primary-subtle-hover: #ff91014a; --primary-border: #ff81007d; --ring: #e35f00aa; }} html[data-accent="orange"].dark { --primary: #f76b15; --primary-hover: #ff801f; --primary-active: #ffa057; --primary-foreground: #fff; --primary-subtle: #fb6a0025; --primary-subtle-hover: #ff590039; --primary-border: #fd75045c; --ring: #fe6d15f7; }} html[data-accent="rose"] { --primary: #e93d82; --primary-hover: #df3478; --primary-active: #cb1d63; --primary-foreground: #fff; --primary-subtle: #ff005216; --primary-subtle-hover: #f8005123; --primary-border: #d0004b41; --ring: #b6004a6c; }} html[data-accent="rose"].dark { --primary: #e93d82; --primary-hover: #ee518a; --primary-active: #ff92ad; --primary-foreground: #fff; --primary-subtle: #fe2a8b2a; --primary-subtle-hover: #fd158741; --primary-border: #fe459763; --ring: #fe418de8; }} html[data-accent="violet"] { --primary: #6e56cf; --primary-hover: #654dc4; --primary-active: #6550b9; --primary-foreground: #fff; --primary-subtle: #4400ee0f; --primary-subtle-hover: #4300ff1b; --primary-border: #3100fb35; --ring: #2b00d066; }} html[data-accent="violet"].dark { --primary: #6e56cf; --primary-hover: #7d66d9; --primary-active: #baa7ff; --primary-foreground: #fff; --primary-subtle: #8354fe36; --primary-subtle-hover: #7d51fd50; --primary-border: #8f6cfd6d; --ring: #8668ffcc; }}`
+const PRESETS_CSS = `html[data-accent="neutral"] { --primary: #000000f2; --primary-hover: #000000cc; --primary-active: #000000b2; --primary-foreground: #fff; --primary-subtle: #0000000f; --primary-subtle-hover: #00000017; --primary-border: #00000026; --primary-text: #000000df; --ring: #00000070; --selection: #00000029; } html[data-accent="neutral"].dark { --primary: #fffffff2; --primary-hover: #ffffffcc; --primary-active: #ffffffb2; --primary-foreground: #000; --primary-subtle: #ffffff12; --primary-subtle-hover: #ffffff1b; --primary-border: #ffffff2b; --primary-text: #ffffffed; --ring: #ffffff5c; --selection: #ffffff3d; } html[data-accent="green"] { --primary: oklch(54.5% 0.1286 157.68); --primary-hover: oklch(51% 0.1204 157.68); --primary-active: oklch(47.5% 0.1123 157.68); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(54.5% 0.1286 157.68 / 0.1); --primary-subtle-hover: oklch(54.5% 0.1286 157.68 / 0.16); --primary-border: oklch(54.5% 0.1286 157.68 / 0.32); --primary-text: oklch(51.5% 0.1158 157.68); --ring: oklch(54.5% 0.1286 157.68); --selection: oklch(54.5% 0.1286 157.68 / 0.22); } html[data-accent="green"].dark { --primary: oklch(54.5% 0.1286 157.68); --primary-hover: oklch(51% 0.1204 157.68); --primary-active: oklch(47.5% 0.1123 157.68); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(54.5% 0.1286 157.68 / 0.16); --primary-subtle-hover: oklch(54.5% 0.1286 157.68 / 0.24); --primary-border: oklch(54.5% 0.1286 157.68 / 0.42); --primary-text: oklch(72% 0.1158 157.68); --ring: oklch(54.5% 0.1286 157.68); --selection: oklch(54.5% 0.1286 157.68 / 0.4); } html[data-accent="orange"] { --primary: oklch(58% 0.1827 40); --primary-hover: oklch(54.5% 0.1718 40); --primary-active: oklch(51% 0.161 40); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(58% 0.1827 40 / 0.1); --primary-subtle-hover: oklch(58% 0.1827 40 / 0.16); --primary-border: oklch(58% 0.1827 40 / 0.32); --primary-text: oklch(54.5% 0.1645 40); --ring: oklch(58% 0.1827 40); --selection: oklch(58% 0.1827 40 / 0.22); } html[data-accent="orange"].dark { --primary: oklch(58% 0.1827 40); --primary-hover: oklch(54.5% 0.1718 40); --primary-active: oklch(51% 0.161 40); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(58% 0.1827 40 / 0.16); --primary-subtle-hover: oklch(58% 0.1827 40 / 0.24); --primary-border: oklch(58% 0.1827 40 / 0.42); --primary-text: oklch(72% 0.1645 40); --ring: oklch(58% 0.1827 40); --selection: oklch(58% 0.1827 40 / 0.4); } html[data-accent="rose"] { --primary: oklch(59% 0.213 1.28); --primary-hover: oklch(55.5% 0.213 1.28); --primary-active: oklch(52% 0.2109 1.28); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(59% 0.213 1.28 / 0.1); --primary-subtle-hover: oklch(59% 0.213 1.28 / 0.16); --primary-border: oklch(59% 0.213 1.28 / 0.32); --primary-text: oklch(55% 0.1917 1.28); --ring: oklch(59% 0.213 1.28); --selection: oklch(59% 0.213 1.28 / 0.22); } html[data-accent="rose"].dark { --primary: oklch(59% 0.213 1.28); --primary-hover: oklch(55.5% 0.213 1.28); --primary-active: oklch(52% 0.2109 1.28); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(59% 0.213 1.28 / 0.16); --primary-subtle-hover: oklch(59% 0.213 1.28 / 0.24); --primary-border: oklch(59% 0.213 1.28 / 0.42); --primary-text: oklch(72% 0.1893 1.28); --ring: oklch(59% 0.213 1.28); --selection: oklch(59% 0.213 1.28 / 0.4); } html[data-accent="violet"] { --primary: oklch(54.17% 0.179 288.03); --primary-hover: oklch(50.67% 0.179 288.03); --primary-active: oklch(47.17% 0.179 288.03); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(54.17% 0.179 288.03 / 0.1); --primary-subtle-hover: oklch(54.17% 0.179 288.03 / 0.16); --primary-border: oklch(54.17% 0.179 288.03 / 0.32); --primary-text: oklch(54% 0.1611 288.03); --ring: oklch(54.17% 0.179 288.03); --selection: oklch(54.17% 0.179 288.03 / 0.22); } html[data-accent="violet"].dark { --primary: oklch(54.17% 0.179 288.03); --primary-hover: oklch(50.67% 0.179 288.03); --primary-active: oklch(47.17% 0.179 288.03); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(54.17% 0.179 288.03 / 0.16); --primary-subtle-hover: oklch(54.17% 0.179 288.03 / 0.24); --primary-border: oklch(54.17% 0.179 288.03 / 0.42); --primary-text: oklch(72% 0.1548 288.03); --ring: oklch(54.17% 0.179 288.03); --selection: oklch(54.17% 0.179 288.03 / 0.4); }`
 
 const isAccent = (v: unknown): v is Accent => typeof v === "string" && (ACCENTS as readonly string[]).includes(v)
 
@@ -157,11 +167,11 @@ function AccentPicker({ accents = ACCENTS, showLabels = false, className, ...pro
           <RadioPrimitive.Root
             value={a}
             aria-label={ACCENT_LABELS[a]}
-            style={{ "--swatch": SWATCH[a] } as React.CSSProperties}
-            className="relative grid size-7 cursor-pointer place-items-center rounded-full bg-(--swatch) text-background outline-none ring-offset-2 ring-offset-background transition-[box-shadow] duration-150 after:absolute after:inset-0 after:rounded-full after:ring-1 after:ring-foreground/10 after:ring-inset focus-visible:ring-2 focus-visible:ring-ring/50 data-checked:ring-2 data-checked:ring-foreground/30"
+            style={{ "--swatch": SWATCH[a], "--swatch-fg": SWATCH_FG[a] } as React.CSSProperties}
+            className="relative grid size-7 cursor-pointer place-items-center rounded-full bg-(--swatch) text-background outline-none ring-offset-2 ring-offset-background transition-[box-shadow] duration-150 after:absolute after:inset-0 after:rounded-full after:ring-1 after:ring-foreground/10 after:ring-inset focus-visible:ring-2 focus-visible:ring-ring data-checked:ring-2 data-checked:ring-foreground/30"
           >
             <RadioPrimitive.Indicator className="flex transition-[opacity,scale] duration-150 data-ending-style:scale-50 data-ending-style:opacity-0 data-starting-style:scale-50 data-starting-style:opacity-0 [&_svg]:size-3.5">
-              <CheckIcon className={a === "neutral" ? "text-background" : "text-white"} />
+              <CheckIcon className="text-(--swatch-fg)" />
             </RadioPrimitive.Indicator>
           </RadioPrimitive.Root>
           {showLabels && <span>{ACCENT_LABELS[a]}</span>}

@@ -30,7 +30,7 @@ export default function ChartUtilsNumber() {
             <ChartNumber value={r.revenue} format={(v) => `$${formatCompact(v)}`} />
           </p>
         </div>
-        <p className="text-sm font-medium text-success">
+        <p className="text-sm font-medium text-success-text">
           <ChartNumber value={r.growth} format={(v) => `+${formatPercent(v)}`} />
         </p>
       </div>

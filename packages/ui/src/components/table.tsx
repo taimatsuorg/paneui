@@ -133,6 +133,8 @@ interface TableProps<T> {
   rowClassName?: (ctx: TableRowContext<T>) => string | undefined
   /** Slide rows and columns into new positions on insert, delete, sort and reorder. */
   animateLayout?: boolean
+  /** `sheet`: a header band with the rows on a sheet laid over it, and column lines. `plain`: row lines only. */
+  variant?: "sheet" | "plain"
   className?: string
   ref?: React.Ref<TableHandle>
 }
@@ -228,8 +230,38 @@ function skeletonWidth(row: number, col: number) {
 /*                                  Pieces                                    */
 /* -------------------------------------------------------------------------- */
 
-const headerLabelClass =
-  "group/label flex h-full min-w-0 flex-1 items-center gap-1.5 rounded-lg px-3 text-ui-sm font-medium tracking-wide text-muted-foreground uppercase outline-none select-none focus-visible:ring-2 focus-visible:ring-ring/50 data-[reorderable=true]:cursor-grab data-[dragging=true]:cursor-grabbing"
+const headerLabelBase =
+  "group/label flex h-full min-w-0 flex-1 items-center gap-1.5 rounded-lg px-3 font-medium outline-none select-none focus-visible:ring-2 focus-visible:ring-ring data-[reorderable=true]:cursor-grab data-[dragging=true]:cursor-grabbing"
+/** Header label for the `sheet` table: sentence case at body size. */
+const headerLabelClass = cn(headerLabelBase, "text-ui text-foreground")
+/** Header label for the `plain` table: small caps-style label. */
+const plainHeaderLabelClass = cn(headerLabelBase, "text-ui-sm tracking-wide text-muted-foreground uppercase")
+
+/*
+ * The sheet's top edge, hung under the sticky header so rows scroll beneath it. Its middle is
+ * clear (the first row shows through); only the two corner pieces outside the curve are painted,
+ * in the band's colour (the page colour under a light muted fill: half in light mode, full in dark), so rows passing under them are hidden.
+ */
+const sheetCornerMask = {
+  left: "[mask-image:radial-gradient(circle_at_100%_100%,transparent_calc(var(--radius-xl)-0.5px),#000_var(--radius-xl))]",
+  right: "[mask-image:radial-gradient(circle_at_0%_100%,transparent_calc(var(--radius-xl)-0.5px),#000_var(--radius-xl))]",
+} as const
+
+function TableSheetEdge() {
+  return (
+    <div aria-hidden data-slot="table-sheet-edge" className="pointer-events-none absolute inset-x-0 top-full h-(--radius-xl)">
+      {(["left", "right"] as const).map((side) => (
+        <span
+          key={side}
+          className={cn("absolute top-0 size-(--radius-xl) bg-background", side === "left" ? "left-0" : "right-0", sheetCornerMask[side])}
+        >
+          <span className="absolute inset-0 bg-muted/50 dark:bg-muted" />
+        </span>
+      ))}
+      <span className="absolute inset-0 rounded-t-xl border-t border-border" />
+    </div>
+  )
+}
 
 function SortIndicator({ direction }: { direction: SortDirection | null }) {
   if (!direction) {
@@ -345,6 +377,7 @@ function Table<T>({
   onRowClick,
   rowClassName,
   animateLayout = true,
+  variant = "sheet",
   className,
   ref,
 }: TableProps<T>) {
@@ -619,6 +652,11 @@ function Table<T>({
 
   /* render ----------------------------------------------------------------- */
   const orderedColumns = displayOrder.map((key) => columnByKey.get(key)).filter(Boolean) as TableColumn<T>[]
+  const sheet = variant === "sheet"
+  const labelClass = sheet ? headerLabelClass : plainHeaderLabelClass
+  const lastKey = orderedColumns[orderedColumns.length - 1]?.key
+  // Column lines: every column but the last, in the sheet look.
+  const divided = (key: string) => sheet && key !== lastKey && "border-e border-border"
   const instant = !animate || resizingKey != null
   const cellMotion = (key: string) => (instant || (drag?.active && drag.key === key) ? "" : MOVE)
   const cellRole = role === "grid" ? "gridcell" : "cell"
@@ -705,7 +743,9 @@ function Table<T>({
         "aria-busy": loading || undefined,
         tabIndex: role === "table" ? 0 : undefined,
       }}
-      className={cn("w-full rounded-xl bg-card text-ui text-card-foreground shadow-raised", className)}
+      data-variant={variant}
+      // The sheet's rows sit on the page colour (white in light mode in every style); the header band is that colour under a light muted fill.
+      className={cn("w-full rounded-xl text-ui text-card-foreground shadow-raised", sheet ? "bg-background" : "bg-card", className)}
       style={{ height }}
     >
       <div className="relative min-w-full" style={{ width: contentWidth }}>
@@ -713,9 +753,15 @@ function Table<T>({
         <div
           ref={headerRef}
           role="rowgroup"
-          className="sticky top-0 z-20 bg-card shadow-[0_1px_0_var(--border)]"
+          className={cn("sticky top-0 z-20", sheet ? "bg-background" : "bg-card shadow-[0_1px_0_var(--border)]")}
           style={{ height: headerHeight }}
         >
+          {sheet ? (
+            <>
+              <span aria-hidden className="pointer-events-none absolute inset-0 bg-muted/50 dark:bg-muted" />
+              <TableSheetEdge />
+            </>
+          ) : null}
           <div role="row" aria-rowindex={1} className="relative h-full">
             {gutter ? (
               <div role="columnheader" className="absolute inset-y-0 left-0 flex items-center justify-center" style={{ width: gutter.width }}>
@@ -752,8 +798,9 @@ function Table<T>({
                   data-dragging={isDragging || undefined}
                   className={cn(
                     "group/header absolute inset-y-0 left-0 flex items-center hover:z-10 focus-within:z-10",
+                    !canResize && divided(column.key),
                     cellMotion(column.key),
-                    isDragging && "z-30 hover:z-30 rounded-xl bg-card shadow-raised-hover",
+                    isDragging && cn("z-30 hover:z-30 rounded-xl shadow-raised-hover", sheet ? "bg-background" : "bg-card"),
                     column.headerClassName
                   )}
                   style={{ width, transform: `translateX(${columnX(column.key)}px)` }}
@@ -765,13 +812,13 @@ function Table<T>({
                       type="button"
                       {...ctx.labelProps}
                       aria-description={reorderable ? l10n.altPlusArrowKeysMovesTheColumn : undefined}
-                      className={cn(headerLabelClass, alignClass(column.align), ctx.sort && "text-foreground", !column.sortable && "cursor-default")}
+                      className={cn(labelClass, alignClass(column.align), ctx.sort && "text-foreground", !column.sortable && "cursor-default")}
                     >
                       <span className="truncate">{column.header}</span>
                       {column.sortable ? <SortIndicator direction={ctx.sort} /> : null}
                     </button>
                   ) : (
-                    <div className={cn(headerLabelClass, alignClass(column.align))}>
+                    <div className={cn(labelClass, alignClass(column.align))}>
                       <span className="truncate">{column.header}</span>
                     </div>
                   )}
@@ -923,9 +970,10 @@ function Table<T>({
                         data-col-key={column.key}
                         className={cn(
                           "absolute inset-y-0 left-0 flex min-w-0 items-center px-3 tabular-nums",
+                          divided(column.key),
                           alignClass(column.align),
                           cellMotion(column.key),
-                          isDragging && "z-20 bg-card/90 shadow-raised",
+                          isDragging && cn("z-20 shadow-raised", sheet ? "bg-background/90" : "bg-card/90"),
                           column.className
                         )}
                         style={{ width: widths[column.key] ?? 0, transform: `translateX(${columnX(column.key)}px)` }}
@@ -958,6 +1006,7 @@ export {
   TableLoadingFooter,
   SortIndicator as TableSortIndicator,
   headerLabelClass as tableHeaderLabelClass,
+  plainHeaderLabelClass as tablePlainHeaderLabelClass,
   useControllableState,
   compareValues as compareTableValues,
   type TableProps,

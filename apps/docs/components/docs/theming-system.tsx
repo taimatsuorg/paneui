@@ -213,14 +213,14 @@ export function ThemingSystem() {
           en={
             <>
               Dark mode works the same way. <Code>.dark</Code> on <Code>&lt;html&gt;</Code> points the same variables at
-              dark values, so a component written once is right in both modes. The accent is eight of those variables,{" "}
-              <Code>--primary</Code> to <Code>--ring</Code>, which a preset swaps together.
+              dark values, so a component written once is right in both modes. The accent is ten of those variables,{" "}
+              <Code>--primary</Code> to <Code>--selection</Code>, which a preset swaps together.
             </>
           }
           zh={
             <>
               深色模式同理。在 <Code>&lt;html&gt;</Code> 上加上 <Code>.dark</Code> 会让相同的变量指向深色值，因此只写
-              一次的组件在两种模式下都正确。主题色是其中八个变量，从 <Code>--primary</Code> 到 <Code>--ring</Code>，
+              一次的组件在两种模式下都正确。主题色是其中十个变量，从 <Code>--primary</Code> 到 <Code>--selection</Code>，
               由预设一起替换。
             </>
           }

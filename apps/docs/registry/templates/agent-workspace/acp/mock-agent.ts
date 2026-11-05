@@ -40,17 +40,17 @@ function configOptions(model = "gpt-6.1-sol", effort = "high"): acp.SessionConfi
           group: "codex",
           name: "Codex",
           options: [
-            { value: "gpt-6.1-sol", name: "GPT-6.1 Sol", description: "Most capable for long coding tasks" },
-            { value: "gpt-6.1", name: "GPT-6.1", description: "Fast and capable" },
-            { value: "gpt-6.1-mini", name: "GPT-6.1 Mini", description: "Quick edits and questions" },
+            { value: "gpt-6.1-sol", name: "Sol 6.1", description: "Most capable for long coding tasks" },
+            { value: "gpt-6.1", name: "Core 6.1", description: "Fast and capable" },
+            { value: "gpt-6.1-mini", name: "Core 6.1 Mini", description: "Quick edits and questions" },
           ],
         },
         {
           group: "claude",
           name: "Claude",
           options: [
-            { value: "sonnet-5.5", name: "Sonnet 5.5", description: "Balanced speed and depth" },
-            { value: "opus-5", name: "Opus 5", description: "Deepest reasoning" },
+            { value: "sonnet-5.5", name: "Verse 5.5", description: "Balanced speed and depth" },
+            { value: "opus-5", name: "Verse 5 Deep", description: "Deepest reasoning" },
           ],
         },
       ],

@@ -10,7 +10,7 @@ import { cn } from "@paneui/ui/lib/utils"
 // Heights match Button (xs 24, sm 28, default 32, lg 36) so a field and its button line up.
 // Phones get 16px text below md so focusing never zooms the page.
 const inputVariants = cva(
-  "w-full min-w-0 bg-background shadow-well transition-[box-shadow,background-color] outline-none placeholder:text-muted-foreground/72 file:inline-flex file:border-0 file:bg-transparent file:font-medium focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-64 dark:bg-input/32 aria-invalid:ring-2 aria-invalid:ring-destructive/30",
+  "w-full min-w-0 bg-background shadow-well transition-[box-shadow,background-color] outline-none placeholder:text-muted-foreground/72 file:inline-flex file:border-0 file:bg-transparent file:font-medium focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-64 dark:bg-input/32 aria-invalid:ring-2 aria-invalid:ring-destructive/30",
   {
     variants: {
       size: {

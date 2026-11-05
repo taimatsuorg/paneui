@@ -86,7 +86,7 @@ function SidebarNavSearch({
         type="button"
         // the key cap sits 8px into the field: concentric with it at large radii
         className={cn(
-          "flex h-8 w-full cursor-pointer items-center gap-2 frame-lg frame-inset-2 bg-background px-2.5 text-ui text-muted-foreground shadow-well outline-none transition-colors duration-150 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 dark:bg-input/32 [&>[data-slot=kbd]]:rounded-inner-or-2xs",
+          "flex h-8 w-full cursor-pointer items-center gap-2 frame-lg frame-inset-2 bg-background px-2.5 text-ui text-muted-foreground shadow-well outline-none transition-colors duration-150 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring dark:bg-input/32 [&>[data-slot=kbd]]:rounded-inner-or-2xs",
           className
         )}
         {...props}
@@ -221,7 +221,7 @@ function SidebarNavFoldSection({
       "aria-current": active ? "page" : undefined,
       "data-slot": "sidebar-nav-section-link",
       className: cn(
-        "group/nav relative flex min-w-0 flex-1 items-center rounded-md outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset",
+        "group/nav relative flex min-w-0 flex-1 items-center rounded-md outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
         "aria-[current=page]:bg-secondary aria-[current=page]:text-foreground",
         pad,
         // the fold toggle sits over the chevron slot at the start
@@ -251,7 +251,7 @@ function SidebarNavFoldSection({
         {collapsible && (
           <CollapsiblePrimitive.Trigger
             aria-label={toggleName}
-            className="group/trigger absolute start-1 top-0 z-10 grid h-7 w-6 cursor-pointer place-items-center rounded-md outline-none hover:bg-foreground/6 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset"
+            className="group/trigger absolute start-1 top-0 z-10 grid h-7 w-6 cursor-pointer place-items-center rounded-md outline-none hover:bg-foreground/6 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
           >
             {chevron}
           </CollapsiblePrimitive.Trigger>
@@ -265,7 +265,7 @@ function SidebarNavFoldSection({
         {collapsible && (
           <CollapsiblePrimitive.Trigger
             aria-label={toggleName}
-            className="group/trigger grid h-7 w-6 shrink-0 cursor-pointer place-items-center rounded-md outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset"
+            className="group/trigger grid h-7 w-6 shrink-0 cursor-pointer place-items-center rounded-md outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
           >
             {chevron}
           </CollapsiblePrimitive.Trigger>
@@ -276,7 +276,7 @@ function SidebarNavFoldSection({
     heading = (
       <CollapsiblePrimitive.Trigger
         className={cn(
-          "group/trigger flex w-full cursor-pointer items-center rounded-md text-start outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset",
+          "group/trigger flex w-full cursor-pointer items-center rounded-md text-start outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
           pad,
           labelClass
         )}
@@ -360,10 +360,13 @@ function SidebarNavLink({ active = false, badge, icon, className, children, rend
         className: cn(
           "group/nav relative flex h-7 min-w-0 items-center gap-2 rounded-md text-ui text-muted-foreground outline-none transition-colors duration-150",
           icon ? "px-2" : insetStart,
-          "hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset",
+          "hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
           "aria-[current=page]:bg-secondary aria-[current=page]:font-medium aria-[current=page]:text-foreground",
           // fill indicator: taller rows, a stronger fill on the band, no gutter bar
           "group-data-[indicator=fill]/sidebar-nav:h-8 group-data-[indicator=fill]/sidebar-nav:hover:bg-foreground/5 group-data-[indicator=fill]/sidebar-nav:aria-[current=page]:bg-foreground/7",
+          // A trailing badge sits 6px inside the row: concentric with it at large radii, its own token below that.
+          // A style that sets --control-radius-sm (pill badges) keeps its value.
+          "[&>[data-slot=badge]]:rounded-[var(--control-radius-sm,min(var(--radius-control-sm),max(calc(var(--radius-md)-0.375rem),0.25rem)))]",
           className
         ),
         children: (

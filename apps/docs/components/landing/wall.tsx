@@ -23,7 +23,9 @@ import { useT, type Localized } from "@/lib/site-locale"
 
 import { cn } from "@paneui/ui/lib/utils"
 
+import { BasicsPlate } from "./basics"
 import { AccentControls } from "./features"
+import { FRAME } from "./landing-chrome"
 import { Checklist, Composer, Messages, Usage } from "./pieces"
 import { useStill } from "./reveal"
 
@@ -312,7 +314,12 @@ export function WallGrid({ columns: count = 4, className }: { columns?: 3 | 4; c
     <div className={cn("grid w-full max-w-7xl grid-cols-1 items-start gap-4 sm:grid-cols-2", count === 3 ? "xl:grid-cols-3" : "xl:grid-cols-4", className)}>
       {columns.map((col, i) => (
         <div key={i} className="flex min-w-0 flex-col gap-4">
-          {col}
+          {/* data-ui: each card is a real interface fragment (its borders, shadows and code faces belong to the components). */}
+          {col.map((card, j) => (
+            <div key={j} data-ui className="min-w-0">
+              {card}
+            </div>
+          ))}
         </div>
       ))}
     </div>
@@ -320,26 +327,32 @@ export function WallGrid({ columns: count = 4, className }: { columns?: 3 | 4; c
 }
 
 /**
- * The component wall: live components in four masonry columns, with the accent and radius
- * controls above. Changing either repaints every card at once.
+ * The component wall, the page's stage: the heading on the left and the accent and radius controls
+ * at the far end of the same row, then the everyday components on one tile. Changing either
+ * control repaints every bay at once. WallGrid (the blocks) stays for the Customize preview.
  */
-export function Wall() {
+export function Wall({ footer }: { footer?: React.ReactNode }) {
   const t = useT()
   return (
-    <section aria-labelledby="wall-title" className="flex flex-col items-center gap-8 px-4 sm:px-6">
-      <div className="flex max-w-2xl flex-col items-center gap-3 text-center">
-        <h2 id="wall-title" className="font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          {t({ en: "One install, and it already looks like this", zh: "装上就是这个样子" })}
-        </h2>
-        <p className="text-base text-pretty text-muted-foreground sm:text-lg">
-          {t({
-            en: "Press anything. Then change the accent or the corners: every card reads the same tokens.",
-            zh: "随便点点看。再换个主题色或圆角：所有卡片读取同一套变量。",
-          })}
-        </p>
+    <section aria-labelledby="wall-title" className="flex flex-col gap-8">
+      <div className={`${FRAME} grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end lg:gap-10`}>
+        <div className="flex flex-col gap-3 lg:col-span-7">
+          <h2 id="wall-title" className="font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+            {t({ en: "One install, and it already looks like this", zh: "装上就是这个样子" })}
+          </h2>
+          <p className="max-w-xl text-base text-pretty text-muted-foreground sm:text-lg">
+            {t({
+              en: "Press anything. Then change the accent or the corners: every part reads the same tokens.",
+              zh: "随便点点看。再换个主题色或圆角：所有组件读取同一套变量。",
+            })}
+          </p>
+        </div>
+        <AccentControls className="lg:col-span-5 lg:justify-end" />
       </div>
-      <AccentControls />
-      <WallGrid />
+      <div className={`${FRAME} flex flex-col gap-8`}>
+        <BasicsPlate />
+        {footer}
+      </div>
     </section>
   )
 }

@@ -9,7 +9,7 @@ import { cn } from "@paneui/ui/lib/utils"
 // Track sizes: sm 26x16, default 32x20, lg 40x24; the thumb is the track height minus 4px.
 // An `xs` inherited from a Field maps to `sm`.
 const switchVariants = cva(
-  "peer group/switch relative inline-flex shrink-0 cursor-pointer items-center rounded-full bg-foreground/16 p-0.5 transition-[background-color,box-shadow] duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 data-checked:bg-primary data-checked:shadow-none data-disabled:cursor-not-allowed data-disabled:opacity-64",
+  "peer group/switch relative inline-flex shrink-0 cursor-pointer items-center rounded-control bg-foreground/16 p-0.5 not-data-checked:shadow-[inset_0_0_0_1px_var(--border-control)] transition-[background-color,box-shadow] duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring data-checked:bg-primary data-checked:shadow-none data-disabled:cursor-not-allowed data-disabled:opacity-64",
   {
     variants: {
       size: {
@@ -43,7 +43,7 @@ function Switch({ className, size: sizeProp, ...props }: SwitchPrimitive.Root.Pr
       <SwitchPrimitive.Thumb
         data-slot="switch-thumb"
         className={cn(
-          "pointer-events-none block rounded-full bg-background shadow-raised transition-transform duration-200 ease-out dark:bg-foreground dark:data-checked:bg-background",
+          "pointer-events-none block rounded-[max(calc(var(--radius-control)-var(--spacing)*0.5),1px)] bg-background shadow-raised transition-transform duration-200 ease-out dark:bg-foreground dark:data-checked:bg-background",
           thumbSize[size]
         )}
       />

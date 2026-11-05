@@ -18,15 +18,15 @@ import { FileTree, type FileTreeNode } from "@paneui/ui/components/file-tree"
 import { Input } from "@paneui/ui/components/input"
 import { ScrollArea } from "@paneui/ui/components/scroll-area"
 
-import { IconAction, SidebarHeader } from "./sidebar-header"
+import { IconAction, SidebarHeader, SectionLabel } from "./sidebar-header"
 import { basename, dirname, normalize, rel, ROOT, type Workspace } from "./workspace"
 
 type Status = "M" | "A" | "D"
 
 const STATUS_CLASS: Record<Status, string> = {
-  M: "text-warning",
-  A: "text-success",
-  D: "text-destructive",
+  M: "text-warning-text",
+  A: "text-success-text",
+  D: "text-destructive-text",
 }
 
 /** Trailing slot of a row: its source-control letter, plus the path the context menu reads. */
@@ -60,7 +60,7 @@ function buildTree(ws: Workspace, changes: Map<string, Status>, dirty: Set<strin
       name: basename(f),
       type: "file",
       meta: <RowMeta path={f} status={changes.get(f)} dirty={dirty.has(f)} />,
-      className: changes.get(f) === "A" ? "text-success" : changes.get(f) === "M" ? "text-warning" : undefined,
+      className: changes.get(f) === "A" ? "text-success-text" : changes.get(f) === "M" ? "text-warning-text" : undefined,
     })
   const build = (dir: string): FileTreeNode[] =>
     (byDir.get(dir) ?? [])
@@ -219,7 +219,7 @@ export function Explorer({
         </IconAction>
       </SidebarHeader>
 
-      <div className="flex h-6 shrink-0 items-center px-3 text-ui-xs font-semibold tracking-wide text-muted-foreground uppercase">{ws.name}</div>
+      <SectionLabel>{ws.name}</SectionLabel>
 
       {edit && (
         <form
@@ -252,7 +252,7 @@ export function Explorer({
             className="h-7"
           />
           {error && (
-            <p role="alert" className="px-0.5 text-ui-xs text-destructive">
+            <p role="alert" className="px-0.5 text-ui-xs text-destructive-text">
               {error}
             </p>
           )}
@@ -287,6 +287,7 @@ export function Explorer({
               onOpenFile={(n) => onOpen(n.value)}
               expanded={expanded}
               onExpandedChange={setExpanded}
+              size="sm"
               label="Workspace files"
             />
             {items.length === 0 && <p className="px-2 py-6 text-center text-ui text-muted-foreground">This folder is empty.</p>}

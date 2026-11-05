@@ -110,7 +110,7 @@ export function ProjectFolder({
           onFocus={(e) => e.currentTarget.matches(":focus-visible") && setOpen(true)}
           onBlur={() => setOpen(false)}
           onClick={() => setExpanded(true)}
-          className="group/folder relative block h-52 w-full cursor-pointer rounded-3xl text-start outline-none [--folder-back:color-mix(in_oklch,var(--primary),black_22%)] focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-60"
+          className="group/folder relative block h-52 w-full cursor-pointer rounded-3xl text-start outline-none [--folder-back:color-mix(in_oklch,var(--primary),black_22%)] focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60"
         >
           {/*
            * Back panel with tab. The tab owns the top-left corner, so the panel's own corner is square
@@ -213,7 +213,7 @@ export function ProjectFolder({
                 </motion.div>
                 <DialogPrimitive.Close
                   aria-label={l10n.closeFolder}
-                  className="absolute top-4 right-4 inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+                  className="absolute top-4 right-4 inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <XIcon size={16} />
                 </DialogPrimitive.Close>
@@ -244,7 +244,7 @@ export function ProjectFolder({
                           <button
                             type="button"
                             onClick={() => onFileSelect(file)}
-                            className="flex w-full cursor-pointer flex-col gap-2 rounded-2xl p-1.5 text-start transition-colors outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50"
+                            className="flex w-full cursor-pointer flex-col gap-2 rounded-2xl p-1.5 text-start transition-colors outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
                           >
                             {thumb}
                             {label}

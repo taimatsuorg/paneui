@@ -14,7 +14,6 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 - [Introduction](https://paneui.dev/docs/index.md): React components you own and edit.
 - [Installation](https://paneui.dev/docs/installation.md): Install the theme, then add components.
 - [Theming](https://paneui.dev/docs/theming.md): Change the theme tokens.
-- [Customize](https://paneui.dev/docs/colors.md): Choose an accent and corner radius.
 - [CLI & registry](https://paneui.dev/docs/cli.md): Find, inspect and install components from the command line.
 - [Design skill](https://paneui.dev/docs/skill.md): Design rules and checks for consistent interfaces.
 - [Changelog](https://paneui.dev/docs/changelog.md): Updates to PaneUI.
@@ -161,6 +160,7 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 
 ## Data
 
+- [Comparison Table](https://paneui.dev/docs/comparison-table.md): Compares features across plans with included and excluded marks. JSON: https://paneui.dev/r/comparison-table.json
 - [Data Table](https://paneui.dev/docs/data-table.md): Browses, filters and acts on a set of rows. JSON: https://paneui.dev/r/data-table.json
 - [Simple Table](https://paneui.dev/docs/simple-table.md): A plain table for reference content like props and tokens. JSON: https://paneui.dev/r/simple-table.json
 - [Table](https://paneui.dev/docs/table.md): Shows large data sets that people sort, select and resize. JSON: https://paneui.dev/r/table.json
@@ -182,6 +182,7 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 - [Message Bubble](https://paneui.dev/docs/message-bubble.md): Holds one chat message in a speech bubble. JSON: https://paneui.dev/r/message-bubble.json
 - [Message Scroller](https://paneui.dev/docs/message-scroller.md): Follows new messages until the reader scrolls up. JSON: https://paneui.dev/r/message-scroller.json
 - [Model Picker](https://paneui.dev/docs/model-picker.md): Chooses an agent model. JSON: https://paneui.dev/r/model-picker.json
+- [Reasoning Effort](https://paneui.dev/docs/reasoning-effort.md): Sets how much a model reasons before it answers. JSON: https://paneui.dev/r/reasoning-effort.json
 - [Reasoning Text](https://paneui.dev/docs/reasoning-text.md): Status line that shows an agent is still working. JSON: https://paneui.dev/r/reasoning-text.json
 - [Streaming Response](https://paneui.dev/docs/streaming-response.md): Shows a reply as it arrives. JSON: https://paneui.dev/r/streaming-response.json
 - [Terminal](https://paneui.dev/docs/terminal.md): Runs a shell in the page or on your machine. JSON: https://paneui.dev/r/terminal.json
@@ -239,4 +240,5 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 - [Personal Blog](https://paneui.dev/docs/blog.md): Personal blog with posts grouped by year. JSON: https://paneui.dev/r/blog.json
 - [Docs Site](https://paneui.dev/docs/docs.md): Documentation site layout with search, navigation and a page outline. JSON: https://paneui.dev/r/docs.json
 - [SaaS](https://paneui.dev/docs/saas.md): Pages for a product website and dashboard. JSON: https://paneui.dev/r/saas.json
+- [Team Chat](https://paneui.dev/docs/team-chat.md): Team chat with channels, direct messages and threads. JSON: https://paneui.dev/r/team-chat.json
 - [Code Editor](https://paneui.dev/docs/vscode.md): Edit projects and run commands in the browser. JSON: https://paneui.dev/r/vscode.json

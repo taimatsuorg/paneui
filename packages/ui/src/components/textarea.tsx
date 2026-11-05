@@ -9,7 +9,7 @@ import { cn } from "@paneui/ui/lib/utils"
 // Padding and text follow the Input sizes, so a textarea under an input of the same size
 // keeps the same inset and type.
 const textareaVariants = cva(
-  "flex field-sizing-content w-full bg-background shadow-well transition-[box-shadow,background-color] outline-none placeholder:text-muted-foreground/72 focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-64 dark:bg-input/32 aria-invalid:ring-2 aria-invalid:ring-destructive/30",
+  "flex field-sizing-content w-full bg-background shadow-well transition-[box-shadow,background-color] outline-none placeholder:text-muted-foreground/72 focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-64 dark:bg-input/32 aria-invalid:ring-2 aria-invalid:ring-destructive/30",
   {
     variants: {
       size: {

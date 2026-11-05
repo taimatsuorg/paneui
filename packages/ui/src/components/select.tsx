@@ -12,7 +12,7 @@ import { cn } from "@paneui/ui/lib/utils"
 // Trigger heights match Button (xs 24, sm 28, default 32, lg 36). Rows follow a size set
 // on <Select> or a sized Field; a size on the trigger alone keeps full-size rows.
 const selectTriggerVariants = cva(
-  "inline-flex w-full min-w-36 cursor-pointer items-center gap-2 bg-card shadow-raised transition-[box-shadow,background-color] duration-150 ease-out outline-none select-none hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring/50 data-disabled:pointer-events-none data-disabled:opacity-64 data-popup-open:shadow-raised-hover [body:has([data-slot=select-content][data-side=none])_&]:data-popup-open:shadow-none [&_svg]:shrink-0",
+  "inline-flex w-full min-w-36 cursor-pointer items-center gap-2 bg-card shadow-raised transition-[box-shadow,background-color] duration-150 ease-out outline-none select-none hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring data-disabled:pointer-events-none data-disabled:opacity-64 data-popup-open:shadow-raised-hover [body:has([data-slot=select-content][data-side=none])_&]:data-popup-open:shadow-none [&_svg]:shrink-0",
   {
     variants: {
       size: {

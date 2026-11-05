@@ -1,0 +1,11 @@
+---
+import Base from "@/src/layouts/Base.astro"
+import TeamChatTemplateRoute from "@/components/pages/templates/team-chat-route"
+import { siteNavGroups } from "@/lib/build"
+
+const site = { pathname: Astro.url.pathname, groups: siteNavGroups() }
+---
+
+<Base fullscreen title="Team Chat template">
+  <TeamChatTemplateRoute client:load site={site} />
+</Base>

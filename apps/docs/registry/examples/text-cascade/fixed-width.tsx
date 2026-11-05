@@ -13,10 +13,10 @@ export default function TextCascadeFixedWidth() {
     <div className="flex flex-col items-start gap-4">
       <div className="flex flex-col gap-2 text-sm">
         <p>
-          You are on the <TextCascade text={PLANS[i]} className="font-medium text-primary" /> plan, billed monthly.
+          You are on the <TextCascade text={PLANS[i]} className="font-medium text-primary-text" /> plan, billed monthly.
         </p>
         <p>
-          You are on the <TextCascade text={PLANS[i]} animateWidth={false} className="font-medium text-primary" /> plan,
+          You are on the <TextCascade text={PLANS[i]} animateWidth={false} className="font-medium text-primary-text" /> plan,
           billed monthly.
         </p>
       </div>

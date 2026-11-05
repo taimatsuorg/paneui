@@ -19,6 +19,7 @@ import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from "@paneui
 import {
   Table,
   tableHeaderLabelClass,
+  tablePlainHeaderLabelClass,
   useControllableState,
   type TableCellContext,
   type TableColumn,
@@ -59,6 +60,7 @@ type PassThrough = Pick<
   | "onColumnResize"
   | "animateLayout"
   | "emptyState"
+  | "variant"
   | "className"
 >
 
@@ -390,7 +392,7 @@ function EditableTable({
             setRenaming({ key, draft: String(ctx.column.header) })
           }
         }}
-        className={cn(tableHeaderLabelClass, "touch-none pe-8", ctx.column.align === "right" && "justify-end")}
+        className={cn(tableProps.variant === "plain" ? tablePlainHeaderLabelClass : tableHeaderLabelClass, "touch-none pe-8", ctx.column.align === "right" && "justify-end")}
       >
         <span className="truncate">{ctx.column.header}</span>
       </div>
@@ -410,7 +412,7 @@ function EditableTable({
             className={cn(
               "absolute end-2 flex size-6 cursor-pointer items-center justify-center rounded-lg text-muted-foreground outline-none",
               "opacity-0 transition-[opacity,background-color,box-shadow] duration-150 group-hover/header:opacity-100 hover:bg-secondary",
-              "focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring/50 data-popup-open:bg-secondary data-popup-open:opacity-100"
+              "focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring data-popup-open:bg-secondary data-popup-open:opacity-100"
             )}
           >
             <ChevronDownIcon className="size-3.5" />
@@ -461,7 +463,7 @@ function EditableTable({
                 className={cn(
                   "flex h-6 w-4 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none",
                   "opacity-0 transition-[opacity,background-color,box-shadow] duration-150 group-hover/row:opacity-100 hover:bg-secondary",
-                  "focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring/50 data-popup-open:bg-secondary data-popup-open:opacity-100"
+                  "focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring data-popup-open:bg-secondary data-popup-open:opacity-100"
                 )}
               >
                 <GripVerticalIcon className="size-3.5" />
@@ -517,7 +519,7 @@ function EditableTable({
           <button
             type="button"
             onClick={() => insertRow(0)}
-            className="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-lg bg-card px-2.5 text-ui-sm font-medium text-secondary-foreground shadow-raised transition-[box-shadow,background-color,scale] duration-150 ease-out outline-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring/50"
+            className="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-lg bg-card px-2.5 text-ui-sm font-medium text-secondary-foreground shadow-raised transition-[box-shadow,background-color,scale] duration-150 ease-out outline-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring"
           >
             <PlusIcon className="size-3.5" />
             {labels.addFirstRow}
@@ -552,7 +554,7 @@ function InsertPill({
       data-no-drag
       className={cn(
         "absolute z-30 flex size-4 cursor-pointer after:absolute after:-inset-1 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-primary outline-none",
-        "scale-50 opacity-0 transition-[opacity,scale] duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-125 focus-visible:scale-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring/50 motion-reduce:transition-none",
+        "scale-50 opacity-0 transition-[opacity,scale] duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-125 focus-visible:scale-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none",
         className
       )}
       {...props}

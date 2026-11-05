@@ -79,6 +79,7 @@ The neutral accent's solid is near-white in dark mode, so `text-white` disappear
 
 `bg-primary text-primary-foreground`, `bg-destructive text-destructive-foreground`. Hover a filled
 control to `bg-primary-hover`, press to `bg-primary-active`, never `/90`.
+Coloured text and icons off a solid use the `-text` role: `text-primary-text`, `text-destructive-text`.
 
 ### 3. Fill for state, surface for panels
 
@@ -193,12 +194,10 @@ The label names the group for assistive tech, and the primitive label throws out
 
 `<MenuGroup><MenuLabel>Agent</MenuLabel>…items…</MenuGroup>`; the same for select and combobox labels.
 
-### 18. Chevrons for folders, file icons for files
+### 18. Chevron and folder icon for folders, file icons for files
 
-A folder icon next to a chevron says the same thing twice and pushes names apart.
-
-Folders show only the expand chevron; files show their file-type icon in the same column, so names
-at one level line up.
+Folders show the expand chevron, then an open or closed folder icon; files skip the chevron's column,
+so file icons line up under the folder icons at the same level.
 
 ### 19. Draw icons from one family per group
 
@@ -257,7 +256,7 @@ Popups enter from `scale-98` plus opacity; exits are shorter than entrances.
 
 Keyboard users need to see where they are; a hover style doesn't help them.
 
-`focus-visible:ring-2 focus-visible:ring-ring/50` on everything interactive. `outline-none` only with
+`focus-visible:ring-2 focus-visible:ring-ring` on everything interactive. `outline-none` only with
 that ring. Check every change in light and dark.
 
 ### 27. Let the preview explain

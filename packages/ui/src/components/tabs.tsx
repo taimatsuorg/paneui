@@ -10,19 +10,20 @@ function Tabs({ className, ...props }: TabsPrimitive.Root.Props) {
   return <TabsPrimitive.Root data-slot="tabs" className={cn("flex flex-col gap-3 data-[orientation=vertical]:flex-row", className)} {...props} />
 }
 
-// `default`: segmented track with a sliding raised indicator; outer heights match Button
-// (xs 24, sm 28, default 32, lg 36) with tabs 4px shorter inside the p-0.5 well; the well is a
-// frame, so tabs and the indicator stay concentric with it at every radius.
+// `default`: a flat grey track with one raised chip that slides to the active tab and resizes;
+// outer heights match Button (xs 24, sm 28, default 32, lg 36). The track is a frame on the control
+// radius with a 4px inset (2px at xs), so the chip stays concentric with it at every radius preset.
 // `underline`: tabs on a hairline with a sliding 2px bar; tabs take the full height.
 // `ghost`: no well and no line; the active tab gets a soft fill. For tab rows inside another
 // frame (a card header), where the parent supplies the edge.
+// A horizontal row that runs out of room scrolls sideways, its edges fading on the side with more.
 // A tab whose only child is an icon is square (give it an `aria-label`).
 const tabsListVariants = cva(
-  "relative z-0 inline-flex w-fit shrink-0 items-center data-[orientation=vertical]:h-fit data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch",
+  "relative z-0 inline-flex w-fit max-w-full shrink-0 items-center data-[orientation=horizontal]:overflow-x-auto data-[orientation=horizontal]:overscroll-x-contain data-[orientation=horizontal]:scrollbar-none data-[orientation=horizontal]:scroll-fade-x data-[orientation=vertical]:h-fit data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch",
   {
     variants: {
       variant: {
-        default: "gap-0.5 bg-muted frame-p-0.5 shadow-well",
+        default: "gap-0.5 bg-muted",
         underline:
           "gap-1 shadow-[inset_0_-1px_0_var(--border)] data-[orientation=vertical]:gap-0.5 data-[orientation=vertical]:shadow-[inset_1px_0_0_var(--border)]",
         ghost: "gap-0.5",
@@ -30,18 +31,18 @@ const tabsListVariants = cva(
       size: { xs: "", sm: "", default: "", lg: "" },
     },
     compoundVariants: [
-      { variant: "default", size: "xs", className: "frame-control-sm" },
-      { variant: "default", size: ["sm", "default", "lg"], className: "frame-control" },
+      { variant: "default", size: "xs", className: "frame-control-sm frame-p-0.5" },
+      { variant: "default", size: ["sm", "default", "lg"], className: "frame-control frame-p-1" },
     ],
     defaultVariants: { variant: "default", size: "default" },
   }
 )
 
 const tabsTabVariants = cva(
-  "inline-flex shrink-0 cursor-pointer items-center justify-center data-[orientation=vertical]:justify-start gap-1.5 font-medium whitespace-nowrap text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 data-active:text-foreground data-disabled:pointer-events-none data-disabled:opacity-64 data-icon-only:aspect-square data-icon-only:px-0 [&_svg]:size-3.5 [&_svg]:shrink-0",
+  "inline-flex shrink-0 cursor-pointer items-center justify-center data-[orientation=vertical]:justify-start gap-1.5 font-medium whitespace-nowrap text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring data-active:text-foreground data-disabled:pointer-events-none data-disabled:opacity-64 data-icon-only:aspect-square data-icon-only:px-0 [&_svg]:size-3.5 [&_svg]:shrink-0",
   {
     variants: {
-      variant: { default: "", underline: "rounded-md", ghost: "rounded-inner" },
+      variant: { default: "", underline: "rounded-md focus-visible:ring-inset", ghost: "rounded-inner focus-visible:ring-inset" },
       size: {
         xs: "px-2 text-ui-xs [&_svg]:size-3",
         sm: "px-2.5 text-ui-sm",
@@ -51,9 +52,9 @@ const tabsTabVariants = cva(
     },
     compoundVariants: [
       { variant: "default", size: "xs", className: "h-5 rounded-inner" },
-      { variant: "default", size: "sm", className: "h-6 rounded-inner" },
-      { variant: "default", size: "default", className: "h-7 rounded-inner" },
-      { variant: "default", size: "lg", className: "h-8 rounded-inner" },
+      { variant: "default", size: "sm", className: "h-5 rounded-inner" },
+      { variant: "default", size: "default", className: "h-6 rounded-inner" },
+      { variant: "default", size: "lg", className: "h-7 rounded-inner" },
       { variant: "underline", size: "xs", className: "h-6 px-1.5" },
       { variant: "underline", size: "sm", className: "h-7 px-2" },
       { variant: "underline", size: "default", className: "h-8 px-2.5" },
@@ -76,7 +77,7 @@ const TabsListContext = React.createContext<{ size: TabsSize; variant: TabsVaria
 const indicatorClass: Record<TabsVariant, string> = {
   ghost: "h-(--active-tab-height) w-(--active-tab-width) translate-x-(--active-tab-left) translate-y-(--active-tab-top) bg-secondary",
   default:
-    "h-(--active-tab-height) w-(--active-tab-width) translate-x-(--active-tab-left) translate-y-(--active-tab-top) bg-card shadow-raised",
+    "h-(--active-tab-height) w-(--active-tab-width) translate-x-(--active-tab-left) translate-y-(--active-tab-top) bg-background shadow-raised dark:bg-fill-active",
   underline:
     "h-0.5 w-(--active-tab-width) translate-x-(--active-tab-left) translate-y-[calc(var(--active-tab-top)+var(--active-tab-height)-2px)] rounded-full bg-foreground data-[orientation=vertical]:h-(--active-tab-height) data-[orientation=vertical]:w-0.5 data-[orientation=vertical]:translate-x-0 data-[orientation=vertical]:translate-y-(--active-tab-top)",
 }
@@ -148,7 +149,7 @@ function TabsPanel({ className, typeset, ...props }: TabsPanelProps) {
     <TabsPrimitive.Panel
       data-slot="tabs-panel"
       data-typeset={typeset === true ? "" : typeset || undefined}
-      className={cn("outline-none focus-visible:ring-2 focus-visible:ring-ring/50", className)}
+      className={cn("outline-none focus-visible:ring-2 focus-visible:ring-ring", className)}
       {...props}
     />
   )

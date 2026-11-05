@@ -54,15 +54,19 @@ const SWATCHES: { token: string; swatch: string }[] = [
   { token: "surface-standout", swatch: "bg-surface-standout" },
   { token: "primary", swatch: "bg-primary" },
   { token: "primary-subtle", swatch: "bg-primary-subtle" },
-  { token: "secondary", swatch: "bg-secondary" },
+  { token: "primary-text", swatch: "bg-primary-text" },
+  { token: "fill-hover", swatch: "bg-fill-hover" },
   { token: "muted-foreground", swatch: "bg-muted-foreground" },
   { token: "fg-tertiary", swatch: "bg-fg-tertiary" },
   { token: "border", swatch: "bg-border" },
   { token: "border-strong", swatch: "bg-border-strong" },
+  { token: "border-control", swatch: "bg-border-control" },
   { token: "ring", swatch: "bg-ring" },
   { token: "destructive", swatch: "bg-destructive" },
   { token: "success", swatch: "bg-success" },
   { token: "warning", swatch: "bg-warning" },
+  { token: "info", swatch: "bg-info" },
+  { token: "tag-blue-fill", swatch: "bg-tag-blue-fill" },
   { token: "chart-1…8", swatch: "bg-chart-1" },
   { token: "shell", swatch: "bg-shell" },
 ]
@@ -105,7 +109,7 @@ const SHADOW_SCALE: { cls: string; token: string; use: Prose }[] = [
 ]
 
 const FONTS: { cls: string; face: string; use: Prose }[] = [
-  { cls: "font-sans", face: "Inter, Noto Sans SC", use: { en: "All UI text. Inter's ss03 set is on.", zh: "所有界面文字。已开启 Inter 的 ss03 字型集。" } },
+  { cls: "font-sans", face: "Noto Sans, Noto Sans SC", use: { en: "All UI text.", zh: "所有界面文字。" } },
   { cls: "font-mono", face: "JetBrains Mono", use: { en: "Code, keys, terminals and tabular IDs.", zh: "代码、按键、终端和对齐的 ID。" } },
   { cls: "font-serif", face: "Newsreader, Noto Serif SC", use: { en: "Long-form reading (the reading typeset preset).", zh: "长文阅读（阅读排版预设）。" } },
 ]
@@ -186,6 +190,24 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
             }
           />
         </p>
+        <p className="text-muted-foreground">
+          <T
+            en={
+              <>
+                Solids are for fills. For coloured text and icons use the <Code>-text</Code> role, such as{" "}
+                <Code>text-primary-text</Code> or <Code>text-destructive-text</Code>: it reaches 4.5:1 on the page and on its{" "}
+                <Code>-subtle</Code> wash in both modes. Labels and highlights take the <Code>tag-*</Code> colours.
+              </>
+            }
+            zh={
+              <>
+                实色只用于填充。彩色文字和图标请用 <Code>-text</Code> 角色，例如 <Code>text-primary-text</Code> 或{" "}
+                <Code>text-destructive-text</Code>：它在两种模式下对页面和自身的 <Code>-subtle</Code> 底色都达到 4.5:1。标签和高亮使用{" "}
+                <Code>tag-*</Code> 颜色。
+              </>
+            }
+          />
+        </p>
         {/* Swatches of the main roles; the Markdown copy points at the full list instead. */}
         <ul data-md-text="Every role, with its light and dark value, is listed on Customize." className="flex flex-wrap gap-2">
           {SWATCHES.map((s) => (
@@ -244,17 +266,19 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
           <T
             en={
               <>
-                The accent is eight role variables per mode, blue by default: <Code>primary</Code> and its{" "}
+                The accent is ten role variables per mode, blue by default: <Code>primary</Code> and its{" "}
                 <Code>-hover</Code>, <Code>-active</Code>, <Code>-foreground</Code>, <Code>-subtle</Code>,{" "}
-                <Code>-subtle-hover</Code> and <Code>-border</Code> variants, plus <Code>ring</Code>. Every preset reads the same
-                steps of its own 12-step scale, so surfaces, text and charts stay the same. Install one after the theme.
+                <Code>-subtle-hover</Code>, <Code>-border</Code> and <Code>-text</Code> variants, plus <Code>ring</Code> and{" "}
+                <Code>selection</Code>. Every preset meets the same contrast: 4.5:1 for the label on the solid and for{" "}
+                <Code>primary-text</Code>, 3:1 for the ring. Surfaces, text and charts stay the same. Install one after the theme.
               </>
             }
             zh={
               <>
-                主题色在每种模式下是八个角色变量，默认为蓝色：<Code>primary</Code> 及其 <Code>-hover</Code>、<Code>-active</Code>、{" "}
-                <Code>-foreground</Code>、<Code>-subtle</Code>、<Code>-subtle-hover</Code> 和 <Code>-border</Code> 变体，再加 <Code>ring</Code>。
-                每个预设都取用自己 12 级色阶中的相同几级，因此表面、文字和图表保持一致。请在主题之后安装一个预设。
+                主题色在每种模式下是十个角色变量，默认为蓝色：<Code>primary</Code> 及其 <Code>-hover</Code>、<Code>-active</Code>、{" "}
+                <Code>-foreground</Code>、<Code>-subtle</Code>、<Code>-subtle-hover</Code>、<Code>-border</Code> 和 <Code>-text</Code> 变体，再加{" "}
+                <Code>ring</Code> 和 <Code>selection</Code>。每个预设都满足相同的对比度：实色上的文字和 <Code>primary-text</Code> 达到 4.5:1，ring 达到 3:1。
+                表面、文字和图表保持一致。请在主题之后安装一个预设。
               </>
             }
           />
@@ -302,13 +326,13 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
           <T
             en={
               <>
-                For a brand colour, use the picker on <TextLink href="/themes">Customize</TextLink> to derive the eight
+                For a brand colour, use the picker on <TextLink href="/themes">Customize</TextLink> to derive the ten
                 roles and copy them.
               </>
             }
             zh={
               <>
-                要使用品牌色，请用 <TextLink href="/themes">自定义</TextLink> 中的选择器推导出这八个角色并复制。
+                要使用品牌色，请用 <TextLink href="/themes">自定义</TextLink> 中的选择器推导出这十个角色并复制。
               </>
             }
           />
@@ -321,8 +345,8 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
         <p className="text-muted-foreground">
           <Inline
             text={{
-              en: "Paper is the style of this site: pale surfaces, serif titles and pill controls. Install it, import `theme-paper.css` after the theme and set `data-style=\"paper\"` on `<html>`.",
-              zh: "Paper 是本站使用的样式：浅色纸面、衬线标题与胶囊形控件。安装后在主题之后导入 `theme-paper.css`，并在 `<html>` 上设置 `data-style=\"paper\"`。",
+              en: "Paper gives pale surfaces, serif titles and pill controls. Install it, import `theme-paper.css` after the theme and set `data-style=\"paper\"` on `<html>`.",
+              zh: "Paper 提供浅色纸面、衬线标题与胶囊形控件。安装后在主题之后导入 `theme-paper.css`，并在 `<html>` 上设置 `data-style=\"paper\"`。",
             }}
           />
         </p>
@@ -491,21 +515,20 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
         <p className="text-muted-foreground">
           <T en="Components read these named levels, each built on the scale above." zh="组件读取这些具名级别，它们都建立在上面色阶之上。" />
         </p>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {/* The named levels in the same table as the scale, so the two read as one system and no grid cell is left empty. */}
+        <Table head={["", { en: "Class", zh: "类名" }, { en: "Use for", zh: "用途" }]}>
           {SHADOWS.map((s) => (
-            <div key={s.cls} className="flex items-start gap-3 rounded-xl p-3">
-              <span aria-hidden className={`block size-10 shrink-0 rounded-lg bg-card ${s.cls}`} />
-              <span className="flex min-w-0 flex-col gap-0.5">
-                <code data-md-after=":" className="font-mono text-xs text-foreground">
-                  {s.cls}
-                </code>
-                <span className="text-sm text-muted-foreground">
-                  <T en={s.use.en} zh={s.use.zh} />
-                </span>
-              </span>
-            </div>
+            <SimpleTableRow key={s.cls}>
+              <SimpleTableCell data-md-skip className="w-14">
+                <span aria-hidden className={`block size-8 rounded-lg bg-card ${s.cls}`} />
+              </SimpleTableCell>
+              <SimpleTableCell variant="code">{s.cls}</SimpleTableCell>
+              <SimpleTableCell>
+                <T en={s.use.en} zh={s.use.zh} />
+              </SimpleTableCell>
+            </SimpleTableRow>
           ))}
-        </div>
+        </Table>
       </section>
 
       <section className="flex flex-col gap-4">
@@ -568,12 +591,12 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
             <T
               en={
                 <>
-                  Show focus with <Code>focus-visible:ring-2 focus-visible:ring-ring/50</Code>.
+                  Show focus with <Code>focus-visible:ring-2 focus-visible:ring-ring</Code>.
                 </>
               }
               zh={
                 <>
-                  焦点用 <Code>focus-visible:ring-2 focus-visible:ring-ring/50</Code> 表示。
+                  焦点用 <Code>focus-visible:ring-2 focus-visible:ring-ring</Code> 表示。
                 </>
               }
             />

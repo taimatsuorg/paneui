@@ -17,7 +17,7 @@ function StatusAction({ className, ...props }: React.ComponentProps<"button">) {
       type="button"
       className={cn(
         ITEM,
-        "cursor-default transition-colors duration-150 hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+        "cursor-default transition-colors duration-150 hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
         className
       )}
       {...props}
@@ -75,9 +75,9 @@ export function StatusLine({
         {changes > 0 && "*"}
       </Item>
       <Item label={`${errors} errors, ${warnings} warnings`} onClick={onProblems}>
-        <XCircleIcon className={errors ? "text-destructive" : undefined} />
+        <XCircleIcon className={errors ? "text-destructive-text" : undefined} />
         {errors}
-        <WarningIcon className={cn("ml-1", warnings ? "text-warning" : undefined)} />
+        <WarningIcon className={cn("ml-1", warnings ? "text-warning-text" : undefined)} />
         {warnings}
       </Item>
       {remote && !compact && <Item label="Terminal connection">PTY</Item>}

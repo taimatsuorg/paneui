@@ -9,10 +9,11 @@ import { OgImage, ogImageContentType, ogImageSize } from "@paneui/ui/components/
  */
 
 const SITE = {
-  name: "Acme",
-  url: "acme.dev",
+  name: "Pane Studio",
+  url: "pane.studio",
   title: "Build the product, not the plumbing",
-  description: "Components, templates and a theme for apps that ship this week.",
+  // one line at the card's 30px description size, so no word is left alone on a second line
+  description: "Components, templates and a theme that ship this week.",
 }
 
 export const alt = `${SITE.name}: ${SITE.title}`
@@ -47,7 +48,8 @@ export default async function Image() {
       description={SITE.description}
       siteName={SITE.name}
       url={SITE.url}
-      fontFamily={fonts ? "Inter" : undefined}
+      // always name a family: the renderer can't read an empty one
+      fontFamily={fonts ? "Inter" : "sans-serif"}
     />,
     { ...size, ...(fonts && { fonts }) }
   )

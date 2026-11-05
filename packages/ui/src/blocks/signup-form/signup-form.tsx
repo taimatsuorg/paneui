@@ -216,7 +216,7 @@ function SignupForm({
               aria-label={reveal ? l10n.hidePassword : l10n.showPassword}
               aria-pressed={reveal}
               disabled={done}
-              className="absolute top-1/2 right-1.5 flex size-7 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 [&_svg]:size-4"
+              className="absolute top-1/2 right-1.5 flex size-7 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-4"
             >
               <AnimatePresence initial={false} mode="popLayout">
                 <motion.span
@@ -281,7 +281,7 @@ function SignupForm({
               exit={{ opacity: 0, height: 0 }}
               className="overflow-hidden"
             >
-              <span className="flex items-center gap-2 rounded-xl bg-destructive/10 px-3 py-2 text-ui-sm text-destructive [&_svg]:size-4">
+              <span className="flex items-center gap-2 rounded-xl bg-destructive/10 px-3 py-2 text-ui-sm text-destructive-text [&_svg]:size-4">
                 <AlertCircleIcon />
                 {formError}
               </span>
@@ -340,7 +340,7 @@ function FieldError({ id, error }: { id: string; error?: string }) {
           animate={{ opacity: 1, height: "auto", y: 0 }}
           exit={reduce ? { opacity: 0 } : { opacity: 0, height: 0, y: -4 }}
           transition={{ type: "spring", stiffness: 460, damping: 36 }}
-          className="overflow-hidden text-ui-sm text-destructive"
+          className="overflow-hidden text-ui-sm text-destructive-text"
         >
           {error}
         </motion.p>

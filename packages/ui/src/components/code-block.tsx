@@ -66,7 +66,7 @@ function CodeCopyButton({
         copy(typeof value === "function" ? value() : value)
       }}
       className={cn(
-        "relative grid size-7 shrink-0 cursor-pointer place-items-center rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 data-copied:text-success",
+        "relative grid size-7 shrink-0 cursor-pointer place-items-center rounded-control text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring data-copied:text-success-text",
         className
       )}
       data-copied={copied || undefined}
@@ -137,8 +137,8 @@ const contentClass = cn(
   // Line numbers (CSS counters, so copying skips them).
   "data-line-numbers:[&_code]:[counter-reset:line] data-line-numbers:[&_pre:not(:has(code))]:[counter-reset:line]",
   // design-check-ignore text-align-logical -- line numbers sit against code, which reads left to right
-  "data-line-numbers:[&_.line]:before:mr-4 data-line-numbers:[&_.line]:before:inline-block data-line-numbers:[&_.line]:before:w-(--code-gutter) data-line-numbers:[&_.line]:before:text-right data-line-numbers:[&_.line]:before:text-muted-foreground/60 data-line-numbers:[&_.line]:before:tabular-nums data-line-numbers:[&_.line]:before:content-[counter(line)] data-line-numbers:[&_.line]:before:select-none data-line-numbers:[&_.line]:before:[counter-increment:line]",
-  "data-line-numbers:[&_.line.highlighted]:before:text-primary",
+  "data-line-numbers:[&_.line]:before:mr-4 data-line-numbers:[&_.line]:before:inline-block data-line-numbers:[&_.line]:before:w-(--code-gutter) data-line-numbers:[&_.line]:before:text-right data-line-numbers:[&_.line]:before:text-fg-tertiary data-line-numbers:[&_.line]:before:tabular-nums data-line-numbers:[&_.line]:before:content-[counter(line)] data-line-numbers:[&_.line]:before:select-none data-line-numbers:[&_.line]:before:[counter-increment:line]",
+  "data-line-numbers:[&_.line.highlighted]:before:text-primary-text",
   // Wrap long lines instead of scrolling.
   "data-wrap:[&_pre]:w-auto data-wrap:[&_pre]:whitespace-pre-wrap data-wrap:[&_pre]:break-words"
 )
@@ -209,7 +209,7 @@ function CodeBlockContent({
 
 function CodeBlockLanguage({ language }: { language: string }) {
   return (
-    <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-ui-2xs text-muted-foreground shadow-chip">
+    <span className="rounded-control-sm bg-muted px-2 py-0.5 font-mono text-ui-2xs text-muted-foreground shadow-chip">
       {language}
     </span>
   )
@@ -274,7 +274,7 @@ function CodeBlock({
         </div>
       )}
       {!header && copyButton && (
-        <div className="absolute top-2 right-2 z-10 rounded-full bg-code/80 opacity-0 backdrop-blur-sm transition-opacity duration-150 group-hover/code:opacity-100 group-focus-within/code:opacity-100 pointer-coarse:opacity-100">
+        <div className="absolute top-2 right-2 z-10 rounded-control bg-code/80 opacity-0 backdrop-blur-sm transition-opacity duration-150 group-hover/code:opacity-100 group-focus-within/code:opacity-100 pointer-coarse:opacity-100">
           {copyButton}
         </div>
       )}

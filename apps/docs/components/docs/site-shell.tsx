@@ -27,7 +27,7 @@ import { ThemeSync } from "./theme-sync"
 const GITHUB_URL = "https://github.com/taimatsuorg/paneui"
 
 const headerLink =
-  "rounded-md px-2 py-1 text-ui text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 aria-[current=page]:text-foreground"
+  "rounded-md px-2 py-1 text-ui text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring aria-[current=page]:text-foreground"
 
 function useIsMac() {
   const [mac, setMac] = React.useState(true)
@@ -40,7 +40,7 @@ function Brand() {
   return (
     <Link
       href="/"
-      className="-ms-1 flex h-8 items-center gap-2 rounded-lg ps-1 pe-2 text-ui-lg font-semibold outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+      className="-ms-1 flex h-8 items-center gap-2 rounded-lg ps-1 pe-2 text-ui-lg font-semibold outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <PaneuiLogoIcon size={20} className="text-foreground" />
       PaneUI
@@ -117,6 +117,8 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
   ]
   // The theme builder brings its own control column, so it gets the header without the sidebar.
   const bare = section === "themes"
+  // The gallery is a full-width grid with its own category row, so it drops the sidebar too.
+  const gallery = pathname === COMPONENTS_HREF
   const openSearch = React.useCallback(() => {
     setDrawerOpen(false)
     setSearchOpen(true)
@@ -147,12 +149,12 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
               onClick={openSearch}
               aria-label={label("Search docs")}
               aria-keyshortcuts={mac ? "Meta+K" : "Control+K"}
-              // eslint-disable-next-line shadcn/no-restyle -- header search morphs from an icon button (mobile) to a field (sm+)
-              className="me-1 w-7 justify-center px-0 text-muted-foreground sm:w-56 sm:justify-start sm:ps-2 sm:pe-1"
+              // eslint-disable-next-line shadcn/no-restyle -- header search morphs from an icon button (below lg) to a field (lg+)
+              className="me-1 w-7 justify-center px-0 text-muted-foreground lg:w-56 lg:justify-start lg:ps-2 lg:pe-1"
             >
               <SearchIcon />
-              <span className="hidden sm:inline">{label("Search docs…")}</span>
-              <Kbd size="sm" className="ms-auto hidden sm:inline-flex">
+              <span className="hidden lg:inline">{label("Search docs…")}</span>
+              <Kbd size="sm" className="ms-auto hidden lg:inline-flex">
                 {shortcut}
               </Kbd>
             </Button>
@@ -178,7 +180,7 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
         </header>
 
         <div className="flex">
-          {!bare && (
+          {!bare && !gallery && (
           <aside
             // Fills the viewport under the header and sticks while the page scrolls.
             style={{ "--docs-aside-h": "calc(100svh - 3rem)" } as React.CSSProperties}
@@ -193,7 +195,7 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
               children
             ) : (
               <div className="px-5 py-8 sm:px-8 lg:px-10 lg:py-10">
-                <div className="mx-auto w-full max-w-6xl">{children}</div>
+                <div className={gallery ? "mx-auto w-full max-w-(--breakpoint-2xl)" : "mx-auto w-full max-w-6xl"}>{children}</div>
               </div>
             )}
           </main>

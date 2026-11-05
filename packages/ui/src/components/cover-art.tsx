@@ -3,6 +3,7 @@ import * as React from "react"
 import { cn } from "@paneui/ui/lib/utils"
 import { LocaleText } from "@paneui/ui/components/locale-provider"
 import { ShaderBackground, type ShaderVariant } from "@paneui/ui/components/shader-background"
+import { meshGradient, seedPalette } from "@paneui/ui/lib/seed-palette"
 
 /*
  * Cover artwork: an image URL, or a shader in a custom or random palette. A seed (a post slug)
@@ -12,7 +13,15 @@ import { ShaderBackground, type ShaderVariant } from "@paneui/ui/components/shad
  *   <CoverArt image="/covers/launch.jpg" className="aspect-video" />
  *   <CoverArt seed="post-slug" className="aspect-video rounded-xl" />
  *   <CoverArt palette={["#ff8a3d", "#ffd36e", "#8fd3ff"]} shader="grain-gradient" className="aspect-video" />
+ *   <CoverArt seed="file-name" renderer="css" className="aspect-square" />   // galleries of many tiles
+ *
+ * `renderer="css"` draws a still frame of the mesh gradient with CSS radial gradients in the same
+ * seeded palette: no WebGL context, no client code, so a grid of dozens of tiles stays cheap.
  */
+
+const tint = (amount: number) => `color-mix(in oklch, var(--primary), var(--background) ${amount}%)`
+/* The theme colours for the CSS still when no palette or seed is given. */
+const THEME_PALETTE = ["var(--background)", "var(--primary)", tint(55), tint(25)]
 
 type CoverArtProps = Omit<React.ComponentProps<"div">, "children"> & {
   /** An image URL drawn edge to edge. Wins over the shader. */
@@ -23,12 +32,15 @@ type CoverArtProps = Omit<React.ComponentProps<"div">, "children"> & {
   shader?: ShaderVariant
   /** Keeps a random palette stable across renders, pages and `OgCoverArt`. */
   seed?: string
+  /** `shader` animates with WebGL; `css` draws a still mesh gradient in the same palette, for galleries. */
+  renderer?: "shader" | "css"
 }
 
-function CoverArt({ seed, image, palette, shader = "mesh-gradient", className, ...props }: CoverArtProps) {
-  const v = image !== undefined ? "image" : "shader"
+function CoverArt({ seed, image, palette, shader = "mesh-gradient", renderer = "shader", className, ...props }: CoverArtProps) {
+  const v = image !== undefined ? "image" : renderer === "css" ? "gradient" : "shader"
   // The built-in name comes from the locale through a hidden element, so the art itself needs no client code.
   const labelId = React.useId()
+  const layout = seed ?? labelId
   const named = props["aria-label"] !== undefined || props["aria-labelledby"] !== undefined || props["aria-hidden"] !== undefined
   return (
     <div
@@ -47,6 +59,8 @@ function CoverArt({ seed, image, palette, shader = "mesh-gradient", className, .
       {v === "image" ? (
         // eslint-disable-next-line @next/next/no-img-element -- any URL, sized by the container
         <img src={image} alt="" draggable={false} className="absolute inset-0 size-full object-cover" />
+      ) : v === "gradient" ? (
+        <CoverGradient colors={Array.isArray(palette) && palette.length > 0 ? palette : palette === "random" || seed !== undefined ? seedPalette(layout) : THEME_PALETTE} seed={layout} />
       ) : (
         <ShaderBackground
           aria-hidden
@@ -57,6 +71,17 @@ function CoverArt({ seed, image, palette, shader = "mesh-gradient", className, .
         />
       )}
     </div>
+  )
+}
+
+function CoverGradient({ colors, seed }: { colors: string[]; seed: string }) {
+  return (
+    <span
+      aria-hidden
+      data-slot="cover-art-gradient"
+      className="absolute inset-0"
+      style={{ backgroundColor: colors[0], backgroundImage: meshGradient(colors, seed) }}
+    />
   )
 }
 

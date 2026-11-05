@@ -39,7 +39,7 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
 
 // Square slots on the control height scale (xs 24 … lg 36), same well and focus ring as Input.
 const slotVariants = cva(
-  "bg-background text-center font-medium tabular-nums shadow-well caret-primary transition-[box-shadow,background-color] outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none dark:bg-input/32 aria-invalid:ring-2 aria-invalid:ring-destructive/30 data-[filled]:bg-card",
+  "bg-background text-center font-medium tabular-nums shadow-well caret-primary transition-[box-shadow,background-color] outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none dark:bg-input/32 aria-invalid:ring-2 aria-invalid:ring-destructive/30 data-[filled]:bg-card",
   {
     variants: {
       size: {

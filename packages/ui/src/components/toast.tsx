@@ -28,10 +28,10 @@ function ToastProvider({ children, limit = 3, timeout = 5000, ...props }: ToastP
 }
 
 const typeIcon: Record<string, React.ReactNode> = {
-  success: <CheckCircleIcon className="text-success" />,
-  error: <XCircleIcon className="text-destructive" />,
-  warning: <WarningIcon className="text-warning" />,
-  info: <InfoIcon className="text-primary" />,
+  success: <CheckCircleIcon className="text-success-text" />,
+  error: <XCircleIcon className="text-destructive-text" />,
+  warning: <WarningIcon className="text-warning-text" />,
+  info: <InfoIcon className="text-primary-text" />,
   loading: <LoaderIcon className="animate-spin text-muted-foreground" />,
 }
 

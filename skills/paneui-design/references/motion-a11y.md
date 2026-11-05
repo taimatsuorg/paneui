@@ -36,7 +36,7 @@ stop.
 
 ## Focus and keyboard
 
-- `focus-visible:ring-2 focus-visible:ring-ring/50` on every interactive element; `outline-none` only
+- `focus-visible:ring-2 focus-visible:ring-ring` on every interactive element; `outline-none` only
   together with that ring. Inside scroll frames use `focus-visible:ring-inset`.
 - Every control has an accessible name (visible label, `aria-label` on icon-only buttons, a `label` on
   sliders). Targets are at least 24px (44px under a coarse pointer), extended with a pseudo-element when

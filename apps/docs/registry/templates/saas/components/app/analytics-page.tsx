@@ -28,10 +28,10 @@ import {
   PageHeaderTitle,
 } from "@paneui/ui/components/page-header"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paneui/ui/components/select"
-import { StatCard, StatCardDelta, StatCardHeader, StatCardHint, StatCardLabel, StatCardValue } from "@paneui/ui/components/stat-card"
 import { useToast } from "@paneui/ui/components/toast"
 import { TrendChart, type TrendPoint } from "@paneui/ui/components/trend-chart"
 
+import { KpiStrip } from "./overview-page"
 import { planMix, referrers, signupsDaily, TODAY, topPages, usageDaily, usageSeries } from "../../lib/data"
 
 const num = new Intl.NumberFormat("en-US")
@@ -136,12 +136,15 @@ export function AnalyticsPage() {
         </PageHeaderActions>
       </PageHeader>
 
-      <section aria-label="Summary" className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <Metric label="Agent runs" value={compact.format(runs)} delta={hasPrevious ? change(runs, prevRuns) : undefined} hint={`${days} days`} />
-        <Metric label="Runs per day" value={num.format(days ? Math.round(runs / days) : 0)} delta={hasPrevious ? change(runs, prevRuns) : undefined} hint="Average" />
-        <Metric label="Sign-ups" value={num.format(newSignups)} delta={hasPrevious ? change(newSignups, prevSignups) : undefined} hint="New workspaces" />
-        <Metric label="Trial conversion" value="18.4%" delta={1.2} hint="Trials that paid" unit=" pts" />
-      </section>
+      <KpiStrip
+        label="Summary"
+        items={[
+          metric("runs", "Agent runs", compact.format(runs), hasPrevious ? change(runs, prevRuns) : undefined, `${days} days`),
+          metric("per-day", "Runs per day", num.format(days ? Math.round(runs / days) : 0), hasPrevious ? change(runs, prevRuns) : undefined, "Average"),
+          metric("signups", "Sign-ups", num.format(newSignups), hasPrevious ? change(newSignups, prevSignups) : undefined, "New workspaces"),
+          { ...metric("conversion", "Trial conversion", "18.4%", 1.2, "Trials that paid"), unit: " pts" },
+        ]}
+      />
 
       {usage.length === 0 ? (
         <Card>
@@ -218,15 +221,7 @@ export function AnalyticsPage() {
   )
 }
 
-function Metric({ label, value, delta, hint, unit = "%" }: { label: string; value: string; delta?: number; hint: string; unit?: string }) {
-  return (
-    <StatCard>
-      <StatCardHeader>
-        <StatCardLabel>{label}</StatCardLabel>
-        {delta !== undefined && <StatCardDelta value={delta} unit={unit} />}
-      </StatCardHeader>
-      <StatCardValue>{value}</StatCardValue>
-      <StatCardHint>{delta !== undefined ? `${hint} · vs. previous period` : hint}</StatCardHint>
-    </StatCard>
-  )
+/** A range figure: the hint names the comparison only when there is a previous period to compare with. */
+function metric(id: string, label: string, value: string, delta: number | undefined, hint: string) {
+  return { id, label, value, delta, hint: delta !== undefined ? `${hint} · vs. previous period` : hint }
 }

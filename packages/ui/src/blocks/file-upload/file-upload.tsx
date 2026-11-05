@@ -171,9 +171,9 @@ function StatusBadge({ status }: { status: FileUploadStatus }) {
           className={cn(
             "inline-flex items-center gap-1 text-ui-sm font-medium",
             status === "queued" && "text-muted-foreground",
-            status === "uploading" && "text-primary",
-            status === "success" && "text-success",
-            status === "error" && "text-destructive"
+            status === "uploading" && "text-primary-text",
+            status === "success" && "text-success-text",
+            status === "error" && "text-destructive-text"
           )}
         >
           {status === "success" && <CheckIcon size={13} />}
@@ -217,7 +217,7 @@ function FileUploadRow({
       <span
         className={cn(
           "relative inline-flex size-10 shrink-0 items-center justify-center rounded-inner bg-muted shadow-well",
-          status === "error" ? "text-destructive" : "text-muted-foreground"
+          status === "error" ? "text-destructive-text" : "text-muted-foreground"
         )}
       >
         {image ? <ImageIcon size={18} /> : <FileIcon size={18} />}
@@ -234,7 +234,7 @@ function FileUploadRow({
           <StatusBadge status={status} />
         </div>
         {status === "error" ? (
-          <span className="tabular-nums truncate text-ui-sm text-destructive/90">
+          <span className="tabular-nums truncate text-ui-sm text-destructive-text/90">
             {item.error ?? l10n.uploadFailed} · {formatBytes(item.size)}
           </span>
         ) : (
@@ -256,7 +256,7 @@ function FileUploadRow({
             onClick={() => onRetry(item)}
             disabled={disabled}
             aria-label={l10n.retryNamed(item.name)}
-            className="inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
+            className="inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
           >
             <RefreshIcon size={15} />
           </button>
@@ -266,7 +266,7 @@ function FileUploadRow({
           onClick={() => onRemove(item)}
           disabled={disabled}
           aria-label={status === "uploading" ? l10n.cancelNamed(item.name) : l10n.removeNamed(item.name)}
-          className="inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
+          className="inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
         >
           <XIcon size={15} />
         </button>
@@ -445,7 +445,7 @@ export function FileUpload({
           transition={{ type: "spring", stiffness: 500, damping: 32 }}
           className={cn(
             "inline-flex size-11 items-center justify-center rounded-2xl bg-card shadow-raised",
-            dragging ? "text-primary" : "text-muted-foreground"
+            dragging ? "text-primary-text" : "text-muted-foreground"
           )}
         >
           <UploadIcon size={20} />
@@ -475,7 +475,7 @@ export function FileUpload({
           type="button"
           disabled={inactive}
           onClick={() => inputRef.current?.click()}
-          className="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-lg bg-card px-3.5 text-ui-sm font-medium text-secondary-foreground shadow-raised transition-[box-shadow,background-color,scale] duration-150 ease-out outline-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none"
+          className="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-lg bg-card px-3.5 text-ui-sm font-medium text-secondary-foreground shadow-raised transition-[box-shadow,background-color,scale] duration-150 ease-out outline-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none"
         >
           {browseLabel}
         </button>

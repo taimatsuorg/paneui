@@ -7,7 +7,7 @@ export default function SparklineDemo() {
   return (
     <div className="grid w-full max-w-md grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-3 text-sm">
       <span className="text-muted-foreground">Revenue</span>
-      <div className="text-success"><Sparkline values={revenue} label="Revenue, up 158% over 12 months" className="h-8" /></div>
+      <div className="text-success-text"><Sparkline values={revenue} label="Revenue, up 158% over 12 months" className="h-8" /></div>
       <span className="font-medium tabular-nums">$31k</span>
       <span className="text-muted-foreground">Errors</span>
       <div className="text-chart-1"><Sparkline values={errors} variant="line" label="Errors, down 67%" className="h-8" /></div>

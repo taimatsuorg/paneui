@@ -1,5 +1,8 @@
 "use client"
 
+import Link from "next/link"
+
+import { ArrowLeftIcon, ArrowRightIcon } from "@paneui/ui/icons"
 import { CodeBlock } from "@paneui/ui/components/code-block"
 
 import { BlogTopBar, Container, TextLink } from "./parts/chrome"
@@ -8,8 +11,15 @@ import { formatLongDate, posts } from "./parts/data"
 import type { BlogHrefs } from "./blog"
 
 const post = posts[0]
+const next = posts[1]
 
-/** Blog post: breadcrumbs, title, date, then the article in `typeset typeset-reading`. */
+const pagerLink =
+  "flex min-w-0 flex-col gap-1 rounded-md px-2 py-2 transition-colors duration-150 outline-none hover:bg-foreground/6 focus-visible:ring-2 focus-visible:ring-ring"
+
+/**
+ * Blog post: breadcrumbs, title, date, the article in `typeset typeset-reading`, then a pager back
+ * to every post and on to the next one, so the end of a post is never a dead end.
+ */
 export function BlogPost({ hrefs = { home: "/blog", post: "/blog/post" } }: { hrefs?: BlogHrefs }) {
   return (
     <div className="bg-background">
@@ -64,6 +74,25 @@ export function BlogPost({ hrefs = { home: "/blog", post: "/blog/post" } }: { hr
               </p>
             </div>
           </article>
+
+          <nav aria-label="More posts" className="-mx-2 mt-16 grid grid-cols-2 gap-4">
+            <Link href={hrefs.home} className={pagerLink}>
+              <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+                <ArrowLeftIcon size={14} className="rtl:-scale-x-100" />
+                All posts
+              </span>
+              <span className="truncate tabular-nums">{posts.length} posts</span>
+            </Link>
+            {next && (
+              <Link href={hrefs.post} className={`${pagerLink} items-end text-end`}>
+                <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+                  Next
+                  <ArrowRightIcon size={14} className="rtl:-scale-x-100" />
+                </span>
+                <span className="max-w-full truncate">{next.title}</span>
+              </Link>
+            )}
+          </nav>
         </main>
       </Container>
     </div>

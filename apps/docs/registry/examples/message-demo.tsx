@@ -48,10 +48,10 @@ export default function MessageDemo() {
               <RefreshIcon />
             </MessageAction>
             <MessageAction label="Good response" aria-pressed={liked === true} onClick={() => setLiked(true)}>
-              <ThumbsUpIcon className={liked === true ? "text-primary" : undefined} />
+              <ThumbsUpIcon className={liked === true ? "text-primary-text" : undefined} />
             </MessageAction>
             <MessageAction label="Bad response" aria-pressed={liked === false} onClick={() => setLiked(false)}>
-              <ThumbsDownIcon className={liked === false ? "text-destructive" : undefined} />
+              <ThumbsDownIcon className={liked === false ? "text-destructive-text" : undefined} />
             </MessageAction>
           </MessageActions>
         </MessageContent>

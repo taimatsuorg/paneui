@@ -234,11 +234,11 @@ function ToolApproval({
 
   const outcome = pending ? null : decision === "deny" ? "denied" : (status ?? (decision === "always" ? "always" : "approved"))
   const OUTCOME: Record<NonNullable<typeof outcome>, { label: string; tone: string; icon: React.ReactNode }> = {
-    approved: { label: labels.approved, tone: "text-success", icon: <CheckIcon className="size-3.5" /> },
-    always: { label: labels.alwaysAllowed, tone: "text-success", icon: <CheckIcon className="size-3.5" /> },
-    running: { label: labels.toolRunning, tone: "text-primary", icon: <ToolStatusIcon status="running" /> },
-    done: { label: labels.toolDone, tone: "text-success", icon: <ToolStatusIcon status="success" /> },
-    failed: { label: labels.toolFailed, tone: "text-destructive", icon: <ToolStatusIcon status="error" /> },
+    approved: { label: labels.approved, tone: "text-success-text", icon: <CheckIcon className="size-3.5" /> },
+    always: { label: labels.alwaysAllowed, tone: "text-success-text", icon: <CheckIcon className="size-3.5" /> },
+    running: { label: labels.toolRunning, tone: "text-primary-text", icon: <ToolStatusIcon status="running" /> },
+    done: { label: labels.toolDone, tone: "text-success-text", icon: <ToolStatusIcon status="success" /> },
+    failed: { label: labels.toolFailed, tone: "text-destructive-text", icon: <ToolStatusIcon status="error" /> },
     denied: { label: labels.denied, tone: "text-muted-foreground", icon: <ToolStatusIcon status="cancelled" /> },
   }
 

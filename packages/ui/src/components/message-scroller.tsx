@@ -252,7 +252,7 @@ function MessageScroller({
               if (e.target === e.currentTarget) stop()
             }}
             className={cn(
-              "min-h-0 flex-1 overflow-y-auto overscroll-contain scrollbar-thin outline-none [overflow-anchor:none] focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset",
+              "min-h-0 flex-1 overflow-y-auto overscroll-contain scrollbar-thin outline-none [overflow-anchor:none] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
               viewportClassName
             )}
           >
@@ -284,7 +284,7 @@ function MessageScroller({
                 exit={reduce ? { opacity: 0 } : { opacity: 0, y: 8, scale: 0.92, filter: "blur(4px)" }}
                 transition={reduce ? { duration: 0.12 } : { type: "spring", stiffness: 520, damping: 34 }}
                 className={cn(
-                  "absolute bottom-3 left-1/2 z-10 inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-lg bg-popover pr-3 pl-2.5 text-ui-sm font-medium text-popover-foreground shadow-surface transition-[background-color,color,scale] duration-150 ease-out outline-none select-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+                  "absolute bottom-3 left-1/2 z-10 inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-lg bg-popover pr-3 pl-2.5 text-ui-sm font-medium text-popover-foreground shadow-surface transition-[background-color,color,scale] duration-150 ease-out outline-none select-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
                   hasNew && "bg-primary text-primary-foreground shadow-primary hover:bg-primary-hover hover:text-primary-foreground",
                   "data-[variant=icon]:size-8 data-[variant=icon]:justify-center data-[variant=icon]:rounded-full data-[variant=icon]:p-0"
                 )}

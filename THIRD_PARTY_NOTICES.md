@@ -75,17 +75,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-## Fonts (Inter, Noto Sans SC, JetBrains Mono, Newsreader, Noto Serif SC, Source Serif 4)
+## Fonts (Noto Sans, Noto Sans SC, JetBrains Mono, Newsreader, Noto Serif SC, Source Serif 4)
 
 The theme's font stacks name these typefaces. The docs site and the `fonts` registry item
-install them from npm as the Fontsource packages (`@fontsource-variable/inter`,
+install them from npm as the Fontsource packages (`@fontsource-variable/noto-sans`,
 `@fontsource-variable/noto-sans-sc`, `@fontsource-variable/jetbrains-mono`,
 `@fontsource-variable/newsreader`, `@fontsource-variable/noto-serif-sc`,
 `@fontsource-variable/source-serif-4`); the font files are not
 vendored or modified. These fonts are licensed under the SIL Open Font License, Version 1.1
 (https://openfontlicense.org); each package ships the full licence text in its `LICENSE` file.
 
-- Inter: Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)
+- Noto Sans: Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic)
 - Noto Sans SC and Noto Serif SC: Copyright Google Inc. (https://github.com/notofonts/noto-cjk)
 - JetBrains Mono: Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
 - Newsreader: Copyright 2020 The Newsreader Project Authors (https://github.com/productiontype/Newsreader)

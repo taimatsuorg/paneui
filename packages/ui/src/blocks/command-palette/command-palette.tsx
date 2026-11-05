@@ -400,7 +400,7 @@ function Highlight({ text, indices }: { text: string; indices: number[] }) {
     <>
       {Array.from(text).map((ch, i) =>
         set.has(i) ? (
-          <mark key={i} className="bg-transparent font-semibold text-primary">
+          <mark key={i} className="bg-transparent font-semibold text-primary-text">
             {ch}
           </mark>
         ) : (

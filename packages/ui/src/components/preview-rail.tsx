@@ -186,7 +186,7 @@ function PreviewRail({
               "aria-current": isSelected ? (item.href ? ("page" as const) : ("location" as const)) : undefined,
               style: horizontal ? { width: itemSize } : { height: itemSize },
               className: cn(
-                "relative flex shrink-0 cursor-pointer rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                "relative flex shrink-0 cursor-pointer rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 horizontal ? "h-full items-end justify-center pb-1" : "w-full items-center pl-1",
                 item.disabled && "pointer-events-none opacity-40"
               ),

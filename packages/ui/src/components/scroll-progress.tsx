@@ -167,7 +167,7 @@ function ScrollProgressRing({
       data-variant="ring"
       style={{ width: size, height: size }}
       className={cn(
-        "relative inline-flex shrink-0 items-center justify-center rounded-full bg-card text-primary shadow-raised",
+        "relative inline-flex shrink-0 items-center justify-center rounded-full bg-card text-primary-text shadow-raised",
         className
       )}
     >

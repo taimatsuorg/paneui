@@ -4,7 +4,7 @@ import * as React from "react"
 import Editor, { loader, type Monaco, type OnMount } from "@monaco-editor/react"
 
 import { Button } from "@paneui/ui/components/button"
-import { Loader } from "@paneui/ui/components/loader"
+import { Skeleton } from "@paneui/ui/components/skeleton"
 
 import type { Docs } from "./buffers"
 import { applyEditorTheme, EDITOR_THEME, monoFont, TYPE_SHIMS } from "./editor-theme"
@@ -65,7 +65,8 @@ function configure(monaco: Monaco) {
  * tab. Every workspace file has a model, so imports resolve across files and
  * the Problems list covers the whole workspace. Typing writes to the buffer
  * store; buffer changes from elsewhere (revert, a terminal write) flow back in.
- * While the editor loads it shows a spinner; if it cannot load it falls back
+ * While the editor loads it shows the shape of the code (gutter and lines at
+ * the editor's own pitch, so nothing moves when it arrives); if it cannot load it falls back
  * to a plain text area on the same buffers.
  */
 export function CodeEditor({
@@ -76,6 +77,7 @@ export function CodeEditor({
   onProblems,
   onSave,
   compact = false,
+  empty,
   handleRef,
 }: {
   ws: Workspace
@@ -86,6 +88,8 @@ export function CodeEditor({
   onSave: () => void
   /** Phone layout: no minimap, narrower gutter. */
   compact?: boolean
+  /** What shows when no file is open; defaults to a short list of shortcuts. */
+  empty?: React.ReactNode
   handleRef?: React.Ref<CodeEditorHandle>
 }) {
   const [monaco, setMonaco] = React.useState<Monaco | null>(null)
@@ -214,16 +218,16 @@ export function CodeEditor({
     [editor]
   )
 
-  if (failed && !monaco) return <FallbackEditor docs={docs} path={path} onSave={onSave} />
+  if (failed && !monaco) return <FallbackEditor docs={docs} path={path} onSave={onSave} empty={empty} />
 
   return (
     <div className="relative h-full min-h-0">
-      {!path && <EmptyEditor />}
+      {!path && (empty ?? <EmptyEditor />)}
       <div className={path ? "h-full" : "invisible h-full"}>
         <Editor
           theme={EDITOR_THEME}
           keepCurrentModel
-          loading={<EditorLoading />}
+          loading={<EditorLoading compact={compact} />}
           beforeMount={(m) => {
             configure(m)
             applyEditorTheme(m)
@@ -269,11 +273,33 @@ export function CodeEditor({
   )
 }
 
-function EditorLoading() {
+/** The loading skeleton's lines as [indent, width] in characters: the rough shape of a component file. */
+const SKELETON_LINES: [number, number][] = [
+  [0, 28], [0, 34], [0, 0], [0, 22], [0, 0], [0, 40], [2, 18], [2, 46], [4, 38], [4, 30], [2, 24], [0, 0],
+  [2, 30], [4, 44], [6, 36], [6, 28], [4, 12], [2, 8], [0, 0], [0, 26], [2, 20],
+]
+
+/**
+ * The editor before it loads: a gutter of line numbers and grey bars on the editor's 20px line
+ * pitch with its 8px top padding, so the code lands where the bars were.
+ */
+function EditorLoading({ compact }: { compact?: boolean }) {
   return (
-    <div className="flex h-full items-center justify-center gap-2 text-ui text-muted-foreground">
-      <Loader size="sm" />
-      Loading editor…
+    <div role="status" aria-label="Loading editor" className="flex h-full w-full overflow-hidden pt-2">
+      <div aria-hidden className={compact ? "w-8 shrink-0" : "w-12 shrink-0"}>
+        {SKELETON_LINES.map((_, i) => (
+          <div key={i} className="flex h-5 items-center justify-end pe-3 font-mono text-ui-xs text-muted-foreground tabular-nums opacity-48">
+            {i + 1}
+          </div>
+        ))}
+      </div>
+      <div aria-hidden className="min-w-0 flex-1 ps-3 font-mono text-ui-sm">
+        {SKELETON_LINES.map(([indent, width], i) => (
+          <div key={i} className="flex h-5 items-center" style={{ paddingInlineStart: `${indent}ch` }}>
+            {width > 0 && <Skeleton className="h-2.5" style={{ width: `${width}ch`, maxWidth: "100%" }} />}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -295,9 +321,9 @@ function EmptyEditor() {
 }
 
 /** Plain text area on the same buffers, for when the editor cannot load. */
-function FallbackEditor({ docs, path, onSave }: { docs: Docs; path: string | null; onSave: () => void }) {
+function FallbackEditor({ docs, path, onSave, empty }: { docs: Docs; path: string | null; onSave: () => void; empty?: React.ReactNode }) {
   React.useSyncExternalStore((cb) => docs.subscribe(cb), docs.getVersion, docs.getVersion)
-  if (!path) return <EmptyEditor />
+  if (!path) return <>{empty ?? <EmptyEditor />}</>
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-8 shrink-0 items-center gap-2 border-b border-warning-border bg-warning-subtle px-3 text-ui-sm text-muted-foreground">

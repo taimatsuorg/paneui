@@ -14,7 +14,7 @@ export default function ShaderBackgroundPaused() {
       paused={paused}
       className="flex h-56 w-full max-w-lg items-end justify-between gap-3 rounded-3xl p-6 shadow-surface"
     >
-      <p className="rounded-full bg-card/80 px-3 py-1 text-xs font-medium shadow-chip backdrop-blur-md">
+      <p className="rounded-control-sm bg-card/80 px-3 py-1 text-xs font-medium shadow-chip backdrop-blur-md">
         speed 1.2 {paused ? "· paused" : ""}
       </p>
       <Button size="sm" variant="secondary" onClick={() => setPaused((p) => !p)}>

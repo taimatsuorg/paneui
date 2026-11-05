@@ -2,7 +2,7 @@
 
 import type * as React from "react"
 
-import { Code, GuideH2, GuidePage, TextLink } from "@/components/docs/guide-page"
+import { Code, GuideH2, GuidePage, GuideRow, TextLink } from "@/components/docs/guide-page"
 import { SiteRoot, type SiteProps } from "@/components/site/site-root"
 import type { DocNav } from "@/lib/doc-types"
 import { Badge } from "@paneui/ui/components/badge"
@@ -11,6 +11,29 @@ type Entry = { id: string; date: string; title: string; tag?: string; changes: R
 
 /* Newest first. Summarised from the repository history; dates are commit dates. */
 const ENTRIES: Entry[] = [
+  {
+    id: "2026-10-30-colour-roles",
+    date: "October 30, 2026",
+    title: "Readable colour roles",
+    changes: [
+      <>
+        Theme 2.5: every label on a solid reaches 4.5:1, in both modes and every accent. The blue solid is darker, warning
+        keeps its orange with dark text, and the orange accent does the same.
+      </>,
+      <>
+        New roles: <Code>primary-text</Code> and <Code>destructive-text</Code>, <Code>success-text</Code>,{" "}
+        <Code>warning-text</Code> for coloured text and icons; an <Code>info</Code> set; <Code>fill-hover</Code>,{" "}
+        <Code>fill-active</Code> and <Code>fill-strong</Code> (<Code>secondary</Code>, <Code>muted</Code> and{" "}
+        <Code>accent</Code> now read them); <Code>border-control</Code> at 3:1; <Code>selection</Code>; and ten{" "}
+        <Code>tag-*</Code> colours with text, highlight and pill. Components use the <Code>-text</Code> roles for
+        coloured text. Every value is on <TextLink href="/themes">Customize</TextLink>.
+      </>,
+      <>
+        Reinstall <Code>theme</Code> and any <Code>theme-&lt;accent&gt;</Code> preset. Replace <Code>text-primary</Code> and{" "}
+        <Code>text-destructive</Code> on text with their <Code>-text</Code> roles.
+      </>,
+    ],
+  },
   {
     id: "2026-10-28-emoji-icons-sidebar-rail",
     date: "October 28, 2026",
@@ -983,25 +1006,32 @@ export default function ChangelogPage({ site, data }: { site: SiteProps; data: C
   return (
     <SiteRoot {...site}>
     <GuidePage href="/docs/changelog" nav={data.nav} toc={ENTRIES.map((e) => ({ id: e.id, title: e.title }))}>
-      {ENTRIES.map((e) => (
-        <section key={e.id} className="flex flex-col gap-3">
-          <div data-md-skip className="flex items-center gap-2 text-sm text-muted-foreground">
-            <time>{e.date}</time>
-            {e.tag && <Badge size="sm">{e.tag}</Badge>}
-          </div>
-          <GuideH2 id={e.id}>{e.title}</GuideH2>
-          <p hidden data-md-only>
-            <em>{e.tag ? `${e.date} · ${e.tag}` : e.date}</em>
-          </p>
-          <div className="typeset typeset-docs text-muted-foreground">
-            <ul>
-              {e.changes.map((c, i) => (
-                <li key={i}>{c}</li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      ))}
+      {/* Date and tag in the left column, the release beside them: one reading column, scannable by date. */}
+      <div className="flex flex-col gap-12">
+        {ENTRIES.map((e) => (
+          <GuideRow
+            key={e.id}
+            label={
+              <div data-md-skip className="flex items-center gap-2 text-ui text-muted-foreground sm:sticky sm:top-20 sm:flex-col sm:items-start sm:gap-1.5 sm:pt-1">
+                <time>{e.date}</time>
+                {e.tag && <Badge size="sm">{e.tag}</Badge>}
+              </div>
+            }
+          >
+            <GuideH2 id={e.id}>{e.title}</GuideH2>
+            <p hidden data-md-only>
+              <em>{e.tag ? `${e.date} · ${e.tag}` : e.date}</em>
+            </p>
+            <div className="typeset typeset-docs text-muted-foreground">
+              <ul>
+                {e.changes.map((c, i) => (
+                  <li key={i}>{c}</li>
+                ))}
+              </ul>
+            </div>
+          </GuideRow>
+        ))}
+      </div>
     </GuidePage>
     </SiteRoot>
   )

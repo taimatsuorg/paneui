@@ -75,7 +75,7 @@ function MenuItem({
       className={cn(
         itemClass,
         inset && "ps-7.5",
-        "data-[variant=destructive]:text-destructive data-[variant=destructive]:[&_svg]:text-destructive/80 data-[variant=destructive]:data-highlighted:bg-destructive/8",
+        "data-[variant=destructive]:text-destructive-text data-[variant=destructive]:[&_svg]:text-destructive-text/80 data-[variant=destructive]:data-highlighted:bg-destructive/8",
         className
       )}
       {...props}
@@ -88,7 +88,7 @@ function MenuCheckboxItem({ className, children, ...props }: MenuPrimitive.Check
     <MenuPrimitive.CheckboxItem data-slot="menu-checkbox-item" className={cn(itemClass, "ps-7.5", className)} {...props}>
       <span className="absolute start-2 flex size-4 items-center justify-center">
         <MenuPrimitive.CheckboxItemIndicator className="transition-[opacity,scale] duration-150 data-ending-style:scale-50 data-ending-style:opacity-0 data-starting-style:scale-50 data-starting-style:opacity-0">
-          <CheckIcon className="!text-primary" />
+          <CheckIcon className="!text-primary-text" />
         </MenuPrimitive.CheckboxItemIndicator>
       </span>
       {children}

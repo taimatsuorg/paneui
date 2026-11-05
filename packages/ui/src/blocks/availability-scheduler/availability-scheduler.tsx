@@ -342,7 +342,7 @@ function DayRow({
                     exit={{ opacity: 0, height: 0 }}
                     transition={ROW}
                     role="alert"
-                    className="overflow-hidden text-ui-sm text-destructive"
+                    className="overflow-hidden text-ui-sm text-destructive-text"
                   >
                     <span className="block pt-0.5">{l10n.theseHoursOverlap}</span>
                   </motion.li>
@@ -483,7 +483,7 @@ function CopyMenu({
         <MenuItem
           disabled={picked.length === 0}
           onClick={() => onCopy(picked)}
-          className="justify-center font-medium text-primary"
+          className="justify-center font-medium text-primary-text"
         >
           {l10n.apply}{picked.length ? ` to ${picked.length} day${picked.length > 1 ? "s" : ""}` : ""}
         </MenuItem>

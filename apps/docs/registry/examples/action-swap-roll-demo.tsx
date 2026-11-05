@@ -30,7 +30,7 @@ export default function ActionSwapRollDemo() {
         size="icon"
         items={[
           { value: "off", label: "Turn on alerts", icon: <BellIcon /> },
-          { value: "on", label: "Alerts on", icon: <CheckIcon className="text-success" /> },
+          { value: "on", label: "Alerts on", icon: <CheckIcon className="text-success-text" /> },
         ]}
       />
     </div>

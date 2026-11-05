@@ -1042,6 +1042,18 @@ export const FolderIcon = (p: IconProps) => (
 
 export const FolderFilledIcon = FolderIcon;
 
+export const FolderOpenIcon = (p: IconProps) => (
+  <Icon {...p} tones={["sky", "paper"]}>
+    {(c) => (
+      <>
+        <path d="M2.5 6.5 a2 2 0 0 1 2 -2 h4.6 a2 2 0 0 1 1.5 .7 l1.3 1.5 h7.6 a2 2 0 0 1 2 2 v9.8 a2 2 0 0 1 -2 2 h-15 a2 2 0 0 1 -2 -2 Z" fill="#1f6fd0" />
+        <rect x="4.8" y="7.6" width="14.4" height="8" rx="1" fill={c.f("paper")} />
+        <path d="M2.6 18.6 l2.2 -7.4 a2 2 0 0 1 1.9 -1.4 h14.4 a1.4 1.4 0 0 1 1.3 1.8 l-2.1 7.4 a2 2 0 0 1 -1.9 1.4 h-14 a1.9 1.9 0 0 1 -1.8 -1.8 Z" fill={c.f("sky")} />
+      </>
+    )}
+  </Icon>
+);
+
 export const FileIcon = (p: IconProps) => (
   <Icon {...p} tones={["paper", "silver"]}>
     {(c) => (
@@ -1555,4 +1567,34 @@ export const Heading3Icon = (p: IconProps) => (
   <Glyph {...p}>
     <path {...line} d="M3.5 5.5v13M11.5 5.5v13M3.5 12h8M15.5 8.5h4.5l-2.6 3.6a3 3 0 11-2.2 5.6" />
   </Glyph>
+);
+
+export const LibraryIcon = (p: IconProps) => (
+  <Icon {...p} tones={["red", "blue", "gold"]}>
+    {(c) => (
+      <>
+        <rect x="2" y="3" width="5" height="18.4" rx="1.4" fill={c.f("red")} />
+        <rect x="8.3" y="5.4" width="5" height="16" rx="1.4" fill={c.f("blue")} />
+        <path d="M16.3 3.75 L17.4 3.5 a1.4 1.4 0 0 1 1.66 1.08 L21.9 18.1 a1.4 1.4 0 0 1 -1.08 1.66 L19.7 20 a1.4 1.4 0 0 1 -1.66 -1.08 L15.2 5.4 a1.4 1.4 0 0 1 1.1 -1.65 Z" fill={c.f("gold")} />
+        <rect x="2" y="6.6" width="5" height="1.3" fill="#a81e1b" />
+        <rect x="8.3" y="9" width="5" height="1.3" fill="#1d43a8" />
+        <path d="M3.6 10 V18.2 M9.9 12.6 V18.6" {...glyph("#fff", 1)} opacity={0.55} />
+        <path d="M16.8 7.4 L18.4 15" {...glyph("#fff", 1)} opacity={0.6} />
+      </>
+    )}
+  </Icon>
+);
+
+export const PlugIcon = (p: IconProps) => (
+  <Icon {...p} tones={["gold", "steel"]}>
+    {(c) => (
+      <>
+        <path d="M12 16.4 V21.6" {...glyph(c.s("steel"), 2.6)} />
+        <rect x="7.8" y="2.2" width="2.4" height="5.8" rx="1.2" fill={c.f("gold")} />
+        <rect x="13.8" y="2.2" width="2.4" height="5.8" rx="1.2" fill={c.f("gold")} />
+        <path d="M6.6 6.6 h10.8 a1.4 1.4 0 0 1 1.4 1.4 v2.6 a6.8 6.8 0 0 1 -13.6 0 V8 a1.4 1.4 0 0 1 1.4 -1.4 Z" fill={c.f("steel")} />
+        <ellipse cx="9" cy="9.4" rx="1.9" ry="1.1" {...shine} />
+      </>
+    )}
+  </Icon>
 );

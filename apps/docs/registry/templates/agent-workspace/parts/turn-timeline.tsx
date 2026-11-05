@@ -240,7 +240,7 @@ export function Timeline({
             return <Permission key={item.id} item={item} onResolve={(optionId) => client.resolvePermission(session.id, item.id, optionId)} />
           case "notice":
             return (
-              <p key={item.id} role={item.tone === "error" ? "alert" : undefined} className={cn("text-ui", item.tone === "error" ? "text-destructive" : "text-muted-foreground")}>
+              <p key={item.id} role={item.tone === "error" ? "alert" : undefined} className={cn("text-ui", item.tone === "error" ? "text-destructive-text" : "text-muted-foreground")}>
                 {item.text}
               </p>
             )

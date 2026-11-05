@@ -62,7 +62,7 @@ export function DocHeading({
         aria-label={copied ? label("Link copied") : label("Copy link to section")}
         data-md-skip
         className={cn(
-          "ms-2 inline-flex items-center gap-1 rounded-sm align-middle text-ui font-normal tracking-normal text-muted-foreground opacity-0 transition-[opacity,color] duration-150 outline-none select-none hover:text-foreground focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring/50 group-hover/heading:opacity-100 pointer-coarse:opacity-100",
+          "ms-2 inline-flex items-center gap-1 rounded-sm align-middle text-ui font-normal tracking-normal text-muted-foreground opacity-0 transition-[opacity,color] duration-150 outline-none select-none hover:text-foreground focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring group-hover/heading:opacity-100 pointer-coarse:opacity-100",
           copied && "text-foreground opacity-100",
         )}
       >

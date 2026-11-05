@@ -148,6 +148,10 @@ export const DOC_SUMMARIES: Record<string, Localized> = {
     "en": "Documentation site layout with search, navigation and a page outline.",
     "zh": "为文档站点提供导航和搜索。"
   },
+  "team-chat": {
+    "en": "Team chat with channels, direct messages and threads.",
+    "zh": "带频道、私信和话题串的团队聊天。"
+  },
   "blog": {
     "en": "Personal blog with a post list and an article page.",
     "zh": "展示文章列表与正文。"

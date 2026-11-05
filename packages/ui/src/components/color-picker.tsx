@@ -190,7 +190,7 @@ function ColorPickerTrigger({
       data-slot="color-picker-trigger"
       disabled={disabled}
       className={cn(
-        "inline-flex h-8 cursor-pointer items-center gap-2 rounded-lg bg-card py-1 pr-3 pl-1.5 text-ui font-medium text-secondary-foreground shadow-raised transition-[box-shadow,background-color,opacity,scale] duration-150 ease-out outline-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex h-8 cursor-pointer items-center gap-2 rounded-lg bg-card py-1 pr-3 pl-1.5 text-ui font-medium text-secondary-foreground shadow-raised transition-[box-shadow,background-color,opacity,scale] duration-150 ease-out outline-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
         !showHex && "pr-1.5",
         className
       )}
@@ -345,7 +345,7 @@ function ColorPickerArea({
         data-dragging={dragging || undefined}
         className={cn(
           "absolute size-5 -translate-x-1/2 -translate-y-1/2 rounded-full outline-none",
-          "shadow-[0_0_0_2.5px_white,0_0_0_3px_rgb(0_0_0/0.2),0_2px_6px_rgb(0_0_0/0.35)] focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2",
+          "shadow-[0_0_0_2.5px_white,0_0_0_3px_rgb(0_0_0/0.2),0_2px_6px_rgb(0_0_0/0.35)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
           // Loupe: the thumb lifts and magnifies while dragging.
           "transition-[scale,translate,box-shadow] duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] data-dragging:-translate-y-[calc(50%+14px)] data-dragging:scale-[1.8] data-dragging:shadow-[0_0_0_2px_white,0_0_0_2.5px_rgb(0_0_0/0.2),0_8px_18px_-4px_rgb(0_0_0/0.45)] motion-reduce:transition-none motion-reduce:data-dragging:translate-y-[-50%] motion-reduce:data-dragging:scale-110"
         )}
@@ -408,7 +408,7 @@ function ChannelSlider({
         >
           <SliderPrimitive.Thumb
             getAriaLabel={() => label}
-            className="block size-4.5 rounded-full shadow-[0_0_0_2.5px_white,0_0_0_3px_rgb(0_0_0/0.2),0_2px_5px_rgb(0_0_0/0.3)] outline-none transition-[scale] duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-110 data-dragging:scale-115 has-focus-visible:ring-2 has-focus-visible:ring-ring/50 has-focus-visible:ring-offset-2 motion-reduce:transition-none"
+            className="block size-4.5 rounded-full shadow-[0_0_0_2.5px_white,0_0_0_3px_rgb(0_0_0/0.2),0_2px_5px_rgb(0_0_0/0.3)] outline-none transition-[scale] duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-110 data-dragging:scale-115 has-focus-visible:ring-2 has-focus-visible:ring-ring has-focus-visible:ring-offset-2 motion-reduce:transition-none"
             style={{ background: thumbColor }}
           />
         </SliderPrimitive.Track>
@@ -491,7 +491,7 @@ function ColorPickerHexInput({
     <label
       data-slot="color-picker-hex"
       className={cn(
-        "flex h-8 min-w-0 flex-1 items-center gap-1 rounded-inner bg-background dark:bg-input/32 px-2.5 font-mono text-ui-sm shadow-well transition-[box-shadow,background-color] focus-within:ring-2 focus-within:ring-ring/50",
+        "flex h-8 min-w-0 flex-1 items-center gap-1 rounded-inner bg-background dark:bg-input/32 px-2.5 font-mono text-ui-sm shadow-well transition-[box-shadow,background-color] focus-within:ring-2 focus-within:ring-ring",
         className
       )}
     >
@@ -593,7 +593,7 @@ function ColorPickerPreset({
         if (rgba && !e.defaultPrevented) setHsva(rgbaToHsva(rgba, hsva), true)
       }}
       className={cn(
-        "group/preset inline-flex size-6 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50",
+        "group/preset inline-flex size-6 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}

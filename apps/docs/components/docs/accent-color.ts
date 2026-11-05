@@ -3,10 +3,11 @@
  * blocks in packages/tokens/styles/globals.css), OKLCH maths to derive a light + dark accent from any picked
  * colour, and the CSS a user takes home. Pure and client-safe.
  *
- * An accent is eight role variables per mode: `--primary` (solid), `--primary-hover`,
- * `--primary-active`, `--primary-foreground` (text on the solid), `--primary-subtle` and
- * `--primary-subtle-hover` (tinted fills), `--primary-border` and `--ring` (focus). Presets
- * read the same steps of their own 12-step scale. Blue is the default (no `data-accent`).
+ * An accent is ten role variables per mode: `--primary` (solid), `--primary-hover`,
+ * `--primary-active`, `--primary-foreground` (label on the solid, 4.5:1 on all three), `--primary-subtle`
+ * and `--primary-subtle-hover` (tinted fills), `--primary-border`, `--primary-text` (links and accent
+ * text, 4.5:1 on the page and the subtle fill), `--ring` (focus, 3:1) and `--selection`. Presets and a
+ * picked colour follow the same contrast rules. Blue is the base (no `data-accent`).
  */
 
 import { PRESET_ROLES } from "./accent-presets.generated"
@@ -19,7 +20,9 @@ export const ACCENT_VARS = [
   "primary-subtle",
   "primary-subtle-hover",
   "primary-border",
+  "primary-text",
   "ring",
+  "selection",
 ] as const
 export type AccentVar = (typeof ACCENT_VARS)[number]
 export type AccentVars = Record<AccentVar, string>
@@ -133,13 +136,32 @@ const fmt = (c: Oklch) => {
   return c.c < 0.0005 ? `oklch(${r(c.l, 3)} 0 0)` : `oklch(${r(c.l, 3)} ${r(c.c, 3)} ${r(c.h, 1)})`
 }
 
-const BG_LIGHT: Oklch = { l: 1, c: 0, h: 0 } // --background, light (white)
-const BG_DARK: Oklch = { l: 0.15, c: 0, h: 0 } // --background, dark
 const WHITE: Oklch = { l: 1, c: 0, h: 0 }
+/** The pages an accent must read on in each mode: the default and Paper page, card and popover. */
+const PAGES: Record<"light" | "dark", Oklch[]> = {
+  light: [WHITE, { l: 0.99, c: 0.002, h: 234.82 }],
+  dark: [{ l: 0.15, c: 0, h: 0 }, { l: 0.252, c: 0, h: 0 }, { l: 0.195, c: 0.004, h: 289.15 }, { l: 0.255, c: 0.004, h: 289.15 }],
+}
+
+/** Gamma-encoded sRGB of a colour, optionally composited at `alpha` over `under`. */
+function srgb(c: Oklch, alpha = 1, under?: Oklch): number[] {
+  const top = oklchToLinear(fitGamut(c)).map((v) => toGamma(clamp(v, 0, 1)))
+  if (alpha >= 1 || !under) return top
+  const bottom = srgb(under)
+  return top.map((v, i) => v * alpha + bottom[i] * (1 - alpha))
+}
+const lum = (rgb: number[]) => {
+  const [r, g, b] = rgb.map(toLinear)
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b
+}
+const ratioRgb = (a: number[], b: number[]) => {
+  const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p)
+  return (x + 0.05) / (y + 0.05)
+}
 
 /**
  * White text unless a dark tint of the hue reads clearly better. White is favoured on saturated
- * fills, as on every preset in packages/tokens/styles/globals.css.
+ * fills, as on the presets; light fills (yellow, lime, cyan) take dark text.
  */
 function pickForeground(fill: Oklch): Oklch {
   const dark: Oklch = { l: 0.2, c: Math.min(fill.c, 0.04), h: fill.h }
@@ -147,43 +169,59 @@ function pickForeground(fill: Oklch): Oklch {
   return contrast(fill, WHITE) * 1.6 >= contrast(fill, dark) ? WHITE : dark
 }
 
-/** Darken (step < 0) or lighten until the fill reaches 3:1 against the page, the WCAG minimum for controls. */
-function ensureContrast(c: Oklch, bg: Oklch, step: number): Oklch {
+/** Step lightness by `step` until `ok` holds (or the range ends). */
+function walk(c: Oklch, step: number, ok: (c: Oklch) => boolean): Oklch {
   let out = fitGamut(c)
-  for (let i = 0; i < 40 && contrast(out, bg) < 3; i++) out = fitGamut({ ...out, l: clamp(out.l + step, 0, 1) })
+  for (let i = 0; i < 200 && !ok(out) && out.l > 0 && out.l < 1; i++) out = fitGamut({ ...out, l: clamp(out.l + step, 0, 1) })
   return out
 }
 
 const fmtA = (c: Oklch, alpha: number) => fmt(c).replace(/\)$/, ` / ${Math.round(alpha * 1000) / 10}%)`)
 const shift = (c: Oklch, dl: number) => fitGamut({ ...c, l: clamp(c.l + dl, 0, 1) })
 
+const ALPHAS = {
+  light: { subtle: 0.1, hover: 0.16, border: 0.32, selection: 0.22 },
+  dark: { subtle: 0.16, hover: 0.24, border: 0.42, selection: 0.4 },
+}
+
 /**
- * Derive both modes from one picked colour, on the same role pattern as the presets: the solid is
- * the colour as picked (darkened in light mode, or lifted in dark mode, only if it would fall under
- * 3:1 against that page); hover and active step darker in light and lighter in dark; subtle fills,
- * border and ring are the hue at fixed alphas. A near-grey pick mirrors the neutral preset.
+ * Derive both modes from one picked colour, on the same rules as the presets. The solid starts as
+ * picked (lifted to 3:1 on the dark page), takes white or dark text, and moves away from that text until
+ * the label reaches 4.5:1; hover and active move further away, so they keep it. `primary-text` is the
+ * hue at the lightness that reads at 4.5:1 on every page and on the subtle fill; the ring is the solid
+ * when it clears 3:1 on the page, otherwise the text colour. A near-grey pick mirrors the neutral preset.
  */
 export function deriveAccent(hex: string): AccentTheme | null {
   const base = hexToOklch(hex)
   if (!base) return null
   if (base.c < 0.03) return PRESET_THEMES.neutral
-  const mode = (bg: Oklch, dir: 1 | -1, a: { subtle: number; hover: number; border: number; ring: number }): AccentVars => {
-    const fill = ensureContrast(base, bg, dir * 0.01)
+  const mode = (m: "light" | "dark"): AccentVars => {
+    const pages = PAGES[m]
+    const page = pages[0]
+    const a = ALPHAS[m]
+    const start = m === "dark" ? walk(base, 0.01, (c) => contrast(c, page) >= 3) : fitGamut(base)
+    const fg = pickForeground(start)
+    const away = fg.l > 0.5 ? -0.005 : 0.005
+    const fill = walk(start, away, (c) => contrast(c, fg) >= 4.6)
+    const text = walk({ l: m === "light" ? 0.62 : 0.72, c: fill.c * 0.9, h: fill.h }, m === "light" ? -0.005 : 0.005, (t) => {
+      const onPages = pages.every((p) => contrast(t, p) >= 5)
+      return onPages && pages.every((p) => ratioRgb(srgb(t), srgb(fill, a.subtle, p)) >= 4.6)
+    })
+    const ring = contrast(fill, page) >= 3.2 ? fill : text
     return {
       primary: fmt(fill),
-      "primary-hover": fmt(shift(fill, dir * 0.03)),
-      "primary-active": fmt(shift(fill, dir * (dir < 0 ? 0.1 : 0.16))),
-      "primary-foreground": fmt(pickForeground(fill)),
+      "primary-hover": fmt(shift(fill, away * 7)),
+      "primary-active": fmt(shift(fill, away * 14)),
+      "primary-foreground": fmt(fg),
       "primary-subtle": fmtA(fill, a.subtle),
       "primary-subtle-hover": fmtA(fill, a.hover),
       "primary-border": fmtA(fill, a.border),
-      ring: fmtA(fill, a.ring),
+      "primary-text": fmt(text),
+      ring: fmt(ring),
+      selection: fmtA(fill, a.selection),
     }
   }
-  return {
-    light: mode(BG_LIGHT, -1, { subtle: 0.1, hover: 0.16, border: 0.33, ring: 0.63 }),
-    dark: mode(BG_DARK, 1, { subtle: 0.23, hover: 0.34, border: 0.5, ring: 1 }),
-  }
+  return { light: mode("light"), dark: mode("dark") }
 }
 
 /* ─────────────────────────── CSS output ─────────────────────────── */

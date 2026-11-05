@@ -234,7 +234,7 @@ function AppShellTrigger({ className, onClick, ...props }: React.ComponentProps<
       }}
       className={cn(
         "inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg text-muted-foreground outline-none",
-        "hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 [&_svg]:size-4",
+        "hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-4",
         className
       )}
       {...props}
@@ -468,7 +468,7 @@ function AppShellSwitcher({ name, description, avatar, side = "bottom", align = 
         className={cn(
           // 6px in from the row: a 32px avatar centres on the rail's 18px icon column
           "flex h-12 w-full min-w-0 cursor-pointer items-center gap-2 rounded-inner px-1.5 text-start text-ui outline-none",
-          "hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 data-popup-open:bg-secondary",
+          "hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring data-popup-open:bg-secondary",
           className
         )}
         {...props}

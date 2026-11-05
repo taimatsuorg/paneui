@@ -147,7 +147,7 @@ function stepButton(sm: boolean) {
   return cn(
     "inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md bg-card text-foreground shadow-raised outline-none select-none",
     "transition-[scale,box-shadow,background-color,opacity,color] duration-150 ease-out hover:bg-accent hover:shadow-raised-hover",
-    "focus-visible:ring-2 focus-visible:ring-ring/50",
+    "focus-visible:ring-2 focus-visible:ring-ring",
     "data-disabled:pointer-events-none data-disabled:bg-transparent data-disabled:bg-none data-disabled:text-muted-foreground/60 data-disabled:shadow-none",
     sm ? "size-6 [&_svg]:size-3.5" : "size-8 [&_svg]:size-4"
   )

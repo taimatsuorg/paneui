@@ -89,7 +89,7 @@ export function ThemingAccent() {
                     aria-label={t(siteCopy(PRESET_LABELS[p]))}
                     title={t(siteCopy(PRESET_LABELS[p]))}
                     onClick={() => setAccent(p)}
-                    className="grid size-8 cursor-pointer place-items-center rounded-full outline-none transition-colors hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 aria-checked:ring-2 aria-checked:ring-foreground/70"
+                    className="grid size-8 cursor-pointer place-items-center rounded-full outline-none transition-colors hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring aria-checked:ring-2 aria-checked:ring-foreground/70"
                   >
                     {/* Left half: the light-mode primary; right half: the dark-mode one. */}
                     <span
@@ -228,10 +228,10 @@ export function ThemingAccent() {
             <div className="flex flex-col gap-4">
               <Slider defaultValue={62} aria-label={t({ en: "Volume", zh: "音量" })} />
               <div className="flex flex-wrap items-center gap-3">
-                <div className="flex h-8 flex-1 items-center rounded-lg bg-card px-3 text-ui text-muted-foreground shadow-well ring-2 ring-ring/50">
+                <div className="flex h-8 flex-1 items-center rounded-lg bg-card px-3 text-ui text-muted-foreground shadow-well ring-2 ring-ring">
                   <T en="Focus ring" zh="焦点环" />
                 </div>
-                <span className="text-ui font-medium text-primary underline underline-offset-4">
+                <span className="text-ui font-medium text-primary-text underline underline-offset-4">
                   <T en="Link" zh="链接" />
                 </span>
                 <span className="flex items-center gap-1" title={t({ en: "Charts keep their own colours", zh: "图表保留各自的颜色" })}>

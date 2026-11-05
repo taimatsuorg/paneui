@@ -4,18 +4,23 @@ import ComponentDocPage, {
   type ComponentDocData,
   type DocExampleData,
   type DocFileData,
+  type VariantData,
 } from "@/components/pages/component-doc-page"
 import { docNav, highlight, languageOf, siteNavGroups } from "@/lib/build"
 import { docSources, demoFile, getItem, getItems, readSource, SITE_URL } from "@/lib/docs"
 import { docsContent } from "@/content/docs/index.generated"
 import type { ComponentDoc } from "@/lib/doc-types"
 import { english } from "@/lib/site-copy"
+import { MERGES, variantAnchor, variantsOf } from "@/lib/doc-merges"
 
 export function getStaticPaths() {
   return getItems().map((entry) => ({ params: { name: entry.name } }))
 }
 
 const { name = "" } = Astro.params
+// A variant documented on its base component's page: the old URL lands on its section there.
+const merged = MERGES[name]
+if (merged) return Astro.redirect(`/docs/${merged.host}/#${variantAnchor(name)}`)
 const found = getItem(name)
 if (!found) throw new Error(`Unknown docs page: ${name}`)
 const item = found
@@ -41,6 +46,46 @@ const examples: DocExampleData[] = await Promise.all(
   })
 )
 
+// Each variant: its install files, usage, demo and examples, highlighted like the host's own.
+const variants: VariantData[] = await Promise.all(
+  variantsOf(name).map(async ({ name: vName, label }) => {
+    const vItem = getItem(vName)
+    if (!vItem) throw new Error(`Unknown variant: ${vName}`)
+    const vDoc: ComponentDoc | undefined = docsContent[vName]
+    const vDemoFile = demoFile(vName)
+    const vDemoLanguage = languageOf(vDemoFile)
+    return {
+      item: {
+        name: vItem.name,
+        title: vItem.title,
+        summary: vItem.summary,
+        category: vItem.category,
+        dependencies: vItem.dependencies,
+        registryDependencies: vItem.registryDependencies,
+      },
+      label,
+      doc: vDoc,
+      files: await Promise.all(
+        vItem.files.map(async (file) => ({ path: file, language: languageOf(file), html: await highlight(read(file), languageOf(file)) }))
+      ),
+      usage: {
+        imports: vDoc ? await highlight(vDoc.usage.imports, "tsx") : undefined,
+        code: vDoc ? await highlight(vDoc.usage.code, "tsx") : undefined,
+        composition: vDoc?.composition ? await highlight(vDoc.composition, "text") : undefined,
+      },
+      examples: await Promise.all(
+        (vDoc?.examples ?? []).map(async (ex) => ({
+          id: ex.id,
+          title: ex.title,
+          description: ex.description,
+          html: await highlight(read(`apps/docs/registry/examples/${vName}/${ex.id}.tsx`), "tsx"),
+        }))
+      ),
+      demo: { html: await highlight(read(vDemoFile), vDemoLanguage), filename: `${vName}-demo.tsx`, language: vDemoLanguage },
+    }
+  })
+)
+
 const iconSkillSource = name === "icons" ? read("skills/paneui-icons/SKILL.md") : undefined
 
 const data: ComponentDocData = {
@@ -62,6 +107,7 @@ const data: ComponentDocData = {
     composition: doc?.composition ? await highlight(doc.composition, "text") : undefined,
   },
   examples,
+  variants,
   demo: { html: await highlight(usageSource, demoLanguage), filename: `${name}-demo.tsx`, language: demoLanguage },
   siteUrl: SITE_URL,
   iconSkill: iconSkillSource

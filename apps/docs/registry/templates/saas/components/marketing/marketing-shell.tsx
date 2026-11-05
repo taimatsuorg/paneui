@@ -36,7 +36,7 @@ function SiteHeader() {
   const { signedIn } = useSession()
 
   return (
-    <header className="sticky top-0 z-40 h-14 border-b border-border bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-40 h-14 border-b border-border bg-background">
       <Container className="flex h-full items-center gap-6">
         <BrandMark />
         <nav aria-label="Main" className="flex items-center gap-0.5 max-md:hidden">
@@ -140,12 +140,13 @@ function SiteFooter() {
   )
 }
 
-/** Eyebrow + title + lead, used by every marketing section. */
-export function SectionHeading({ eyebrow, title, body, center = false }: { eyebrow: string; title: string; body?: string; center?: boolean }) {
+/** Title + lead, left-aligned, used by every marketing section. Pass `id` to label the section with it. */
+export function SectionHeading({ id, title, body }: { id?: string; title: string; body?: string }) {
   return (
-    <div className={center ? "mx-auto flex max-w-2xl flex-col items-center gap-3 text-center" : "flex max-w-2xl flex-col gap-3"}>
-      <p className="text-sm font-medium text-primary">{eyebrow}</p>
-      <h2 className="text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-4xl">{title}</h2>
+    <div className="flex max-w-2xl flex-col gap-3">
+      <h2 id={id} className="text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-4xl">
+        {title}
+      </h2>
       {body && <p className="text-lg leading-relaxed text-pretty text-muted-foreground">{body}</p>}
     </div>
   )

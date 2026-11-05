@@ -7,12 +7,14 @@ import * as React from "react"
 const NOWRAP_MAX = 32
 
 /**
- * Inline code chip classes. `box-decoration-clone` gives every line fragment its own padding,
- * background and radius, so a chip that does wrap stays whole on both lines. `whitespace-normal`
- * overrides the typeset rule, since tokens here get their own nowrap spans.
+ * Inline code chip classes. `doc-code` (styles/globals.css) sizes the chip in em with the typeset
+ * values, so it follows the text around it and never touches a chip on the next line.
+ * `box-decoration-clone` gives every line fragment its own padding, background and radius, so a
+ * chip that does wrap stays whole on both lines.
+ * `whitespace-normal` overrides the typeset rule, since tokens here get their own nowrap spans.
  */
 export const INLINE_CODE_CLS =
-  "box-decoration-clone rounded-md bg-muted px-1.5 py-0.5 font-mono whitespace-normal text-foreground wrap-anywhere"
+  "doc-code box-decoration-clone rounded-md bg-muted font-mono whitespace-normal text-foreground wrap-anywhere"
 
 /** Flattens string/number children to text, or returns null when they hold elements. */
 function textOf(children: React.ReactNode): string | null {
@@ -60,7 +62,7 @@ export function InlineText({ text }: { text: string }) {
     if (m.index > last) parts.push(text.slice(last, m.index))
     if (m[1] != null)
       parts.push(
-        <code key={m.index} className={`${INLINE_CODE_CLS} text-sm`}>
+        <code key={m.index} className={INLINE_CODE_CLS}>
           {codeContent(m[1])}
         </code>,
       )

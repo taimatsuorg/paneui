@@ -39,7 +39,8 @@ resolves to the old value.
 The pale surface anchor is lifted to 99% lightness with chroma 0.002. Cards use
 99.8% lightness with chroma 0.001. Ink uses chroma 0.004, including dark surfaces.
 Accent hues come from the anchors below; light solids use 54% lightness and
-white text. Dark solids use 80% lightness with ink text.
+white text. Dark solids use 80% lightness with ink text. `-text` roles, `info`, `selection`, `border-control`
+and the `tag-*` colours are derived from contrast targets in `tooling/scripts/theme_roles.py`.
 
 | Colour | Pinyin | Anchor | Token |
 | --- | --- | --- | --- |
@@ -53,4 +54,5 @@ white text. Dark solids use 80% lightness with ink text.
 
 `tooling/fixtures/paper-anchors.json` records the selected anchors. The generator
 derives their hue and chroma, then normalizes lightness for readable controls.
-Run `node tooling/scripts/paper-contrast.mjs` to check every solid state.
+Run `node tooling/scripts/paper-contrast.mjs` to check every solid state, and `node tooling/scripts/theme-contrast.mjs`
+for every text and control pair (both styles, all accents). Warning is a vivid amber with ink text in both modes.

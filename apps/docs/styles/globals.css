@@ -3,3 +3,54 @@
 @source "../../../packages/ui/src";
 @source "../registry";
 @source "../components";
+
+/*
+ * Studio parts for the site's own pages. A tile is a soft grey block with no border or shadow that
+ * components sit on. A tile label is a small muted caption. The lamp is a plain status dot.
+ */
+@utility tile {
+  position: relative;
+  /*
+   * The largest radius token, so presets and the radius slider rescale it. It is also a frame:
+   * add frame-p-* (or frame-inset-*) and children take rounded-inner to stay concentric.
+   */
+  --frame-r: var(--radius-3xl);
+  border-radius: var(--radius-3xl);
+  --frame-inner-1: max(calc(var(--frame-r) - var(--frame-p) - var(--frame-b)), 0px);
+  --frame-inner-2: initial;
+  background-color: var(--card);
+}
+
+@utility tile-label {
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+@utility signal-lamp {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background-color: var(--primary);
+}
+
+/*
+ * Inline code in the site's hand-written doc strings, sized in em so it follows the text around it.
+ * The same values as the typeset inline code rule: leading 1 and thin vertical padding keep the chip
+ * inside its line, so chips on wrapped lines never touch.
+ */
+@utility doc-code {
+  font-size: 0.875em;
+  line-height: 1;
+  padding: 0.1em 0.3em;
+}
+
+/* Docs sidebar: the current page is a soft grey pill. */
+[data-docs-nav] [aria-current="page"] {
+  background-color: var(--fill-hover);
+  color: var(--foreground);
+  font-weight: 500;
+}

@@ -44,7 +44,7 @@ function AsciiSpinner({ kind = "braille", interval = 80, className, ...props }: 
       aria-hidden
       data-slot="ascii-spinner"
       className={cn(
-        "inline-grid w-[1.1em] shrink-0 place-items-center font-mono leading-none text-primary",
+        "inline-grid w-[1.1em] shrink-0 place-items-center font-mono leading-none text-primary-text",
         reduce && "animate-pulse",
         className
       )}

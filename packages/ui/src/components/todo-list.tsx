@@ -176,7 +176,7 @@ function TodoList({
     >
       <CollapsiblePrimitive.Trigger
         data-slot="todo-list-trigger"
-        className="group/todo flex w-full cursor-pointer items-center gap-2.5 rounded-3xl px-3.5 py-2.5 text-start outline-none select-none focus-visible:ring-2 focus-visible:ring-ring/50"
+        className="group/todo flex w-full cursor-pointer items-center gap-2.5 rounded-3xl px-3.5 py-2.5 text-start outline-none select-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <span className="relative grid size-5 shrink-0 place-items-center">
           <AnimatePresence initial={false} mode="popLayout">
@@ -223,7 +223,7 @@ function TodoList({
           </AnimatePresence>
         </span>
         {failed > 0 && (
-          <span className="rounded-full bg-destructive/12 px-1.5 py-0.5 text-ui-xs font-medium text-destructive tabular-nums">
+          <span className="rounded-control-sm bg-destructive/12 px-1.5 py-0.5 text-ui-xs font-medium text-destructive-text tabular-nums">
             {labels.failedTasks(failed)}
           </span>
         )}
@@ -232,7 +232,7 @@ function TodoList({
         </span>
         <span
           aria-hidden
-          className="flex items-center rounded-full bg-muted px-2 py-0.5 text-ui-sm font-medium text-muted-foreground shadow-well tabular-nums"
+          className="flex items-center rounded-control-sm bg-muted px-2 py-0.5 text-ui-sm font-medium text-muted-foreground shadow-well tabular-nums"
         >
           <DigitSwap value={done} direction="auto" />
           <span className="opacity-60">/{total}</span>
@@ -290,7 +290,7 @@ function TodoList({
                     <span
                       className={cn(
                         "shrink-0 pt-0.5 text-ui-sm text-muted-foreground tabular-nums",
-                        status === "failed" && "text-destructive"
+                        status === "failed" && "text-destructive-text"
                       )}
                     >
                       {item.meta}

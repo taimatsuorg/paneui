@@ -216,7 +216,7 @@ function CarouselPrevious({ className, variant = "secondary", size = "icon-sm", 
       size={size}
       disabled={!canPrev}
       onClick={scrollPrev}
-      className={cn("rounded-full", orientation === "vertical" && "rotate-90", className)}
+      className={cn("rounded-control", orientation === "vertical" && "rotate-90", className)}
       {...props}
       aria-label={props["aria-label"] ?? labels.previousSlide}
     >
@@ -235,7 +235,7 @@ function CarouselNext({ className, variant = "secondary", size = "icon-sm", ...p
       size={size}
       disabled={!canNext}
       onClick={scrollNext}
-      className={cn("rounded-full", orientation === "vertical" && "rotate-90", className)}
+      className={cn("rounded-control", orientation === "vertical" && "rotate-90", className)}
       {...props}
       aria-label={props["aria-label"] ?? labels.nextSlide}
     >
@@ -260,7 +260,7 @@ function CarouselDots({ className, ...props }: React.ComponentProps<"div">) {
           aria-label={labels.goToSlide(i + 1)}
           aria-current={i === index ? "true" : undefined}
           onClick={() => scrollTo(i)}
-          className="relative size-1.5 cursor-pointer rounded-full after:absolute after:-inset-[9px] bg-foreground/16 transition-[background-color,width] duration-200 outline-none hover:bg-foreground/32 focus-visible:ring-2 focus-visible:ring-ring/50 aria-current:w-4 aria-current:bg-foreground/72 motion-reduce:transition-none"
+          className="relative size-1.5 cursor-pointer rounded-full after:absolute after:-inset-[9px] bg-foreground/16 transition-[background-color,width] duration-200 outline-none hover:bg-foreground/32 focus-visible:ring-2 focus-visible:ring-ring aria-current:w-4 aria-current:bg-foreground/72 motion-reduce:transition-none"
         />
       ))}
     </div>

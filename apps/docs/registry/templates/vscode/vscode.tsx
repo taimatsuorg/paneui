@@ -27,6 +27,7 @@ import { Button } from "@paneui/ui/components/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@paneui/ui/components/dialog"
 import { Drawer, DrawerContent, DrawerTitle } from "@paneui/ui/components/drawer"
 import { getFileKind } from "@paneui/ui/components/file-tree"
+import { Kbd } from "@paneui/ui/components/kbd"
 import { SidebarRail, SidebarRailGroup, SidebarRailItem, SidebarRailSpacer } from "@paneui/ui/components/animated-sidebar"
 import { Menu, MenuContent, MenuItem, MenuSeparator, MenuShortcut, MenuTrigger } from "@paneui/ui/components/menu"
 import {
@@ -549,7 +550,7 @@ function Shell({ ws, docs, host }: { ws: Workspace; docs: Docs; host?: VsCodeHos
   )
 
   const crumbs = active && (
-    <div className="flex h-7 shrink-0 items-center overflow-hidden px-1.5">
+    <div className="flex h-7 shrink-0 items-center overflow-hidden px-1.5 max-md:px-2">
     <Breadcrumb className="min-w-0">
       <BreadcrumbList className="flex-nowrap overflow-hidden">
         {rel(active)
@@ -605,6 +606,38 @@ function Shell({ ws, docs, host }: { ws: Workspace; docs: Docs; host?: VsCodeHos
     </div>
   )
 
+  // No file open: the workspace's name and the ways in, each one click away.
+  const emptyActions: { label: string; keys?: string; run: () => void }[] = [
+    { label: "Go to file", keys: "⌘P", run: () => setPalette("files") },
+    { label: "Show all commands", keys: "⇧⌘P", run: () => setPalette("commands") },
+    { label: "New file", run: () => createInExplorer("file") },
+    { label: "New terminal", keys: "⌃⇧`", run: () => newTerminal() },
+  ]
+  const emptyEditor = (
+    <div className="absolute inset-0 z-10 flex items-center justify-center bg-background p-6">
+      <div className="flex w-full max-w-72 flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <h2 className="truncate text-ui-lg font-semibold">{ws.name}</h2>
+          <p className="text-ui text-muted-foreground">No file open.</p>
+        </div>
+        <ul aria-label="Start" className="-mx-2 flex flex-col">
+          {emptyActions.map((a) => (
+            <li key={a.label}>
+              <button
+                type="button"
+                onClick={a.run}
+                className="flex h-8 w-full items-center justify-between gap-3 rounded-md px-2 text-start text-ui transition-colors duration-150 outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring active:bg-secondary"
+              >
+                {a.label}
+                {a.keys && <Kbd>{a.keys}</Kbd>}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )
+
   const editor = (
     <CodeEditor
       ws={ws}
@@ -614,6 +647,7 @@ function Shell({ ws, docs, host }: { ws: Workspace; docs: Docs; host?: VsCodeHos
       onProblems={setProblems}
       onSave={() => save()}
       compact={mobile}
+      empty={emptyEditor}
       handleRef={editorRef}
     />
   )
@@ -656,6 +690,7 @@ function Shell({ ws, docs, host }: { ws: Workspace; docs: Docs; host?: VsCodeHos
 
   return (
     <TooltipProvider>
+      <h1 className="sr-only">{active ? `${basename(active)} · ${ws.name}` : ws.name}</h1>
       {mobile ? (
         <div className="flex h-dvh w-full flex-col overflow-hidden bg-shell text-foreground">
           <header className="flex h-11 shrink-0 items-center gap-1 px-1.5">

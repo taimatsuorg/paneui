@@ -8,50 +8,28 @@
   ],
   "cssVars": {
     "light": {
-      "primary": "#f76b15",
-      "primary-hover": "#ef5f00",
-      "primary-active": "#cc4e00",
-      "primary-foreground": "#fff",
-      "primary-subtle": "#ff9c0029",
-      "primary-subtle-hover": "#ff91014a",
-      "primary-border": "#ff81007d",
-      "ring": "#e35f00aa"
+      "primary": "oklch(58% 0.1827 40)",
+      "primary-hover": "oklch(54.5% 0.1718 40)",
+      "primary-active": "oklch(51% 0.161 40)",
+      "primary-foreground": "oklch(100% 0 0)",
+      "primary-subtle": "oklch(58% 0.1827 40 / 0.1)",
+      "primary-subtle-hover": "oklch(58% 0.1827 40 / 0.16)",
+      "primary-border": "oklch(58% 0.1827 40 / 0.32)",
+      "primary-text": "oklch(54.5% 0.1645 40)",
+      "ring": "oklch(58% 0.1827 40)",
+      "selection": "oklch(58% 0.1827 40 / 0.22)"
     },
     "dark": {
-      "primary": "#f76b15",
-      "primary-hover": "#ff801f",
-      "primary-active": "#ffa057",
-      "primary-foreground": "#fff",
-      "primary-subtle": "#fb6a0025",
-      "primary-subtle-hover": "#ff590039",
-      "primary-border": "#fd75045c",
-      "ring": "#fe6d15f7"
-    }
-  },
-  "css": {
-    "@supports (color: color(display-p3 1 1 1))": {
-      "@media (color-gamut: p3)": {
-        ":root": {
-          "--primary": "color(display-p3 .9 .45 .2)",
-          "--primary-hover": "color(display-p3 .87 .409 .164)",
-          "--primary-active": "color(display-p3 .76 .34 0)",
-          "--primary-foreground": "#fff",
-          "--primary-subtle": "color(display-p3 .922 .584 .008/.15)",
-          "--primary-subtle-hover": "color(display-p3 1 .604 .004/.314)",
-          "--primary-border": "color(display-p3 .949 .494 .004/.455)",
-          "--ring": "color(display-p3 .804 .349 0/.62)"
-        },
-        ".dark": {
-          "--primary": "color(display-p3 .9 .45 .2)",
-          "--primary-hover": "color(display-p3 .98 .51 .23)",
-          "--primary-active": "color(display-p3 1 .63 .38)",
-          "--primary-foreground": "#fff",
-          "--primary-subtle": "color(display-p3 .996 .486 0/.131)",
-          "--primary-subtle-hover": "color(display-p3 .996 .384 0/.211)",
-          "--primary-border": "color(display-p3 1 .529 .129/.332)",
-          "--ring": "color(display-p3 1 .494 .216/.895)"
-        }
-      }
+      "primary": "oklch(58% 0.1827 40)",
+      "primary-hover": "oklch(54.5% 0.1718 40)",
+      "primary-active": "oklch(51% 0.161 40)",
+      "primary-foreground": "oklch(100% 0 0)",
+      "primary-subtle": "oklch(58% 0.1827 40 / 0.16)",
+      "primary-subtle-hover": "oklch(58% 0.1827 40 / 0.24)",
+      "primary-border": "oklch(58% 0.1827 40 / 0.42)",
+      "primary-text": "oklch(72% 0.1645 40)",
+      "ring": "oklch(58% 0.1827 40)",
+      "selection": "oklch(58% 0.1827 40 / 0.4)"
     }
   },
   "meta": {

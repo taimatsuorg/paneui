@@ -14,7 +14,7 @@ export default function TextCascadeHeadline() {
   }, [])
   return (
     <h3 className="text-3xl font-semibold tracking-tight text-balance">
-      <TextCascade text={VERBS[i]} className="text-primary" /> your next trip.
+      <TextCascade text={VERBS[i]} className="text-primary-text" /> your next trip.
     </h3>
   )
 }

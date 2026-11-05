@@ -49,7 +49,7 @@ export function ArticleHeader() {
         <span>6 min read</span>
         <a
           href="#"
-          className="inline-flex items-center gap-1.5 rounded-sm transition-colors duration-150 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+          className="inline-flex items-center gap-1.5 rounded-sm transition-colors duration-150 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
         >
           <EditIcon size={14} />
           Edit on GitHub

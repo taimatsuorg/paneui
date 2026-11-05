@@ -17,11 +17,12 @@ import { Field, FieldError, FieldGroup, FieldLabel, FieldLabelRow } from "@paneu
 import { IconChip } from "@paneui/ui/components/icon-chip"
 import { Input } from "@paneui/ui/components/input"
 import { PasswordInput } from "@paneui/ui/components/password-input"
-import { StatCard, StatCardDelta, StatCardHeader, StatCardLabel, StatCardSparkline, StatCardValue } from "@paneui/ui/components/stat-card"
+import { StatCardDelta } from "@paneui/ui/components/stat-card"
 import { ThemeToggle } from "@paneui/ui/components/theme-toggle"
+import { TrendChart } from "@paneui/ui/components/trend-chart"
 
 import { AuthError, requestPasswordReset, signIn, signUp, verifyCode } from "../../lib/auth"
-import { brand, demoUser, kpis, testimonials } from "../../lib/data"
+import { brand, demoUser, kpis, revenue, revenueSeries, testimonials } from "../../lib/data"
 import { AppLink, routes, useHref } from "../../lib/routes"
 import { BrandMark, initials, SaasProviders } from "../providers"
 
@@ -29,7 +30,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 /* ───────────────────────── Shell ───────────────────────── */
 
-/** Split auth layout: the form on the left, a customer quote on a tinted panel on the right (lg+). */
+/** Split auth layout: the form on the left; on lg+ a tinted panel with this month's two headline numbers, the revenue chart and a customer quote. */
 export function AuthShell({ children }: { children: React.ReactNode }) {
   const t = testimonials[0]
   return (
@@ -48,30 +49,32 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
           </p>
         </div>
         <aside className="m-3 hidden flex-col justify-between gap-10 rounded-3xl bg-muted p-10 shadow-well lg:flex">
-          <div aria-hidden className="grid max-w-md grid-cols-2 gap-3">
-            {kpis.slice(0, 2).map((k) => (
-              <StatCard key={k.id}>
-                <StatCardHeader>
-                  <StatCardLabel>{k.label}</StatCardLabel>
+          <dl aria-label="This month in Tessel" className="grid max-w-md grid-cols-2">
+            {kpis.slice(0, 2).map((k, i) => (
+              <div key={k.id} className={i > 0 ? "flex flex-col gap-1 border-s border-border ps-6" : "flex flex-col gap-1 pe-6"}>
+                <dt className="text-sm text-muted-foreground">{k.label}</dt>
+                <dd className="flex flex-wrap items-center gap-2">
+                  <span className="text-2xl font-semibold tracking-tight tabular-nums">{new Intl.NumberFormat("en-US", k.format).format(k.value)}</span>
                   <StatCardDelta value={k.delta} invert={k.invert} />
-                </StatCardHeader>
-                <StatCardValue>{new Intl.NumberFormat("en-US", k.format).format(k.value)}</StatCardValue>
-                <StatCardSparkline values={k.trend} animate={false} className="w-full" />
-              </StatCard>
+                </dd>
+              </div>
             ))}
+          </dl>
+          <div aria-hidden className="-mx-2">
+            <TrendChart series={revenueSeries} data={revenue} variant="area" stacked height={220} showLegend={false} label="Revenue by plan" />
           </div>
-          <div className="flex flex-col gap-6">
-          <blockquote className="max-w-md text-2xl leading-snug font-medium tracking-tight text-balance">“{t.quote}”</blockquote>
-          <div className="flex items-center gap-3">
-            <Avatar size="lg">
-              <AvatarFallback>{initials(t.name)}</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col leading-tight">
-              <span className="text-sm font-medium">{t.name}</span>
-              <span className="text-sm text-muted-foreground">{t.role}</span>
-            </div>
-          </div>
-          </div>
+          <figure className="flex max-w-md flex-col gap-6">
+            <blockquote className="text-2xl leading-snug font-medium tracking-tight text-balance">“{t.quote}”</blockquote>
+            <figcaption className="flex items-center gap-3">
+              <Avatar size="lg">
+                <AvatarFallback>{initials(t.name)}</AvatarFallback>
+              </Avatar>
+              <span className="flex flex-col leading-tight">
+                <span className="text-sm font-medium">{t.name}</span>
+                <span className="text-sm text-muted-foreground">{t.role}</span>
+              </span>
+            </figcaption>
+          </figure>
         </aside>
       </div>
     </SaasProviders>

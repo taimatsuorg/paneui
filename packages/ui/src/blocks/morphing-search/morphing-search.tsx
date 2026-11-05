@@ -256,7 +256,7 @@ function MorphingSearch({
             onClick={() => setOpen(true)}
             style={{ borderRadius: 999 }}
             className={cn(
-              "flex size-full cursor-pointer items-center gap-2 bg-muted/70 text-ui text-muted-foreground shadow-well outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+              "flex size-full cursor-pointer items-center gap-2 bg-muted/70 text-ui text-muted-foreground shadow-well outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
               iconOnly ? "justify-center" : "px-3"
             )}
           >
@@ -314,7 +314,7 @@ function MorphingSearch({
                   type="button"
                   aria-label={query ? l10n.clearSearch : l10n.closeSearch}
                   onClick={() => (query ? (setQuery(""), inputRef.current?.focus()) : close())}
-                  className="flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+                  className="flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <XIcon size={13} />
                 </button>

@@ -20,10 +20,21 @@ const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? ""
 const absolute = (p: string) => new URL(`${BASE_PATH}${p}`, window.location.origin).toString()
 
 /**
- * "Copy page" and its menu, next to the page title. The Markdown is the static `/docs/<slug>.md`
+ * "Copy page" and its menu, next to the page title (on component pages, on the preview panel). The Markdown is the static `/docs/<slug>.md`
  * written at build time, so the copy, the raw view and the chat links all read the same file.
  */
-export function PageActions({ markdownPath, pagePath, title }: { markdownPath: string; pagePath: string; title: string }) {
+export function PageActions({
+  markdownPath,
+  pagePath,
+  title,
+  variant = "outline",
+}: {
+  markdownPath: string
+  pagePath: string
+  title: string
+  /** `default` is the primary pill a component page puts on its preview panel. */
+  variant?: "outline" | "default"
+}) {
   const t = useT()
   const label = (text: string) => t(siteCopy(text))
   const toast = useToast()
@@ -78,7 +89,7 @@ export function PageActions({ markdownPath, pagePath, title }: { markdownPath: s
 
   return (
     <ButtonGroup data-md-skip className="shrink-0">
-      <Button variant="outline" size="sm" onClick={copyMarkdown}>
+      <Button variant={variant} size={variant === "default" ? "default" : "sm"} onClick={copyMarkdown}>
         <ActionSwapBlurIcon value={copied ? "copied" : "copy"} className="size-3.5">
           {copied ? <CheckIcon data-icon="inline-start" /> : <CopyIcon data-icon="inline-start" />}
         </ActionSwapBlurIcon>
@@ -86,7 +97,7 @@ export function PageActions({ markdownPath, pagePath, title }: { markdownPath: s
       </Button>
       <ButtonGroupSeparator />
       <Menu>
-        <MenuTrigger render={<Button variant="outline" size="icon-sm" aria-label={label("More page actions")} />}>
+        <MenuTrigger render={<Button variant={variant} size={variant === "default" ? "icon" : "icon-sm"} aria-label={label("More page actions")} />}>
           <ChevronDownIcon />
         </MenuTrigger>
         <MenuContent align="end" className="min-w-52">

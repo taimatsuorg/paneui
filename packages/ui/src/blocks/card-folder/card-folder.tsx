@@ -37,7 +37,7 @@ export interface CardFolderProps {
 
 const SPRING = { type: "spring", stiffness: 340, damping: 26, mass: 0.9 } as const
 const iconButton =
-  "inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 active:scale-96 disabled:pointer-events-none disabled:opacity-50"
+  "inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring active:scale-96 disabled:pointer-events-none disabled:opacity-50"
 
 function useControllable<T>(value: T | undefined, defaultValue: T, onChange?: (v: T) => void) {
   const [internal, setInternal] = React.useState(defaultValue)
@@ -163,7 +163,7 @@ export function CardFolder({
         aria-expanded={open}
         aria-label={open ? l10n.tuckCard(title) : l10n.pullCard(title)}
         onClick={() => setOpen(!open)}
-        className="group/pocket relative h-60 w-full cursor-pointer rounded-[min(calc(var(--radius)*2.8),var(--radius-max))] outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-60"
+        className="group/pocket relative h-60 w-full cursor-pointer rounded-[min(calc(var(--radius)*2.8),var(--radius-max))] outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60"
       >
         {/* Inside of the pocket */}
         <span aria-hidden className="absolute inset-x-0 top-10 bottom-0 rounded-[min(calc(var(--radius)*2.8),var(--radius-max))] bg-muted shadow-well" />

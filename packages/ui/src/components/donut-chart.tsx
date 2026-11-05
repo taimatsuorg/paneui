@@ -277,7 +277,7 @@ function DonutChart({
                   onFocus={() => setActiveId(s.id)}
                   onBlur={() => setActiveId(null)}
                   className={cn(
-                    "relative flex w-full items-center gap-2.5 rounded-inner px-2.5 py-1.5 text-start text-ui outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                    "relative flex w-full items-center gap-2.5 rounded-inner px-2.5 py-1.5 text-start text-ui outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     active && !isActive && "opacity-55",
                     "transition-opacity duration-200"
                   )}

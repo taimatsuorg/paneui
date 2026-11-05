@@ -95,7 +95,7 @@ function useControllable<T>(value: T | undefined, defaultValue: T, onChange?: (v
 }
 
 const navButton =
-  "inline-flex size-7 cursor-pointer items-center justify-center rounded-lg text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4"
+  "inline-flex size-7 cursor-pointer items-center justify-center rounded-lg text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4"
 
 function Calendar(props: CalendarProps) {
   const { labels } = useLocale()
@@ -287,12 +287,12 @@ function Calendar(props: CalendarProps) {
                           onKeyDown={(e) => onKeyDown(e, d)}
                           className={cn(
                             "relative inline-flex size-8 cursor-pointer items-center justify-center rounded-lg tabular-nums outline-none transition-colors duration-150",
-                            "hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50",
+                            "hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring",
                             "data-outside:text-muted-foreground/60",
                             "data-preview:shadow-[inset_0_0_0_1.5px_var(--primary)]",
                             "data-selected:bg-primary data-selected:font-semibold data-selected:text-primary-foreground data-selected:hover:bg-primary",
                             "disabled:cursor-not-allowed disabled:text-muted-foreground/40 disabled:line-through disabled:hover:bg-transparent",
-                            "aria-[current=date]:not-data-selected:font-semibold aria-[current=date]:not-data-selected:text-primary"
+                            "aria-[current=date]:not-data-selected:font-semibold aria-[current=date]:not-data-selected:text-primary-text"
                           )}
                         >
                           {d.getDate()}

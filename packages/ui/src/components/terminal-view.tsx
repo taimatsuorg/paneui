@@ -131,10 +131,10 @@ function stripAnsi(input: string) {
 
 const FG: Record<AnsiColor, string> = {
   black: "text-foreground/80",
-  red: "text-destructive",
-  green: "text-success",
-  yellow: "text-warning",
-  blue: "text-primary",
+  red: "text-destructive-text",
+  green: "text-success-text",
+  yellow: "text-warning-text",
+  blue: "text-primary-text",
   magenta: "text-chart-5",
   cyan: "text-chart-7",
   white: "text-foreground",

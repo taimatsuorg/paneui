@@ -31,7 +31,7 @@ export default function AspectRatioDemo() {
             role="radio"
             aria-checked={r.label === ratio.label}
             onClick={() => setRatio(r)}
-            className="h-7 cursor-pointer rounded-full px-3 text-xs font-medium text-muted-foreground transition-[background-color,box-shadow,color] outline-none focus-visible:ring-2 focus-visible:ring-ring/50 aria-checked:bg-secondary aria-checked:text-foreground aria-checked:shadow-raised"
+            className="h-7 cursor-pointer rounded-full px-3 text-xs font-medium text-muted-foreground transition-[background-color,box-shadow,color] outline-none focus-visible:ring-2 focus-visible:ring-ring aria-checked:bg-secondary aria-checked:text-foreground aria-checked:shadow-raised"
           >
             {r.label}
           </button>

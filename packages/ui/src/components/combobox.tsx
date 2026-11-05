@@ -30,7 +30,7 @@ function Combobox<Value, Multiple extends boolean | undefined = false, Item = Va
 }
 
 const comboboxInputVariants = cva(
-  "group/combobox relative flex w-full min-w-48 items-center bg-background dark:bg-input/32 shadow-well transition-[box-shadow,background-color] focus-within:ring-2 focus-within:ring-ring/50 data-disabled:pointer-events-none data-disabled:opacity-64",
+  "group/combobox relative flex w-full min-w-48 items-center bg-background dark:bg-input/32 shadow-well transition-[box-shadow,background-color] focus-within:ring-2 focus-within:ring-ring data-disabled:pointer-events-none data-disabled:opacity-64",
   {
     variants: {
       size: {
@@ -45,7 +45,7 @@ const comboboxInputVariants = cva(
 )
 
 const comboboxTriggerVariants = cva(
-  "inline-flex w-full min-w-36 cursor-pointer items-center gap-2 bg-card shadow-raised transition-[box-shadow,background-color] duration-150 ease-out outline-none select-none hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring/50 data-disabled:pointer-events-none data-disabled:opacity-64 data-popup-open:shadow-raised-hover [&_svg]:shrink-0",
+  "inline-flex w-full min-w-36 cursor-pointer items-center gap-2 bg-card shadow-raised transition-[box-shadow,background-color] duration-150 ease-out outline-none select-none hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring data-disabled:pointer-events-none data-disabled:opacity-64 data-popup-open:shadow-raised-hover [&_svg]:shrink-0",
   {
     variants: {
       size: {
@@ -129,7 +129,7 @@ function ComboboxInput({
           data-slot="combobox-clear"
           aria-label={labels.clearSelection}
           className={cn(
-            "flex shrink-0 cursor-pointer items-center justify-center text-muted-foreground transition-[color,background-color,opacity,scale] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 data-ending-style:scale-75 data-ending-style:opacity-0 data-starting-style:scale-75 data-starting-style:opacity-0",
+            "flex shrink-0 cursor-pointer items-center justify-center text-muted-foreground transition-[color,background-color,opacity,scale] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring data-ending-style:scale-75 data-ending-style:opacity-0 data-starting-style:scale-75 data-starting-style:opacity-0",
             buttonBox
           )}
         >
@@ -141,7 +141,7 @@ function ComboboxInput({
           data-slot="combobox-trigger"
           aria-label={labels.showOptions}
           className={cn(
-            "flex shrink-0 cursor-pointer items-center justify-center text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+            "flex shrink-0 cursor-pointer items-center justify-center text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
             buttonBox
           )}
         >

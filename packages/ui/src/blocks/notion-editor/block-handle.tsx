@@ -451,7 +451,7 @@ export function EditorBlockHandle({ editor, blockTypes, className }: BlockHandle
                 type="button"
                 aria-label={l10n.insertBlockBelow}
                 onClick={insertBelow}
-                className="inline-flex size-6 cursor-pointer items-center justify-center rounded-md text-muted-foreground/72 transition-colors outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+                className="inline-flex size-6 cursor-pointer items-center justify-center rounded-md text-muted-foreground/72 transition-colors outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <PlusIcon className="size-4" />
               </button>
@@ -492,7 +492,7 @@ export function EditorBlockHandle({ editor, blockTypes, className }: BlockHandle
                   setMenuOpen(!menuOpen)
                 }}
                 className={cn(
-                  "relative inline-flex h-6 w-5 cursor-grab touch-none after:absolute after:inset-x-0 after:-inset-y-2 pointer-coarse:after:-inset-y-3 items-center justify-center rounded-md text-muted-foreground/72 transition-colors outline-none select-none [-webkit-touch-callout:none] hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 active:cursor-grabbing data-popup-open:bg-secondary",
+                  "relative inline-flex h-6 w-5 cursor-grab touch-none after:absolute after:inset-x-0 after:-inset-y-2 pointer-coarse:after:-inset-y-3 items-center justify-center rounded-md text-muted-foreground/72 transition-colors outline-none select-none [-webkit-touch-callout:none] hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring active:cursor-grabbing data-popup-open:bg-secondary",
                   dragging && "cursor-grabbing bg-secondary text-foreground"
                 )}
               >

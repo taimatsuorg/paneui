@@ -8,50 +8,28 @@
   ],
   "cssVars": {
     "light": {
-      "primary": "#6e56cf",
-      "primary-hover": "#654dc4",
-      "primary-active": "#6550b9",
-      "primary-foreground": "#fff",
-      "primary-subtle": "#4400ee0f",
-      "primary-subtle-hover": "#4300ff1b",
-      "primary-border": "#3100fb35",
-      "ring": "#2b00d066"
+      "primary": "oklch(54.17% 0.179 288.03)",
+      "primary-hover": "oklch(50.67% 0.179 288.03)",
+      "primary-active": "oklch(47.17% 0.179 288.03)",
+      "primary-foreground": "oklch(100% 0 0)",
+      "primary-subtle": "oklch(54.17% 0.179 288.03 / 0.1)",
+      "primary-subtle-hover": "oklch(54.17% 0.179 288.03 / 0.16)",
+      "primary-border": "oklch(54.17% 0.179 288.03 / 0.32)",
+      "primary-text": "oklch(54% 0.1611 288.03)",
+      "ring": "oklch(54.17% 0.179 288.03)",
+      "selection": "oklch(54.17% 0.179 288.03 / 0.22)"
     },
     "dark": {
-      "primary": "#6e56cf",
-      "primary-hover": "#7d66d9",
-      "primary-active": "#baa7ff",
-      "primary-foreground": "#fff",
-      "primary-subtle": "#8354fe36",
-      "primary-subtle-hover": "#7d51fd50",
-      "primary-border": "#8f6cfd6d",
-      "ring": "#8668ffcc"
-    }
-  },
-  "css": {
-    "@supports (color: color(display-p3 1 1 1))": {
-      "@media (color-gamut: p3)": {
-        ":root": {
-          "--primary": "color(display-p3 .417 .341 .784)",
-          "--primary-hover": "color(display-p3 .381 .306 .741)",
-          "--primary-active": "color(display-p3 .383 .317 .702)",
-          "--primary-foreground": "#fff",
-          "--primary-subtle": "color(display-p3 .204 .004 .871/.059)",
-          "--primary-subtle-hover": "color(display-p3 .196 .004 1/.102)",
-          "--primary-border": "color(display-p3 .153 .004 .906/.208)",
-          "--ring": "color(display-p3 .133 .004 .753/.397)"
-        },
-        ".dark": {
-          "--primary": "color(display-p3 .417 .341 .784)",
-          "--primary-hover": "color(display-p3 .477 .402 .823)",
-          "--primary-active": "color(display-p3 .72 .65 1)",
-          "--primary-foreground": "#fff",
-          "--primary-subtle": "color(display-p3 .494 .337 .996/.202)",
-          "--primary-subtle-hover": "color(display-p3 .49 .345 1/.299)",
-          "--primary-border": "color(display-p3 .569 .455 1/.408)",
-          "--ring": "color(display-p3 .522 .424 1/.769)"
-        }
-      }
+      "primary": "oklch(54.17% 0.179 288.03)",
+      "primary-hover": "oklch(50.67% 0.179 288.03)",
+      "primary-active": "oklch(47.17% 0.179 288.03)",
+      "primary-foreground": "oklch(100% 0 0)",
+      "primary-subtle": "oklch(54.17% 0.179 288.03 / 0.16)",
+      "primary-subtle-hover": "oklch(54.17% 0.179 288.03 / 0.24)",
+      "primary-border": "oklch(54.17% 0.179 288.03 / 0.42)",
+      "primary-text": "oklch(72% 0.1548 288.03)",
+      "ring": "oklch(54.17% 0.179 288.03)",
+      "selection": "oklch(54.17% 0.179 288.03 / 0.4)"
     }
   },
   "meta": {

@@ -211,9 +211,31 @@ const RULE_ZH: Record<number, { title: string; why: string }> = {
   },
 }
 
+/**
+ * The rules in reading groups, each starting at a rule number (SKILL.md numbers them in this order).
+ * A rule belongs to the last group that starts at or before it.
+ */
+const GROUPS: { from: number; id: string; title: { en: string; zh: string } }[] = [
+  { from: 1, id: "rules-colour", title: { en: "Colour and elevation", zh: "颜色与层级" } },
+  { from: 6, id: "rules-radius", title: { en: "Radius", zh: "圆角" } },
+  { from: 9, id: "rules-type", title: { en: "Type", zh: "文字" } },
+  { from: 13, id: "rules-layout", title: { en: "Density and layout", zh: "密度与布局" } },
+  { from: 16, id: "rules-components", title: { en: "Components and icons", zh: "组件与图标" } },
+  { from: 23, id: "rules-motion", title: { en: "Motion and focus", zh: "动效与焦点" } },
+  { from: 27, id: "rules-copy", title: { en: "Copy and upkeep", zh: "文案与维护" } },
+  { from: 33, id: "rules-polish", title: { en: "Polish", zh: "细节打磨" } },
+]
+
+function groupRules(rules: SkillRule[]) {
+  return GROUPS.map((g, i) => ({
+    ...g,
+    rules: rules.filter((r) => r.n >= g.from && (i === GROUPS.length - 1 || r.n < GROUPS[i + 1].from)),
+  })).filter((g) => g.rules.length > 0)
+}
+
 const LABEL = {
-  good: { text: { en: "Recommended", zh: "推荐" }, icon: <CheckCircleIcon className="size-4 text-success" /> },
-  bad: { text: { en: "Avoid", zh: "避免" }, icon: <XCircleIcon className="size-4 text-destructive" /> },
+  good: { text: { en: "Recommended", zh: "推荐" }, icon: <CheckCircleIcon className="size-4 text-success-text" /> },
+  bad: { text: { en: "Avoid", zh: "避免" }, icon: <XCircleIcon className="size-4 text-destructive-text" /> },
 } as const
 
 /** `code` spans in a line of markdown as inline code. */
@@ -267,16 +289,19 @@ function RuleExamples({ id, code }: { id: string; code: SkillData["code"] }) {
 }
 
 export default function SkillPage({ site, data }: { site: SiteProps; data: SkillData }) {
+  const groups = groupRules(data.rules)
   const toc: TocEntry[] = [
     { id: "installation", title: "Installation" },
     { id: "check", title: { en: "Check", zh: "检查" } },
     { id: "platforms", title: { en: "Web and Native", zh: "Web 与 Native" } },
-    { id: "rules", title: { en: "Rules", zh: "规则" } },
-    ...data.rules.map((r) => ({
-      id: r.id,
-      title: { en: r.title.replace(/`/g, ""), zh: (RULE_ZH[r.n]?.title ?? r.title).replace(/`/g, "") },
-      depth: 2 as const,
-    })),
+    ...groups.flatMap((g) => [
+      { id: g.id, title: g.title },
+      ...g.rules.map((r) => ({
+        id: r.id,
+        title: { en: r.title.replace(/`/g, ""), zh: (RULE_ZH[r.n]?.title ?? r.title).replace(/`/g, "") },
+        depth: 2 as const,
+      })),
+    ]),
   ]
   return (
     <SiteRoot {...site}>
@@ -332,29 +357,28 @@ export default function SkillPage({ site, data }: { site: SiteProps; data: Skill
         <RuleExamples id="native-accessibility" code={data.code} />
       </section>
 
-      <section className="flex flex-col gap-12">
-        <GuideH2 id="rules">
-          <T en="Rules" zh="规则" />
-        </GuideH2>
-        {data.rules.map((r) => (
-          <section key={r.id} className="flex flex-col gap-3">
-            <DocHeading as="h3" id={r.id} className="text-balance">
-              <span className="me-2 text-muted-foreground tabular-nums">{r.n}.</span>
-              <T
-                en={<Md text={r.title} />}
-                zh={<Md text={RULE_ZH[r.n]?.title ?? r.title} />}
-              />
-            </DocHeading>
-            <p className="text-pretty text-muted-foreground">
-              <T
-                en={<Md text={r.why} />}
-                zh={<Md text={RULE_ZH[r.n]?.why ?? r.why} />}
-              />
-            </p>
-            <RuleExamples id={r.id} code={data.code} />
+      {/* `#rules` still lands on the first group. */}
+      <div id="rules" className="flex scroll-mt-24 flex-col gap-16 xl:scroll-mt-20">
+        {groups.map((g) => (
+          <section key={g.id} className="flex flex-col gap-10">
+            <GuideH2 id={g.id}>
+              <T en={g.title.en} zh={g.title.zh} />
+            </GuideH2>
+            {g.rules.map((r) => (
+              <section key={r.id} className="flex flex-col gap-3">
+                <DocHeading as="h3" id={r.id} className="text-balance">
+                  <span className="me-2 text-muted-foreground tabular-nums">{r.n}.</span>
+                  <T en={<Md text={r.title} />} zh={<Md text={RULE_ZH[r.n]?.title ?? r.title} />} />
+                </DocHeading>
+                <p className="text-pretty text-muted-foreground">
+                  <T en={<Md text={r.why} />} zh={<Md text={RULE_ZH[r.n]?.why ?? r.why} />} />
+                </p>
+                <RuleExamples id={r.id} code={data.code} />
+              </section>
+            ))}
           </section>
         ))}
-      </section>
+      </div>
     </GuidePage>
     </SiteRoot>
   )

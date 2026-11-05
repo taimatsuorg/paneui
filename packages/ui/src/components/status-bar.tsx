@@ -199,7 +199,7 @@ function StatusBar({
           const i = indexAtPointer(e)
           if (i != null) setActiveId(rows[i].datum.id)
         }}
-        className="relative w-full touch-pan-y rounded-lg outline-none select-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="relative w-full touch-pan-y rounded-lg outline-none select-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         style={{ height }}
       >
         {width > 0 && (

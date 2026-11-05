@@ -23,7 +23,7 @@ export default function ScrollToDemo() {
           <section
             key={s.id}
             id={s.id}
-            className="flex min-h-56 flex-col justify-end rounded-2xl bg-card p-5 shadow-raised outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            className="flex min-h-56 flex-col justify-end rounded-2xl bg-card p-5 shadow-raised outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <h3 className="text-balance text-base font-semibold">{s.title}</h3>
             <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>

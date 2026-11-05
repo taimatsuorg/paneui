@@ -61,7 +61,7 @@ function ValueCell({ kind, value, bg, wrap = false }: { kind: TokenKind; value: 
 
 /**
  * Token tables by role: token and Tailwind class, light and dark value with a live swatch each.
- * Values come from packages/tokens/styles/globals.css (parsed at build time); the eight accent roles follow the
+ * Values come from packages/tokens/styles/globals.css (parsed at build time); the ten accent roles follow the
  * accent you pick, in both modes, as resolved colours.
  */
 export function ThemingTokenTable({ role, theme }: { role: TokenRole; theme: ParsedTheme }) {

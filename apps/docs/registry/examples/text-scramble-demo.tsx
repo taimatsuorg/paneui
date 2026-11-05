@@ -12,7 +12,7 @@ export default function TextScrambleDemo() {
   return (
     <div className="flex flex-col items-start gap-4">
       <div className="rounded-2xl bg-muted px-4 py-3 font-mono text-lg tracking-widest shadow-well">
-        STATUS: <TextScramble value={STATUSES[i]} className="text-primary" />
+        STATUS: <TextScramble value={STATUSES[i]} className="text-primary-text" />
       </div>
       <Button size="sm" onClick={() => setI((n) => (n + 1) % STATUSES.length)}>
         Next status

@@ -67,7 +67,7 @@ function UsageMeter({
       <div className="flex items-baseline justify-between gap-3">
         <MeterPrimitive.Label className="min-w-0 truncate font-medium">{label}</MeterPrimitive.Label>
         {readout !== "none" && (
-          <span className="shrink-0 text-ui-sm text-muted-foreground tabular-nums group-data-[level=danger]/usage:text-destructive">{text}</span>
+          <span className="shrink-0 text-ui-sm text-muted-foreground tabular-nums group-data-[level=danger]/usage:text-destructive-text">{text}</span>
         )}
       </div>
       <MeterPrimitive.Track className="relative h-1.5 w-full overflow-hidden rounded-full bg-muted shadow-well">

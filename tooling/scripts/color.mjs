@@ -6,6 +6,7 @@ const num = (s, scale = 1) => (s.endsWith("%") ? (parseFloat(s) / 100) * scale :
 /** Any theme colour → { r, g, b, a } in sRGB 0..1. */
 export function parse(value) {
   const v = value.trim().toLowerCase()
+  if (v === "transparent") return { r: 0, g: 0, b: 0, a: 0 }
   if (v.startsWith("#")) {
     let h = v.slice(1)
     if (h.length === 3 || h.length === 4) h = [...h].map((c) => c + c).join("")

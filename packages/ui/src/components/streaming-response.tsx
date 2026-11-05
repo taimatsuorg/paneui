@@ -194,7 +194,7 @@ function ResponseMarkdown({
         if (block.type === "code") {
           const lang = (CODE_LANGS.has(block.lang) ? block.lang : "text") as CodeLanguage
           return (
-            <div key={k} className="not-typeset mt-(--typeset-flow) overflow-hidden rounded-xl bg-code p-3 shadow-well first:mt-0">
+            <div key={k} className="not-typeset mt-(--typeset-flow-block) overflow-hidden rounded-xl bg-code p-3 shadow-well first:mt-0">
               <CodeHighlight code={block.code} language={lang} streaming={caret && last} />
               {last && tail}
             </div>
@@ -329,7 +329,7 @@ function StreamingResponse({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25, ease: AGENT_EASE }}
               role="alert"
-              className="flex items-center gap-2 rounded-xl bg-destructive/10 px-3 py-2 text-ui text-destructive shadow-[inset_0_0_0_1px_color-mix(in_oklch,var(--destructive)_22%,transparent)]"
+              className="flex items-center gap-2 rounded-xl bg-destructive/10 px-3 py-2 text-ui text-destructive-text shadow-[inset_0_0_0_1px_color-mix(in_oklch,var(--destructive)_22%,transparent)]"
             >
               <AlertCircleIcon className="size-4 shrink-0" />
               <span className="flex-1">{errorMessage}</span>
@@ -337,7 +337,7 @@ function StreamingResponse({
                 <button
                   type="button"
                   onClick={onRetry}
-                  className="inline-flex h-7 cursor-pointer items-center gap-1 rounded-full px-2.5 text-ui-sm font-medium outline-none hover:bg-destructive/12 focus-visible:ring-2 focus-visible:ring-ring/50"
+                  className="inline-flex h-7 cursor-pointer items-center gap-1 rounded-control px-2.5 text-ui-sm font-medium outline-none hover:bg-destructive/12 focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <RefreshIcon className="size-3.5" />
                   {l10n.retry}
@@ -364,10 +364,10 @@ function StreamingResponse({
               </AgentIconButton>
             ) : null}
             <AgentIconButton label={labels.goodResponse} pressed={feedback === "up"} onClick={() => toggleFeedback("up")}>
-              <ThumbsUpIcon className={cn(feedback === "up" && "text-success")} />
+              <ThumbsUpIcon className={cn(feedback === "up" && "text-success-text")} />
             </AgentIconButton>
             <AgentIconButton label={labels.badResponse} pressed={feedback === "down"} onClick={() => toggleFeedback("down")}>
-              <ThumbsDownIcon className={cn(feedback === "down" && "text-destructive")} />
+              <ThumbsDownIcon className={cn(feedback === "down" && "text-destructive-text")} />
             </AgentIconButton>
           </motion.div>
         ) : null}

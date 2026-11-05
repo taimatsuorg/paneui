@@ -352,11 +352,11 @@ const AgentComposer = React.forwardRef<HTMLTextAreaElement, AgentComposerProps>(
           <TooltipTrigger
             render={
               busy ? (
-                <Button type="button" size="icon-sm" aria-label={t.stop} onClick={onStop} className="rounded-full">
+                <Button type="button" size="icon-sm" aria-label={t.stop} onClick={onStop}>
                   <StopIcon />
                 </Button>
               ) : (
-                <Button type="submit" size="icon-sm" aria-label={t.send} disabled={!canSend} className="rounded-full">
+                <Button type="submit" size="icon-sm" aria-label={t.send} disabled={!canSend}>
                   <ArrowUpIcon />
                 </Button>
               )

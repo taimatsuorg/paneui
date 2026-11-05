@@ -6,7 +6,7 @@ import Link from "next/link"
 import { CodeIcon, MailIcon } from "@paneui/ui/icons"
 
 import { BlogTopBar, Container, TextLink } from "./parts/chrome"
-import { formatPostDate, groupPostsByYear, site, socials, type Social } from "./parts/data"
+import { author, formatPostDate, groupPostsByYear, site, socials, type Social } from "./parts/data"
 
 export type BlogHrefs = { home: string; post: string }
 
@@ -18,7 +18,7 @@ function SocialLink({ social }: { social: Social }) {
     <a
       href={social.href}
       rel="noreferrer"
-      className="inline-flex items-baseline gap-1 rounded-xs text-foreground underline decoration-border underline-offset-4 transition-colors duration-150 outline-none hover:decoration-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+      className="inline-flex items-baseline gap-1 rounded-xs text-foreground underline decoration-border underline-offset-4 transition-colors duration-150 outline-none hover:decoration-foreground focus-visible:ring-2 focus-visible:ring-ring"
     >
       <Icon size={14} className="translate-y-0.5" />
       {social.label}
@@ -27,8 +27,9 @@ function SocialLink({ social }: { social: Social }) {
 }
 
 /**
- * Personal blog home: a short intro, the social row, then every post grouped by year.
- * Links in the intro are underlined; list rows stay plain until hovered.
+ * Personal blog home: the name with what the author does, a short intro, the social row, then every
+ * post grouped by year. From `sm` the year sits in a left gutter beside its posts. Intro links are
+ * underlined; each post is one row-sized link that fills on hover.
  */
 export function BlogHome({ hrefs = { home: "/blog", post: "/blog/post" } }: { hrefs?: BlogHrefs }) {
   const years = groupPostsByYear()
@@ -38,7 +39,12 @@ export function BlogHome({ hrefs = { home: "/blog", post: "/blog/post" } }: { hr
         <BlogTopBar homeHref={hrefs.home} />
 
         <main>
-          <h1 className="mb-3 text-base font-medium text-balance">{site.name}</h1>
+          <header className="mb-4 flex flex-col gap-0.5">
+            <h1 className="text-base font-medium text-balance">{site.name}</h1>
+            <p className="text-muted-foreground first-letter:uppercase">
+              {author.role} in {author.location}
+            </p>
+          </header>
 
           <div className="mb-10 flex flex-col gap-3 text-muted-foreground">
             <p className="text-pretty">I write code, and I keep a record of it.</p>
@@ -61,22 +67,26 @@ export function BlogHome({ hrefs = { home: "/blog", post: "/blog/post" } }: { hr
 
           <div className="flex flex-col gap-8">
             {years.map((group) => (
-              <section key={group.year} aria-labelledby={`year-${group.year}`} className="flex flex-col gap-3">
-                <h2 id={`year-${group.year}`} className="font-mono text-base font-normal text-balance text-muted-foreground">
+              <section
+                key={group.year}
+                aria-labelledby={`year-${group.year}`}
+                className="grid grid-cols-1 gap-2 sm:grid-cols-[4rem_minmax(0,1fr)] sm:gap-4"
+              >
+                <h2 id={`year-${group.year}`} className="font-mono text-base font-normal text-balance text-muted-foreground sm:py-1.5">
                   {group.year}
                 </h2>
-                <ul className="flex flex-col">
+                <ul className="-mx-2 flex flex-col">
                   {group.posts.map((post) => (
-                    <li key={post.slug} className="flex items-baseline gap-4 leading-6">
+                    <li key={post.slug}>
                       <Link
                         href={hrefs.post}
-                        className="min-w-0 wrap-anywhere rounded-xs transition-colors duration-150 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring/50"
+                        className="flex items-baseline gap-4 rounded-md px-2 py-1.5 leading-6 transition-colors duration-150 outline-none hover:bg-foreground/6 focus-visible:ring-2 focus-visible:ring-ring"
                       >
-                        {post.title}
+                        <span className="min-w-0 wrap-anywhere">{post.title}</span>
+                        <time dateTime={post.date} className="ms-auto shrink-0 font-mono text-muted-foreground tabular-nums">
+                          {formatPostDate(post.date)}
+                        </time>
                       </Link>
-                      <time dateTime={post.date} className="ms-auto shrink-0 font-mono text-muted-foreground tabular-nums">
-                        {formatPostDate(post.date)}
-                      </time>
                     </li>
                   ))}
                 </ul>

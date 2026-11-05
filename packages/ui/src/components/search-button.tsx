@@ -9,7 +9,7 @@ import { useLocale } from "@paneui/ui/components/locale-provider"
 import { cn } from "@paneui/ui/lib/utils"
 
 const searchButtonVariants = cva(
-  "inline-flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center gap-2 frame-control frame-inset-2 bg-background text-ui text-muted-foreground shadow-well outline-none hover:bg-secondary hover:text-foreground active:bg-accent focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-64 sm:w-64 sm:justify-start sm:px-2.5 [&_[data-slot=kbd]]:rounded-inner-or-2xs"
+  "inline-flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center gap-2 frame-control frame-inset-2 bg-background text-ui text-muted-foreground shadow-well outline-none hover:bg-secondary hover:text-foreground active:bg-accent focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-64 sm:w-64 sm:justify-start sm:px-2.5 [&_[data-slot=kbd]]:rounded-inner-or-2xs"
 )
 
 type SearchButtonProps = Omit<React.ComponentProps<"button">, "children"> & {

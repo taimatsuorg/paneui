@@ -108,8 +108,8 @@ function EditedFilesCard({
             {title ?? labels.editedFiles(files.length)}
           </span>
           <span className="flex gap-1.5 font-mono text-ui-sm whitespace-nowrap tabular-nums">
-            <span className="text-success">+{additions}</span>
-            <span className="text-destructive">−{deletions}</span>
+            <span className="text-success-text">+{additions}</span>
+            <span className="text-destructive-text">−{deletions}</span>
             <span className="sr-only">{labels.diffStats(additions, deletions)}</span>
           </span>
         </div>

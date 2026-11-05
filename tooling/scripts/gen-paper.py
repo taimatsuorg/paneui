@@ -2,6 +2,11 @@
 from pathlib import Path
 import json
 import math
+import sys
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).parent))
+from theme_color import Ok, ratio, solve_alpha  # noqa: E402
+from theme_roles import accent_roles, status_roles, solid_for, tag_roles  # noqa: E402
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'packages/tokens/styles/theme-paper.css'
 ANCHORS = json.loads((ROOT / 'tooling/fixtures/paper-anchors.json').read_text())
@@ -22,14 +27,38 @@ def ink(a, L=0.30, C=0.004): return f"oklch({L*100:g}% {C:g} {W} / {a:g})"
 def ivory(a, L=0.97, C=0.003): return f"oklch({L*100:g}% {C:g} {W} / {a:g})"
 def shadow_l(*layers): return ', '.join(layers)
 
-def state_l(name,h,c,L=0.6):
-    return {name:f'oklch({L*100:g}% {c:g} {h})', f'{name}-hover':f'oklch({(L-0.04)*100:g}% {c:g} {h})', f'{name}-foreground':'oklch(100% 0 0)',
-      f'{name}-subtle':f'oklch({L*100:g}% {c:g} {h} / 0.11)', f'{name}-border':f'oklch({L*100:g}% {c:g} {h} / 0.3)'}
-def state_d(name,h,c,L=0.74):
-    return {name:f'oklch({L*100:g}% {c:g} {h})', f'{name}-hover':f'oklch({(L+0.04)*100:g}% {c:g} {h})', f'{name}-foreground':f'oklch(21% 0.02 {h})',
-      f'{name}-subtle':f'oklch({L*100:g}% {c:g} {h} / 0.14)', f'{name}-border':f'oklch({L*100:g}% {c:g} {h} / 0.32)'}
-STATE_L={**state_l('destructive',*anchor('rose'),0.54), **state_l('success',*anchor('green'),0.54), **state_l('warning',*anchor('orange'),0.54)}
-STATE_D={**state_d('destructive',*anchor('rose'),0.76), **state_d('success',*anchor('green'),0.76), **state_d('warning',*anchor('orange'),0.8)}
+SURF_H = round(lch(ANCHORS['surface']['hex'])[2], 2)
+PAGE = {'light': Ok(0.99, 0.002, SURF_H), 'dark': Ok(0.195, 0.004, W)}
+PAGES = {'light': [PAGE['light'], Ok(0.998, 0.001, SURF_H)], 'dark': [PAGE['dark'], Ok(0.225, 0.004, W), Ok(0.255, 0.004, W)]}
+WHITE = Ok(1)
+INK = lambda a: Ok(0.30, 0.004, W, a)
+IVORY = lambda a: Ok(0.97, 0.003, W, a)
+def solve_ink(make, target, mode):
+    return solve_alpha(make, lambda c: all(ratio(c, p, PAGE[mode]) >= target for p in PAGES[mode]), 0.02, 1)
+def css(d): return {k: (v.css() if isinstance(v, Ok) else v) for k, v in d.items()}
+
+# Status: dusty solids with white text on paper (warning: a vivid amber with ink text), pastel solids with ink text in dark.
+LIGHT_ALPHA = {'subtle': 0.11, 'border': 0.3}
+DARK_ALPHA = {'subtle': 0.14, 'border': 0.32}
+def status_light():
+    out = {}
+    for name, key in (('destructive', 'rose'), ('success', 'green'), ('info', 'blue')):
+        h, c = anchor(key)
+        out.update(status_roles(name, solid_for(WHITE, h, c, 0.54), WHITE, PAGES['light'], 'light', LIGHT_ALPHA))
+    h, c = anchor('orange')
+    fg = Ok(0.21, 0.02, h)
+    out.update(status_roles('warning', solid_for(fg, h, c, 0.74), fg, PAGES['light'], 'light', LIGHT_ALPHA))
+    return css(out)
+def status_dark():
+    out = {}
+    for name, key, L in (('destructive', 'rose', 0.76), ('success', 'green', 0.76), ('warning', 'orange', 0.8), ('info', 'blue', 0.76)):
+        h, c = anchor(key)
+        fg = Ok(0.21, 0.02, h)
+        # In dark the pastel solid is light enough to be its own text colour.
+        out.update(status_roles(name, solid_for(fg, h, c, L), fg, PAGES['dark'], 'dark', DARK_ALPHA, text_chroma=1, text_start=L))
+    return css(out)
+STATE_L = status_light()
+STATE_D = status_dark()
 light = {
  'radius-note': None,
  'background': 'oklch(99% 0.002 255)',
@@ -41,17 +70,21 @@ light = {
  'foreground': 'oklch(23% 0.004 285)',
  'card-foreground': 'oklch(23% 0.004 285)',
  'popover-foreground': 'oklch(23% 0.004 285)',
- 'muted-foreground': ink(0.68, 0.24, 0.004),
- 'fg-tertiary': ink(0.5, 0.26, 0.004),
+ 'muted-foreground': ink(0.71, 0.24, 0.004),
+ 'fg-tertiary': ink(0.52, 0.26, 0.004),
  'fg-disabled': ink(0.34, 0.28, 0.004),
- 'secondary': ink(0.065),
+ 'fill-hover': ink(0.06),
+ 'fill-active': ink(0.1),
+ 'fill-strong': ink(0.16),
+ 'secondary': 'var(--fill-hover)',
  'secondary-foreground': 'oklch(23% 0.004 285)',
- 'muted': ink(0.065),
- 'accent': ink(0.1),
+ 'muted': 'var(--fill-hover)',
+ 'accent': 'var(--fill-active)',
  'accent-foreground': 'oklch(23% 0.004 285)',
  'border': ink(0.12),
- 'border-subtle': ink(0.05),
- 'border-strong': ink(0.2),
+ 'border-subtle': ink(0.06),
+ 'border-strong': ink(0.22),
+ 'border-control': ink(solve_ink(INK, 3.1, 'light')),
  'input': ink(0.14),
  'code': 'oklch(97.5% 0.003 255)',
  'scrollbar': ink(0.18),
@@ -73,6 +106,7 @@ light = {
 }
 light.update(STATE_L)
 light.pop('radius-note')
+light.update(css(tag_roles('light', PAGES['light'], Ok(0.23, 0.004, W), INK(0.08), W)))
 DK=lambda a: f"oklch(0% 0 0 / {a:g})"
 dark = {
  'background': 'oklch(19.5% 0.004 285)',
@@ -85,16 +119,20 @@ dark = {
  'card-foreground': 'oklch(94% 0.003 255)',
  'popover-foreground': 'oklch(94% 0.003 255)',
  'muted-foreground': ivory(0.66),
- 'fg-tertiary': ivory(0.44),
+ 'fg-tertiary': ivory(0.46),
  'fg-disabled': ivory(0.32),
- 'secondary': ivory(0.075),
+ 'fill-hover': ivory(0.07),
+ 'fill-active': ivory(0.11),
+ 'fill-strong': ivory(0.16),
+ 'secondary': 'var(--fill-hover)',
  'secondary-foreground': 'oklch(94% 0.003 255)',
- 'muted': ivory(0.075),
- 'accent': ivory(0.11),
+ 'muted': 'var(--fill-hover)',
+ 'accent': 'var(--fill-active)',
  'accent-foreground': 'oklch(94% 0.003 255)',
  'border': ivory(0.11),
- 'border-subtle': ivory(0.05),
- 'border-strong': ivory(0.18),
+ 'border-subtle': ivory(0.06),
+ 'border-strong': ivory(0.2),
+ 'border-control': ivory(solve_ink(IVORY, 3.1, 'dark')),
  'input': ivory(0.12),
  'code': 'oklch(21.5% 0.004 285)',
  'scrollbar': ivory(0.18),
@@ -115,28 +153,29 @@ dark = {
  'image-outline': ivory(0.1),
 }
 dark.update(STATE_D)
+dark.update(css(tag_roles('dark', PAGES['dark'], Ok(0.94, 0.003, SURF_H), IVORY(0.12), W)))
 # accents: (hue, chroma)
 ACC = {key:anchor(key) for key in ['blue','green','orange','rose','violet']}
+LIGHT_ACC = {'subtle': 0.12, 'subtle-hover': 0.18, 'border': 0.32, 'selection': 0.22}
+DARK_ACC = {'subtle': 0.14, 'subtle-hover': 0.2, 'border': 0.32, 'selection': 0.32}
 def acc_light(h,c):
-    return {'primary':f'oklch(54% {c:g} {h})','primary-hover':f'oklch(50% {c:g} {h})','primary-active':f'oklch(46% {c:g} {h})',
-      'primary-foreground':'oklch(100% 0 0)','primary-subtle':f'oklch(62% {c:g} {h} / 0.12)','primary-subtle-hover':f'oklch(62% {c:g} {h} / 0.18)',
-      'primary-border':f'oklch(58% {c:g} {h} / 0.32)','ring':f'oklch(58% {c:g} {h} / 0.5)'}
+    return css(accent_roles(solid_for(WHITE, h, c, 0.54), WHITE, PAGE['light'], PAGES['light'], 'light', LIGHT_ACC))
 def acc_dark(h,c):
-    c2=round(c*0.72,3)
-    return {'primary':f'oklch(80% {c2:g} {h})','primary-hover':f'oklch(84% {c2:g} {h})','primary-active':f'oklch(88% {c2:g} {h})',
-      'primary-foreground':f'oklch(21% 0.02 {h})','primary-subtle':f'oklch(80% {c:g} {h} / 0.14)','primary-subtle-hover':f'oklch(80% {c:g} {h} / 0.2)',
-      'primary-border':f'oklch(80% {c:g} {h} / 0.32)','ring':f'oklch(80% {c:g} {h} / 0.6)'}
+    fg = Ok(0.21, 0.02, h)
+    return css(accent_roles(solid_for(fg, h, round(c*0.72,3), 0.8), fg, PAGE['dark'], PAGES['dark'], 'dark', DARK_ACC, text_chroma=1, text_start=0.8))
 neutral_light={'primary':'oklch(24% 0.004 285)','primary-hover':'oklch(31% 0.004 285)','primary-active':'oklch(38% 0.004 285)',
-  'primary-foreground':'oklch(99% 0.002 255)','primary-subtle':ink(0.065),'primary-subtle-hover':ink(0.1),'primary-border':ink(0.2),'ring':ink(0.32)}
+  'primary-foreground':'oklch(99% 0.002 255)','primary-subtle':ink(0.065),'primary-subtle-hover':ink(0.1),'primary-border':ink(0.2),
+  'primary-text':'oklch(23% 0.004 285)','ring':ink(solve_ink(INK, 3.2, 'light')),'selection':ink(0.16)}
 neutral_dark={'primary':'oklch(94% 0.003 255)','primary-hover':'oklch(88% 0.003 255)','primary-active':'oklch(82% 0.003 255)',
-  'primary-foreground':'oklch(20% 0.004 285)','primary-subtle':ivory(0.075),'primary-subtle-hover':ivory(0.11),'primary-border':ivory(0.18),'ring':ivory(0.36)}
+  'primary-foreground':'oklch(20% 0.004 285)','primary-subtle':ivory(0.075),'primary-subtle-hover':ivory(0.11),'primary-border':ivory(0.18),
+  'primary-text':'oklch(94% 0.003 255)','ring':ivory(solve_ink(IVORY, 3.2, 'dark')),'selection':ivory(0.24)}
 
 def block(sel, d, indent=''):
     return f"{indent}{sel} {{\n"+''.join(f"{indent}  --{k}: {v};\n" for k,v in d.items())+f"{indent}}}\n"
 P='html[data-style="paper"]'
 E='[data-style="paper"]'
 def sel(*xs): return ',\n'.join(xs)
-ROLES=['primary','primary-hover','primary-active','primary-foreground','primary-subtle','primary-subtle-hover','primary-border','ring']
+ROLES=['primary','primary-hover','primary-active','primary-foreground','primary-subtle','primary-subtle-hover','primary-border','primary-text','ring','selection']
 out=["""/*
  * Generated by tooling/scripts/gen-paper.py. Do not edit.
  * Paper style applies to a page or section.
@@ -150,12 +189,11 @@ f"""{sel(P, E)} {{
   /* Titles take the text serif; body text stays on --font-sans. */
   --heading-font: "Source Serif 4 Variable", "Source Serif 4", "Noto Serif SC Variable", "Noto Serif SC", ui-serif, Georgia, "Songti SC", serif;
   --heading-font-features: normal;
-  /* Controls (buttons, tabs, segmented, toggles) turn into pills; every other radius stays on the scale. */
-  --control-radius: 2rem;
 """ + ''.join(f"  --{k}: {v};\n" for k,v in light.items()) + "}\n\n",
-f"/* Softer corners by default; a radius preset or a custom value still wins. */\n{sel(P+':not([data-radius])', 'html:not([data-radius]) '+E+':not([data-radius])')} {{\n  --radius: 0.75rem;\n}}\n\n",
+f"/* Softer corners and pill controls (buttons, tabs, switches, badges) by default. A radius preset or a custom value\n * wins, and then controls follow --radius like every other corner. */\n{sel(P+':not([data-radius])', 'html:not([data-radius]) '+E+':not([data-radius])')} {{\n  --radius: 0.75rem;\n  --control-radius: 9999px;\n  --control-radius-sm: 9999px;\n}}\n\n",
+f"{sel('html[data-radius] '+E, E+'[data-radius]', E+' [data-radius]')} {{\n  --control-radius: initial;\n  --control-radius-sm: initial;\n}}\n\n",
 block(sel(P+'.dark', '.dark '+E), dark), '\n',
-"/* Accents: dusty solids on paper, pastel solids with ink text in dark. Blue (no data-accent) is the default. */\n",
+"/* Accents: dusty solids with white text on paper, pastel solids with ink text in dark; text, ring and selection follow. Blue (no data-accent) is the default. */\n",
 block(sel(P+':not([data-accent])', E+':not([data-accent])'), acc_light(*ACC['blue'])),
 block(sel(P+'.dark:not([data-accent])', '.dark '+E+':not([data-accent])'), acc_dark(*ACC['blue'])),
 ]

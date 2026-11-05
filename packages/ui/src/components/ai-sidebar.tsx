@@ -43,8 +43,8 @@ function ResourceIcon({ kind, className }: { kind: SidebarResourceKind; classNam
       size={16}
       className={cn(
         "shrink-0",
-        kind === "project" && "text-primary",
-        kind === "bookmark" && "text-warning",
+        kind === "project" && "text-primary-text",
+        kind === "bookmark" && "text-warning-text",
         (kind === "folder" || kind === "file") && "text-muted-foreground",
         className
       )}
@@ -235,7 +235,7 @@ function ResourceTree({ label, items, query, expanded, onToggle, activeId, onAct
                 style={{ paddingLeft: 6 + depth * 14 }}
                 className={cn(
                   "group/item relative mx-1 my-px flex h-8 cursor-pointer items-center gap-1.5 rounded-lg pr-2 text-ui outline-none select-none",
-                  "transition-[background-color,color] duration-150 focus-visible:ring-2 focus-visible:ring-ring/50",
+                  "transition-[background-color,color] duration-150 focus-visible:ring-2 focus-visible:ring-ring",
                   active
                     ? "bg-foreground/6 font-medium text-foreground"
                     : "text-foreground/85 hover:bg-secondary",
@@ -317,7 +317,7 @@ function RenameField({ initial, onDone }: { initial: string; onDone: (value: str
         if (e.key === "Escape") finish(null)
       }}
       onBlur={() => finish(value.trim())}
-      className="h-6 min-w-0 flex-1 rounded-lg bg-background px-1.5 text-ui shadow-well outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+      className="h-6 min-w-0 flex-1 rounded-lg bg-background px-1.5 text-ui shadow-well outline-none focus-visible:ring-2 focus-visible:ring-ring"
     />
   )
 }
@@ -538,7 +538,7 @@ function AISidebar({
             aria-label={open ? labels.collapseSidebar : labels.expandSidebar}
             aria-expanded={open}
             onClick={() => setOpen(!open)}
-            className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+            className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
           >
             <SidebarIcon size={17} />
           </button>
@@ -551,7 +551,7 @@ function AISidebar({
       {searchable && (
         <div className={cn("shrink-0 px-2.5 pb-2", !open && "flex justify-center px-0")}>
           {open ? (
-            <label className="flex h-8 items-center gap-2 rounded-xl bg-muted/70 px-2.5 shadow-well focus-within:ring-2 focus-within:ring-ring/50">
+            <label className="flex h-8 items-center gap-2 rounded-xl bg-muted/70 px-2.5 shadow-well focus-within:ring-2 focus-within:ring-ring">
               <SearchIcon size={14} className="shrink-0 text-muted-foreground" />
               <input
                 ref={searchRef}
@@ -595,7 +595,7 @@ function AISidebar({
                   setOpen(true)
                   requestAnimationFrame(() => searchRef.current?.focus())
                 }}
-                className="grid size-8 cursor-pointer place-items-center rounded-full text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+                className="grid size-8 cursor-pointer place-items-center rounded-full text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <SearchIcon size={16} />
               </button>
@@ -668,7 +668,7 @@ function AISidebar({
                         } else activate(item)
                       }}
                       className={cn(
-                        "grid size-8 cursor-pointer place-items-center rounded-lg outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring/50 disabled:opacity-50",
+                        "grid size-8 cursor-pointer place-items-center rounded-lg outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50",
                         active ? "bg-foreground/6" : "hover:bg-secondary"
                       )}
                     >

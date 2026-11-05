@@ -148,7 +148,7 @@ function CandlestickChart({
             {formatPrice(hovered ? shown.close : lastValue)}
           </span>
           <span
-            className="rounded-full px-2 py-0.5 font-medium shadow-chip"
+            className="rounded-control-sm px-2 py-0.5 font-medium shadow-chip"
             style={{ color: up ? UP : DOWN, background: chartAlpha(up ? UP : DOWN, 12) }}
           >
             {change >= 0 ? "+" : ""}
@@ -186,7 +186,7 @@ function CandlestickChart({
         onPointerDown={updateFromPointer}
         onPointerLeave={() => setHover(null)}
         onBlur={() => setHover(null)}
-        className="relative w-full touch-pan-y rounded-xl outline-none select-none focus-visible:ring-2 focus-visible:ring-ring/50"
+        className="relative w-full touch-pan-y rounded-xl outline-none select-none focus-visible:ring-2 focus-visible:ring-ring"
         style={{ height }}
       >
         {width > 0 && (

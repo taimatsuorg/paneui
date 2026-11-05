@@ -200,7 +200,7 @@ export function Usage() {
           +21%
         </Badge>
       </div>
-      <div className="text-primary">
+      <div className="text-primary-text">
         <Sparkline
           values={range === "day" ? SERIES.slice(8) : range === "month" ? [...SERIES].reverse().concat(SERIES) : SERIES}
           label={t({ en: "Usage trend", zh: "用量趋势" })}

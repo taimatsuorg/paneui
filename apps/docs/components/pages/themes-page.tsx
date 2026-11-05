@@ -172,9 +172,9 @@ export default function ThemesPage({ site, data }: { site: SiteProps; data: Them
   return (
     <SiteRoot {...site}>
       <div className="flex min-h-[calc(100svh-3rem)] flex-col lg:flex-row">
-        <aside className="flex shrink-0 flex-col border-b border-border bg-shell lg:sticky lg:top-12 lg:h-[calc(100svh-3rem)] lg:w-72 lg:border-e lg:border-b-0">
-          <div className="flex flex-col gap-7 overflow-y-auto p-5 lg:flex-1">
-            <h1 className="text-ui-lg font-semibold">
+        <aside className="flex shrink-0 flex-col border-b border-border bg-shell lg:sticky lg:top-12 lg:h-[calc(100svh-3rem)] lg:w-64 lg:border-e lg:border-b-0">
+          <div className="flex flex-col gap-8 overflow-y-auto px-5 py-6 lg:flex-1">
+            <h1 className="font-heading text-2xl font-semibold tracking-tight text-balance">
               <T en="Customize" zh="自定义" />
             </h1>
 
@@ -189,7 +189,7 @@ export default function ThemesPage({ site, data }: { site: SiteProps; data: Them
                     aria-label={t(siteCopy(PRESET_LABELS[p]))}
                     title={t(siteCopy(PRESET_LABELS[p]))}
                     onClick={() => pickPreset(p)}
-                    className="grid size-8 cursor-pointer place-items-center rounded-full outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 aria-checked:ring-2 aria-checked:ring-foreground/70"
+                    className="grid size-8 cursor-pointer place-items-center rounded-full outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring aria-checked:ring-2 aria-checked:ring-foreground/70"
                   >
                     <span
                       aria-hidden
@@ -255,7 +255,7 @@ export default function ThemesPage({ site, data }: { site: SiteProps; data: Them
           </div>
         </aside>
 
-        <main className="min-w-0 flex-1 p-4 sm:p-6">
+        <main className="min-w-0 flex-1 px-5 py-6 sm:px-8 lg:px-10">
           <Tabs defaultValue="components" className="h-full gap-5">
             <TabsList variant="underline" className="max-w-full overflow-x-auto">
               <TabsTab value="components">
@@ -284,7 +284,7 @@ export default function ThemesPage({ site, data }: { site: SiteProps; data: Them
             <TabsPanel value="tokens" className="flex max-w-4xl flex-col gap-10">
               {TOKEN_ROLES.map((role) => (
                 <section key={role.id} id={role.id} className="flex flex-col gap-3">
-                  <h2 className="text-lg font-semibold">
+                  <h2 className="text-lg font-semibold text-balance">
                     <LocalizedText text={role.title} />
                   </h2>
                   <p className="text-ui text-muted-foreground">

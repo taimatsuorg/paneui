@@ -385,6 +385,11 @@ const eslintConfig = [
     rules: { "paneui/concentric-radius": "warn" },
   },
   {
+    // The docs site's own utilities live in apps/docs/styles/globals.css, outside the theme the rule reads.
+    files: ["apps/docs/components/**/*.{ts,tsx}"],
+    rules: { "shadcn/no-unknown-classes": ["error", { message: messages.unknown, allow: ["tile", "tile-label", "signal-lamp", "doc-code"] }] },
+  },
+  {
     // The share card is rendered to SVG at build time, never served as a page image.
     files: ["packages/ui/src/components/og-image.tsx"],
     rules: { "@next/next/no-img-element": "off" },

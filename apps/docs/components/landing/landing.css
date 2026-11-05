@@ -1,8 +1,0 @@
-/*
- * Homepage only: the dotted field behind the hero. Everything else comes from the theme tokens.
- */
-.lp-dots {
-  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 22%, transparent) 1px, transparent 1.2px);
-  background-size: 14px 14px;
-  mask-image: radial-gradient(ellipse 50% 100% at 50% 0%, black 30%, transparent 75%);
-}

@@ -21,9 +21,16 @@ export default {
         ├── MessageHeader
         ├── MessageBubble
         ├── MessageMeta
+        ├── MessageReactions
+        │   └── MessageReaction
         └── MessageActions
             └── MessageAction`,
   examples: [
+    {
+      id: "flat",
+      title: { en: "Flat", zh: "平铺" },
+      description: { en: "Use for team channels where every row reads left to right.", zh: "用于团队频道，所有消息靠左逐行阅读。" },
+    },
     {
       id: "avatars",
       title: { en: "Avatars", zh: "头像" },
@@ -60,7 +67,11 @@ export default {
       name: "MessageList",
       description: { en: "Vertical stack of rows.", zh: "行的纵向堆叠。" },
       extends: "div",
-      props: [{ name: "spacing", type: `"compact" | "default"`, default: `"default"`, description: { en: "Gap between rows: 8px or 20px.", zh: "行间距：8px 或 20px。" } }],
+      props: [
+        { name: "variant", type: `"bubble" | "flat"`, default: `"bubble"`, description: { en: "`bubble` puts senders on their own side; `flat` lines rows up on the left with square avatars, a name line, plain text and a floating action bar.", zh: "`bubble` 让发送方各占一侧；`flat` 全部靠左，方形头像、名字行、纯文本和浮动操作栏。" } },
+        { name: "spacing", type: `"compact" | "default"`, default: `"default"`, description: { en: "Gap between rows: 8px or 20px (0 or 4px when flat).", zh: "行间距：8px 或 20px（flat 时为 0 或 4px）。" } },
+      ],
+      dataAttributes: [{ name: "data-variant", description: { en: "`bubble` or `flat`.", zh: "`bubble` 或 `flat`。" } }],
     },
     {
       name: "Message",
@@ -70,13 +81,16 @@ export default {
         { name: "from", type: `"user" | "assistant" | "system"`, default: `"assistant"`, description: { en: "Sender; sets the side for every bubble inside.", zh: "发送方；为其中每个气泡设置一侧。" } },
         { name: "animateIn", type: "boolean", default: "false", description: { en: "Pop up from the sender's corner once on mount.", zh: "挂载时从发送方角落弹出一次。" } },
       ],
-      dataAttributes: [{ name: "data-from", description: { en: "`user`, `assistant` or `system`; children style off `group-data-[from=user]/message`.", zh: "`user`、`assistant` 或 `system`；子元素的样式基于 `group-data-[from=user]/message`。" } }],
+      dataAttributes: [
+        { name: "data-from", description: { en: "`user`, `assistant` or `system`.", zh: "`user`、`assistant` 或 `system`。" } },
+        { name: "data-side", description: { en: "`start` or `end` (always `start` when flat); children style off `group-data-[side=end]/message`.", zh: "`start` 或 `end`（flat 时恒为 `start`）；子元素的样式基于 `group-data-[side=end]/message`。" } },
+      ],
     },
     {
       name: "MessageAvatar",
-      description: { en: "Round 32px avatar slot.", zh: "32px 的圆形头像槽位。" },
+      description: { en: "Round 32px avatar slot; a 36px rounded square in flat lists.", zh: "32px 圆形头像槽位；flat 列表中为 36px 圆角方形。" },
       extends: "div",
-      props: [{ name: "placeholder", type: "boolean", default: "false", description: { en: "Render an invisible spacer instead of the avatar.", zh: "渲染不可见的占位元素代替头像。" } }],
+      props: [{ name: "placeholder", type: "boolean", default: "false", description: { en: "Render a spacer instead of the avatar. In flat lists its children (e.g. the time) show while the row is hovered.", zh: "渲染占位元素代替头像。flat 列表中其子元素（如时间）在悬停该行时显示。" } }],
     },
     {
       name: "MessageContent",
@@ -106,6 +120,19 @@ export default {
       description: { en: "Three-dot typing indicator in a bubble-shaped chip.", zh: "气泡形胶囊中的三点输入指示器。" },
       extends: "div",
       props: [{ name: "label", type: "string", default: `"Typing"`, description: { en: "Accessible label of the status.", zh: "状态的可访问标签。" } }],
+    },
+    { name: "MessageReactions", description: { en: "Wrapping row of reaction chips.", zh: "可换行的表情回应行。" }, extends: "div", props: [] },
+    {
+      name: "MessageReaction",
+      description: { en: "Toggle chip with an emoji and a count.", zh: "带表情和计数的切换胶囊。" },
+      extends: "button",
+      props: [
+        { name: "emoji", type: "ReactNode", required: true, description: { en: "The reaction.", zh: "回应表情。" } },
+        { name: "count", type: "number", required: true, description: { en: "How many people reacted.", zh: "回应人数。" } },
+        { name: "active", type: "boolean", default: "false", description: { en: "The reader's own reaction; sets `aria-pressed`.", zh: "读者自己的回应；设置 `aria-pressed`。" } },
+        { name: "onActiveChange", type: "(active: boolean) => void", description: { en: "Called with the next state on click.", zh: "点击时以下一个状态调用。" } },
+      ],
+      dataAttributes: [{ name: "data-active", description: { en: "Present when `active`.", zh: "`active` 时存在。" } }],
     },
     { name: "MessageMarker", description: { en: "Centred divider between turns, such as a date, \"New\" or a note.", zh: "回合之间的居中分隔，如日期、\"New\" 或备注。" }, extends: "div", props: [] },
     {

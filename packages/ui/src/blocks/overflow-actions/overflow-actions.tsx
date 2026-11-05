@@ -47,7 +47,7 @@ const sizes = {
 }
 
 const actionClass =
-  "relative inline-flex shrink-0 cursor-pointer items-center justify-center font-medium whitespace-nowrap outline-none transition-[background-color,color,box-shadow,scale] duration-150 ease-out select-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset data-disabled:pointer-events-none data-disabled:opacity-45"
+  "relative inline-flex shrink-0 cursor-pointer items-center justify-center font-medium whitespace-nowrap outline-none transition-[background-color,color,box-shadow,scale] duration-150 ease-out select-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset data-disabled:pointer-events-none data-disabled:opacity-45"
 
 export function OverflowActions({
   primaryActions,
@@ -100,7 +100,7 @@ export function OverflowActions({
         s.action,
         item.iconOnly && "px-0",
         item.destructive
-          ? "text-destructive hover:bg-destructive/10"
+          ? "text-destructive-text hover:bg-destructive/10"
           : fromOverflow
             ? "text-muted-foreground hover:bg-accent hover:text-foreground"
             : "bg-card text-secondary-foreground shadow-raised hover:bg-accent hover:shadow-raised-hover"

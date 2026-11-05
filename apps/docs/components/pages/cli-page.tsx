@@ -3,7 +3,7 @@
 import { T } from "@/lib/site-locale"
 
 import type { TocEntry } from "@/components/docs/doc-toc"
-import { Code, GuideH2, GuideH3, GuidePage, TextLink } from "@/components/docs/guide-page"
+import { Code, GuideH2, GuideH3, GuidePage, GuideStep, TextLink } from "@/components/docs/guide-page"
 import { CLI_NAME, InstallCommand } from "@/components/docs/install-command"
 import { REGISTRY_NAME, REGISTRY_URL, SITE_URL } from "@/lib/site-constants"
 import { StaticCode } from "@/components/site/static-code"
@@ -34,6 +34,7 @@ export default function CliPage({ site, data }: { site: SiteProps; data: CliData
     { name: "agent-workspace", what: { en: "The agent workspace with its ACP bridge server", zh: "带 ACP 桥接服务器的 agent 工作区" }, routes: ["app/page.tsx", "server/acp-bridge.mjs"] },
     { name: "docs", what: { en: "A docs site", zh: "一个文档站点" }, routes: ["app/docs/page.tsx"] },
     { name: "blog", what: { en: "A blog with a post page", zh: "带文章页的博客" }, routes: ["app/blog"] },
+    { name: "team-chat", what: { en: "Team chat with channels and threads", zh: "带频道和话题串的团队聊天" }, routes: ["app/page.tsx"] },
   ]
   const migrations: { version: string; changed: React.ReactNode; todo: React.ReactNode }[] = [
     {
@@ -135,14 +136,14 @@ export default function CliPage({ site, data }: { site: SiteProps; data: CliData
           en={
             <>
               Move <Code>accent-*</Code> classes to <Code>primary</Code> roles, then delete the ramp (<Code>--fix</Code>). Keep
-              0.625rem with <Code>theme-radius-lg</Code> if you prefer it. Install <Code>fonts</Code> to self-host the fonts.
+              0.625rem with <Code>--radius: 0.625rem</Code> if you prefer it. Install <Code>fonts</Code> to self-host the fonts.
               Reinstall components so nested corners use the frame utilities.
             </>
           }
           zh={
             <>
               把 <Code>accent-*</Code> 类改为 <Code>primary</Code> 角色，然后删除色阶（<Code>--fix</Code>）。如果更喜欢
-              0.625rem，可用 <Code>theme-radius-lg</Code> 保留它。安装 <Code>fonts</Code> 以自托管字体。重新安装组件，让嵌套圆角使用
+              0.625rem，可用 <Code>--radius: 0.625rem</Code> 保留它。安装 <Code>fonts</Code> 以自托管字体。重新安装组件，让嵌套圆角使用
               frame 工具类。
             </>
           }
@@ -196,10 +197,11 @@ export default function CliPage({ site, data }: { site: SiteProps; data: CliData
     { id: "existing-project", title: "Existing project", depth: 2 },
     { id: "the-registry", title: "The registry" },
     { id: "own-cli", title: { en: `The ${CLI_NAME} CLI`, zh: `${CLI_NAME} 命令行工具` } },
-    { id: "add", title: "add" },
-    { id: "view", title: "view" },
-    { id: "search", title: "search" },
-    { id: "by-url", title: "Install by URL" },
+    { id: "shadcn-commands", title: { en: "shadcn CLI commands", zh: "shadcn CLI 命令" } },
+    { id: "add", title: "add", depth: 2 },
+    { id: "view", title: "view", depth: 2 },
+    { id: "search", title: "search", depth: 2 },
+    { id: "by-url", title: "Install by URL", depth: 2 },
     { id: "updating", title: "Updating" },
     { id: "upgrading", title: "Upgrading after a theme change" },
     { id: "migrations", title: "Migrations", depth: 2 },
@@ -368,50 +370,55 @@ export default function CliPage({ site, data }: { site: SiteProps; data: CliData
       </section>
 
       <section className="flex flex-col gap-4">
-        <GuideH2 id="add">add</GuideH2>
-        <p className="text-muted-foreground">
-          <T
-            en={<>Copies one or more items into your project, along with their <Code>registryDependencies</Code> (other{" "}<Code>{ns}</Code> items) and npm <Code>dependencies</Code>.</>}
-            zh={<>将一个或多个条目复制到你的项目，并带上它们的 <Code>registryDependencies</Code>（其他{" "}<Code>{ns}</Code> 条目）和 npm <Code>dependencies</Code>。</>}
-          />
-        </p>
-        <InstallCommand args={`add ${ns}/date-range-picker ${ns}/tool-result`} />
-        <p className="text-muted-foreground">
-          <T
-            en={<>Add <Code>--dry-run</Code> to preview the files without writing them, or <Code>--diff &lt;path&gt;</Code> to see what would change in a file you already have. Use <Code>--overwrite</Code> to replace existing files and{" "}<Code>--path</Code> to choose where they go.</>}
-            zh={<>加上 <Code>--dry-run</Code> 可以预览文件而不写入，或用 <Code>--diff &lt;path&gt;</Code> 查看已有文件中将发生的变化。使用 <Code>--overwrite</Code> 替换已有文件，用 <Code>--path</Code> 指定写入位置。</>}
-          />
-        </p>
-      </section>
+        <GuideH2 id="shadcn-commands">
+          <T en="shadcn CLI commands" zh="shadcn CLI 命令" />
+        </GuideH2>
+        <div className="flex flex-col gap-4 pt-2">
+          <GuideH3 id="add">add</GuideH3>
+          <p className="text-muted-foreground">
+            <T
+              en={<>Copies one or more items into your project, along with their <Code>registryDependencies</Code> (other{" "}<Code>{ns}</Code> items) and npm <Code>dependencies</Code>.</>}
+              zh={<>将一个或多个条目复制到你的项目，并带上它们的 <Code>registryDependencies</Code>（其他{" "}<Code>{ns}</Code> 条目）和 npm <Code>dependencies</Code>。</>}
+            />
+          </p>
+          <InstallCommand args={`add ${ns}/date-range-picker ${ns}/tool-result`} />
+          <p className="text-muted-foreground">
+            <T
+              en={<>Add <Code>--dry-run</Code> to preview the files without writing them, or <Code>--diff &lt;path&gt;</Code> to see what would change in a file you already have. Use <Code>--overwrite</Code> to replace existing files and{" "}<Code>--path</Code> to choose where they go.</>}
+              zh={<>加上 <Code>--dry-run</Code> 可以预览文件而不写入，或用 <Code>--diff &lt;path&gt;</Code> 查看已有文件中将发生的变化。使用 <Code>--overwrite</Code> 替换已有文件，用 <Code>--path</Code> 指定写入位置。</>}
+            />
+          </p>
+        </div>
 
-      <section className="flex flex-col gap-4">
-        <GuideH2 id="view">view</GuideH2>
-        <p className="text-muted-foreground">
-          <T en="Prints an item's metadata and source before you install it." zh="在安装前打印条目的元数据和源码。" />
-        </p>
-        <InstallCommand args={`view ${ns}/prompt-bar`} />
-      </section>
+        <div className="flex flex-col gap-4 pt-2">
+          <GuideH3 id="view">view</GuideH3>
+          <p className="text-muted-foreground">
+            <T en="Prints an item's metadata and source before you install it." zh="在安装前打印条目的元数据和源码。" />
+          </p>
+          <InstallCommand args={`view ${ns}/prompt-bar`} />
+        </div>
 
-      <section className="flex flex-col gap-4">
-        <GuideH2 id="search">search</GuideH2>
-        <p className="text-muted-foreground">
-          <T
-            en={<>Lists the items in the registry, optionally filtered with <Code>-q</Code>. <Code>list</Code> is an alias.</>}
-            zh={<>列出组件库中的条目，可用 <Code>-q</Code> 过滤。<Code>list</Code> 是它的别名。</>}
-          />
-        </p>
-        <InstallCommand args={`search ${ns} -q "chart"`} />
-      </section>
+        <div className="flex flex-col gap-4 pt-2">
+          <GuideH3 id="search">search</GuideH3>
+          <p className="text-muted-foreground">
+            <T
+              en={<>Lists the items in the registry, optionally filtered with <Code>-q</Code>. <Code>list</Code> is an alias.</>}
+              zh={<>列出组件库中的条目，可用 <Code>-q</Code> 过滤。<Code>list</Code> 是它的别名。</>}
+            />
+          </p>
+          <InstallCommand args={`search ${ns} -q "chart"`} />
+        </div>
 
-      <section className="flex flex-col gap-4">
-        <GuideH2 id="by-url">Install by URL</GuideH2>
-        <p className="text-muted-foreground">
-          <T
-            en={<>Any command also takes an item&apos;s URL in place of its name. Keep the namespace registered anyway, because items depend on other <Code>{ns}</Code> items such as the theme.</>}
-            zh={<>任何命令都可以用条目 URL 代替名称。请仍然注册命名空间，因为条目依赖其他 <Code>{ns}</Code> 条目，例如主题。</>}
-          />
-        </p>
-        <InstallCommand args={`add ${REGISTRY_URL.replace("{name}", "button")}`} />
+        <div className="flex flex-col gap-4 pt-2">
+          <GuideH3 id="by-url">Install by URL</GuideH3>
+          <p className="text-muted-foreground">
+            <T
+              en={<>Any command also takes an item&apos;s URL in place of its name. Keep the namespace registered anyway, because items depend on other <Code>{ns}</Code> items such as the theme.</>}
+              zh={<>任何命令都可以用条目 URL 代替名称。请仍然注册命名空间，因为条目依赖其他 <Code>{ns}</Code> 条目，例如主题。</>}
+            />
+          </p>
+          <InstallCommand args={`add ${REGISTRY_URL.replace("{name}", "button")}`} />
+        </div>
       </section>
 
       <section className="flex flex-col gap-4">
@@ -439,39 +446,43 @@ export default function CliPage({ site, data }: { site: SiteProps; data: CliData
             zh="当某个版本更改了主题时，先更新主题，再更新使用它的组件。开始前请先提交，以便查看每一处改动。"
           />
         </p>
-        <ol className="flex list-decimal flex-col gap-2 ps-5 text-muted-foreground marker:text-fg-tertiary">
-          <li>
-            <T
-              en={<>Reinstall the theme. <Code>--overwrite</Code> is required: the theme also ships <Code>packages/ui/src/lib/utils.ts</Code>, and without it a non-interactive run stops at that question before the stylesheet is touched.</>}
-              zh={<>重新安装主题。<Code>--overwrite</Code> 是必需的：主题还会附带 <Code>packages/ui/src/lib/utils.ts</Code>，没有它时，非交互运行会在触及样式表之前停在这个问题上。</>}
-            />
-          </li>
-        </ol>
-        <InstallCommand args={`add ${ns}/theme --overwrite`} />
-        <ol start={2} className="flex list-decimal flex-col gap-2 ps-5 text-muted-foreground marker:text-fg-tertiary">
-          <li>
-            <T
-              en="Reinstall your accent and radius presets, if you use them, so they apply on top of the new theme."
-              zh="重新安装你使用的主题色和圆角预设，让它们应用在新主题之上。"
-            />
-          </li>
-          <li>
-            <T
-              en={<>Run the upgrade check. It lists tokens the release removed, broken rules from older installs and code that uses a changed API, with a fix for each. <Code>--fix</Code> cleans the stylesheet, then checks again and lists only what is left; it never edits your source.</>}
-              zh={<>运行升级检查。它会列出该版本移除的变量、旧安装产生的损坏规则以及使用已变更 API 的代码，并为每项给出修复方法。<Code>--fix</Code> 会清理样式表，然后再次检查并只列出剩余问题；它从不修改你的源码。</>}
-            />
-          </li>
-        </ol>
-        <InstallCommand args={`add ${ns}/upgrade-check`} />
-        <StaticCode html={data.code.upgradeCheck} language="bash" lineNumbers={false} />
-        <ol start={4} className="flex list-decimal flex-col gap-2 ps-5 text-muted-foreground marker:text-fg-tertiary">
-          <li>
-            <T
-              en={<>Re-add the components you use with <Code>--overwrite</Code>, a few at a time, and re-apply local edits from the diff.</>}
-              zh={<>用 <Code>--overwrite</Code> 分批重新添加你使用的组件，并根据差异重新应用本地修改。</>}
-            />
-          </li>
-        </ol>
+        <div className="flex flex-col gap-8 pt-2">
+          <GuideStep n={1} id="upgrade-theme" title={<T en="Reinstall the theme" zh="重新安装主题" />}>
+            <p className="text-muted-foreground">
+              <T
+                en={<><Code>--overwrite</Code> is required. The theme also ships <Code>packages/ui/src/lib/utils.ts</Code>, and without it a non-interactive run stops at that question before the stylesheet is touched.</>}
+                zh={<><Code>--overwrite</Code> 是必需的。主题还会附带 <Code>packages/ui/src/lib/utils.ts</Code>，没有它时，非交互运行会在触及样式表之前停在这个问题上。</>}
+              />
+            </p>
+            <InstallCommand args={`add ${ns}/theme --overwrite`} />
+          </GuideStep>
+          <GuideStep n={2} id="upgrade-presets" title={<T en="Reinstall your presets" zh="重新安装预设" />}>
+            <p className="text-muted-foreground">
+              <T
+                en="If you use accent or radius presets, reinstall them so they apply on top of the new theme."
+                zh="如果你使用主题色或圆角预设，重新安装它们，让它们应用在新主题之上。"
+              />
+            </p>
+          </GuideStep>
+          <GuideStep n={3} id="upgrade-check" title={<T en="Run the upgrade check" zh="运行升级检查" />}>
+            <p className="text-muted-foreground">
+              <T
+                en={<>It lists tokens the release removed, broken rules from older installs and code that uses a changed API, with a fix for each. <Code>--fix</Code> cleans the stylesheet, then checks again and lists only what is left; it never edits your source.</>}
+                zh={<>它会列出该版本移除的变量、旧安装产生的损坏规则以及使用已变更 API 的代码，并为每项给出修复方法。<Code>--fix</Code> 会清理样式表，然后再次检查并只列出剩余问题；它从不修改你的源码。</>}
+              />
+            </p>
+            <InstallCommand args={`add ${ns}/upgrade-check`} />
+            <StaticCode html={data.code.upgradeCheck} language="bash" lineNumbers={false} />
+          </GuideStep>
+          <GuideStep n={4} id="upgrade-components" title={<T en="Re-add your components" zh="重新添加组件" />}>
+            <p className="text-muted-foreground">
+              <T
+                en={<>Re-add the components you use with <Code>--overwrite</Code>, a few at a time, and re-apply local edits from the diff.</>}
+                zh={<>用 <Code>--overwrite</Code> 分批重新添加你使用的组件，并根据差异重新应用本地修改。</>}
+              />
+            </p>
+          </GuideStep>
+        </div>
 
         <div className="flex flex-col gap-4 pt-2">
           <GuideH3 id="migrations">Migrations</GuideH3>

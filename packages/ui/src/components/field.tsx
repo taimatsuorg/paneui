@@ -104,7 +104,7 @@ function FieldError({ className, children, ...props }: FieldErrorProps) {
               transition={{ type: "spring", stiffness: 460, damping: 36, mass: 0.6 }}
             />
           }
-          className={cn("overflow-hidden text-ui-sm text-destructive", className)}
+          className={cn("overflow-hidden text-ui-sm text-destructive-text", className)}
           {...props}
         >
           {children}

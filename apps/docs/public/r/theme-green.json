@@ -8,50 +8,28 @@
   ],
   "cssVars": {
     "light": {
-      "primary": "#30a46c",
-      "primary-hover": "#2b9a66",
-      "primary-active": "#218358",
-      "primary-foreground": "#fff",
-      "primary-subtle": "#00a43319",
-      "primary-subtle-hover": "#00a83829",
-      "primary-border": "#00963c52",
-      "ring": "#00924ba4"
+      "primary": "oklch(54.5% 0.1286 157.68)",
+      "primary-hover": "oklch(51% 0.1204 157.68)",
+      "primary-active": "oklch(47.5% 0.1123 157.68)",
+      "primary-foreground": "oklch(100% 0 0)",
+      "primary-subtle": "oklch(54.5% 0.1286 157.68 / 0.1)",
+      "primary-subtle-hover": "oklch(54.5% 0.1286 157.68 / 0.16)",
+      "primary-border": "oklch(54.5% 0.1286 157.68 / 0.32)",
+      "primary-text": "oklch(51.5% 0.1158 157.68)",
+      "ring": "oklch(54.5% 0.1286 157.68)",
+      "selection": "oklch(54.5% 0.1286 157.68 / 0.22)"
     },
     "dark": {
-      "primary": "#30a46c",
-      "primary-hover": "#33b074",
-      "primary-active": "#3dd68c",
-      "primary-foreground": "#fff",
-      "primary-subtle": "#22ff991e",
-      "primary-subtle-hover": "#11ff992d",
-      "primary-border": "#44ffaa4b",
-      "ring": "#44ffa49e"
-    }
-  },
-  "css": {
-    "@supports (color: color(display-p3 1 1 1))": {
-      "@media (color-gamut: p3)": {
-        ":root": {
-          "--primary": "color(display-p3 .332 .634 .442)",
-          "--primary-hover": "color(display-p3 .308 .595 .417)",
-          "--primary-active": "color(display-p3 .19 .5 .32)",
-          "--primary-foreground": "#fff",
-          "--primary-subtle": "color(display-p3 .012 .596 .145/.087)",
-          "--primary-subtle-hover": "color(display-p3 .008 .588 .145/.142)",
-          "--primary-border": "color(display-p3 .004 .518 .157/.283)",
-          "--ring": "color(display-p3 0 .478 .2/.55)"
-        },
-        ".dark": {
-          "--primary": "color(display-p3 .332 .634 .442)",
-          "--primary-hover": "color(display-p3 .357 .682 .474)",
-          "--primary-active": "color(display-p3 .434 .828 .573)",
-          "--primary-foreground": "#fff",
-          "--primary-subtle": "color(display-p3 .376 .996 .655/.114)",
-          "--primary-subtle-hover": "color(display-p3 .341 .996 .635/.173)",
-          "--primary-border": "color(display-p3 .475 1 .706/.29)",
-          "--ring": "color(display-p3 .502 .996 .682/.61)"
-        }
-      }
+      "primary": "oklch(54.5% 0.1286 157.68)",
+      "primary-hover": "oklch(51% 0.1204 157.68)",
+      "primary-active": "oklch(47.5% 0.1123 157.68)",
+      "primary-foreground": "oklch(100% 0 0)",
+      "primary-subtle": "oklch(54.5% 0.1286 157.68 / 0.16)",
+      "primary-subtle-hover": "oklch(54.5% 0.1286 157.68 / 0.24)",
+      "primary-border": "oklch(54.5% 0.1286 157.68 / 0.42)",
+      "primary-text": "oklch(72% 0.1158 157.68)",
+      "ring": "oklch(54.5% 0.1286 157.68)",
+      "selection": "oklch(54.5% 0.1286 157.68 / 0.4)"
     }
   },
   "meta": {

@@ -21,12 +21,12 @@ export function Container({ children }: { children: React.ReactNode }) {
 export type Crumb = { label: string; href?: string }
 
 const crumbLink =
-  "shrink-0 rounded-xs transition-colors duration-150 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+  "shrink-0 rounded-xs transition-colors duration-150 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
 
 /** Underlined inline link for the intro. Faint rule at rest, foreground on hover. */
 export function TextLink({ href, children }: { href: string; children: React.ReactNode }) {
   const className =
-    "rounded-xs font-medium text-foreground underline decoration-border underline-offset-4 transition-colors duration-150 outline-none hover:decoration-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+    "rounded-xs font-medium text-foreground underline decoration-border underline-offset-4 transition-colors duration-150 outline-none hover:decoration-foreground focus-visible:ring-2 focus-visible:ring-ring"
   if (href.startsWith("/")) {
     return (
       <Link href={href} className={className}>

@@ -20,6 +20,15 @@ const stateTokens = (n: string): TokenRow[] => [
   { name: `${n}-subtle`, cls: `bg-${n}-subtle`, kind: "fill" },
   { name: `${n}-border`, cls: `border-${n}-border`, kind: "line" },
   { name: `${n}-foreground`, cls: `text-${n}-foreground`, kind: "text", on: n },
+  { name: `${n}-text`, cls: `text-${n}-text`, kind: "text" },
+]
+
+const TAG_COLOURS = ["default", "gray", "brown", "orange", "yellow", "green", "blue", "purple", "pink", "red"]
+const tagTokens = (c: string): TokenRow[] => [
+  // The default pill is translucent, so its text previews on the page.
+  { name: `tag-${c}-text`, cls: `text-tag-${c}-text`, kind: "text", on: c === "default" ? undefined : `tag-${c}-fill` },
+  { name: `tag-${c}-bg`, cls: `bg-tag-${c}-bg`, kind: "fill" },
+  { name: `tag-${c}-fill`, cls: `bg-tag-${c}-fill`, kind: "fill" },
 ]
 
 export const TOKEN_ROLES: TokenRole[] = [
@@ -44,11 +53,14 @@ export const TOKEN_ROLES: TokenRole[] = [
     id: "fill",
     title: { en: "Fill", zh: "填充" },
     description: {
-      en: "Use primary for the main action and secondary, muted or accent for hover, selected and track states. The last three are translucent, so never use them as surfaces.",
-      zh: "主要操作用 primary，悬停、选中和轨道状态用 secondary、muted 或 accent。后三者是半透明的，不要把它们用作表面。",
+      en: "Use fill-hover for hovered rows and filled controls, fill-active for pressed, open and selected, and fill-strong for pressed on hover. secondary and muted read fill-hover, accent reads fill-active. All are translucent, so never use them as surfaces.",
+      zh: "悬停的行和带底色的控件用 fill-hover，按下、展开和选中用 fill-active，悬停时按下用 fill-strong。secondary 和 muted 读取 fill-hover，accent 读取 fill-active。它们都是半透明的，不要用作表面。",
     },
     tokens: [
       { name: "primary", cls: "bg-primary", kind: "fill", note: "accent" },
+      { name: "fill-hover", cls: "bg-fill-hover", kind: "fill" },
+      { name: "fill-active", cls: "bg-fill-active", kind: "fill" },
+      { name: "fill-strong", cls: "bg-fill-strong", kind: "fill" },
       { name: "secondary", cls: "bg-secondary", kind: "fill" },
       { name: "muted", cls: "bg-muted", kind: "fill" },
       { name: "accent", cls: "bg-accent", kind: "fill" },
@@ -58,8 +70,8 @@ export const TOKEN_ROLES: TokenRole[] = [
     id: "accent-roles",
     title: { en: "Accent roles", zh: "主题色角色" },
     description: {
-      en: "Use hover and active for pressed solids, and subtle for selected rows and tinted chips.",
-      zh: "按下的实色用 hover 和 active，选中的行和带底色的标签用 subtle。",
+      en: "Use hover and active for pressed solids, subtle for selected rows and tinted chips, and primary-text for links and accent text: the solid is for fills only.",
+      zh: "按下的实色用 hover 和 active，选中的行和带底色的标签用 subtle，链接和主题色文字用 primary-text：实色只用于填充。",
     },
     tokens: [
       { name: "primary-hover", cls: "bg-primary-hover", kind: "fill", note: "accent" },
@@ -67,6 +79,8 @@ export const TOKEN_ROLES: TokenRole[] = [
       { name: "primary-subtle", cls: "bg-primary-subtle", kind: "fill", note: "accent" },
       { name: "primary-subtle-hover", cls: "bg-primary-subtle-hover", kind: "fill", note: "accent" },
       { name: "primary-border", cls: "border-primary-border", kind: "line", note: "accent" },
+      { name: "primary-text", cls: "text-primary-text", kind: "text", note: "accent" },
+      { name: "selection", cls: "bg-selection", kind: "fill", note: "accent" },
     ],
   },
   {
@@ -93,16 +107,17 @@ export const TOKEN_ROLES: TokenRole[] = [
     id: "border",
     title: { en: "Border", zh: "边框" },
     description: {
-      en: "Use border for dividers, border-strong or input for field outlines, and ring at /50 for focus.",
-      zh: "分隔线用 border，输入框轮廓用 border-strong 或 input，聚焦环用 /50 的 ring。",
+      en: "Use border for dividers, border-strong or input for field outlines, border-control where an edge must reach 3:1, and ring at /50 for focus.",
+      zh: "分隔线用 border，输入框轮廓用 border-strong 或 input，边缘需要达到 3:1 时用 border-control，聚焦环用 /50 的 ring。",
     },
     tokens: [
       { name: "border", cls: "border-border", kind: "line" },
       { name: "border-subtle", cls: "border-border-subtle", kind: "line" },
       { name: "border-strong", cls: "border-border-strong", kind: "line" },
+      { name: "border-control", cls: "border-border-control", kind: "line" },
       { name: "input", cls: "border-input", kind: "line" },
       { name: "shell-border", cls: "border-shell-border", kind: "line" },
-      { name: "ring", cls: "ring-ring/50", kind: "line", note: "accent" },
+      { name: "ring", cls: "ring-ring", kind: "line", note: "accent" },
       { name: "scrollbar", cls: "var(--scrollbar)", kind: "fill" },
       { name: "scrollbar-hover", cls: "var(--scrollbar-hover)", kind: "fill" },
     ],
@@ -111,10 +126,19 @@ export const TOKEN_ROLES: TokenRole[] = [
     id: "state",
     title: { en: "State", zh: "状态" },
     description: {
-      en: "These keep their meaning under every accent. Use subtle for alert and badge washes, and the solid for icons and text.",
-      zh: "这些颜色在任何主题色下都保持含义。提示和徽标的浅底色用 subtle，图标和文字用实色。",
+      en: "These keep their meaning under every accent. Use subtle for alert and badge washes, -text for text and icons, and the solid with its foreground for filled controls.",
+      zh: "这些颜色在任何主题色下都保持含义。提示和徽标的浅底色用 subtle，文字和图标用 -text，带底色的控件用实色及其 foreground。",
     },
-    tokens: [...stateTokens("destructive"), ...stateTokens("success"), ...stateTokens("warning")],
+    tokens: [...stateTokens("destructive"), ...stateTokens("success"), ...stateTokens("warning"), ...stateTokens("info")],
+  },
+  {
+    id: "tag",
+    title: { en: "Tag", zh: "标签" },
+    description: {
+      en: "Label and highlight colours for tags, selects and callouts. Use fill for pills, bg for highlights, and text on either.",
+      zh: "用于标签、选择项和标注的颜色。胶囊用 fill，高亮用 bg，文字两者都可以搭配。",
+    },
+    tokens: TAG_COLOURS.flatMap(tagTokens),
   },
   {
     id: "chart",
@@ -169,5 +193,9 @@ function stripAtSupports(css: string): string {
 }
 
 /** A token's value in one mode: dark falls back to the light value when `.dark` does not redeclare it. */
-export const modeValue = (theme: ParsedTheme, name: string, which: "light" | "dark") =>
-  which === "dark" ? (theme.dark[name] ?? theme.light[name]) : theme.light[name]
+export const modeValue = (theme: ParsedTheme, name: string, which: "light" | "dark", depth = 0): string | undefined => {
+  const value = which === "dark" ? (theme.dark[name] ?? theme.light[name]) : theme.light[name]
+  // Aliases (secondary → var(--fill-hover)) show the value they resolve to in that mode.
+  const ref = /^var\(--([\w-]+)\)$/.exec(value ?? "")
+  return ref && depth < 8 ? modeValue(theme, ref[1], which, depth + 1) : value
+}

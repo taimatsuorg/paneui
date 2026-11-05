@@ -61,7 +61,7 @@ export default function SwipeableListDemo() {
         <button
           type="button"
           onClick={() => setMail(seed)}
-          className="mx-auto mt-2 block cursor-pointer text-sm text-primary hover:underline"
+          className="mx-auto mt-2 block cursor-pointer text-sm text-primary-text hover:underline"
         >
           Restore inbox
         </button>

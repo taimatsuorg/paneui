@@ -18,7 +18,7 @@ import { Button } from "@paneui/ui/components/button"
  *   </InputGroup>
  */
 const inputGroupVariants = cva(
-  "group/input-group relative flex w-full min-w-0 items-center bg-background shadow-well transition-[box-shadow,background-color] outline-none dark:bg-input/32 has-[[data-slot=input-group-control]:focus-visible]:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-destructive/30 has-[[data-slot=input-group-control]:disabled]:opacity-64 has-[textarea]:h-auto has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col",
+  "group/input-group relative flex w-full min-w-0 items-center bg-background shadow-well transition-[box-shadow,background-color] outline-none dark:bg-input/32 has-[[data-slot=input-group-control]:focus-visible]:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-ring has-[[data-slot=input-group-control][aria-invalid=true]]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-destructive/30 has-[[data-slot=input-group-control]:disabled]:opacity-64 has-[textarea]:h-auto has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col",
   {
     variants: {
       size: {

@@ -311,7 +311,7 @@ function OutlineList({
           "aria-current": active === item.id ? "location" : undefined,
           onClick: () => onSelect(item.id),
           className: cn(
-            "block rounded-sm py-1 ps-3.5 text-muted-foreground transition-colors duration-150 outline-none hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset aria-[current=location]:text-foreground",
+            "block rounded-sm py-1 ps-3.5 text-muted-foreground transition-colors duration-150 outline-none hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset aria-[current=location]:text-foreground",
             item.depth === 3 && "ps-6.5 text-ui-sm"
           ),
           children: <span className="block break-words">{item.title}</span>,
@@ -360,7 +360,7 @@ function BackToTop({ visible, onClick, className }: { visible: boolean; onClick:
       aria-hidden={!visible}
       onClick={onClick}
       className={cn(
-        "flex w-fit items-center gap-1 rounded-sm text-ui-sm text-muted-foreground transition-colors duration-150 outline-none hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+        "flex w-fit items-center gap-1 rounded-sm text-ui-sm text-muted-foreground transition-colors duration-150 outline-none hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
         className
       )}
     >

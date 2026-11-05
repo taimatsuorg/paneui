@@ -131,7 +131,7 @@ function MultiSelectTrigger({
       data-slot="multi-select-trigger"
       data-size={size}
       className={cn(
-        "relative flex w-full min-w-56 flex-wrap items-center gap-1 frame-lg rounded-lg bg-background dark:bg-input/32 shadow-well transition-[box-shadow,background-color] focus-within:ring-2 focus-within:ring-ring/50",
+        "relative flex w-full min-w-56 flex-wrap items-center gap-1 frame-lg rounded-lg bg-background dark:bg-input/32 shadow-well transition-[box-shadow,background-color] focus-within:ring-2 focus-within:ring-ring",
         c.well,
         className
       )}
@@ -154,7 +154,7 @@ function MultiSelectTrigger({
                   <ComboboxPrimitive.Chip
                     data-slot="multi-select-chip"
                     className={cn(
-                      "frame-inner frame-inset-0.5 flex max-w-48 items-center gap-1 bg-card pe-0.5 font-medium shadow-raised outline-none focus-visible:ring-2 focus-visible:ring-ring/50 data-disabled:opacity-50",
+                      "frame-inner frame-inset-0.5 flex max-w-48 items-center gap-1 bg-card pe-0.5 font-medium shadow-raised outline-none focus-visible:ring-2 focus-visible:ring-ring data-disabled:opacity-50",
                       c.chip
                     )}
                   >
@@ -183,7 +183,7 @@ function MultiSelectTrigger({
       <ComboboxPrimitive.Trigger
         aria-label={labels.showOptions}
         className={cn(
-          "absolute flex cursor-pointer items-center justify-center text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+          "absolute flex cursor-pointer items-center justify-center text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
           c.trigger
         )}
       >

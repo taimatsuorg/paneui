@@ -9,23 +9,27 @@
   "cssVars": {
     "light": {
       "primary": "#000000f2",
-      "primary-hover": "#000c",
-      "primary-active": "#000000b3",
+      "primary-hover": "#000000cc",
+      "primary-active": "#000000b2",
       "primary-foreground": "#fff",
       "primary-subtle": "#0000000f",
       "primary-subtle-hover": "#00000017",
       "primary-border": "#00000026",
-      "ring": "#0004"
+      "primary-text": "#000000df",
+      "ring": "#00000070",
+      "selection": "#00000029"
     },
     "dark": {
       "primary": "#fffffff2",
-      "primary-hover": "#fffc",
-      "primary-active": "#ffffffb3",
+      "primary-hover": "#ffffffcc",
+      "primary-active": "#ffffffb2",
       "primary-foreground": "#000",
       "primary-subtle": "#ffffff12",
       "primary-subtle-hover": "#ffffff1b",
-      "primary-border": "#ffffff2c",
-      "ring": "#fff5"
+      "primary-border": "#ffffff2b",
+      "primary-text": "#ffffffed",
+      "ring": "#ffffff5c",
+      "selection": "#ffffff3d"
     }
   },
   "meta": {

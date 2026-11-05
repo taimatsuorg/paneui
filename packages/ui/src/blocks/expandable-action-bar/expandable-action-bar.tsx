@@ -184,7 +184,7 @@ export function ExpandableActionBar({
                 onAction?.(item)
               }}
               className={cn(
-                "relative inline-flex shrink-0 cursor-pointer items-center justify-center font-medium whitespace-nowrap text-muted-foreground outline-none transition-[color,scale] duration-150 ease-out select-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 data-active:text-foreground data-disabled:pointer-events-none data-disabled:opacity-45",
+                "relative inline-flex shrink-0 cursor-pointer items-center justify-center font-medium whitespace-nowrap text-muted-foreground outline-none transition-[color,scale] duration-150 ease-out select-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring data-active:text-foreground data-disabled:pointer-events-none data-disabled:opacity-45",
                 s.item,
                 s.icon
               )}

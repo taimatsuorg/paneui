@@ -49,8 +49,8 @@ Express every fix in the project's own system: Tailwind classes and theme tokens
   extend only as far as half the gap, on that axis. If half the gap can't reach 24px, widen the gap
   instead: carousel dots stay 6px, sit 18px apart and extend 9px on every side, so neighbouring 24px
   targets meet without overlapping.
-- **Dense rows.** File-tree rows are 22px and touch, so the spacing exception can't apply. They stay 22px
-  (the code-editor density); the whole row width is the target and the tree moves by arrow keys.
+- **Dense rows.** File-tree rows at `size="sm"` are 24px and touch, so the spacing exception can't apply;
+  the whole row width is the target and the tree moves by arrow keys.
 - A control inside a `<label>` counts the label as its target. Inline text links are exempt.
 - Checks: `hit-area` (static size classes); probe: `hit-area`, `hit-overlap` (as rendered, pseudo-elements
   included).
@@ -141,7 +141,6 @@ Common polish advice that this library deliberately doesn't follow, and why:
 | --- | --- | --- |
 | Scale every button to 0.96 on press, with an opt-out prop | No press scale on standard controls (rule 23) | Native desktop controls answer a press with a fill; scaling every button makes dense screens feel springy. The 0.96 value and the 0.95 floor are kept where a press scale is allowed. |
 | 40px minimum targets in dense desktop UI, 44px on touch | 24px on desktop, 44px under `pointer-coarse:` | Controls are 24–32px tall by design (rule 13); 24px is the accessibility floor, and the touch size still applies on touch. |
-| Every target at least 24px, including list rows | File-tree rows stay 22px | Code-editor density; the full-width row is the target and arrow keys move through the tree. |
 | `cubic-bezier(0.2, 0, 0, 1)` for CSS icon cross-fades | `cubic-bezier(0.22, 1, 0.36, 1)` | One ease-out curve for the whole library. |
 
 Two former differences now follow the advice: icon stroke follows the text weight (as two tiers, not a

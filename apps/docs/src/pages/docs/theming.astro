@@ -7,30 +7,32 @@ const CSS_EXAMPLE = `:root {
   --radius: 0.5rem;
   --radius-max: 1rem;             /* no token goes past 16px */
   --background: #fff;
-  --foreground: #000000df;        /* gray a12 */
-  --muted-foreground: #0000009b;  /* gray a11 */
-  --primary: #0090ff;             /* blue 9 */
-  --primary-hover: #0588f0;       /* blue 10 */
-  --primary-subtle: #008ff519;    /* blue a3 */
-  --ring: #0084e6a1;              /* blue a8 */
-  --border: #00000017;            /* gray a4 */
+  --foreground: #000000df;        /* 16:1 */
+  --muted-foreground: #0000009b;  /* 5.9:1 */
+  --fill-hover: #0000000f;        /* secondary and muted read it */
+  --primary: oklch(56% 0.1671 251.78);       /* white label 4.6:1 */
+  --primary-text: oklch(53% 0.1504 251.78);  /* links, 5.1:1 */
+  --ring: oklch(56% 0.1671 251.78);
+  --border: #00000017;
+  --border-control: #0000006e;    /* 3.1:1 */
   --shadow-lg: 0 0 0 0.5px #0000000f, 0 2px 3px -2px #0000000f, …;
   /* … */
 }
 
 .dark {
   --background: oklch(15% 0 0);
-  --card: #111;                   /* gray 1 */
+  --card: #111;
   --popover: oklch(25.2% 0 0);
-  --foreground: #ffffffed;        /* gray a12 */
-  --primary-hover: #3b9eff;       /* blue 10 */
-  --border: #ffffff1b;            /* gray a4 */
+  --foreground: #ffffffed;
+  --primary-text: oklch(72% 0.1501 251.78);
+  --border: #ffffff1b;
   /* … */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-primary: var(--primary);
+  --color-primary-text: var(--primary-text);
   --radius-xl: min(calc(var(--radius) * 1.25), var(--radius-max));
   --shadow-lg: var(--shadow-lg);
   /* … */
@@ -42,28 +44,30 @@ const dark = mode === "dark" || (mode === "system" && matchMedia("(prefers-color
 document.documentElement.classList.toggle("dark", dark)
 document.documentElement.style.colorScheme = dark ? "dark" : "light"`
 
-const ACCENT_RUNTIME = `/* Switch at runtime by setting data-accent on <html>: one block per mode swaps the eight roles */
+const ACCENT_RUNTIME = `/* Switch at runtime by setting data-accent on <html>: one block per mode swaps the ten roles */
 html[data-accent="violet"] {
-  --primary: #6e56cf;               /* violet 9 */
-  --primary-hover: #654dc4;         /* violet 10 */
-  --primary-active: #6550b9;        /* violet 11 */
-  --primary-foreground: #fff;
-  --primary-subtle: #4400ee0f;      /* violet a3 */
-  --primary-subtle-hover: #4300ff1b;
-  --primary-border: #3100fb35;      /* violet a6 */
-  --ring: #2b00d066;                /* violet a8 */
+  --primary: oklch(54.17% 0.179 288.03);
+  --primary-hover: oklch(50.67% 0.179 288.03);
+  --primary-active: oklch(47.17% 0.179 288.03);
+  --primary-foreground: oklch(100% 0 0);
+  --primary-subtle: oklch(54.17% 0.179 288.03 / 0.1);
+  --primary-subtle-hover: oklch(54.17% 0.179 288.03 / 0.16);
+  --primary-border: oklch(54.17% 0.179 288.03 / 0.32);
+  --primary-text: oklch(54% 0.1611 288.03);
+  --ring: oklch(54.17% 0.179 288.03);
+  --selection: oklch(54.17% 0.179 288.03 / 0.22);
 }
 html[data-accent="violet"].dark {
-  --primary-hover: #7d66d9;
-  --primary-active: #baa7ff;
+  --primary-text: oklch(72% 0.1548 288.03);
+  --selection: oklch(54.17% 0.179 288.03 / 0.4);
   /* … */
 }`
 
-const NEW_TOKEN = `:root  { --info: oklch(0.6 0.12 230); }
-.dark  { --info: oklch(0.68 0.12 230); }
+const NEW_TOKEN = `:root  { --brand-2: oklch(0.6 0.12 200); }
+.dark  { --brand-2: oklch(0.68 0.12 200); }
 
 @theme inline {
-  --color-info: var(--info);   /* → bg-info, text-info, ring-info/20 … */
+  --color-brand-2: var(--brand-2);   /* → bg-brand-2, text-brand-2, ring-brand-2/20 … */
 }`
 
 const code = await highlightAll(

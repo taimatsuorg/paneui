@@ -188,7 +188,7 @@ function CompositionChart({
               : clamp(Math.round(((px - axisW) / Math.max(1, plotW)) * (n - 1)), 0, n - 1)
           if (i !== hoverIndex) setHoverIndex(i)
         }}
-        className="relative w-full touch-pan-y rounded-xl outline-none select-none focus-visible:ring-2 focus-visible:ring-ring/50"
+        className="relative w-full touch-pan-y rounded-xl outline-none select-none focus-visible:ring-2 focus-visible:ring-ring"
         style={{ height }}
       >
         {width > 0 && (

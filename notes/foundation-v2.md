@@ -60,7 +60,8 @@ on purpose (bold 13px labels on filled buttons).
 
 `--radius: 0.5rem`; `xs` 0.25x (2px), `sm` 0.5x (4), `md` 0.75x (6), `lg` 1x (8), `xl` 1.25x (10),
 `2xl` 1.5x (12), `3xl` 2x (16), `shell` 1.5x (12). `2xs` is now an alias of
-`xs`. Presets: none 0, sm 0.375rem, default 0.5rem, lg 0.625rem (the old default), xl 0.875rem.
+`xs`. Presets: none 0, sm 0.25rem, default 0.5rem, lg 0.6875rem, xl 0.875rem (2026-11-03; they were 0.375 / 0.625 / 0.875,
+where S, M and L read alike and XL jumped: controls step 4, 4, 3, 3px and XL stops at 14px so a 32px control is not a pill).
 
 **16px cap (theme 2.2, round 20).** Every token is `min(k × --radius, --radius-max)` with `--radius-max: 1rem`
 (shipped in the theme's light vars, together with `radius-lg`, which the theme now overrides as well). The custom

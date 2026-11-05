@@ -201,7 +201,7 @@ function MorphingModalContent({
           <DialogPrimitive.Close
             data-slot="morphing-modal-close"
             aria-label={labels.close}
-            className="absolute top-4 right-4 inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+            className="absolute top-4 right-4 inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
           >
             <XIcon size={16} />
           </DialogPrimitive.Close>
@@ -289,7 +289,7 @@ function MorphingModalBack({ className, onClick, ...props }: React.ComponentProp
         if (!e.defaultPrevented) back()
       }}
       className={cn(
-        "inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+        "inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
         className
       )}
       {...props}
@@ -317,7 +317,7 @@ function MorphingModalLink({
         if (!e.defaultPrevented) push(to)
       }}
       className={cn(
-        "flex w-full cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-start text-ui font-medium transition-[background-color,box-shadow] duration-150 outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 [&_svg]:size-4 [&_svg]:shrink-0",
+        "flex w-full cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-start text-ui font-medium transition-[background-color,box-shadow] duration-150 outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-4 [&_svg]:shrink-0",
         className
       )}
       {...props}

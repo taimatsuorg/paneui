@@ -6,43 +6,49 @@ an `@theme inline` mapping.
 
 ## Colour roles
 
-Values are steps of 12-step colour scales, written as hex with a display-p3 copy under
-`@supports (color: color(display-p3 1 1 1))`. Alpha steps stay alpha, so text, fills and borders read on
-any surface.
+Neutrals are translucent black (white in dark) inks, so text, fills and borders read on any surface;
+surfaces are opaque. Accent and status colours are OKLCH, chosen by contrast: every pair below is checked
+by `node tooling/scripts/theme-contrast.mjs` in both modes and every accent.
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
 | `background` | `#fff` | `oklch(15% 0 0)` | page |
 | `card` | `#fff` | `#111` | cards, tables, code, raised controls |
-| `popover` | `#fff` | `#222` | menus, popovers, dialogs |
-| `shell` | `#f6f6f6` | `#000` | app chrome behind an inset panel |
-| `surface-sunken` / `surface-standout` | black a1 / gray 12 | black a6 / `#222` | wells, inverted callouts |
-| `foreground` | gray a12 | gray a12 | text |
-| `muted-foreground` | gray a11 | gray a11 | secondary text, nav icons |
-| `fg-tertiary` / `fg-disabled` | gray a9 / a8 | same steps | meta, disabled text |
-| `secondary`, `muted` | gray a3 | gray a3 | **translucent** default and hover fills |
-| `accent` | gray a4 | gray a4 | **translucent** stronger hover / selected fill |
-| `border` = `input` / `border-subtle` / `border-strong` | gray a4 / a2 / a6 | same steps | one edge role: dividers, field and outline-button rings, the raised ring; strong for hover and emphasis |
-| `destructive` / `success` / `warning` | tomato 9 / green 9 / orange 9 | same | status solids; each has `-hover` (10), `-foreground`, `-subtle` (a3), `-border` (a6) |
-| `code` | gray 2 | gray 2 | code block background |
-| `chart-1` … `chart-8` | see `charts.md` | | data series |
+| `popover` | `#fff` | `oklch(25.2% 0 0)` | menus, popovers, dialogs (raised surfaces are lighter in dark) |
+| `shell` | `oklch(97.3% 0 0)` | `#000` | app chrome behind an inset panel |
+| `surface-sunken` / `surface-standout` | black 5% / `#202020` | black 40% / `#222` | wells, inverted callouts |
+| `foreground` | black 87% (16:1) | white 93% | text |
+| `muted-foreground` | black 61% (5.9:1) | white 60% (7.3:1) | secondary text, nav icons; ≥ 4.5:1 |
+| `fg-tertiary` / `fg-disabled` | 3.3:1 / exempt | 3.7:1 / exempt | meta and placeholders (≥ 3:1), disabled text |
+| `fill-hover` / `fill-active` / `fill-strong` | ink 6% / 9% / 15% | ink 7% / 10.6% / 16% | **translucent** fills: hover and filled controls, pressed / open / selected, pressed on hover |
+| `secondary`, `muted` / `accent` | = `fill-hover` / = `fill-active` | same | the shadcn names of the fills |
+| `border` = `input` / `border-subtle` / `border-strong` | ink 9% / 5% / 18% | ink 10.6% / 6% / 20% | dividers, field and outline-button rings, the raised ring; subtle for separators; strong for hover and emphasis |
+| `border-control` | 3.1:1 | 3.1:1 | an edge that must be found (high-contrast fields, checkbox edges) |
+| `destructive` / `success` / `warning` / `info` | solids | same hue | each has `-hover`, `-foreground` (≥ 4.5:1 on the solid), `-subtle`, `-border` and `-text` (≥ 4.5:1 on the page and the subtle fill). Warning has dark text on its vivid solid; info is a fixed blue |
+| `tag-<colour>-text` / `-bg` / `-fill` | | | default, gray, brown, orange, yellow, green, blue, purple, pink, red: label text, highlight and pill; text ≥ 4.5:1 on all three |
+| `code` | `#f9f9f9` | `#191919` | code block background |
+| `chart-1` … `chart-8` | see `charts.md` | | data series, ≥ 3:1 on the page |
 
 - Washes: `bg-success-subtle inset-ring inset-ring-success-border` (badges, chips, alerts). Opacity
   modifiers (`ring-primary/20`) are fine for one-offs.
-- `secondary`, `muted` and `accent` are fills, not surfaces. Anything opaque uses `bg-card`, `bg-popover` or
-  `bg-background`.
+- Solids are fills. Coloured text and icons use the `-text` role (`text-primary-text`, `text-destructive-text`);
+  a solid as text fails 4.5:1 in at least one mode.
+- `fill-*` (and `secondary`, `muted`, `accent`) are fills, not surfaces. Anything opaque uses `bg-card`,
+  `bg-popover` or `bg-background`.
 - No gradient sheens, inset highlights, text shadows or glows.
 
 ## Accent
 
-Eight roles carry the accent: `primary` (solid, step 9), `primary-hover` (10), `primary-active` (11),
-`primary-foreground`, `primary-subtle` (a3), `primary-subtle-hover` (a4), `primary-border` (a6) and `ring`
-(a8 light, a9 dark, used at `/50`). The default is blue `#0090ff`.
+Ten roles carry the accent: `primary` (solid), `primary-hover`, `primary-active`, `primary-foreground`
+(≥ 4.5:1 on all three), `primary-subtle`, `primary-subtle-hover`, `primary-border`, `primary-text` (links,
+active items, accent icons; ≥ 4.5:1 on the page and the subtle fill), `ring` (≥ 3:1, used at `/50`) and
+`selection` (`::selection`). The default is blue `oklch(56% 0.167 252)`.
 
-Presets (neutral, green, orange, rose, violet) are `html[data-accent="…"]` blocks that swap the eight on
-the same steps of their own scale; neutral is the inverted black/white solid. Each ships as a
+Presets (neutral, green, orange, rose, violet) are `html[data-accent="…"]` blocks that swap the ten; neutral
+is the inverted black/white solid; every coloured solid takes white text (orange at hue 40, which stays orange
+at that depth). Each ships as a
 `theme-<name>` registry item. Filled controls hover to `bg-primary-hover`; text on any solid is its
-`*-foreground`. Charts never follow the accent.
+`*-foreground`. Charts and tags never follow the accent.
 
 ## Elevation
 
@@ -77,7 +83,8 @@ utility (0.5px hairline, `rounded-shell`, 3px gap).
 | `rounded-shell` | 1.5 | 12px | the rail's inset panel |
 | `rounded-4xl`, `rounded-5xl` | | 16px | old names at the cap; don't use |
 
-Presets: none 0, sm 0.375rem, default 0.5rem, lg 0.625rem, xl 0.875rem; a custom value goes up to 1rem.
+Presets: none 0, sm 0.25rem, default 0.5rem, lg 0.6875rem, xl 0.875rem (controls 0, 4, 8, 11, 14px: even steps, and
+XL stays short of a pill on a 32px button); a custom value goes up to 1rem.
 `html[data-radius="…"]` or an inline `--radius` on `<html>` switches them.
 
 Buttons, toggles, tab lists and segmented wells read `rounded-control` (`rounded-control-sm` at xs, and

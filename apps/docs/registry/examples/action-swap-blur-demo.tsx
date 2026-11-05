@@ -18,7 +18,7 @@ export default function ActionSwapBlurDemo() {
           onClick={() => copy(INSTALL)}
           items={[
             { value: "copy", label: "Copy", icon: <CopyIcon />, ariaLabel: "Copy command" },
-            { value: "copied", label: "Copied", icon: <CheckIcon className="text-success" />, ariaLabel: "Copied" },
+            { value: "copied", label: "Copied", icon: <CheckIcon className="text-success-text" />, ariaLabel: "Copied" },
           ]}
         />
       </div>

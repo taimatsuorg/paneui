@@ -340,7 +340,7 @@ function WheelPicker({
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
         className={cn(
-          "absolute inset-0 snap-y snap-mandatory overflow-y-scroll overscroll-contain rounded-2xl outline-none [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-ring/50 [&::-webkit-scrollbar]:hidden",
+          "absolute inset-0 snap-y snap-mandatory overflow-y-scroll overscroll-contain rounded-2xl outline-none [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-scrollbar]:hidden",
           disabled ? "pointer-events-none overflow-hidden" : "cursor-grab active:cursor-grabbing"
         )}
         style={{ paddingBlock: pad }}

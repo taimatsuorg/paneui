@@ -69,7 +69,7 @@ function AgentProgress({
       {...props}
       aria-label={props["aria-label"] ?? (running ? `${label}, ${labels.inProgress}` : label)}
     >
-      <span aria-hidden className={cn("grid size-4 shrink-0 grid-cols-3 gap-[2px]", running ? "text-primary" : "text-muted-foreground/60")}>
+      <span aria-hidden className={cn("grid size-4 shrink-0 grid-cols-3 gap-[2px]", running ? "text-primary-text" : "text-muted-foreground/60")}>
         {CELLS.map(({ i, delay }) => (
           <motion.span
             key={i}

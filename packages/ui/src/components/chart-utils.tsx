@@ -441,7 +441,7 @@ function ChartLegendItem({
       data-inactive={inactive || undefined}
       data-highlighted={highlighted || undefined}
       className={cn(
-        "inline-flex h-7 items-center gap-2 rounded-full bg-card px-2.5 text-ui-sm font-medium text-secondary-foreground shadow-raised outline-none transition-[box-shadow,background-color,opacity,scale] duration-150 ease-out select-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring/50 data-highlighted:shadow-raised-hover data-inactive:text-muted-foreground data-inactive:opacity-60",
+        "inline-flex h-7 items-center gap-2 rounded-control bg-card px-2.5 text-ui-sm font-medium text-secondary-foreground shadow-raised outline-none transition-[box-shadow,background-color,opacity,scale] duration-150 ease-out select-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring data-highlighted:shadow-raised-hover data-inactive:text-muted-foreground data-inactive:opacity-60",
         className
       )}
       {...props}

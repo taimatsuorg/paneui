@@ -12,7 +12,7 @@ export default function ActionSwapBlurCustomSlots() {
   return (
     <Button variant="secondary" aria-pressed={liked} onClick={() => setLiked((v) => !v)}>
       <ActionSwapBlurIcon value={liked ? "liked" : "like"}>
-        {liked ? <HeartIcon data-icon="inline-start" className="text-destructive" /> : <ThumbsUpIcon data-icon="inline-start" />}
+        {liked ? <HeartIcon data-icon="inline-start" className="text-destructive-text" /> : <ThumbsUpIcon data-icon="inline-start" />}
       </ActionSwapBlurIcon>
       <ActionSwapBlurText value={String(count)} className="tabular-nums">
         {count} likes

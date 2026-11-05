@@ -77,13 +77,15 @@ type SettingsRowProps = useRender.ComponentProps<"div"> & {
   detail?: React.ReactNode
   /** Trailing chevron on an interactive row. */
   chevron?: boolean
+  /** Row height: `default` for settings with a description, `sm` for dense one-line rows (shortcuts, details). */
+  size?: "default" | "sm"
 }
 
 /**
  * One setting. Wraps the control under the text below `sm`. A `<label>` via `render` makes the
  * whole row toggle its control; `interactive` makes the row itself the control.
  */
-function SettingsRow({ className, render, interactive = false, detail, chevron = true, children, ...props }: SettingsRowProps) {
+function SettingsRow({ className, render, interactive = false, detail, chevron = true, size = "default", children, ...props }: SettingsRowProps) {
   const element = useRender({
     defaultTagName: interactive ? ("button" as "div") : "div",
     render,
@@ -92,8 +94,9 @@ function SettingsRow({ className, render, interactive = false, detail, chevron =
         ...(interactive && !render ? ({ type: "button" } as object) : null),
         className: cn(
           "flex min-h-14 flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3 not-first:border-t not-first:border-border",
+          size === "sm" && "min-h-10 gap-x-4 gap-y-1.5 py-2",
           interactive &&
-            "w-full cursor-pointer flex-nowrap gap-x-3 text-start text-inherit outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset active:bg-foreground/8 [-webkit-tap-highlight-color:transparent]",
+            "w-full cursor-pointer flex-nowrap gap-x-3 text-start text-inherit outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset active:bg-foreground/8 [-webkit-tap-highlight-color:transparent]",
           className
         ),
         children: interactive ? (
@@ -112,7 +115,7 @@ function SettingsRow({ className, render, interactive = false, detail, chevron =
       },
       props
     ),
-    state: { slot: "settings-row", interactive },
+    state: { slot: "settings-row", interactive, size },
   })
   return element
 }
@@ -219,7 +222,7 @@ function SettingsNavItem({ isActive = false, icon, render, className, children, 
       {
         "aria-current": isActive ? "page" : undefined,
         className: cn(
-          "flex h-8 shrink-0 cursor-pointer items-center gap-2 rounded-lg px-2.5 text-ui whitespace-nowrap text-foreground/80 outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 [&_svg]:size-4 [&_svg]:shrink-0",
+          "flex h-8 shrink-0 cursor-pointer items-center gap-2 rounded-lg px-2.5 text-ui whitespace-nowrap text-foreground/80 outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-4 [&_svg]:shrink-0",
           isActive && "bg-foreground/6 text-foreground hover:bg-foreground/6",
           className
         ),

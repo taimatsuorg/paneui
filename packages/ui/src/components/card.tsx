@@ -32,7 +32,7 @@ const cardVariants = cva(
         lg: "[--card-spacing:--spacing(6)]",
       },
       interactive: {
-        true: "cursor-pointer outline-none transition-[box-shadow,background-color] duration-150 hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring/50",
+        true: "cursor-pointer outline-none transition-[box-shadow,background-color] duration-150 hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring",
         false: "",
       },
     },

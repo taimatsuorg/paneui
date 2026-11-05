@@ -22,30 +22,30 @@ import { cn } from "@paneui/ui/lib/utils"
  *   </SegmentedControl>
  */
 
-// Outer heights match Button (xs 24, sm 28, default 32, lg 36): items are 4px shorter
-// inside the p-0.5 well, and their radius is the well's minus 2px (the well is a frame, so this holds at
-// every radius preset).
-const segmentedControlVariants = cva("relative inline-flex w-fit items-center gap-0.5 bg-muted frame-p-0.5 shadow-well", {
+// Same look as the default TabsList: a flat grey track and a raised chip. Outer heights match Button
+// (xs 24, sm 28, default 32, lg 36): items sit inside a 4px inset (2px at xs), and the track is a frame on
+// the control radius, so the chip stays concentric with it at every radius preset.
+const segmentedControlVariants = cva("relative inline-flex w-fit items-center gap-0.5 bg-muted", {
   variants: {
     size: {
-      xs: "frame-control-sm",
-      sm: "frame-control",
-      default: "frame-control",
-      lg: "frame-control",
+      xs: "frame-control-sm frame-p-0.5",
+      sm: "frame-control frame-p-1",
+      default: "frame-control frame-p-1",
+      lg: "frame-control frame-p-1",
     },
   },
   defaultVariants: { size: "default" },
 })
 
 const segmentedControlItemVariants = cva(
-  "relative inline-flex cursor-pointer items-center select-none justify-center gap-1.5 font-medium whitespace-nowrap text-muted-foreground outline-none transition-colors duration-150 hover:text-foreground active:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 data-checked:text-foreground data-disabled:pointer-events-none data-disabled:opacity-64 [&_svg]:size-3.5 [&_svg]:shrink-0",
+  "relative inline-flex cursor-pointer items-center select-none justify-center gap-1.5 font-medium whitespace-nowrap text-muted-foreground outline-none transition-colors duration-150 hover:text-foreground active:bg-secondary focus-visible:ring-2 focus-visible:ring-ring data-checked:text-foreground data-disabled:pointer-events-none data-disabled:opacity-64 [&_svg]:size-3.5 [&_svg]:shrink-0",
   {
     variants: {
       size: {
         xs: "after:absolute after:inset-x-0 after:-inset-y-0.5 h-5 rounded-inner px-2 text-ui-xs [&_svg]:size-3",
-        sm: "h-6 rounded-inner px-2.5 text-ui-sm",
-        default: "h-7 rounded-inner px-3 text-ui",
-        lg: "h-8 rounded-inner px-3.5 text-ui-lg [&_svg]:size-4",
+        sm: "after:absolute after:inset-x-0 after:-inset-y-1 h-5 rounded-inner px-2.5 text-ui-sm",
+        default: "h-6 rounded-inner px-3 text-ui",
+        lg: "h-7 rounded-inner px-3.5 text-ui-lg [&_svg]:size-4",
       },
     },
     defaultVariants: { size: "default" },
@@ -107,7 +107,7 @@ function SegmentedControlItem({ className, children, value, ...props }: RadioPri
           initial={ctx?.reduce ? { opacity: 0 } : false}
           animate={{ opacity: 1 }}
           transition={ctx?.reduce ? { duration: 0.15 } : { type: "spring", stiffness: 500, damping: 40, mass: 0.6 }}
-          className="absolute inset-0 rounded-inner bg-card shadow-raised"
+          className="absolute inset-0 rounded-inner bg-background shadow-raised dark:bg-fill-active"
         />
       )}
       <span className="relative inline-flex items-center gap-1.5">{children}</span>

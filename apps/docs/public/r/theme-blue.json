@@ -8,50 +8,28 @@
   ],
   "cssVars": {
     "light": {
-      "primary": "#0090ff",
-      "primary-hover": "#0588f0",
-      "primary-active": "#0d74ce",
-      "primary-foreground": "#fff",
-      "primary-subtle": "#008ff519",
-      "primary-subtle-hover": "#009eff2a",
-      "primary-border": "#0088f653",
-      "ring": "#0084e6a1"
+      "primary": "oklch(56% 0.1671 251.78)",
+      "primary-hover": "oklch(52.5% 0.1568 251.78)",
+      "primary-active": "oklch(49% 0.1465 251.78)",
+      "primary-foreground": "oklch(100% 0 0)",
+      "primary-subtle": "oklch(56% 0.1671 251.78 / 0.1)",
+      "primary-subtle-hover": "oklch(56% 0.1671 251.78 / 0.16)",
+      "primary-border": "oklch(56% 0.1671 251.78 / 0.32)",
+      "primary-text": "oklch(53% 0.1504 251.78)",
+      "ring": "oklch(56% 0.1671 251.78)",
+      "selection": "oklch(56% 0.1671 251.78 / 0.22)"
     },
     "dark": {
-      "primary": "#0090ff",
-      "primary-hover": "#3b9eff",
-      "primary-active": "#70b8ff",
-      "primary-foreground": "#fff",
-      "primary-subtle": "#0077ff3a",
-      "primary-subtle-hover": "#0075ff57",
-      "primary-border": "#0f89fd7f",
-      "ring": "#0090ff"
-    }
-  },
-  "css": {
-    "@supports (color: color(display-p3 1 1 1))": {
-      "@media (color-gamut: p3)": {
-        ":root": {
-          "--primary": "color(display-p3 .247 .556 .969)",
-          "--primary-hover": "color(display-p3 .234 .523 .912)",
-          "--primary-active": "color(display-p3 .15 .44 .84)",
-          "--primary-foreground": "#fff",
-          "--primary-subtle": "color(display-p3 .012 .506 .914/.087)",
-          "--primary-subtle-hover": "color(display-p3 .008 .545 1/.146)",
-          "--primary-border": "color(display-p3 .004 .463 .922/.291)",
-          "--ring": "color(display-p3 0 .427 .851/.55)"
-        },
-        ".dark": {
-          "--primary": "color(display-p3 .247 .556 .969)",
-          "--primary-hover": "color(display-p3 .344 .612 .973)",
-          "--primary-active": "color(display-p3 .49 .72 1)",
-          "--primary-foreground": "#fff",
-          "--primary-subtle": "color(display-p3 .122 .463 1/.219)",
-          "--primary-subtle-hover": "color(display-p3 0 .467 1/.324)",
-          "--primary-border": "color(display-p3 .224 .557 1/.475)",
-          "--ring": "color(display-p3 .251 .573 .996/.967)"
-        }
-      }
+      "primary": "oklch(56% 0.1671 251.78)",
+      "primary-hover": "oklch(52.5% 0.1568 251.78)",
+      "primary-active": "oklch(49% 0.1465 251.78)",
+      "primary-foreground": "oklch(100% 0 0)",
+      "primary-subtle": "oklch(56% 0.1671 251.78 / 0.16)",
+      "primary-subtle-hover": "oklch(56% 0.1671 251.78 / 0.24)",
+      "primary-border": "oklch(56% 0.1671 251.78 / 0.42)",
+      "primary-text": "oklch(72% 0.1501 251.78)",
+      "ring": "oklch(56% 0.1671 251.78)",
+      "selection": "oklch(56% 0.1671 251.78 / 0.4)"
     }
   },
   "meta": {

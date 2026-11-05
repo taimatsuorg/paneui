@@ -186,7 +186,7 @@ export function NotificationStack({
           aria-expanded={expanded}
           aria-controls={listId}
           onClick={() => setExpanded(!expanded)}
-          className="-ml-1 inline-flex h-8 items-center gap-2 rounded-lg px-2 text-ui font-medium transition-colors outline-none hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring/50"
+          className="-ml-1 inline-flex h-8 items-center gap-2 rounded-lg px-2 text-ui font-medium transition-colors outline-none hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring"
         >
           <BellIcon size={16} className="text-muted-foreground" />
           {label}
@@ -210,7 +210,7 @@ export function NotificationStack({
               animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
               exit={{ opacity: 0, x: 6, filter: "blur(3px)" }}
               transition={{ duration: 0.18 }}
-              className="inline-flex h-7 items-center gap-1 rounded-md px-2.5 text-ui-sm font-medium text-muted-foreground transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+              className="inline-flex h-7 items-center gap-1 rounded-md px-2.5 text-ui-sm font-medium text-muted-foreground transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
             >
               {l10n.viewAll}
               <ArrowUpRightIcon className="rtl:-scale-x-100" size={13} />
@@ -282,7 +282,7 @@ export function NotificationStack({
                         type="button"
                         aria-label={l10n.dismissNotification}
                         onClick={() => onDismiss(item.id)}
-                        className="-mt-0.5 -mr-1 inline-flex size-6 shrink-0 items-center justify-center rounded-full text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+                        className="-mt-0.5 -mr-1 inline-flex size-6 shrink-0 items-center justify-center rounded-full text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
                       >
                         <XIcon size={13} />
                       </button>
@@ -308,7 +308,7 @@ export function NotificationStack({
               type="button"
               onClick={onViewAll}
               disabled={!onViewAll}
-              className="mt-2 flex h-8 w-full items-center justify-center rounded-lg text-ui-sm font-medium text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none"
+              className="mt-2 flex h-8 w-full items-center justify-center rounded-lg text-ui-sm font-medium text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none"
             >
               +{overflow} more
             </button>

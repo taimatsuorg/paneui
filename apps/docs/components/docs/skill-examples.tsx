@@ -367,7 +367,7 @@ export const SKILL_EXAMPLES: Record<string, SkillExample> = {
     ),
     bad: (
       <div className="flex w-60 items-center gap-3 rounded-xl bg-card p-3 shadow-raised">
-        <ServerIcon className="size-7 text-primary" />
+        <ServerIcon className="size-7 text-primary-text" />
         <div className="flex min-w-0 flex-col">
           <span className="text-ui font-medium">Database</span>
           <span className="text-ui-xs text-muted-foreground">3 replicas</span>

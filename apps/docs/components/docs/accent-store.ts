@@ -5,7 +5,7 @@ import * as React from "react"
 import { ACCENT_VARS, BASE_ACCENT, customAccentStyle, DEFAULT_ACCENT, deriveAccent, type AccentTheme, type PresetAccent } from "./accent-color"
 import { ACCENT_CHANGE_EVENT, ACCENT_KEY, ACCENTS, CUSTOM_ACCENT_KEY, CUSTOM_ACCENT_STYLE_ID } from "./theme-script"
 
-/** A custom accent as stored in localStorage[CUSTOM_ACCENT_KEY]. `v: 2` is the eight-role format. */
+/** A custom accent as stored in localStorage[CUSTOM_ACCENT_KEY]. `v: 2` is the role format (roles are re-derived from `hex` when one is missing). */
 export type CustomAccent = AccentTheme & { hex: string; v: 2 }
 export type AccentChoice = PresetAccent | "custom"
 export type AccentState = { accent: AccentChoice; custom: CustomAccent | null }
@@ -21,8 +21,11 @@ export function parseCustomAccent(raw: string | null): CustomAccent | null {
   try {
     const v = JSON.parse(raw) as Partial<CustomAccent>
     // Accents saved in the earlier three-variable format are dropped (the page falls back to the default).
-    if (v.v !== 2 || typeof v.hex !== "string" || !isVars(v.light) || !isVars(v.dark)) return null
-    return { v: 2, hex: v.hex, light: v.light as CustomAccent["light"], dark: v.dark as CustomAccent["dark"] }
+    if (v.v !== 2 || typeof v.hex !== "string") return null
+    // Roles saved before a role was added are derived again from the picked colour.
+    if (isVars(v.light) && isVars(v.dark)) return { v: 2, hex: v.hex, light: v.light as CustomAccent["light"], dark: v.dark as CustomAccent["dark"] }
+    const theme = deriveAccent(v.hex)
+    return theme ? { v: 2, hex: v.hex, ...theme } : null
   } catch {
     return null
   }

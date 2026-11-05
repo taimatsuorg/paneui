@@ -116,7 +116,7 @@ function StatCardSparkline({ className, ...props }: SparklineProps) {
       data-slot="stat-card-sparkline"
       className={cn(
         "h-9 w-24 shrink-0",
-        tone === "positive" ? "text-success" : tone === "negative" ? "text-destructive" : "text-muted-foreground",
+        tone === "positive" ? "text-success-text" : tone === "negative" ? "text-destructive-text" : "text-muted-foreground",
         className
       )}
       {...props}

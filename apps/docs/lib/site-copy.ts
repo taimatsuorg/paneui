@@ -224,7 +224,7 @@ export const SITE_COPY: Record<string, string> = {
   "The library grows: motion, agents, charts and blocks": "动效、助手、图表与组合组件",
   "First release": "首次发布",
   "The PaneUI CLI": "PaneUI 命令行工具", "Install by URL": "通过链接安装",
-  Copy: "复制", "Copy command": "复制命令", Download: "下载",
+  Copy: "复制", "Copy command": "复制命令", Download: "下载", "Package manager": "包管理器", "View code": "查看代码", "Hide code": "收起代码",
   "Getting started": "开始使用", Docs: "文档", Components: "组件", Templates: "模板", "All templates": "全部模板",
   Foundations: "基础", Forms: "表单", Overlays: "浮层", Display: "展示",
   Navigation: "导航", Text: "文本", Motion: "动效", Data: "数据", Agents: "助手",
@@ -244,9 +244,12 @@ export const SITE_COPY: Record<string, string> = {
   Fit: "适应宽度", Desktop: "桌面", Tablet: "平板", Mobile: "手机", Viewport: "视口",
   "Open preview in a new tab": "在新标签页预览", "Open in a new tab": "在新标签页打开",
   "Nothing to preview.": "暂无预览。", Copied: "已复制", "Copy link to section": "复制章节链接",
-  Manual: "手动安装", "Open template": "打开模板", "Icon styles": "图标风格", "Make your own icons": "绘制图标", "All icons": "全部图标",
+  "Open template": "打开模板", "Icon styles": "图标风格", "Make your own icons": "绘制图标", "All icons": "全部图标",
   Light: "浅色", Dark: "深色", System: "跟随系统", Theme: "主题", Accent: "主题色", Custom: "自定义", Default: "默认",
   Style: "风格", Paper: "纸张", Styles: "界面风格",
+  Install: "安装", Example: "示例", Share: "分享", "Copy install": "复制安装命令", "Back to components": "返回组件列表",
+  "Install command copied": "安装命令已复制", "Couldn't copy the command": "无法复制命令", "Open": "打开", API: "API",
+  "Copy code": "复制代码", "Code copied": "代码已复制", Notes: "说明", View: "视图", Pagination: "翻页", "All components": "全部组件", Categories: "分类",
   Neutral: "中性", Blue: "蓝色", Green: "绿色", Orange: "橙色", Rose: "玫瑰色", Violet: "紫色",
 }
 

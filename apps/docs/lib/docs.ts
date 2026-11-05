@@ -2,6 +2,7 @@ import "server-only"
 
 import type { Localized } from "./site-locale"
 import { DOC_SUMMARIES } from "./doc-summaries"
+import { HOST_TITLES, MERGES } from "./doc-merges"
 
 import { execFileSync } from "node:child_process"
 import fs from "node:fs"
@@ -54,7 +55,7 @@ export function getItems(): DocItem[] {
       const i = item as typeof item & { dependencies?: string[]; registryDependencies?: string[]; files?: { path: string }[] }
       return {
         name: i.name,
-        title: i.title ?? i.name,
+        title: HOST_TITLES[i.name] ?? i.title ?? i.name,
         description: i.description ?? "",
         summary: SUMMARIES[i.name] ?? i.description ?? "",
         type: i.type,
@@ -67,8 +68,13 @@ export function getItems(): DocItem[] {
     .sort((a, b) => ORDER.indexOf(a.category) - ORDER.indexOf(b.category))
 }
 
+/** Items that have their own page: every item but the variants documented on a host page (lib/doc-merges.ts). */
+export function getPageItems() {
+  return getItems().filter((i) => !(i.name in MERGES))
+}
+
 export function getGroups() {
-  const items = getItems()
+  const items = getPageItems()
   return ORDER.map((category) => ({ category, items: items.filter((i) => i.category === category) })).filter((g) => g.items.length > 0)
 }
 
@@ -136,9 +142,11 @@ export function lastUpdated(paths: string[]): Date | undefined {
 }
 
 /** The source files behind a component or template page, for its "Last updated" date. */
-export function docSources(name: string) {
+export function docSources(name: string): string[] {
   const item = getItem(name)
+  const variants = Object.entries(MERGES).filter(([, m]) => m.host === name).map(([v]) => v)
   return [
+    ...variants.flatMap((v) => docSources(v)),
     `apps/docs/content/docs/${name}.ts`,
     `apps/docs/registry/examples/${name}`,
     demoFile(name),

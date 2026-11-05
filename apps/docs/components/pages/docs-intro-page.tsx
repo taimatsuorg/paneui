@@ -114,9 +114,10 @@ export default function DocsIntroPage({ site, data }: { site: SiteProps; data: D
         <GuideH2 id="principles">
           <T en="Principles" zh="设计原则" />
         </GuideH2>
-        <dl className="flex flex-col gap-4">
+        {/* Rows: the principle's name on a fixed left column, its sentence beside it on one baseline. */}
+        <dl className="flex flex-col gap-5">
           {PRINCIPLES.map((p) => (
-            <div key={p.title.en} className="flex flex-col gap-1">
+            <div key={p.title.en} className="grid grid-cols-1 gap-1 sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-8">
               <dt className="font-medium">
                 <T en={p.title.en} zh={p.title.zh} />
               </dt>

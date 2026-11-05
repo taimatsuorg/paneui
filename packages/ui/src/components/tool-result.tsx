@@ -152,7 +152,7 @@ function AgentIconButton({ className, label, pressed, ...props }: React.Componen
       data-slot="agent-icon-button"
       aria-pressed={pressed}
       className={cn(
-        "inline-grid size-7 shrink-0 cursor-pointer place-items-center rounded-full text-muted-foreground transition-[background-color,color,box-shadow,scale] duration-150 outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-pressed:bg-muted aria-pressed:text-foreground aria-pressed:shadow-chip [&_svg]:size-3.5",
+        "inline-grid size-7 shrink-0 cursor-pointer place-items-center rounded-control text-muted-foreground transition-[background-color,color,box-shadow,scale] duration-150 outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-pressed:bg-muted aria-pressed:text-foreground aria-pressed:shadow-chip [&_svg]:size-3.5",
         className
       )}
       {...props}
@@ -185,7 +185,7 @@ function AgentCopyButton({
         />
         <CheckIcon
           className={cn(
-            "absolute text-success transition-[opacity,scale] duration-200",
+            "absolute text-success-text transition-[opacity,scale] duration-200",
             copied ? "scale-100 opacity-100" : "scale-50 opacity-0"
           )}
         />
@@ -209,9 +209,9 @@ const STATUS_LABEL: Record<ToolResultStatus, keyof LocaleLabels> = {
 }
 
 const STATUS_TONE: Record<ToolResultStatus, string> = {
-  running: "text-primary",
-  success: "text-success",
-  error: "text-destructive",
+  running: "text-primary-text",
+  success: "text-success-text",
+  error: "text-destructive-text",
   cancelled: "text-muted-foreground",
 }
 
@@ -324,7 +324,7 @@ function ToolResult({
     >
       <CollapsiblePrimitive.Trigger
         data-slot="tool-result-trigger"
-        className="group/tool-result flex min-h-11 w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-start outline-none select-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset"
+        className="group/tool-result flex min-h-11 w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-start outline-none select-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
       >
         <IconChip size="sm" tone={status === "error" ? "destructive" : "neutral"}>
           {icon ?? <KindIcon />}
@@ -401,11 +401,11 @@ function ToolResultOutput({
 }
 
 const METHOD_TONE: Record<string, string> = {
-  GET: "bg-primary/14 text-primary",
-  POST: "bg-success/12 text-success",
-  PUT: "bg-warning/14 text-warning",
-  PATCH: "bg-warning/14 text-warning",
-  DELETE: "bg-destructive/12 text-destructive",
+  GET: "bg-primary/14 text-primary-text",
+  POST: "bg-success/12 text-success-text",
+  PUT: "bg-warning/14 text-warning-text",
+  PATCH: "bg-warning/14 text-warning-text",
+  DELETE: "bg-destructive/12 text-destructive-text",
 }
 
 /** Request line plus response body, for `kind="request"` results. */
@@ -441,7 +441,7 @@ function ToolResultRequest({
             transition={{ duration: 0.25, ease: AGENT_EASE }}
             className={cn(
               "shrink-0 rounded-md px-1.5 py-0.5 text-ui-2xs font-semibold",
-              ok ? "bg-success/12 text-success" : "bg-destructive/12 text-destructive"
+              ok ? "bg-success/12 text-success-text" : "bg-destructive/12 text-destructive-text"
             )}
           >
             {statusCode}

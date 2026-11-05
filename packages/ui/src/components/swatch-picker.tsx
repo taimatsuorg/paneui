@@ -58,7 +58,7 @@ function SwatchPickerItem({ swatch, variant }: { swatch: Swatch; variant: "dot" 
       title={swatch.label}
       data-slot="swatch-picker-item"
       className={cn(
-        "group/swatch inline-flex size-6 cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-ring/50 data-disabled:cursor-not-allowed data-disabled:opacity-64",
+        "group/swatch inline-flex size-6 cursor-pointer items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-ring data-disabled:cursor-not-allowed data-disabled:opacity-64",
         // letter tiles sit 2px inside the item, so its focus ring follows them
         variant === "letter" ? "frame-lg frame-inset-0.5" : "rounded-full"
       )}

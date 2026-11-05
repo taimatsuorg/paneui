@@ -13,19 +13,22 @@ import { useT, type Localized } from "@/lib/site-locale"
 
 export const GITHUB_URL = "https://github.com/taimatsuorg/paneui"
 
-const navLink =
-  "rounded-md px-2 py-1 text-ui text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+/** The page's one frame: every band of the homepage, the header and the footer share these margins. */
+export const FRAME = "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"
 
-/** A thin sticky bar: mark and two links on the left, GitHub, language, theme and Get started on the right. */
+const navLink =
+  "rounded-md px-2 py-1 text-ui text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+
+/** A plain sticky bar on the page's frame: mark and two links on the left, GitHub, language, theme and Get started on the right. */
 export function LandingHeader() {
   const t = useT()
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-12 max-w-7xl items-center gap-2 px-4 sm:px-6">
+    <header className="sticky top-0 z-40 border-b border-border bg-background">
+      <div className={`${FRAME} flex h-12 items-center gap-2`}>
         <Link
           href="/"
           aria-label={t({ en: "PaneUI home", zh: "PaneUI 首页" })}
-          className="flex items-center gap-2 rounded-sm text-ui-lg font-semibold outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+          className="flex items-center gap-2 rounded-sm text-ui-lg font-semibold outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <PaneuiLogoIcon size={20} />
           PaneUI
@@ -80,33 +83,41 @@ const LINKS: { label: Localized; href: string; external?: boolean }[] = [
   { label: "GitHub", href: GITHUB_URL, external: true },
 ]
 
-const footLink = "rounded-sm text-ui text-muted-foreground outline-none transition-colors duration-150 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+const footLink = "rounded-sm text-ui text-muted-foreground outline-none transition-colors duration-150 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
 
+/** The close: the mark set large on the frame's left edge, then the licence and the links on one row. */
 export function LandingFooter() {
   const t = useT()
   return (
-    <footer className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-      <span className="flex items-center gap-2 text-ui text-muted-foreground">
-        <PaneuiLogoIcon size={16} className="text-foreground" />
-        {t({ en: "MIT License", zh: "MIT 许可" })}
-      </span>
-      <nav aria-label={t({ en: "Footer", zh: "页脚" })}>
-        <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
-          {LINKS.map((link) => (
-            <li key={link.href}>
-              {link.external ? (
-                <a href={link.href} className={footLink} target="_blank" rel="noreferrer">
-                  {t(link.label)}
-                </a>
-              ) : (
-                <Link href={link.href} className={footLink}>
-                  {t(link.label)}
-                </Link>
-              )}
-            </li>
-          ))}
-        </ul>
-      </nav>
+    <footer className={`${FRAME} flex flex-col gap-10 pt-16 pb-10 lg:pt-24`}>
+      <Link
+        href="/"
+        aria-label={t({ en: "PaneUI home", zh: "PaneUI 首页" })}
+        className="flex w-fit items-center gap-3 rounded-lg font-heading text-5xl font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-ring sm:gap-4 sm:text-7xl"
+      >
+        <PaneuiLogoIcon size={56} className="size-11 sm:size-16" />
+        PaneUI
+      </Link>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <span className="text-ui text-muted-foreground">{t({ en: "MIT License", zh: "MIT 许可" })}</span>
+        <nav aria-label={t({ en: "Footer", zh: "页脚" })}>
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {LINKS.map((link) => (
+              <li key={link.href}>
+                {link.external ? (
+                  <a href={link.href} className={footLink} target="_blank" rel="noreferrer">
+                    {t(link.label)}
+                  </a>
+                ) : (
+                  <Link href={link.href} className={footLink}>
+                    {t(link.label)}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </footer>
   )
 }

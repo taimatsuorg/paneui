@@ -18,7 +18,7 @@ export default function NumberTickerLive() {
         locale="en-US"
         startOnView={false}
         className="text-xl font-semibold"
-        digitClassName="text-primary"
+        digitClassName="text-primary-text"
       />
       <span className="text-sm text-muted-foreground">people online</span>
     </div>

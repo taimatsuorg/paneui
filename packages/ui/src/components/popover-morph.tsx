@@ -26,7 +26,7 @@ function MorphPopoverTrigger({ className, ...props }: PopoverPrimitive.Trigger.P
     <PopoverPrimitive.Trigger
       data-slot="morph-popover-trigger"
       className={cn(
-        "inline-flex h-8 cursor-pointer items-center gap-2 rounded-lg bg-card px-3 text-ui font-medium text-secondary-foreground shadow-raised transition-[box-shadow,background-color,scale] duration-150 ease-out outline-none select-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring/50 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+        "inline-flex h-8 cursor-pointer items-center gap-2 rounded-lg bg-card px-3 text-ui font-medium text-secondary-foreground shadow-raised transition-[box-shadow,background-color,scale] duration-150 ease-out outline-none select-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
         className
       )}
       {...props}
@@ -154,7 +154,7 @@ function MorphPopoverCloseButton({ className, ...props }: PopoverPrimitive.Close
     <PopoverPrimitive.Close
       data-slot="morph-popover-close-button"
       className={cn(
-        "absolute top-3 right-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+        "absolute top-3 right-3 inline-flex size-7 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
         className
       )}
       {...props}

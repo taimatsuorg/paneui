@@ -59,8 +59,8 @@ function Radio<Value>({ className, size: sizeProp, ...props }: RadioPrimitive.Ro
       data-size={size}
       className={cn(
         radioVariants({ size }),
-        "peer group/radio relative inline-flex shrink-0 cursor-pointer after:absolute after:-inset-1 items-center justify-center rounded-full bg-background shadow-well outline-none dark:bg-input/32",
-                "focus-visible:ring-2 focus-visible:ring-ring/50 data-invalid:shadow-[inset_0_0_0_1px_var(--destructive)] data-disabled:cursor-not-allowed data-disabled:opacity-64",
+        "peer group/radio relative inline-flex shrink-0 cursor-pointer after:absolute after:-inset-1 items-center justify-center rounded-full bg-background shadow-[inset_0_0_0_1px_var(--border-control)] outline-none dark:bg-input/32",
+                "focus-visible:ring-2 focus-visible:ring-ring data-invalid:shadow-[inset_0_0_0_1px_var(--destructive)] data-disabled:cursor-not-allowed data-disabled:opacity-64",
         className
       )}
       {...props}

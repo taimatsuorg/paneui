@@ -12,7 +12,7 @@ export default function WorkSummaryCollapsibleSteps() {
       </WorkSummaryStep>
       <WorkSummaryThought title="Thought for 4s">The offset is dropped when the string has no seconds. A stricter pattern fixes it.</WorkSummaryThought>
       <WorkSummaryStep kind="edit" title="Edit" detail="lib/parse-date.ts" collapsible defaultOpen>
-        <pre className="font-mono text-ui-sm text-success">{"+ const ISO = /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2})?([+-]\\d{2}:\\d{2}|Z)$/"}</pre>
+        <pre className="font-mono text-ui-sm text-success-text">{"+ const ISO = /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2})?([+-]\\d{2}:\\d{2}|Z)$/"}</pre>
       </WorkSummaryStep>
     </WorkSummary>
   )

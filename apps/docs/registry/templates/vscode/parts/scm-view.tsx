@@ -9,13 +9,13 @@ import { getFileKind } from "@paneui/ui/components/file-tree"
 import { ScrollArea } from "@paneui/ui/components/scroll-area"
 import { Textarea } from "@paneui/ui/components/textarea"
 
-import { IconAction, SidebarHeader } from "./sidebar-header"
+import { IconAction, SectionLabel, SidebarHeader } from "./sidebar-header"
 import { abs, basename, dirname, type Workspace } from "./workspace"
 
 const STATUS: Record<"M" | "A" | "D", { label: string; className: string }> = {
-  M: { label: "Modified", className: "text-warning" },
-  A: { label: "Added", className: "text-success" },
-  D: { label: "Deleted", className: "text-destructive" },
+  M: { label: "Modified", className: "text-warning-text" },
+  A: { label: "Added", className: "text-success-text" },
+  D: { label: "Deleted", className: "text-destructive-text" },
 }
 
 /**
@@ -73,10 +73,7 @@ export function ScmView({
         </Button>
       </div>
 
-      <div className="flex h-6 shrink-0 items-center gap-1.5 px-3 text-ui-xs font-semibold tracking-wide text-muted-foreground uppercase">
-        <span className="flex-1">Changes</span>
-        {changes.length > 0 && <span className="rounded-full bg-secondary px-1.5 font-normal tabular-nums">{changes.length}</span>}
-      </div>
+      <SectionLabel count={changes.length}>Changes</SectionLabel>
       <ScrollArea className="min-h-0 flex-1" viewportClassName="px-2 pb-3">
         {changes.length === 0 ? (
           <div className="flex flex-col items-center gap-2 px-4 py-8 text-center">

@@ -6,6 +6,8 @@ import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox"
 import { BoltIcon, CheckIcon, ChevronDownIcon, ShieldIcon } from "@paneui/ui/icons"
 import { cn } from "@paneui/ui/lib/utils"
 import { Button } from "@paneui/ui/components/button"
+import { Kbd } from "@paneui/ui/components/kbd"
+import { ReasoningEffort } from "@paneui/ui/components/reasoning-effort"
 import {
   ComboboxContent,
   ComboboxEmpty,
@@ -74,6 +76,10 @@ type ComposerPickerProps = {
    * `ModelPicker` and `EffortPicker` default to `false`, so model and effort rows are the name alone.
    */
   showDescriptions?: boolean
+  /** Extra content after the label on the trigger (a short readout of a linked setting). */
+  triggerSuffix?: React.ReactNode
+  /** Runs before the popup's own key handling; call `preventDefault` to claim a key. */
+  onContentKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void
 }
 
 /**
@@ -98,10 +104,10 @@ function groupOptions(options: PickerOption[]) {
 const triggerClass =
   // Shrinks (label truncates) instead of pushing the composer toolbar wider; the chevron side
   // keeps the 2px optical trim under the tighter padding.
-  "min-w-0 shrink px-2 has-data-[icon=inline-end]:pe-1.5 font-normal text-muted-foreground hover:text-foreground data-[tone=destructive]:text-destructive data-[tone=warning]:text-warning"
+  "min-w-0 shrink px-2 has-data-[icon=inline-end]:pe-1.5 font-normal text-muted-foreground hover:text-foreground data-[tone=destructive]:text-destructive-text data-[tone=warning]:text-warning-text"
 
 /** Trigger props and content shared by the menu and the searchable list. */
-function usePickerTrigger({ options, value, label, icon, placeholder, compact = false, className }: ComposerPickerProps) {
+function usePickerTrigger({ options, value, label, icon, placeholder, compact = false, className, triggerSuffix }: ComposerPickerProps) {
   const { labels } = useLocale()
   const selected = options.find((o) => o.value === value)
   const glyph = selected?.icon ?? icon
@@ -121,6 +127,11 @@ function usePickerTrigger({ options, value, label, icon, placeholder, compact = 
     <>
       {glyph && <span className="flex shrink-0 items-center [&_svg]:size-3.5">{glyph}</span>}
       <span className={cn("min-w-0 truncate", compact && glyph && "@max-md/composer-toolbar:hidden")}>{shown}</span>
+      {triggerSuffix != null && (
+        <span data-slot="composer-picker-suffix" className={cn("shrink-0 opacity-64", compact && glyph && "@max-md/composer-toolbar:hidden")}>
+          {triggerSuffix}
+        </span>
+      )}
       <ChevronDownIcon data-icon="inline-end" className="size-3 opacity-64" />
     </>
   )
@@ -141,8 +152,17 @@ function OptionBody({ option, showDescription }: { option: PickerOption; showDes
 
 // Two-line rows (with descriptions) align to the top line; single-line rows keep the menu's row height.
 
+/** Capture-phase key hook: a key the caller claims (preventDefault) never reaches the popup's own handling. */
+function contentKeyDown(handler?: (event: React.KeyboardEvent<HTMLDivElement>) => void) {
+  if (!handler) return undefined
+  return (event: React.KeyboardEvent<HTMLDivElement>) => {
+    handler(event)
+    if (event.defaultPrevented) event.stopPropagation()
+  }
+}
+
 function ComposerPickerMenu(props: ComposerPickerProps) {
-  const { options, value, onValueChange, heading, side = "top", align = "start", disabled, footer, showDescriptions = true } = props
+  const { options, value, onValueChange, heading, side = "top", align = "start", disabled, footer, showDescriptions = true, onContentKeyDown } = props
   const { button, content } = usePickerTrigger(props)
   const groups = React.useMemo(() => groupOptions(options), [options])
 
@@ -151,7 +171,7 @@ function ComposerPickerMenu(props: ComposerPickerProps) {
       <MenuTrigger disabled={disabled} render={button}>
         {content}
       </MenuTrigger>
-      <MenuContent side={side} align={align} className="max-h-80 w-64">
+      <MenuContent side={side} align={align} className="max-h-80 w-64" onKeyDownCapture={contentKeyDown(onContentKeyDown)}>
         {/* design-check-ignore menu-label-group -- a title above the groups renders as a plain heading */}
         {heading && <MenuLabel>{heading}</MenuLabel>}
         {groups.map(([group, items], gi) => (
@@ -165,7 +185,7 @@ function ComposerPickerMenu(props: ComposerPickerProps) {
                   data-value={o.value}
                   disabled={o.disabled}
                   onClick={() => onValueChange?.(o.value)}
-                  className={cn(showDescriptions && o.description && "items-start py-1", o.tone === "warning" && "[&_svg]:text-warning", o.tone === "destructive" && "[&_svg]:text-destructive")}
+                  className={cn(showDescriptions && o.description && "items-start py-1", o.tone === "warning" && "[&_svg]:text-warning-text", o.tone === "destructive" && "[&_svg]:text-destructive-text")}
                 >
                   <OptionBody option={o} showDescription={showDescriptions} />
                   <span className="flex h-4.5 w-4 shrink-0 items-center justify-center">
@@ -196,7 +216,7 @@ function matches(o: PickerOption, words: string[]) {
 
 /** The searchable list: a field at the top keeps focus, arrows move the highlight, Enter picks. */
 function ComposerPickerSearch(props: ComposerPickerProps) {
-  const { options, value, onValueChange, heading, side = "top", align = "start", disabled, footer, searchPlaceholder, emptyLabel, maxPerGroup, showDescriptions = true } = props
+  const { options, value, onValueChange, heading, side = "top", align = "start", disabled, footer, searchPlaceholder, emptyLabel, maxPerGroup, showDescriptions = true, onContentKeyDown } = props
   const { labels } = useLocale()
   const { selected, button, content } = usePickerTrigger(props)
   const [query, setQuery] = React.useState("")
@@ -242,7 +262,7 @@ function ComposerPickerSearch(props: ComposerPickerProps) {
       disabled={disabled}
     >
       <ComboboxPrimitive.Trigger render={button}>{content}</ComboboxPrimitive.Trigger>
-      <ComboboxContent side={side} align={align} aria-label={props.label} className="w-72 max-w-(--available-width)">
+      <ComboboxContent side={side} align={align} aria-label={props.label} className="w-72 max-w-(--available-width)" onKeyDownCapture={contentKeyDown(onContentKeyDown)}>
         {heading && <div className="px-2.5 pt-2 text-ui-sm font-medium text-muted-foreground">{heading}</div>}
         <ComboboxSearch placeholder={placeholderText} aria-label={placeholderText} />
         <ComboboxEmpty className="py-4">{emptyLabel ?? labels.noResults}</ComboboxEmpty>
@@ -254,7 +274,7 @@ function ComposerPickerSearch(props: ComposerPickerProps) {
                 {group.value && <ComboboxLabel>{group.value}</ComboboxLabel>}
                 <ComboboxPrimitive.Collection>
                   {(o: PickerOption) => (
-                    <ComboboxItem key={o.value} value={o} data-value={o.value} disabled={o.disabled} className={cn(showDescriptions && o.description && "items-start py-1", o.tone === "warning" && "[&_svg]:text-warning", o.tone === "destructive" && "[&_svg]:text-destructive")}>
+                    <ComboboxItem key={o.value} value={o} data-value={o.value} disabled={o.disabled} className={cn(showDescriptions && o.description && "items-start py-1", o.tone === "warning" && "[&_svg]:text-warning-text", o.tone === "destructive" && "[&_svg]:text-destructive-text")}>
                       <OptionBody option={o} showDescription={showDescriptions} />
                     </ComboboxItem>
                   )}
@@ -290,6 +310,8 @@ type ModelOption = {
   provider?: string
   icon?: React.ReactNode
   disabled?: boolean
+  /** `false` for a model that can't reason: `ThinkingModelPicker` hides the effort control for it. */
+  reasoning?: boolean
 }
 
 type ModelPickerProps = Omit<ComposerPickerProps, "options" | "label"> & {
@@ -340,6 +362,68 @@ function EffortPicker({ levels, label, icon, heading, compact = true, showDescri
   )
 }
 
+type ThinkingModelPickerProps = Omit<ModelPickerProps, "footer" | "triggerSuffix" | "onContentKeyDown"> & {
+  /** Effort levels, lowest first. Defaults to low / medium / high. */
+  levels?: EffortLevel[]
+  effort?: string
+  onEffortChange?: (effort: string) => void
+}
+
+/**
+ * Model and reasoning effort in one trigger: the model list with a stepped effort track pinned under
+ * it, and the effort echoed after the model name. Tab cycles the effort while the list is open. The
+ * track and the echo hide for a model with `reasoning: false`.
+ */
+function ThinkingModelPicker({ models, levels, effort, onEffortChange, value, ...props }: ThinkingModelPickerProps) {
+  const { labels } = useLocale()
+  const steps = levels ?? [
+    { value: "low", label: labels.effortLow },
+    { value: "medium", label: labels.effortMedium },
+    { value: "high", label: labels.effortHigh },
+  ]
+  const selected = models.find((m) => m.id === value)
+  const thinks = selected?.reasoning !== false
+  const index = Math.max(0, steps.findIndex((l) => l.value === effort))
+  const current = steps[index]
+
+  const footer = thinks ? (
+    <div
+      data-slot="thinking-model-picker-effort"
+      role="presentation"
+      // Arrow keys belong to the slider, not the list around it.
+      onKeyDown={(e) => e.key !== "Tab" && e.key !== "Escape" && e.stopPropagation()}
+      className="flex items-center gap-2.5 px-1.5 py-1"
+    >
+      <ReasoningEffort
+        size="sm"
+        levels={steps}
+        value={current?.value}
+        onValueChange={(next) => onEffortChange?.(next)}
+        // The tab rises over the list's last row while dragging; the track sits on the popover.
+        className="-mt-4 w-auto min-w-0 flex-1 [--reasoning-effort-surface:var(--popover)]"
+      />
+      <span className="w-12 shrink-0 truncate text-ui-sm text-muted-foreground">{current?.label}</span>
+      <Kbd size="sm" className="shrink-0">Tab</Kbd>
+    </div>
+  ) : undefined
+
+  return (
+    <ModelPicker
+      models={models}
+      value={value}
+      footer={footer}
+      triggerSuffix={thinks ? current?.label : undefined}
+      onContentKeyDown={(e) => {
+        if (e.key !== "Tab" || !thinks || e.altKey || e.metaKey || e.ctrlKey) return
+        e.preventDefault()
+        const step = e.shiftKey ? steps.length - 1 : 1
+        onEffortChange?.(steps[(index + step) % steps.length].value)
+      }}
+      {...props}
+    />
+  )
+}
+
 type ModeOption = { id: string; name: string; description?: string; icon?: React.ReactNode; tone?: PickerTone }
 
 type ModePickerProps = Omit<ComposerPickerProps, "options" | "label"> & {
@@ -363,6 +447,7 @@ function ModePicker({ modes, label, icon, compact = true, ...props }: ModePicker
 export {
   ComposerPicker,
   ModelPicker,
+  ThinkingModelPicker,
   EffortPicker,
   ModePicker,
   type ComposerPickerProps,
@@ -370,6 +455,7 @@ export {
   type PickerTone,
   type ModelOption,
   type ModelPickerProps,
+  type ThinkingModelPickerProps,
   type EffortLevel,
   type EffortPickerProps,
   type ModeOption,

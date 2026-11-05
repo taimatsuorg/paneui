@@ -10,10 +10,10 @@ import { useLocale } from "@paneui/ui/components/locale-provider"
 type PullRequestStatus = "open" | "draft" | "merged" | "closed"
 
 const PR_TONE: Record<PullRequestStatus, string> = {
-  open: "text-success",
+  open: "text-success-text",
   draft: "text-muted-foreground",
   merged: "text-chart-3",
-  closed: "text-destructive",
+  closed: "text-destructive-text",
 }
 
 /** A list of threads (agent chats). Group rows with `ThreadListGroup`. */
@@ -70,6 +70,11 @@ type ThreadListItemProps = Omit<React.ComponentProps<"button">, "title"> & {
    * (`onClick`, `aria-*`, `disabled`) to the button; use this for anything else the button needs.
    */
   buttonProps?: Omit<React.ComponentProps<"button">, "children">
+  /**
+   * `sm` is one line for nested lists such as project folders: icon, title, the pull request number
+   * and `meta`. It leaves out `description`, `repo` and `branch`.
+   */
+  size?: "default" | "sm"
 }
 
 /**
@@ -92,11 +97,13 @@ function ThreadListItem({
   meta,
   actions,
   buttonProps,
+  size = "default",
   className,
   ...props
 }: ThreadListItemProps) {
+  const compact = size === "sm"
   const { labels } = useLocale()
-  const refs = repo || pr || branch
+  const refs = !compact && (repo || pr || branch)
   const hasActions = actions != null && actions !== false
   // With actions the row is a list item around the button: identity and layout go to the item.
   const itemProps: Record<string, unknown> = {}
@@ -111,11 +118,13 @@ function ThreadListItem({
       type="button"
       role={hasActions ? undefined : "listitem"}
       data-slot={hasActions ? "thread-list-item-button" : "thread-list-item"}
+      data-size={size}
       data-active={active || undefined}
       data-running={running || undefined}
       aria-current={active ? "true" : undefined}
       className={cn(
-        "group/thread flex w-full min-w-0 cursor-pointer flex-col gap-0.5 rounded-inner px-2 py-1.5 text-start outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 data-active:bg-foreground/6",
+        "group/thread flex w-full min-w-0 cursor-pointer flex-col gap-0.5 rounded-inner px-2 py-1.5 text-start outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring data-active:bg-foreground/6",
+        compact && "py-1",
         // Room for the actions: always without `meta`, on touch screens (actions stay visible) with it.
         hasActions && (meta != null && meta !== false ? "pointer-coarse:pe-9" : "pe-9"),
         hasActions && "group-hover/thread-item:bg-secondary group-data-active/thread-item:bg-foreground/6",
@@ -127,10 +136,16 @@ function ThreadListItem({
     >
       <span className="flex w-full min-w-0 items-center gap-2">
         <span className="flex size-4 shrink-0 items-center justify-center text-muted-foreground group-data-active/thread:text-foreground [&_svg]:size-3.5">
-          {running ? <Loader variant="ring" size="sm" label={labels.working} className="size-3.5 text-primary" /> : icon}
+          {running ? <Loader variant="ring" size="sm" label={labels.working} className="size-3.5 text-primary-text" /> : icon}
         </span>
         <span className="min-w-0 flex-1 truncate text-ui text-foreground/90 group-data-active/thread:text-foreground">{title}</span>
         {unread && <span role="img" aria-label={labels.unread} className="size-1.5 shrink-0 rounded-full bg-primary" />}
+        {compact && pr && (
+          <span className={cn("shrink-0 text-ui-xs tabular-nums", PR_TONE[pr.status])}>
+            #{pr.number}
+            <span className="sr-only">({pr.status})</span>
+          </span>
+        )}
         {meta != null && meta !== false && (
           <span
             data-slot="thread-list-item-meta"
@@ -146,7 +161,7 @@ function ThreadListItem({
         )}
         {trailing}
       </span>
-      {description != null && description !== false && (
+      {!compact && description != null && description !== false && (
         <span data-slot="thread-list-item-description" className="w-full min-w-0 truncate pl-6 text-ui-xs text-muted-foreground">
           {description}
         </span>
@@ -181,6 +196,7 @@ function ThreadListItem({
       {...itemProps}
       role="listitem"
       data-slot="thread-list-item"
+      data-size={size}
       data-active={active || undefined}
       data-running={running || undefined}
       className={cn("group/thread-item relative min-w-0", className)}
@@ -188,7 +204,10 @@ function ThreadListItem({
       {row}
       <div
         data-slot="thread-list-item-actions"
-        className="absolute end-1 top-1 flex h-6 items-center gap-0.5 opacity-0 transition-opacity duration-150 group-hover/thread-item:opacity-100 group-focus-within/thread-item:opacity-100 group-data-active/thread-item:opacity-100 group-has-[[data-popup-open]]/thread-item:opacity-100 pointer-coarse:opacity-100"
+        className={cn(
+          "absolute end-1 flex h-6 items-center gap-0.5 opacity-0 transition-opacity duration-150 group-hover/thread-item:opacity-100 group-focus-within/thread-item:opacity-100 group-data-active/thread-item:opacity-100 group-has-[[data-popup-open]]/thread-item:opacity-100 pointer-coarse:opacity-100",
+          compact ? "top-0.5" : "top-1"
+        )}
       >
         {actions}
       </div>

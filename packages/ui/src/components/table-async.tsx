@@ -157,7 +157,7 @@ function AsyncTable<T>({ loadPage, resetKey, endMessage, onStatusChange, ref, ..
         endMessage
       ) : (
         <div className="flex h-full items-center justify-center gap-1.5 text-ui-sm text-muted-foreground">
-          <CheckCircleIcon className="size-3.5 text-success" />
+          <CheckCircleIcon className="size-3.5 text-success-text" />
           {l10n.allRowsLoaded(rows.length.toLocaleString("en-US"))}
         </div>
       )

@@ -234,7 +234,7 @@ function SidebarRailItem({ label, icon, shortcut, active = false, badge, render,
   const { labels } = useLocale()
   const { side } = React.useContext(RailContext)
   const classes = cn(
-    "relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-inner text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 data-active:bg-foreground/6 data-active:text-foreground [&_svg]:size-4.5 [&_svg]:shrink-0",
+    "relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-inner text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring data-active:bg-foreground/6 data-active:text-foreground [&_svg]:size-4.5 [&_svg]:shrink-0",
     className
   )
   const content = (
@@ -308,7 +308,7 @@ function SidebarRailAvatar({ label, status = "offline", hint, className, childre
             data-slot="sidebar-rail-avatar"
             data-status={status}
             className={cn(
-              "flex size-7 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-card shadow-raised outline-none transition-shadow duration-150 focus-visible:ring-2 focus-visible:ring-ring/50 data-[status=busy]:ring-2 data-[status=busy]:ring-warning/70 data-[status=error]:ring-2 data-[status=error]:ring-destructive/60 data-[status=online]:ring-2 data-[status=online]:ring-success/70 [&_svg]:size-3.5",
+              "flex size-7 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-card shadow-raised outline-none transition-shadow duration-150 focus-visible:ring-2 focus-visible:ring-ring data-[status=busy]:ring-2 data-[status=busy]:ring-warning/70 data-[status=error]:ring-2 data-[status=error]:ring-destructive/60 data-[status=online]:ring-2 data-[status=online]:ring-success/70 [&_svg]:size-3.5",
               className
             )}
             {...props}
@@ -642,7 +642,7 @@ function SidebarItem({
         className: cn(
           "group/sidebar-item relative flex h-8 w-full min-w-0 cursor-pointer items-center gap-2 rounded-inner px-[13px] text-ui outline-none select-none",
           "text-foreground transition-[color,background-color] duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]",
-          "focus-visible:ring-2 focus-visible:ring-ring/50",
+          "focus-visible:ring-2 focus-visible:ring-ring",
           !showPill && "hover:bg-secondary",
           showPill && "text-foreground",
           disabled && "pointer-events-none opacity-45",
@@ -783,7 +783,7 @@ function SidebarSubItem({ isActive = false, href, disabled, icon, render, classN
         onClick: (e: React.MouseEvent) => disabled && e.preventDefault(),
         className: cn(
           "relative flex h-7 w-full min-w-0 cursor-pointer items-center gap-2 rounded-lg px-2.5 text-ui outline-none select-none",
-          "text-foreground/85 transition-[color,background-color] duration-150 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+          "text-foreground/85 transition-[color,background-color] duration-150 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
           isActive ? "text-foreground" : "hover:bg-secondary",
           disabled && "pointer-events-none opacity-45",
           "[&_svg]:size-4 [&_svg]:shrink-0",
@@ -831,7 +831,7 @@ function SidebarTrigger({ className, onClick, children, ...props }: React.Compon
         if (!e.defaultPrevented) toggle()
       }}
       className={cn(
-        "inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 [&_svg]:size-4",
+        "inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-4",
         className
       )}
       {...props}

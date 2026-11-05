@@ -55,6 +55,12 @@
       "skillPath": "skills/build-design/SKILL.md",
       "computedHash": "d38359ac27edf6add264ed6cee95643001477d653e9ae87723f3d00605f3e55a"
     },
+    "design-taste-frontend": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "skillPath": "skills/taste-skill/SKILL.md",
+      "computedHash": "6ac8ba6089dcbc303744a507a4587113c5d845ca2f658b3ce2b0b5eab108fb0d"
+    },
     "explain-interface": {
       "source": "jakubkrehel/skills",
       "sourceType": "github",
@@ -90,6 +96,12 @@
       "sourceType": "github",
       "skillPath": "skills/technical-drawing/SKILL.md",
       "computedHash": "17c905a476d425d55997b850e62a284105f69679af232ac1d0d9cc12042d51c4"
+    },
+    "ui-design-brain": {
+      "source": "carmahhawwari/ui-design-brain",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "2f879ee8afd07785c241b5fa31bcc96bb8efc2379cff1fff3167edd08ebe2790"
     },
     "variant": {
       "source": "jakubkrehel/skills",

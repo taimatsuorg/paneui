@@ -51,7 +51,7 @@ export function AgentSkill({ name, skill, html }: { name: string; skill: string;
             }}
           >
             <ActionSwapBlurIcon value={copied ? "copied" : "copy"}>
-              {copied ? <CheckIcon data-icon="inline-start" className="text-success" /> : <CopyIcon data-icon="inline-start" />}
+              {copied ? <CheckIcon data-icon="inline-start" className="text-success-text" /> : <CopyIcon data-icon="inline-start" />}
             </ActionSwapBlurIcon>
             {t(copied ? { en: "Copied", zh: "已复制" } : { en: "Copy", zh: "复制" })}
           </Button>
@@ -60,8 +60,12 @@ export function AgentSkill({ name, skill, html }: { name: string; skill: string;
             <T en="Download" zh="下载" />
           </Button>
         </div>
-        <CollapsiblePanel>
-          <div className="pt-2">
+        {/* The panel clips while it animates. The negative margin and matching padding give the
+            sheet's outer hairline room inside that clip, so it keeps its edge on the page colour.
+            keepMounted styles the long sheet with the page, so the click only animates height; the
+            Markdown copy of the page leaves the file out, as before. */}
+        <CollapsiblePanel keepMounted data-md-skip className="-mx-1 -mb-1">
+          <div className="px-1 pt-2 pb-1">
             <CodeBlock html={html} maxHeight={480} copyable={false} />
           </div>
         </CollapsiblePanel>

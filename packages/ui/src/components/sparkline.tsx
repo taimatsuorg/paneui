@@ -8,7 +8,7 @@ import { cn } from "@paneui/ui/lib/utils"
 /*
  * A word-sized trend chart: no axes, no labels, just the shape of a series.
  * Colour comes from `currentColor`, so tint it with a text token
- * (`text-success`, `text-chart-1`, `text-muted-foreground`). The SVG stretches
+ * (`text-success-text`, `text-chart-1`, `text-muted-foreground`). The SVG stretches
  * to its box: size it with `h-*` / `w-*` (default 36px tall, full width).
  *
  * Missing points (`null`, `undefined`, `NaN`) are gaps, drawn per `gap`. A series with

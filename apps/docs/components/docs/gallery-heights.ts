@@ -23,6 +23,7 @@ export const galleryHeights: Record<string, number> = {
   "agent-workspace": 544,
   "docs": 544,
   "blog": 544,
+  "team-chat": 544,
   "accordion": 264,
   "agent-code-block": 444,
   "ai-sidebar": 544,

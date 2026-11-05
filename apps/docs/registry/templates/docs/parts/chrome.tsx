@@ -4,6 +4,7 @@ import * as React from "react"
 import { siGithub } from "simple-icons"
 
 import { MenuIcon, SearchIcon } from "@paneui/ui/icons"
+import { cn } from "@paneui/ui/lib/utils"
 import { Badge } from "@paneui/ui/components/badge"
 import { BrandIcon } from "@paneui/ui/components/brand-icon"
 import { Button } from "@paneui/ui/components/button"
@@ -22,7 +23,7 @@ export const useDocsChrome = () => React.useContext(DocsChromeContext)
 
 export function Brand() {
   return (
-    <a href="#" className="flex shrink-0 items-center rounded-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-ring/50">
+    <a href="#" className="flex shrink-0 items-center rounded-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-ring">
       <span>
         Tessel <span className="font-normal text-muted-foreground">Docs</span>
       </span>
@@ -58,7 +59,7 @@ export function SearchButton({ compact }: { compact?: boolean }) {
 
 export function HeaderActions({ compactSearch }: { compactSearch?: boolean }) {
   return (
-    <div className="ms-auto flex items-center gap-1.5">
+    <div className="-me-1.5 ms-auto flex items-center gap-1.5">
       <SearchButton compact={compactSearch} />
       <Button variant="ghost" size="icon-sm" nativeButton={false} render={<a href="#" />} aria-label="GitHub">
         <BrandIcon icon={siGithub} />
@@ -106,9 +107,10 @@ export function DocsHeader({
   const { openNav } = useDocsChrome()
   return (
     <header className="sticky top-0 z-40 shrink-0 border-b border-border bg-background">
-      <div className="flex h-14 items-center gap-3 px-3 sm:px-4">
+      {/* 16px from the edge at every width: the content's phone inset. Ghost icon buttons at either end pull out by their 6px inset so their glyphs sit on that edge too. */}
+      <div className="flex h-14 items-center gap-3 px-4">
         {menu !== "none" && (
-          <Button variant="ghost" size="icon-sm" className={menu === "narrow" ? "lg:hidden" : undefined} aria-label="Open navigation" onClick={openNav}>
+          <Button variant="ghost" size="icon-sm" className={cn("-ms-1.5", menu === "narrow" && "lg:hidden")} aria-label="Open navigation" onClick={openNav}>
             <MenuIcon />
           </Button>
         )}

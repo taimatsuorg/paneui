@@ -16,10 +16,13 @@ export const toc: OutlineItem[] = [
   { id: "audit", title: "Auditing decisions", depth: 2 },
 ]
 
-/** Article body. Long-form text uses `typeset typeset-docs`; components inside carry `not-typeset`. */
+/**
+ * Article body. Long-form text uses `typeset typeset-docs`; components inside carry `not-typeset`.
+ * It fills the article column, so the title, the prose, the callouts and the pager share one right edge.
+ */
 export function Article() {
   return (
-    <div className="typeset typeset-docs max-w-reading">
+    <div className="typeset typeset-docs max-w-none">
       <p>
         Tessel runs every session in a sandbox, but some actions reach outside it: pushing a branch, opening a pull request, calling a
         paid API. Approval policies decide which of those run on their own, which wait for a person and which are never allowed.

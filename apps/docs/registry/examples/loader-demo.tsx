@@ -15,7 +15,7 @@ export default function LoaderDemo() {
           </div>
         ))}
       </div>
-      <div className="flex items-center justify-center gap-5 text-primary">
+      <div className="flex items-center justify-center gap-5 text-primary-text">
         <Loader variant="ring" size="sm" />
         <Loader variant="ring" size="md" />
         <Loader variant="ring" size="lg" />

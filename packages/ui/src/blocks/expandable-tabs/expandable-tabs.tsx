@@ -154,7 +154,7 @@ function ExpandableTabs({
                 aria-labelledby={`${uid}-tab-${active.id}`}
                 tabIndex={0}
                 custom={direction}
-                className="p-4 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset"
+                className="p-4 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
                 variants={{
                   enter: (d: number) => (reduceMotion ? { opacity: 0 } : { opacity: 0, x: d * SLIDE, filter: "blur(3px)" }),
                   center: { opacity: 1, x: 0, filter: "blur(0px)" },
@@ -206,7 +206,7 @@ function ExpandableTabs({
               onFocus={() => setFocusIndex(index)}
               className={cn(
                 "relative inline-flex h-8 min-w-8 cursor-pointer items-center justify-center rounded-md px-2.5 text-ui font-medium text-muted-foreground outline-none select-none",
-                "transition-[color,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-40",
+                "transition-[color,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40",
                 "data-active:bg-secondary data-active:text-foreground data-active:shadow-raised",
                 "[&_svg]:size-4.5 [&_svg]:shrink-0"
               )}

@@ -67,7 +67,7 @@ function TabBarItem({ icon, activeIcon, label, active = false, badge, render, cl
           <>
             <span
               data-slot="tab-bar-icon"
-              className="relative flex h-7 w-12 items-center justify-center rounded-full transition-[box-shadow,background-color] duration-150 group-hover/tab:bg-secondary group-focus-visible/tab:ring-2 group-focus-visible/tab:ring-ring/50 group-active/tab:bg-foreground/10 [&_svg]:size-5 [&_svg]:shrink-0"
+              className="relative flex h-7 w-12 items-center justify-center rounded-full transition-[box-shadow,background-color] duration-150 group-hover/tab:bg-secondary group-focus-visible/tab:ring-2 group-focus-visible/tab:ring-ring group-active/tab:bg-foreground/10 [&_svg]:size-5 [&_svg]:shrink-0"
             >
               {active && activeIcon ? activeIcon : icon}
               {showBadge && (

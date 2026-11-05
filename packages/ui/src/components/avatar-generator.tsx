@@ -195,7 +195,7 @@ function AvatarGenerator({
                   type="button"
                   aria-label={l10n.useSeed(seed)}
                   onClick={() => update({ seed, selections: {} })}
-                  className="cursor-pointer rounded-full outline-none transition-opacity duration-150 hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring/50"
+                  className="cursor-pointer rounded-full outline-none transition-opacity duration-150 hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <GeneratedAvatar
                     seed={seed}

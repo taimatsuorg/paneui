@@ -6,7 +6,7 @@ import { motion, useReducedMotion, type Variants } from "motion/react"
 /*
  * Staged entrance for a hero or page header: children marked <StaggerItem>
  * enter 100ms apart with opacity, 4px blur and 12px rise over 300ms ease-out.
- * Under reduced motion they only cross-fade.
+ * Under reduced motion they render in place.
  */
 
 const item: Variants = {
@@ -26,7 +26,8 @@ export function Stagger({ delay = 0, className, children }: { delay?: number; cl
     <ReduceContext.Provider value={reduce}>
       <motion.div
         className={className}
-        initial="hidden"
+        // reduced motion: start finished, so nothing waits on an animation to be readable
+        initial={reduce ? false : "hidden"}
         animate="visible"
         variants={{ visible: { transition: { staggerChildren: 0.1, delayChildren: delay } } }}
       >

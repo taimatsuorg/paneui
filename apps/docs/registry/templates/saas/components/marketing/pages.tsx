@@ -31,25 +31,27 @@ export function PricingPage() {
   return (
     <MarketingShell>
       <section className="py-20">
-        <Container className="flex flex-col items-center gap-10">
-          <Stagger className="flex flex-col items-center gap-3 text-center">
-            <StaggerItem>
-              <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">Pricing</h1>
-            </StaggerItem>
-            <StaggerItem>
-              <p className="max-w-xl text-lg text-pretty text-muted-foreground">
-                Start free on one seat. Upgrade when your team does. Every plan includes the sandbox, approvals and PR reviews.
-              </p>
-            </StaggerItem>
-          </Stagger>
-          <CycleToggle cycle={cycle} onCycleChange={setCycle} />
+        <Container className="flex flex-col gap-10">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <Stagger className="flex flex-col gap-3">
+              <StaggerItem>
+                <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">Pricing</h1>
+              </StaggerItem>
+              <StaggerItem>
+                <p className="max-w-xl text-lg text-pretty text-muted-foreground">
+                  Start free on one seat. Upgrade when your team does. Every plan includes the sandbox, approvals and PR reviews.
+                </p>
+              </StaggerItem>
+            </Stagger>
+            <CycleToggle cycle={cycle} onCycleChange={setCycle} />
+          </div>
           <PlanCards cycle={cycle} />
         </Container>
       </section>
 
-      <section aria-labelledby="compare" className="pb-4">
+      <section aria-labelledby="compare-title" className="pb-4">
         <Container className="flex flex-col gap-8">
-          <SectionHeading eyebrow="Compare" title="Every feature, side by side." />
+          <SectionHeading id="compare-title" title="Every feature, side by side." />
           <div className="overflow-x-auto rounded-xl bg-card shadow-raised">
             <table className="w-full min-w-xl text-sm">
               <caption id="compare" className="sr-only">
@@ -76,8 +78,8 @@ export function PricingPage() {
               </thead>
               {comparison.map((g) => (
                 <tbody key={g.group}>
-                  <tr className="bg-muted">
-                    <th scope="colgroup" colSpan={plans.length + 1} className="px-5 py-2 text-start text-xs font-medium text-muted-foreground">
+                  <tr className="border-t border-border">
+                    <th scope="colgroup" colSpan={plans.length + 1} className="px-5 pt-6 pb-2 text-start text-sm font-semibold">
                       {g.group}
                     </th>
                   </tr>
@@ -91,7 +93,7 @@ export function PricingPage() {
                         return (
                           <td key={p.id} className="px-5 py-3">
                             {v === true ? (
-                              <CheckIcon size={16} className="text-primary" aria-label="Included" />
+                              <CheckIcon size={16} className="text-primary-text" aria-label="Included" />
                             ) : v === false ? (
                               <MinusIcon size={16} className="text-muted-foreground/60" aria-label="Not included" />
                             ) : (
@@ -125,9 +127,9 @@ export function ChangelogPage() {
             <h1 className="text-4xl font-semibold tracking-tight text-balance">Changelog</h1>
             <p className="text-lg text-pretty text-muted-foreground">New in Tessel, newest first.</p>
           </div>
-          <ol className="flex flex-col">
+          <ol className="flex flex-col gap-16">
             {changelog.map((c) => (
-              <li key={c.version} className="grid grid-cols-1 gap-3 border-t border-border py-10 sm:grid-cols-[10rem_minmax(0,1fr)]">
+              <li key={c.version} className="grid grid-cols-1 gap-3 sm:grid-cols-[10rem_minmax(0,1fr)]">
                 <div className="flex flex-col gap-1">
                   <span className="text-sm font-medium tabular-nums">v{c.version}</span>
                   <time className="text-sm text-muted-foreground">{c.date}</time>

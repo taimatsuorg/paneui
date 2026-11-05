@@ -20,12 +20,16 @@ import { SearchIcon } from "@paneui/ui/icons"
 import { Badge } from "@paneui/ui/components/badge"
 import { BrandIcon, type BrandIconData } from "@paneui/ui/components/brand-icon"
 import { Button } from "@paneui/ui/components/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@paneui/ui/components/card"
-import { EmptyState, EmptyStateDescription, EmptyStateTitle } from "@paneui/ui/components/empty-state"
-import { IconChip } from "@paneui/ui/components/icon-chip"
+import { EmptyState, EmptyStateActions, EmptyStateDescription, EmptyStateTitle } from "@paneui/ui/components/empty-state"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@paneui/ui/components/input-group"
 import { SegmentedControl, SegmentedControlItem } from "@paneui/ui/components/segmented-control"
 import {
+  SettingsGroup,
+  SettingsRow,
+  SettingsRowControl,
+  SettingsRowDescription,
+  SettingsRowText,
+  SettingsRowTitle,
   SettingsSection,
   SettingsSectionDescription,
   SettingsSectionHeader,
@@ -59,7 +63,10 @@ const KINDS: { value: "all" | Kind; label: string }[] = [
   { value: "billing", label: "Billing" },
 ]
 
-/** `/dashboard/settings/integrations` */
+/**
+ * `/dashboard/settings/integrations`: one filter bar over two ruled lists, what is connected first and
+ * what is available after. Counts follow the filter; a filter with no match says so and offers a reset.
+ */
 export function IntegrationsSettings() {
   const toast = useToast()
   const [connected, setConnected] = React.useState<Set<string>>(() => new Set(["github", "linear", "sentry"]))
@@ -69,78 +76,109 @@ export function IntegrationsSettings() {
   const shown = INTEGRATIONS.filter(
     (i) => (kind === "all" || i.kind === kind) && (!q || i.icon.title.toLowerCase().includes(q) || i.description.toLowerCase().includes(q))
   )
+  const on = shown.filter((i) => connected.has(i.id))
+  const off = shown.filter((i) => !connected.has(i.id))
 
   const toggle = (i: Integration) => {
-    const on = connected.has(i.id)
+    const was = connected.has(i.id)
     setConnected((s) => {
       const next = new Set(s)
-      if (on) next.delete(i.id)
+      if (was) next.delete(i.id)
       else next.add(i.id)
       return next
     })
-    toast.add(on ? { title: `${i.icon.title} disconnected` } : { title: `${i.icon.title} connected`, type: "success" })
+    toast.add(was ? { title: `${i.icon.title} disconnected` } : { title: `${i.icon.title} connected`, type: "success" })
   }
 
+  const list = (items: Integration[]) => (
+    <SettingsGroup>
+      {items.map((i) => {
+        const isOn = connected.has(i.id)
+        return (
+          <SettingsRow key={i.id} className="flex-nowrap">
+            <span aria-hidden className="grid size-5 shrink-0 place-items-center">
+              <BrandIcon icon={i.icon} color="brand" />
+            </span>
+            <SettingsRowText className="flex-1">
+              <SettingsRowTitle>{i.icon.title}</SettingsRowTitle>
+              <SettingsRowDescription className="text-pretty">{i.description}</SettingsRowDescription>
+            </SettingsRowText>
+            <SettingsRowControl>
+              <Button size="sm" variant={isOn ? "ghost" : "outline"} onClick={() => toggle(i)} aria-label={`${isOn ? "Disconnect" : "Connect"} ${i.icon.title}`}>
+                {isOn ? "Disconnect" : "Connect"}
+              </Button>
+            </SettingsRowControl>
+          </SettingsRow>
+        )
+      })}
+    </SettingsGroup>
+  )
+
   return (
-    <SettingsSection>
-      <SettingsSectionHeader>
-        <SettingsSectionTitle>Integrations</SettingsSectionTitle>
-        <SettingsSectionDescription>Connect the tools your team already works in.</SettingsSectionDescription>
-      </SettingsSectionHeader>
-      <div className="flex flex-wrap items-center gap-3">
-        <InputGroup size="sm" className="min-w-48 flex-1 sm:max-w-64">
-          <InputGroupAddon>
-            <SearchIcon />
-          </InputGroupAddon>
-          <InputGroupInput value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search integrations" aria-label="Search integrations" />
-        </InputGroup>
-        <SegmentedControl size="sm" value={kind} onValueChange={(v) => setKind(v as "all" | Kind)} aria-label="Category">
-          {KINDS.map((k) => (
-            <SegmentedControlItem key={k.value} value={k.value}>
-              {k.label}
-            </SegmentedControlItem>
-          ))}
-        </SegmentedControl>
-      </div>
-      {shown.length ? (
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {shown.map((i) => {
-            const on = connected.has(i.id)
-            return (
-              <li key={i.id} className="flex">
-                <Card className="w-full">
-                  <CardHeader>
-                    <div className="flex items-center gap-3">
-                      <IconChip>
-                        <BrandIcon icon={i.icon} color="brand" />
-                      </IconChip>
-                      <CardTitle className="flex-1">{i.icon.title}</CardTitle>
-                      {on && (
-                        <Badge size="sm" variant="success">
-                          Connected
-                        </Badge>
-                      )}
-                    </div>
-                  </CardHeader>
-                  <CardContent className="flex-1">
-                    <CardDescription className="text-pretty">{i.description}</CardDescription>
-                  </CardContent>
-                  <CardFooter>
-                    <Button size="sm" variant={on ? "ghost" : "outline"} onClick={() => toggle(i)}>
-                      {on ? "Disconnect" : "Connect"}
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </li>
-            )
-          })}
-        </ul>
-      ) : (
-        <EmptyState variant="outline">
-          <EmptyStateTitle>No integrations found</EmptyStateTitle>
-          <EmptyStateDescription>Try another name or category.</EmptyStateDescription>
-        </EmptyState>
+    <>
+      <SettingsSection>
+        <SettingsSectionHeader>
+          <SettingsSectionTitle>Integrations</SettingsSectionTitle>
+          <SettingsSectionDescription>Connect the tools your team already works in.</SettingsSectionDescription>
+        </SettingsSectionHeader>
+        <div className="flex flex-wrap items-center gap-3">
+          <InputGroup size="sm" className="min-w-48 flex-1 sm:max-w-64">
+            <InputGroupAddon>
+              <SearchIcon />
+            </InputGroupAddon>
+            <InputGroupInput value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search integrations" aria-label="Search integrations" />
+          </InputGroup>
+          <SegmentedControl size="sm" value={kind} onValueChange={(v) => setKind(v as "all" | Kind)} aria-label="Category">
+            {KINDS.map((k) => (
+              <SegmentedControlItem key={k.value} value={k.value}>
+                {k.label}
+              </SegmentedControlItem>
+            ))}
+          </SegmentedControl>
+        </div>
+        {shown.length === 0 && (
+          <EmptyState variant="outline">
+            <EmptyStateTitle>No integrations found</EmptyStateTitle>
+            <EmptyStateDescription>Try another name or category.</EmptyStateDescription>
+            <EmptyStateActions>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  setQuery("")
+                  setKind("all")
+                }}
+              >
+                Clear filters
+              </Button>
+            </EmptyStateActions>
+          </EmptyState>
+        )}
+      </SettingsSection>
+
+      {on.length > 0 && (
+        <SettingsSection aria-label="Connected">
+          <SettingsSectionHeader className="flex-row items-center gap-2">
+            <SettingsSectionTitle>Connected</SettingsSectionTitle>
+            <Badge size="sm" variant="success">
+              {on.length}
+            </Badge>
+          </SettingsSectionHeader>
+          {list(on)}
+        </SettingsSection>
       )}
-    </SettingsSection>
+
+      {off.length > 0 && (
+        <SettingsSection aria-label="Available">
+          <SettingsSectionHeader className="flex-row items-center gap-2">
+            <SettingsSectionTitle>Available</SettingsSectionTitle>
+            <Badge size="sm" variant="outline">
+              {off.length}
+            </Badge>
+          </SettingsSectionHeader>
+          {list(off)}
+        </SettingsSection>
+      )}
+    </>
   )
 }

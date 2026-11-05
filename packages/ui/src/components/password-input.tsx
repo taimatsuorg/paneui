@@ -49,7 +49,7 @@ function PasswordInput({ revealed: revealedProp, defaultRevealed = false, onReve
         aria-label={revealed ? labels.hidePassword : labels.showPassword}
         aria-pressed={revealed}
         className={cn(
-          "absolute top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center text-muted-foreground outline-none transition-colors duration-150 hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-64",
+          "absolute top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center text-muted-foreground outline-none transition-colors duration-150 hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-64",
           revealClass[size]
         )}
       >

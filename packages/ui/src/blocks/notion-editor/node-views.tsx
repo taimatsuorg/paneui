@@ -40,7 +40,7 @@ function CalloutView({ node, updateAttributes, editor }: ReactNodeViewProps) {
           contentEditable={false}
           aria-label={l10n.calloutStyle}
           className={cn(
-            "mt-px inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-inner-or-md text-base leading-none outline-none select-none hover:bg-foreground/6 focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-default disabled:hover:bg-transparent",
+            "mt-px inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-inner-or-md text-base leading-none outline-none select-none hover:bg-foreground/6 focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-default disabled:hover:bg-transparent",
             emojiFont
           )}
         >
@@ -82,7 +82,7 @@ function MdxBlockView({ node, updateAttributes, editor, selected }: ReactNodeVie
       data-type="mdx-block"
       className={cn(
         "my-2 overflow-hidden rounded-xl bg-code shadow-raised transition-[box-shadow] duration-150",
-        selected && "ring-2 ring-ring/50"
+        selected && "ring-2 ring-ring"
       )}
     >
       <div contentEditable={false} className="flex h-7 items-center gap-1.5 border-b border-border px-2.5 text-ui-xs text-muted-foreground select-none">

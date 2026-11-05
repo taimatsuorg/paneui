@@ -4,13 +4,12 @@ import * as React from "react"
 import { siCss, siGit, siJson, siMarkdown, siTypescript } from "simple-icons"
 
 import { TerminalSquareIcon } from "@paneui/ui/icons"
-import { Badge } from "@paneui/ui/components/badge"
 import { BrandIcon } from "@paneui/ui/components/brand-icon"
 import { Input } from "@paneui/ui/components/input"
 import { ScrollArea } from "@paneui/ui/components/scroll-area"
 import { Switch } from "@paneui/ui/components/switch"
 
-import { SidebarHeader } from "./sidebar-header"
+import { SectionLabel, SidebarHeader } from "./sidebar-header"
 
 type Extension = { id: string; name: string; summary: string; icon: React.ReactNode }
 
@@ -36,12 +35,7 @@ export function ExtensionsView() {
       <div className="shrink-0 px-3 pb-2">
         <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search extensions" aria-label="Search extensions" size="sm" />
       </div>
-      <div className="flex h-6 shrink-0 items-center gap-1.5 px-3 text-ui-xs font-semibold tracking-wide text-muted-foreground uppercase">
-        <span className="flex-1">Built-in</span>
-        <Badge size="sm">
-          <span className="tabular-nums">{list.length}</span>
-        </Badge>
-      </div>
+      <SectionLabel count={list.length}>Built-in</SectionLabel>
       <ScrollArea className="min-h-0 flex-1" viewportClassName="px-2 pb-3">
         <ul aria-label="Built-in extensions" className="flex flex-col gap-0.5">
           {list.map((e) => {

@@ -107,7 +107,7 @@ function checkCss(file, fix) {
   if (!/--primary:\s*color\(display-p3/.test(css))
     note("info", file, "no wide-gamut values: colours render in sRGB on P3 screens", "Reinstall the theme to add them.")
 
-  if (/"Inter Variable"/.test(css) && !sourceFiles.some((f) => /fonts\.css/.test(fs.readFileSync(f, "utf8"))) && !/fonts\.css/.test(css))
+  if (/"(?:Inter|Noto Sans) Variable"/.test(css) && !sourceFiles.some((f) => /fonts\.css/.test(fs.readFileSync(f, "utf8"))) && !/fonts\.css/.test(css))
     note("info", file, "the font stack names Inter, JetBrains Mono and Newsreader but nothing imports fonts.css", "Install the fonts item to self-host them, or keep the system-font fallback.")
 
   if (fix && css !== before) {

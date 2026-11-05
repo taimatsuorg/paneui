@@ -717,6 +717,13 @@ export const FolderIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const FolderOpenIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path {...line} d="M2.5 17V7.5A3.5 3.5 0 0 1 6 4h2.6a2 2 0 0 1 1.6.8l1 1.4a2 2 0 0 0 1.6.8H17a3 3 0 0 1 3 3v.5" />
+    <path {...line} d="M2.5 17l2.2-5.3A2.8 2.8 0 0 1 7.3 10H20a1.8 1.8 0 0 1 1.7 2.4l-1.8 5.6a3.6 3.6 0 0 1-3.4 2.5H6A3.5 3.5 0 0 1 2.5 17z" />
+  </Icon>
+);
+
 export const FolderFilledIcon = (p: IconProps) => (
   <Icon {...p}>
     <path {...fillShape} d="M2.5 7.5A3.5 3.5 0 0 1 6 4h2.6a2 2 0 0 1 1.6.8l1 1.4a2 2 0 0 0 1.6.8H18a3.5 3.5 0 0 1 3.5 3.5V17a3.5 3.5 0 0 1-3.5 3.5H6A3.5 3.5 0 0 1 2.5 17z" />
@@ -1028,5 +1035,19 @@ export const Heading2Icon = (p: IconProps) => (
 export const Heading3Icon = (p: IconProps) => (
   <Icon {...p}>
     <path {...line} d="M3.5 5.5v13M11.5 5.5v13M3.5 12h8M15.5 8.5h4.5l-2.6 3.6a3 3 0 11-2.2 5.6" />
+  </Icon>
+);
+export const LibraryIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect {...line} x="2.25" y="3" width="4.25" height="18" rx="1.75" />
+    <rect {...line} x="8.75" y="5.5" width="4.25" height="15.5" rx="1.75" />
+    <path {...line} d="M8.75 10h4.25" />
+    <path {...line} d="M16.27 4.07L17.05 3.90A1.6 1.6 0 0 1 18.95 5.13L21.81 18.63A1.6 1.6 0 0 1 20.58 20.53L19.80 20.70A1.6 1.6 0 0 1 17.90 19.46L15.03 5.97A1.6 1.6 0 0 1 16.27 4.07z" />
+  </Icon>
+);
+export const PlugIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path {...line} d="M9 2.5v4M15 2.5v4M12 17v4.5" />
+    <path {...line} d="M7.5 6.5h9A1.5 1.5 0 0 1 18 8v3a6 6 0 0 1-12 0V8a1.5 1.5 0 0 1 1.5-1.5z" />
   </Icon>
 );

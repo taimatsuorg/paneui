@@ -54,7 +54,7 @@ function NavigationMenuItem(props: NavigationMenuPrimitive.Item.Props) {
 }
 
 const triggerClass =
-  "inline-flex h-8 cursor-pointer items-center gap-1 rounded-lg px-3 text-ui font-medium text-foreground outline-none select-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 data-popup-open:bg-secondary"
+  "inline-flex h-8 cursor-pointer items-center gap-1 rounded-lg px-3 text-ui font-medium text-foreground outline-none select-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring data-popup-open:bg-secondary"
 
 function NavigationMenuTrigger({ className, children, ...props }: NavigationMenuPrimitive.Trigger.Props) {
   return (
@@ -89,7 +89,7 @@ const linkVariants = {
     "flex flex-col gap-0.5 rounded-inner px-2.5 py-2 text-ui outline-none hover:bg-secondary focus-visible:bg-secondary data-active:bg-foreground/6 [&>span+span]:text-ui-sm [&>span+span]:text-muted-foreground [&>span:first-child]:font-medium",
   trigger: triggerClass,
   // Section tabs in a header: full height, a 2px bar on the bottom edge under the active one.
-  tab: "relative flex h-full items-center rounded-md px-2.5 text-ui font-medium text-muted-foreground outline-none transition-colors duration-150 after:absolute after:inset-x-2.5 after:-bottom-px after:h-0.5 after:rounded-full hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset data-active:text-foreground data-active:after:bg-foreground",
+  tab: "relative flex h-full items-center rounded-md px-2.5 text-ui font-medium text-muted-foreground outline-none transition-colors duration-150 after:absolute after:inset-x-2.5 after:-bottom-px after:h-0.5 after:rounded-full hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset data-active:text-foreground data-active:after:bg-foreground",
 } as const
 
 /**

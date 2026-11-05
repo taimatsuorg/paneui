@@ -282,7 +282,7 @@ function DateRangePickerTrigger({
       data-slot="date-range-picker-trigger"
       data-placeholder={!text || undefined}
       className={cn(
-        "inline-flex h-8 min-w-56 cursor-pointer items-center gap-2 rounded-lg bg-card px-2.5 text-ui text-secondary-foreground shadow-raised transition-[box-shadow,background-color,scale] duration-150 ease-out outline-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 data-popup-open:bg-accent",
+        "inline-flex h-8 min-w-56 cursor-pointer items-center gap-2 rounded-lg bg-card px-2.5 text-ui text-secondary-foreground shadow-raised transition-[box-shadow,background-color,scale] duration-150 ease-out outline-none hover:bg-accent hover:shadow-raised-hover focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-popup-open:bg-accent",
         className
       )}
       {...props}
@@ -311,7 +311,7 @@ function DateRangePickerContent({ className, align = "start", ...props }: React.
 /* ─────────────────────────── calendar ─────────────────────────── */
 
 const navButton =
-  "inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-35"
+  "inline-flex size-8 cursor-pointer items-center justify-center rounded-control text-muted-foreground transition-[background-color,color,scale] duration-150 ease-out outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-35"
 
 /** Header (month names + prev/next) and one grid per visible month. */
 function DateRangePickerCalendar({ className, ...props }: React.ComponentProps<"div">) {
@@ -531,13 +531,13 @@ function DateRangePickerGrid({
                       onFocus={() => range.from && !range.to && setHovered(d)}
                       onKeyDown={(e) => onKeyDown(e, d)}
                       className={cn(
-                        "relative z-10 inline-flex size-9 cursor-pointer items-center justify-center rounded-full tabular-nums outline-none transition-[background-color,color,box-shadow,scale] duration-150",
-                        "hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50",
+                        "relative z-10 inline-flex size-9 cursor-pointer items-center justify-center rounded-control tabular-nums outline-none transition-[background-color,color,box-shadow,scale] duration-150",
+                        "hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring",
                         "data-outside:text-muted-foreground/60 data-in-range:hover:bg-primary/12",
                         "data-preview-end:shadow-[inset_0_0_0_1.5px_var(--primary)] data-preview-end:hover:bg-primary/12",
                         "data-selected:bg-primary data-selected:font-semibold data-selected:text-primary-foreground data-selected:shadow-primary data-selected:hover:bg-primary",
                         "disabled:cursor-not-allowed disabled:text-muted-foreground/40 disabled:line-through disabled:hover:bg-transparent",
-                        "aria-[current=date]:not-data-selected:font-semibold aria-[current=date]:not-data-selected:text-primary",
+                        "aria-[current=date]:not-data-selected:font-semibold aria-[current=date]:not-data-selected:text-primary-text",
                         "motion-reduce:transition-none"
                       )}
                     >
@@ -619,7 +619,7 @@ function DateRangePickerClear({ className, children: childrenProp, onClick, ...p
         if (!e.defaultPrevented) clear()
       }}
       className={cn(
-        "inline-flex h-8 cursor-pointer items-center rounded-lg px-3 text-ui-sm font-medium text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-40",
+        "inline-flex h-8 cursor-pointer items-center rounded-lg px-3 text-ui-sm font-medium text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40",
         className
       )}
       {...props}
@@ -670,7 +670,7 @@ function DateRangePickerPreset({
         }
       }}
       className={cn(
-        "inline-flex h-8 cursor-pointer items-center rounded-lg px-3 text-start text-ui-sm font-medium whitespace-nowrap text-muted-foreground transition-[background-color,color,box-shadow] outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+        "inline-flex h-8 cursor-pointer items-center rounded-lg px-3 text-start text-ui-sm font-medium whitespace-nowrap text-muted-foreground transition-[background-color,color,box-shadow] outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
         "aria-pressed:bg-card aria-pressed:text-foreground aria-pressed:shadow-raised",
         className
       )}

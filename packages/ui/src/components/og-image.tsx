@@ -1,5 +1,7 @@
 import type * as React from "react"
 
+import { meshGradient, seedPalette } from "@paneui/ui/lib/seed-palette"
+
 /*
  * Share images for pages, drawn for the JSX-to-PNG renderer behind `ImageResponse` (next/og):
  * inline styles, flexbox only, fixed sizes on every text box, sRGB hex colours, no hooks, context,
@@ -46,21 +48,21 @@ const OG_IMAGE_TOKENS = {
       foreground: "#202020",
       mutedForeground: "#646464",
       border: "#e8e8e8",
-      primary: "#0090ff",
+      primary: "#0075d2",
       primaryForeground: "#ffffff",
-      primarySubtle: "#e6f4fe",
-      primaryBorder: "#acd8fc"
+      primarySubtle: "#e6f1fa",
+      primaryBorder: "#add3f1"
     },
     dark: {
       background: "#0b0b0b",
       card: "#111111",
       foreground: "#eeeeee",
-      mutedForeground: "#b2b2b2",
+      mutedForeground: "#9d9d9d",
       border: "#252525",
-      primary: "#0090ff",
+      primary: "#0075d2",
       primaryForeground: "#ffffff",
-      primarySubtle: "#092443",
-      primaryBorder: "#0d4a84"
+      primarySubtle: "#091c2b",
+      primaryBorder: "#06385f"
     }
   },
   neutral: {
@@ -79,12 +81,12 @@ const OG_IMAGE_TOKENS = {
       background: "#0b0b0b",
       card: "#111111",
       foreground: "#eeeeee",
-      mutedForeground: "#b2b2b2",
+      mutedForeground: "#9d9d9d",
       border: "#252525",
       primary: "#f3f3f3",
       primaryForeground: "#000000",
       primarySubtle: "#1c1c1c",
-      primaryBorder: "#353535"
+      primaryBorder: "#343434"
     }
   },
   green: {
@@ -94,21 +96,21 @@ const OG_IMAGE_TOKENS = {
       foreground: "#202020",
       mutedForeground: "#646464",
       border: "#e8e8e8",
-      primary: "#30a46c",
+      primary: "#008652",
       primaryForeground: "#ffffff",
-      primarySubtle: "#e6f6eb",
-      primaryBorder: "#adddc0"
+      primarySubtle: "#e6f3ee",
+      primaryBorder: "#add8c8"
     },
     dark: {
       background: "#0b0b0b",
       card: "#111111",
       foreground: "#eeeeee",
-      mutedForeground: "#b2b2b2",
+      mutedForeground: "#9d9d9d",
       border: "#252525",
-      primary: "#30a46c",
+      primary: "#008652",
       primaryForeground: "#ffffff",
-      primarySubtle: "#0e281c",
-      primaryBorder: "#1c533a"
+      primarySubtle: "#091f16",
+      primaryBorder: "#063f29"
     }
   },
   orange: {
@@ -118,21 +120,21 @@ const OG_IMAGE_TOKENS = {
       foreground: "#202020",
       mutedForeground: "#646464",
       border: "#e8e8e8",
-      primary: "#f76b15",
+      primary: "#ce4700",
       primaryForeground: "#ffffff",
-      primarySubtle: "#ffefd6",
-      primaryBorder: "#ffc182"
+      primarySubtle: "#faede6",
+      primaryBorder: "#efc4ad"
     },
     dark: {
       background: "#0b0b0b",
       card: "#111111",
       foreground: "#eeeeee",
-      mutedForeground: "#b2b2b2",
+      mutedForeground: "#9d9d9d",
       border: "#252525",
-      primary: "#f76b15",
+      primary: "#ce4700",
       primaryForeground: "#ffffff",
-      primarySubtle: "#2e1909",
-      primaryBorder: "#623109"
+      primarySubtle: "#2a1509",
+      primaryBorder: "#5d2406"
     }
   },
   rose: {
@@ -142,21 +144,21 @@ const OG_IMAGE_TOKENS = {
       foreground: "#202020",
       mutedForeground: "#646464",
       border: "#e8e8e8",
-      primary: "#e93d82",
+      primary: "#d92b75",
       primaryForeground: "#ffffff",
-      primarySubtle: "#ffe9f0",
-      primaryBorder: "#f3bed1"
+      primarySubtle: "#fbeaf1",
+      primaryBorder: "#f3bbd3"
     },
     dark: {
       background: "#0b0b0b",
       card: "#111111",
       foreground: "#eeeeee",
-      mutedForeground: "#b2b2b2",
+      mutedForeground: "#9d9d9d",
       border: "#252525",
-      primary: "#e93d82",
+      primary: "#d92b75",
       primaryForeground: "#ffffff",
-      primarySubtle: "#331020",
-      primaryBorder: "#692241"
+      primarySubtle: "#2c101c",
+      primaryBorder: "#621838"
     }
   },
   violet: {
@@ -168,19 +170,19 @@ const OG_IMAGE_TOKENS = {
       border: "#e8e8e8",
       primary: "#6e56cf",
       primaryForeground: "#ffffff",
-      primarySubtle: "#f4f0fe",
-      primaryBorder: "#d4cafe"
+      primarySubtle: "#f0eefa",
+      primaryBorder: "#d1c9f0"
     },
     dark: {
       background: "#0b0b0b",
       card: "#111111",
       foreground: "#eeeeee",
-      mutedForeground: "#b2b2b2",
+      mutedForeground: "#9d9d9d",
       border: "#252525",
       primary: "#6e56cf",
       primaryForeground: "#ffffff",
-      primarySubtle: "#241b3f",
-      primaryBorder: "#433572"
+      primarySubtle: "#1b172a",
+      primaryBorder: "#352b5d"
     }
   }
 } as const satisfies Record<OgImageAccent, Record<OgImageMode, OgImageColors>>
@@ -211,65 +213,8 @@ function mixHex(color: string, base: string, alpha: number) {
   return `#${a.map((v, i) => Math.round(v * alpha + b[i] * (1 - alpha)).toString(16).padStart(2, "0")).join("")}`
 }
 
-/* Seed hash shared with ShaderBackground, so a seed gives the same colours everywhere. */
-function hashSeed(seed: string) {
-  let h = 0x811c9dc5
-  for (let i = 0; i < seed.length; i++) {
-    h ^= seed.charCodeAt(i)
-    h = Math.imul(h, 0x01000193)
-  }
-  return h >>> 0
-}
-function mix(h: number) {
-  h ^= h >>> 16
-  h = Math.imul(h, 0x85ebca6b)
-  h ^= h >>> 13
-  h = Math.imul(h, 0xc2b2ae35)
-  h ^= h >>> 16
-  return h >>> 0
-}
-function hslHex(h: number, s: number, l: number) {
-  const a = (s / 100) * Math.min(l / 100, 1 - l / 100)
-  const f = (n: number) => {
-    const k = (n + h / 30) % 12
-    const v = l / 100 - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))
-    return Math.round(v * 255).toString(16).padStart(2, "0")
-  }
-  return `#${f(0)}${f(8)}${f(4)}`
-}
-const SCHEMES = [
-  [0, 30, 60, 200],
-  [0, 150, 180, 330],
-  [0, 40, 180, 220],
-] as const
-const LIGHTS = [58, 72, 86, 66]
-
 /** The seeded palette ShaderBackground uses for `colors="random"`, as hex. */
-function ogPalette(seed: string, count = 4): string[] {
-  const h = mix(hashSeed(seed))
-  const hue = h % 360
-  const scheme = SCHEMES[(h >>> 9) % SCHEMES.length]
-  const sat = 68 + ((h >>> 12) % 20)
-  return Array.from({ length: count }, (_, i) => hslHex((hue + scheme[i % scheme.length] + Math.floor(i / scheme.length) * 15) % 360, Math.max(40, sat - i * 6), LIGHTS[i % LIGHTS.length]))
-}
-
-/**
- * A still frame of the mesh-gradient shader: soft colour fields over the first colour. The PNG
- * renderer has no WebGL, so blobs are radial gradients placed by the seed.
- */
-function meshLayers(colors: string[], seed: string) {
-  const h = mix(hashSeed(seed))
-  return colors
-    .slice(1)
-    .map((color, i) => {
-      const r = mix(h ^ Math.imul(i + 1, 0x9e3779b9))
-      const x = r % 101
-      const y = (r >>> 8) % 101
-      const size = 55 + ((r >>> 16) % 30)
-      return `radial-gradient(circle at ${x}% ${y}%, ${color} 0%, ${color}00 ${size}%)`
-    })
-    .reverse()
-}
+const ogPalette = seedPalette
 
 /** Resolves a `palette` prop to hex colours: given, seeded random, or the accent ramp. */
 function resolvePalette(palette: string[] | "random" | undefined, seed: string, c: OgImageColors) {
@@ -380,7 +325,7 @@ function OgImage({
       }}
     >
       {image && <img src={image} width={OG_IMAGE_WIDTH} height={OG_IMAGE_HEIGHT} alt="" style={{ ...full, objectFit: "cover" }} />}
-      {fields && <div style={{ ...full, backgroundColor: fields[0], backgroundImage: meshLayers(fields, seed ?? title).join(", ") }} />}
+      {fields && <div style={{ ...full, backgroundColor: fields[0], backgroundImage: meshGradient(fields, seed ?? title) }} />}
       {/* a wash from the text side, so titles stay readable over any picture or palette */}
       <div
         style={{
@@ -517,7 +462,7 @@ function OgCoverArt({ seed, image, palette, accent = "blue", mode = "light", col
       {image !== undefined ? (
         <img src={image} width={width} height={height} alt="" style={{ ...fill, objectFit: "cover" }} />
       ) : (
-        fields && <div style={{ ...fill, backgroundColor: fields[0], backgroundImage: meshLayers(fields, seed ?? "").join(", ") }} />
+        fields && <div style={{ ...fill, backgroundColor: fields[0], backgroundImage: meshGradient(fields, seed ?? "") }} />
       )}
     </div>
   )

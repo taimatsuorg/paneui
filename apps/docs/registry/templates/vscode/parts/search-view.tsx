@@ -65,8 +65,8 @@ function Toggle({ label, pressed, onClick, children }: { label: string; pressed:
       aria-pressed={pressed}
       onClick={onClick}
       className={cn(
-        "flex h-5 min-w-5 items-center justify-center rounded-sm px-1 font-mono text-ui-xs text-muted-foreground transition-colors duration-150 outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
-        pressed && "bg-primary-subtle text-primary hover:bg-primary-subtle-hover hover:text-primary"
+        "flex h-5 min-w-5 items-center justify-center rounded-sm px-1 font-mono text-ui-xs text-muted-foreground transition-colors duration-150 outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
+        pressed && "bg-primary-subtle text-primary-text hover:bg-primary-subtle-hover hover:text-primary-text"
       )}
     >
       {children}
@@ -142,7 +142,7 @@ export function SearchView({
           aria-label={showReplace ? "Hide replace" : "Show replace"}
           aria-expanded={showReplace}
           onClick={() => setShowReplace((s) => !s)}
-          className="flex w-4 shrink-0 items-start justify-center rounded-sm pt-2 text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+          className="flex w-4 shrink-0 items-start justify-center rounded-sm pt-2 text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
         >
           <ChevronRightIcon className={cn("size-3 transition-transform duration-150 rtl:-scale-x-100", showReplace && "rotate-90 rtl:-rotate-90")} />
         </button>
@@ -182,7 +182,7 @@ export function SearchView({
       </div>
 
       {pattern === "invalid" ? (
-        <p className="px-4 text-ui-sm text-destructive">That regular expression is not valid.</p>
+        <p className="px-4 text-ui-sm text-destructive-text">That regular expression is not valid.</p>
       ) : found ? (
         <p className="shrink-0 px-4 pb-1.5 text-ui-xs text-muted-foreground tabular-nums">
           {found.total === 0
@@ -209,7 +209,7 @@ export function SearchView({
                       return next
                     })
                   }
-                  className="flex h-6 w-full items-center gap-1.5 rounded-sm px-1 text-start text-ui outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset"
+                  className="flex h-6 w-full items-center gap-1.5 rounded-sm px-1 text-start text-ui outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
                 >
                   <ChevronRightIcon className={cn("size-3 shrink-0 text-muted-foreground transition-transform duration-150 rtl:-scale-x-100", open && "rotate-90 rtl:-rotate-90")} />
                   <span className={cn("flex size-4 shrink-0 items-center justify-center", kind.className)}>{kind.icon}</span>
@@ -226,7 +226,7 @@ export function SearchView({
                           <button
                             type="button"
                             onClick={() => onOpenMatch(path, m.line, m.column, m.length)}
-                            className="flex h-6 w-full items-center gap-2 rounded-sm pr-1 pl-8 text-start font-mono text-ui-sm whitespace-pre text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset"
+                            className="flex h-6 w-full items-center gap-2 rounded-sm pr-1 pl-8 text-start font-mono text-ui-sm whitespace-pre text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
                           >
                             <span className="min-w-0 flex-1 truncate">
                               {m.start > 0 && "…"}

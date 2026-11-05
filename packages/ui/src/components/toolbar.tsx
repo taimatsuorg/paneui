@@ -21,7 +21,7 @@ const toolbarVariants = cva("flex items-center gap-0.5 outline-none data-[orient
 })
 
 const toolbarItemClass =
-  "inline-flex h-7 min-w-7 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-inner px-1.5 data-[size=label]:gap-1 data-[size=label]:px-2 text-ui font-medium whitespace-nowrap text-muted-foreground outline-none select-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 data-disabled:pointer-events-none data-disabled:opacity-64 data-pressed:bg-foreground/8 data-pressed:text-foreground aria-expanded:bg-secondary aria-expanded:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+  "inline-flex h-7 min-w-7 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-inner px-1.5 data-[size=label]:gap-1 data-[size=label]:px-2 text-ui font-medium whitespace-nowrap text-muted-foreground outline-none select-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring data-disabled:pointer-events-none data-disabled:opacity-64 data-pressed:bg-foreground/8 data-pressed:text-foreground aria-expanded:bg-secondary aria-expanded:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 
 function Toolbar({ className, variant, ...props }: ToolbarPrimitive.Root.Props & VariantProps<typeof toolbarVariants>) {
   return (
@@ -76,7 +76,7 @@ function ToolbarLink({ className, ...props }: ToolbarPrimitive.Link.Props) {
   return (
     <ToolbarPrimitive.Link
       data-slot="toolbar-link"
-      className={cn(toolbarItemClass, "text-primary hover:text-primary", className)}
+      className={cn(toolbarItemClass, "text-primary-text hover:text-primary-text", className)}
       {...props}
     />
   )

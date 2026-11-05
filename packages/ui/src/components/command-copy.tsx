@@ -18,7 +18,7 @@ import { Tabs, TabsList, TabsPanel, TabsTab } from "@paneui/ui/components/tabs"
 const commandCopyVariants = cva("flex w-full min-w-0 items-center text-card-foreground", {
   variants: {
     variant: {
-      default: "bg-card shadow-raised",
+      default: "bg-code shadow-raised",
       floating: "bg-card/80 shadow-xl backdrop-blur-xl",
       /** Inside a `CommandGroup`: the group owns the frame, the row is just the command line. */
       plain: "bg-transparent",
@@ -26,7 +26,7 @@ const commandCopyVariants = cva("flex w-full min-w-0 items-center text-card-fore
     size: {
       // The ghost button sits 6px from the bar's edge, so its corners follow the bar's.
       default: "frame-xl frame-inset-1.5 h-10 gap-2 ps-3 pe-1.5 text-ui",
-      lg: "h-14 gap-3 rounded-full ps-4 pe-2 text-ui-sm sm:ps-6 sm:text-ui-lg",
+      lg: "h-14 gap-3 rounded-control ps-4 pe-2 text-ui-sm sm:ps-6 sm:text-ui-lg",
     },
   },
   compoundVariants: [
@@ -105,13 +105,12 @@ function CommandCopy({
       <Button
         data-slot="command-copy-button"
         variant={lg ? "inverse" : "ghost"}
-        shape={lg ? "pill" : "default"}
-        size={lg ? "icon-lg" : "icon-sm"}
+                size={lg ? "icon-lg" : "icon-sm"}
         aria-label={copied ? labels.copied : (label ?? labels.copyCommand)}
         onClick={async () => {
           if (await copy(command)) onCopy?.(command)
         }}
-        className={cn(lg ? "size-10" : "rounded-inner text-muted-foreground hover:text-foreground")}
+        className={cn(lg ? "size-10 rounded-[max(calc(var(--radius-control)-var(--spacing)*2),1px)]" : "rounded-inner text-muted-foreground hover:text-foreground")}
       >
         <ActionSwapBlurIcon value={copied ? "copied" : "copy"}>
           {/* Full strength: the glyph is the whole button. */}
@@ -213,7 +212,7 @@ function CommandGroup({
   return (
     <div
       data-slot="command-group"
-      className={cn("frame-xl frame-inset-1.5 overflow-hidden bg-card text-ui text-card-foreground shadow-raised", className)}
+      className={cn("frame-xl frame-inset-1.5 overflow-hidden bg-code text-ui text-card-foreground shadow-raised", className)}
       {...props}
     >
       <Tabs value={active.value} onValueChange={(v) => select(String(v))} className="gap-0">

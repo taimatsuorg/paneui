@@ -9,7 +9,7 @@
   "files": [
     {
       "path": "app/theme-radii.css",
-      "content": "/*\n * Radius presets, switched at runtime with data-radius on <html> (no attribute = default).\n * Generated from the theme-radius-<name> registry items; import after the theme.\n */\n\nhtml[data-radius=\"none\"] {\n  --radius: 0rem;\n}\n\nhtml[data-radius=\"sm\"] {\n  --radius: 0.375rem;\n}\n\nhtml[data-radius=\"default\"] {\n  --radius: 0.5rem;\n}\n\nhtml[data-radius=\"lg\"] {\n  --radius: 0.625rem;\n}\n\nhtml[data-radius=\"xl\"] {\n  --radius: 0.875rem;\n}\n",
+      "content": "/*\n * Radius presets, switched at runtime with data-radius on <html> (no attribute = default).\n * Generated from the theme-radius-<name> registry items; import after the theme.\n */\n\nhtml[data-radius=\"none\"] {\n  --radius: 0rem;\n}\n\nhtml[data-radius=\"sm\"] {\n  --radius: 0.25rem;\n}\n\nhtml[data-radius=\"default\"] {\n  --radius: 0.5rem;\n}\n\nhtml[data-radius=\"lg\"] {\n  --radius: 0.6875rem;\n}\n\nhtml[data-radius=\"xl\"] {\n  --radius: 0.875rem;\n}\n",
       "type": "registry:file",
       "target": "app/theme-radii.css"
     }

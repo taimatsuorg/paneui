@@ -3,26 +3,13 @@
 import { T } from "@/lib/site-locale"
 
 import { LocalizedText } from "@/components/docs/localized"
-import { DocHeading } from "@/components/docs/doc-heading"
-import { Code, GuidePage, TextLink } from "@/components/docs/guide-page"
+import { Code, GuidePage, GuideStep, TextLink } from "@/components/docs/guide-page"
 import { InstallCommand } from "@/components/docs/install-command"
 import { REGISTRY_NAME } from "@/lib/site-constants"
 import { StaticCode } from "@/components/site/static-code"
 import { SiteRoot, type SiteProps } from "@/components/site/site-root"
 import type { DocNav } from "@/lib/doc-types"
 import { Alert, AlertContent, AlertDescription, AlertIcon, AlertTitle } from "@paneui/ui/components/alert"
-
-function Step({ n, id, title, children }: { n: number; id: string; title: string; children: React.ReactNode }) {
-  return (
-    <section className="flex flex-col gap-3">
-      <DocHeading id={id} className="flex items-center gap-3 text-lg tracking-normal">
-        <span data-md-skip className="grid size-7 shrink-0 place-items-center rounded-full bg-card text-ui tabular-nums shadow-raised">{n}</span>
-        <LocalizedText text={title} />
-      </DocHeading>
-      <div className="flex flex-col gap-3 sm:pl-10">{children}</div>
-    </section>
-  )
-}
 
 export type InstallationData = { nav: DocNav; code: { config: string; usage: string } }
 
@@ -42,7 +29,8 @@ export default function InstallationPage({ site, data }: { site: SiteProps; data
       toc={toc}
       lede={{ en: "Install the theme, then add components.", zh: "安装主题，再添加组件。" }}
     >
-      <Alert variant="info" id="requirements" className="scroll-mt-20">
+      {/* A note in the reading column: it keeps the prose measure, the steps below keep the full width for code. */}
+      <Alert variant="info" id="requirements" className="max-w-xl scroll-mt-20">
         <AlertIcon />
         <AlertContent>
           <AlertTitle><LocalizedText text="Requirements" /></AlertTitle>
@@ -67,14 +55,14 @@ export default function InstallationPage({ site, data }: { site: SiteProps; data
         </AlertContent>
       </Alert>
 
-      <Step n={1} id="add-the-registry" title="Add the registry">
+      <GuideStep as="h2" n={1} id="add-the-registry" title="Add the registry">
         <p className="text-muted-foreground">
           <T en="Add the namespace to your components.json." zh="把命名空间添加到你的 components.json。" />
         </p>
         <StaticCode html={data.code.config} filename="components.json" language="json" />
-      </Step>
+      </GuideStep>
 
-      <Step n={2} id="install-the-theme" title="Install the theme">
+      <GuideStep as="h2" n={2} id="install-the-theme" title="Install the theme">
         <p className="text-muted-foreground">
           <T
             en="Every component reads the theme's tokens, so install it first, together with the icon set."
@@ -100,9 +88,9 @@ export default function InstallationPage({ site, data }: { site: SiteProps; data
           />
         </p>
         <InstallCommand args={`add @${REGISTRY_NAME}/theme-violet`} />
-      </Step>
+      </GuideStep>
 
-      <Step n={3} id="add-components" title="Add components">
+      <GuideStep as="h2" n={3} id="add-components" title="Add components">
         <InstallCommand args={`add @${REGISTRY_NAME}/button @${REGISTRY_NAME}/prompt-bar`} />
         <p className="text-muted-foreground">
           <T
@@ -110,9 +98,9 @@ export default function InstallationPage({ site, data }: { site: SiteProps; data
             zh="CLI 还会安装每个条目所依赖的组件和 npm 包。所有内容都以源码形式进入你的项目，可按需修改。"
           />
         </p>
-      </Step>
+      </GuideStep>
 
-      <Step n={4} id="use-them" title="Use them">
+      <GuideStep as="h2" n={4} id="use-them" title="Use them">
         <p className="text-muted-foreground">
           <T
             en="Import from the path your components.json aliases point to. Every component page lists its parts and props under API Reference."
@@ -134,7 +122,7 @@ export default function InstallationPage({ site, data }: { site: SiteProps; data
             }
           />
         </p>
-      </Step>
+      </GuideStep>
     </GuidePage>
     </SiteRoot>
   )

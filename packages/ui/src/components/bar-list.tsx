@@ -78,7 +78,7 @@ function BarList({ items, formatValue = (v) => String(v), sort = "desc", color =
                 {item.href ? (
                   <a
                     href={item.href}
-                    className="relative flex min-w-0 items-center gap-2 rounded-md px-2 text-ui outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring/50"
+                    className="relative flex min-w-0 items-center gap-2 rounded-md px-2 text-ui outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {label}
                   </a>

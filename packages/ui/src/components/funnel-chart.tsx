@@ -308,7 +308,7 @@ function FunnelChart({
                     <ChartTooltipRow
                       label={labels.dropOff}
                       value={
-                        <span className="text-destructive">
+                        <span className="text-destructive-text">
                           <ChartNumber
                             value={placed[active.index - 1].value - active.value}
                             format={(v) => `−${formatValue(v)}`}

@@ -61,9 +61,9 @@ type SwipeableListProps = {
 const toneClass: Record<SwipeTone, string> = {
   neutral: "bg-muted text-foreground",
   primary: "bg-primary text-primary-foreground",
-  success: "bg-success text-white",
-  warning: "bg-warning text-black/80",
-  destructive: "bg-destructive text-white",
+  success: "bg-success text-success-foreground",
+  warning: "bg-warning text-warning-foreground",
+  destructive: "bg-destructive text-destructive-foreground",
 }
 
 /*
@@ -200,7 +200,7 @@ function SwipeRow({ item, openSide, onOpen, onCommit, actionWidth, fullSwipe, re
               onClick={() => void commit(action, side)}
               className={cn(
                 "relative flex shrink-0 cursor-pointer flex-col items-center justify-center gap-1 overflow-hidden text-ui-xs font-medium outline-none",
-                "transition-[flex-grow,opacity,width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset disabled:opacity-50",
+                "transition-[flex-grow,opacity,width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset disabled:opacity-50",
                 "[&_svg]:size-4.5",
                 toneClass[action.tone ?? "neutral"],
                 // The edge action soaks up any over-drag so no empty rail ever shows behind it.
@@ -259,7 +259,7 @@ function SwipeRow({ item, openSide, onOpen, onCommit, actionWidth, fullSwipe, re
         data-slot="swipeable-list-surface"
         className={cn(
           "relative z-10 flex touch-pan-y items-center gap-3 rounded-2xl bg-card px-3.5 py-3 text-card-foreground outline-none select-none will-change-transform",
-          "focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
           hasActions && "cursor-grab active:cursor-grabbing",
           item.disabled && "opacity-60"
         )}

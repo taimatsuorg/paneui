@@ -80,7 +80,7 @@ const columns: TableColumn<LogEvent>[] = [
     width: 100,
     align: "right",
     sortable: true,
-    cell: (r) => <span className={r.latency > 800 ? "text-warning" : undefined}>{r.latency} ms</span>,
+    cell: (r) => <span className={r.latency > 800 ? "text-warning-text" : undefined}>{r.latency} ms</span>,
   },
 ]
 

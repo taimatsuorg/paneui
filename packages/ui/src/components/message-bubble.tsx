@@ -17,6 +17,13 @@ type MessageSide = "start" | "end"
  */
 const MessageSideContext = React.createContext<MessageSide | null>(null)
 
+/**
+ * Layout of the surrounding `MessageList`. In `flat` lists bubbles drop their
+ * surface and render as plain text under the sender's name.
+ */
+type MessageVariant = "bubble" | "flat"
+const MessageVariantContext = React.createContext<MessageVariant>("bubble")
+
 /** Set when a bubble lives inside a group, so its joined corners tighten. */
 const MessageBubbleGroupContext = React.createContext<MessageSide | null>(null)
 
@@ -27,7 +34,7 @@ function useMessageSide(align?: MessageSide): MessageSide {
 }
 
 const messageBubbleVariants = cva(
-  "relative w-fit max-w-full rounded-3xl px-4 py-2.5 text-ui-lg leading-relaxed wrap-break-word transition-[box-shadow,background-color,scale] duration-150 ease-out outline-none focus-visible:ring-2 focus-visible:ring-ring/50 [&_a]:underline [&_a]:underline-offset-2",
+  "relative w-fit max-w-full rounded-3xl px-4 py-2.5 text-ui-lg leading-relaxed wrap-break-word transition-[box-shadow,background-color,scale] duration-150 ease-out outline-none focus-visible:ring-2 focus-visible:ring-ring [&_a]:underline [&_a]:underline-offset-2",
   {
     variants: {
       tone: {
@@ -40,7 +47,7 @@ const messageBubbleVariants = cva(
         muted: "bg-muted text-foreground shadow-well",
         outline: "bg-transparent text-foreground shadow-[inset_0_0_0_1px_var(--border)]",
         destructive:
-          "bg-destructive/10 text-destructive shadow-[inset_0_0_0_1px_color-mix(in_oklch,var(--destructive),transparent_70%)]",
+          "bg-destructive/10 text-destructive-text shadow-[inset_0_0_0_1px_color-mix(in_oklch,var(--destructive),transparent_70%)]",
         ghost: "bg-transparent px-0 py-0 text-foreground shadow-none",
       },
       size: {
@@ -67,7 +74,9 @@ type MessageBubbleProps = useRender.ComponentProps<"div"> &
  */
 function MessageBubble({ className, tone, size, align, tail = true, render, ...props }: MessageBubbleProps) {
   const side = useMessageSide(align)
-  const grouped = React.useContext(MessageBubbleGroupContext) !== null
+  const flat = React.useContext(MessageVariantContext) === "flat"
+  const inGroup = React.useContext(MessageBubbleGroupContext) !== null
+  const grouped = inGroup && !flat
   const interactive = render !== undefined
 
   return useRender({
@@ -79,12 +88,15 @@ function MessageBubble({ className, tone, size, align, tail = true, render, ...p
         className: cn(
           messageBubbleVariants({ tone, size }),
           side === "end" ? "self-end" : "self-start",
-          tail && tone !== "ghost" && (side === "end" ? "rounded-br-md" : "rounded-bl-md"),
+          tail && !flat && tone !== "ghost" && (side === "end" ? "rounded-br-md" : "rounded-bl-md"),
           grouped && tone !== "ghost" && (side === "end"
               ? "[[data-slot=message-bubble]+&]:rounded-tr-md"
               : "[[data-slot=message-bubble]+&]:rounded-tl-md"),
           interactive &&
             "cursor-pointer text-start no-underline select-none active:scale-98",
+          flat &&
+            "self-start rounded-none bg-transparent px-0 py-0 text-ui-lg leading-relaxed shadow-none [&_a]:text-primary-text",
+          flat && (tone === "destructive" ? "text-destructive-text" : "text-foreground"),
           className
         ),
       },
@@ -173,7 +185,7 @@ function MessageBubbleCollapsible({
           aria-expanded={expanded}
           aria-controls={id}
           onClick={() => setExpanded((v) => !v)}
-          className="mt-1 inline-flex w-fit cursor-pointer items-center gap-1 rounded-full text-ui-sm font-medium opacity-75 outline-none hover:opacity-100 focus-visible:ring-2 focus-visible:ring-ring/50"
+          className="mt-1 inline-flex w-fit cursor-pointer items-center gap-1 rounded-control-sm text-ui-sm font-medium opacity-75 outline-none hover:opacity-100 focus-visible:ring-2 focus-visible:ring-ring"
         >
           {expanded ? lessLabel : moreLabel}
           <ChevronDownIcon
@@ -193,7 +205,9 @@ export {
   MessageBubbleGroup,
   MessageBubbleCollapsible,
   MessageSideContext,
+  MessageVariantContext,
   messageBubbleVariants,
+  type MessageVariant,
   type MessageSide,
   type MessageBubbleProps,
 }

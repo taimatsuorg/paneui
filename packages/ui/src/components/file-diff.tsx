@@ -227,7 +227,7 @@ function DiffStyleToggle({ value, onChange }: { value: FileDiffStyle; onChange: 
           aria-checked={value === style}
           onClick={() => onChange(style)}
           className={cn(
-            "h-6 cursor-pointer rounded-inner px-2 text-ui-xs font-medium text-muted-foreground transition-[background-color,color,box-shadow] duration-150 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+            "h-6 cursor-pointer rounded-inner px-2 text-ui-xs font-medium text-muted-foreground transition-[background-color,color,box-shadow] duration-150 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
             value === style && "bg-card text-foreground shadow-raised"
           )}
         >
@@ -467,11 +467,11 @@ function FileDiff<A = undefined>({
       <div className={cn("flex items-center gap-1 px-1.5", variant === "card" ? "h-10" : "h-9")}>
         <CollapsiblePrimitive.Trigger
           data-slot="file-diff-trigger"
-          className="group/trigger flex h-7 min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-lg px-2 text-start outline-none select-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50"
+          className="group/trigger flex h-7 min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-lg px-2 text-start outline-none select-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring"
         >
           {variant === "card" && <ChevronDownIcon className="size-4 shrink-0 -rotate-90 text-muted-foreground transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-data-panel-open/trigger:rotate-0 motion-reduce:transition-none" />}
           {streaming ? (
-            <Loader size="sm" label={labels.writingChanges} className="size-4 text-primary" />
+            <Loader size="sm" label={labels.writingChanges} className="size-4 text-primary-text" />
           ) : (
             <FileIcon className="size-4 shrink-0 text-muted-foreground" />
           )}
@@ -480,8 +480,8 @@ function FileDiff<A = undefined>({
             <span className="font-medium text-foreground">{base}</span>
           </span>
           <span className="flex shrink-0 items-center gap-1.5 font-mono text-ui-sm tabular-nums">
-            {additions > 0 && <span className="text-success">+{additions}</span>}
-            {deletions > 0 && <span className="text-destructive">−{deletions}</span>}
+            {additions > 0 && <span className="text-success-text">+{additions}</span>}
+            {deletions > 0 && <span className="text-destructive-text">−{deletions}</span>}
             <span className="sr-only">{labels.diffStats(additions, deletions)}</span>
             {variant === "card" && <DiffStat additions={additions} deletions={deletions} />}
           </span>
@@ -493,7 +493,7 @@ function FileDiff<A = undefined>({
           <CollapsiblePrimitive.Trigger
             data-slot="file-diff-toggle"
             aria-label={open ? labels.hideChanges : labels.showChanges}
-            className="flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+            className="flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
           >
             <ChevronDownIcon className={cn("size-3.5 transition-transform duration-200 motion-reduce:transition-none", open && "rotate-180")} />
           </CollapsiblePrimitive.Trigger>

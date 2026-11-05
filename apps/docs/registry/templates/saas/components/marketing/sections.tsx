@@ -2,129 +2,127 @@
 
 import * as React from "react"
 
-import { ArrowRightIcon, BoltIcon, BotIcon, CheckIcon, EditIcon, ServerIcon, ShieldIcon, UsersIcon } from "@paneui/ui/icons"
+import { ArrowRightIcon, CheckIcon } from "@paneui/ui/icons"
 import { Accordion, AccordionItem, AccordionPanel, AccordionTrigger } from "@paneui/ui/components/accordion"
 import { Avatar, AvatarFallback } from "@paneui/ui/components/avatar"
 import { Badge } from "@paneui/ui/components/badge"
 import { Button } from "@paneui/ui/components/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardPanel, CardTitle } from "@paneui/ui/components/card"
-import { IconChip } from "@paneui/ui/components/icon-chip"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@paneui/ui/components/card"
 import { Marquee } from "@paneui/ui/components/marquee"
 import { NumberTicker } from "@paneui/ui/components/number-ticker"
 import { SegmentedControl, SegmentedControlItem } from "@paneui/ui/components/segmented-control"
-import { ShaderBackground } from "@paneui/ui/components/shader-background"
-import {
-  StatCard,
-  StatCardDelta,
-  StatCardFooter,
-  StatCardHeader,
-  StatCardLabel,
-  StatCardSparkline,
-  StatCardValue,
-} from "@paneui/ui/components/stat-card"
+import { StatCardDelta } from "@paneui/ui/components/stat-card"
 import { TextReveal } from "@paneui/ui/components/text-reveal"
 import { TrendChart } from "@paneui/ui/components/trend-chart"
 
-import { brand, faqs, features, kpis, logos, plans, revenue, revenueSeries, stats, testimonials, type FeatureId } from "../../lib/data"
+import { brand, faqs, features, kpis, logos, plans, revenue, revenueSeries, stats, testimonials } from "../../lib/data"
 import { AppLink, routes } from "../../lib/routes"
 import { initials } from "../providers"
 import { Container, SectionHeading } from "./marketing-shell"
 import { Stagger, StaggerItem } from "./stagger"
 
 const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })
+const compact = new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 })
 
 /* ───────────────────────── Hero ───────────────────────── */
 
+/**
+ * The headline runs the full measure; under it the pitch sits on the left and both actions on the
+ * right, then the product itself at full container width on a tinted band, so the first screen
+ * shows what you get.
+ */
 export function Hero() {
   return (
-    <section className="relative isolate overflow-hidden">
-      <ShaderBackground
-        variant="mesh-gradient"
-        speed={0.25}
-        aria-hidden
-        className="absolute inset-0 -z-10"
-        shaderClassName="opacity-35 dark:opacity-25"
-      />
-      <div aria-hidden className="absolute inset-0 -z-10 bg-linear-to-b from-background/40 via-background/70 to-background" />
-      <Container className="flex flex-col items-center gap-14 pt-20 pb-20 text-center sm:pt-28">
-        <div className="flex flex-col items-center gap-6">
-          <Stagger>
-            <StaggerItem>
-              <Badge variant="chip" size="sm" render={<AppLink href={routes.changelog} />}>
-                <BoltIcon />
-                New: reviews that cite the line
-                <ArrowRightIcon className="rtl:-scale-x-100" />
-              </Badge>
-            </StaggerItem>
-          </Stagger>
-          <TextReveal
-            as="h1"
-            text={brand.tagline}
-            stagger={0.08}
-            delay={0.1}
-            blur={4}
-            className="max-w-4xl text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-6xl sm:leading-none"
-          />
-          <Stagger delay={0.55} className="flex flex-col items-center gap-8">
-            <StaggerItem>
-              <p className="max-w-xl text-lg leading-relaxed text-pretty text-muted-foreground">{brand.description}</p>
-            </StaggerItem>
-            <StaggerItem className="flex flex-wrap items-center justify-center gap-3">
-              <Button size="lg" nativeButton={false} render={<AppLink href={routes.signup} />}>
-                Start free
-                <ArrowRightIcon className="rtl:-scale-x-100" data-icon="inline-end" />
-              </Button>
-              <Button size="lg" variant="secondary" nativeButton={false} render={<AppLink href={routes.pricing} />}>
-                See pricing
-              </Button>
-            </StaggerItem>
-            <StaggerItem>
-              <p className="text-sm text-muted-foreground">Free for one seat · No card needed · SOC 2 Type II</p>
-            </StaggerItem>
-          </Stagger>
-        </div>
-        <Stagger delay={0.9} className="w-full max-w-5xl">
-          <StaggerItem>
-            <ProductShot />
+    <section aria-labelledby="hero-title">
+      <Container className="grid grid-cols-1 items-end gap-8 pt-16 pb-12 sm:pt-24 lg:grid-cols-12 lg:gap-x-12 lg:pb-16">
+        <TextReveal
+          as="h1"
+          id="hero-title"
+          text={brand.tagline}
+          stagger={0.08}
+          delay={0.1}
+          blur={4}
+          className="max-w-5xl text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl lg:col-span-12 lg:text-6xl lg:leading-none"
+        />
+        <Stagger delay={0.45} className="grid grid-cols-1 items-end gap-6 lg:col-span-12 lg:grid-cols-12 lg:gap-x-12">
+          <StaggerItem className="lg:col-span-6">
+            <p className="text-lg leading-relaxed text-pretty text-muted-foreground">{brand.description}</p>
+          </StaggerItem>
+          <StaggerItem className="flex flex-wrap items-center gap-3 lg:col-span-6 lg:justify-end">
+            <Button size="lg" nativeButton={false} render={<AppLink href={routes.signup} />}>
+              Start free
+              <ArrowRightIcon className="rtl:-scale-x-100" data-icon="inline-end" />
+            </Button>
+            <Button size="lg" variant="secondary" nativeButton={false} render={<AppLink href={routes.pricing} />}>
+              See pricing
+            </Button>
+          </StaggerItem>
+          <StaggerItem className="lg:col-span-6 lg:col-start-7 lg:text-end">
+            <p className="text-sm text-muted-foreground">Free for one seat · No card needed · SOC 2 Type II</p>
           </StaggerItem>
         </Stagger>
       </Container>
+      <div className="bg-muted py-10 sm:py-14">
+        <Container>
+          <Stagger delay={0.8}>
+            <StaggerItem>
+              <ProductShot />
+            </StaggerItem>
+          </Stagger>
+        </Container>
+      </div>
     </section>
   )
 }
 
-/** A slice of the real dashboard, built from the same components, as the product shot. */
+/** A slice of the real dashboard, built from the same components: the KPI strip over the revenue chart. */
 function ProductShot() {
+  const shown = kpis.slice(0, 3)
   return (
-    <Card variant="inset" aria-hidden className="text-start">
-      <CardPanel className="gap-4 px-4">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          {kpis.slice(0, 3).map((k) => (
-            <StatCard key={k.id}>
-              <StatCardHeader>
-                <StatCardLabel>{k.label}</StatCardLabel>
+    <Card data-ui aria-hidden className="text-start">
+      <dl className="grid grid-cols-3 px-(--card-spacing)">
+        {shown.map((k, i) => (
+          <div key={k.id} className={i > 0 ? "flex min-w-0 flex-col gap-1 border-s border-border ps-4" : "flex min-w-0 flex-col gap-1 pe-4"}>
+            <dt className="truncate text-ui text-muted-foreground">{k.label}</dt>
+            <dd className="flex min-w-0 flex-wrap items-center gap-2">
+              <span className="text-xl font-semibold tracking-tight tabular-nums">{new Intl.NumberFormat("en-US", k.format).format(k.value)}</span>
+              <span className="max-sm:hidden">
                 <StatCardDelta value={k.delta} invert={k.invert} />
-              </StatCardHeader>
-              <StatCardFooter>
-                <StatCardValue>{new Intl.NumberFormat("en-US", k.format).format(k.value)}</StatCardValue>
-                <StatCardSparkline values={k.trend} animate={false} />
-              </StatCardFooter>
-            </StatCard>
-          ))}
-        </div>
-        <TrendChart series={revenueSeries} data={revenue} variant="area" stacked height={220} showLegend={false} formatValue={(v) => usd.format(v)} label="Revenue by plan" />
-      </CardPanel>
+              </span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <CardContent>
+        <TrendChart series={revenueSeries} data={revenue} variant="area" stacked height={260} showLegend={false} formatValue={(v) => usd.format(v)} label="Revenue by plan" />
+      </CardContent>
     </Card>
   )
 }
 
 /* ───────────────────────── Logos + stats ───────────────────────── */
 
+/** The numbers lead, set large on the left edge; the customer names run underneath. */
 export function LogoStrip() {
   return (
-    <section id="customers" aria-label="Customers" className="flex scroll-mt-20 flex-col gap-10 py-14">
-      <p className="text-center text-sm text-muted-foreground">Trusted by 2,400 engineering teams</p>
-      <Marquee duration={40} gap="3.5rem" repeat={3}>
+    <section id="customers" aria-labelledby="customers-title" className="flex scroll-mt-20 flex-col gap-12 py-20">
+      <Container className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+        <h2 id="customers-title" className="text-2xl leading-tight font-semibold tracking-tight text-balance lg:col-span-4">
+          Trusted by 2,400 engineering teams
+        </h2>
+        <dl className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:col-span-8">
+          {stats.map((s) => (
+            <div key={s.label} className="flex flex-col-reverse gap-1">
+              <dt className="text-sm text-muted-foreground">{s.label}</dt>
+              <dd className="flex items-baseline text-4xl font-semibold tracking-tight tabular-nums">
+                {s.value > 99999 ? compact.format(s.value) : s.value.toLocaleString("en-US")}
+                {s.suffix && <span className="text-lg text-muted-foreground">{s.suffix}</span>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </Container>
+      <Marquee duration={40} gap="3.5rem" repeat={3} aria-label="Customers">
         {logos.map((l) => (
           <span key={l} className="flex shrink-0 items-center gap-2 text-lg font-semibold whitespace-nowrap text-muted-foreground">
             <span aria-hidden className="size-4 rounded-md bg-muted-foreground/40" />
@@ -132,58 +130,34 @@ export function LogoStrip() {
           </span>
         ))}
       </Marquee>
-      <Container>
-        <dl className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-          {stats.map((s) => (
-            <div key={s.label} className="flex flex-col items-center gap-1 text-center">
-              <dt className="text-sm text-muted-foreground">{s.label}</dt>
-              <dd className="flex items-baseline text-3xl font-semibold tracking-tight tabular-nums">
-                <NumberTicker value={s.value} locale="en-US" format={{ notation: s.value > 99999 ? "compact" : "standard" }} />
-                {s.suffix && <span className="text-lg text-muted-foreground">{s.suffix}</span>}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </Container>
     </section>
   )
 }
 
 /* ───────────────────────── Features ───────────────────────── */
 
-const featureIcon: Record<FeatureId, React.ReactNode> = {
-  plan: <EditIcon />,
-  sandbox: <ServerIcon />,
-  review: <BotIcon />,
-  approve: <ShieldIcon />,
-  ci: <BoltIcon />,
-  team: <UsersIcon />,
-}
-
+/** The argument on the left, held in place while the six capabilities read down the right as a list. */
 export function Features() {
   return (
-    <section id="features" className="scroll-mt-20 border-y border-border bg-muted py-24">
-      <Container className="flex flex-col gap-12">
-        <SectionHeading
-          eyebrow="Why Tessel"
-          title="An agent you can hand real work to."
-          body="Autocomplete finishes your line. Tessel finishes the ticket, with a plan you can read and a diff you can trust."
-        />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((f) => (
-            <Card key={f.id} className="gap-4">
-              <CardHeader className="gap-4">
-                <IconChip size="lg" tone="neutral">
-                  {featureIcon[f.id]}
-                </IconChip>
-                <CardTitle className="text-base">{f.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm leading-relaxed text-pretty text-muted-foreground">{f.body}</p>
-              </CardContent>
-            </Card>
-          ))}
+    <section id="features" aria-labelledby="features-title" className="scroll-mt-20 bg-muted py-24">
+      <Container className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <div className="lg:sticky lg:top-24">
+            <SectionHeading
+              id="features-title"
+              title="An agent you can hand real work to."
+              body="Autocomplete finishes your line. Tessel finishes the ticket, with a plan you can read and a diff you can trust."
+            />
+          </div>
         </div>
+        <dl className="grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 lg:col-span-7">
+          {features.map((f) => (
+            <div key={f.id} className="flex flex-col gap-2">
+              <dt className="text-lg font-semibold text-balance">{f.title}</dt>
+              <dd className="text-base leading-relaxed text-pretty text-muted-foreground">{f.body}</dd>
+            </div>
+          ))}
+        </dl>
       </Container>
     </section>
   )
@@ -241,7 +215,7 @@ export function PlanCards({ cycle }: { cycle: Cycle }) {
                 <ul className="flex flex-col gap-2.5">
                   {p.perks.map((perk) => (
                     <li key={perk} className="flex items-start gap-2.5 text-sm">
-                      <CheckIcon size={16} className="mt-0.5 shrink-0 text-primary" />
+                      <CheckIcon size={16} className="mt-0.5 shrink-0 text-primary-text" />
                       {perk}
                     </li>
                   ))}
@@ -268,12 +242,14 @@ export function PlanCards({ cycle }: { cycle: Cycle }) {
 export function PricingSection() {
   const [cycle, setCycle] = React.useState<Cycle>("yearly")
   return (
-    <section id="pricing" className="scroll-mt-20 py-24">
-      <Container className="flex flex-col items-center gap-10">
-        <SectionHeading center eyebrow="Pricing" title="Simple pricing that scales with your team." body="Every plan includes the sandbox, approvals and PR reviews." />
-        <CycleToggle cycle={cycle} onCycleChange={setCycle} />
+    <section id="pricing" aria-labelledby="pricing-title" className="scroll-mt-20 py-24">
+      <Container className="flex flex-col gap-10">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <SectionHeading id="pricing-title" title="Simple pricing that scales with your team." body="Every plan includes the sandbox, approvals and PR reviews." />
+          <CycleToggle cycle={cycle} onCycleChange={setCycle} />
+        </div>
         <PlanCards cycle={cycle} />
-        <Button variant="link" nativeButton={false} render={<AppLink href={routes.pricing} />}>
+        <Button variant="link" className="self-start" nativeButton={false} render={<AppLink href={routes.pricing} />}>
           Compare every feature
           <ArrowRightIcon className="rtl:-scale-x-100" data-icon="inline-end" />
         </Button>
@@ -284,28 +260,42 @@ export function PricingSection() {
 
 /* ───────────────────────── Testimonials ───────────────────────── */
 
-export function Testimonials() {
+function Quoted({ name, role }: { name: string; role: string }) {
   return (
-    <section className="py-24">
+    <figcaption className="flex items-center gap-3">
+      <Avatar>
+        <AvatarFallback>{initials(name)}</AvatarFallback>
+      </Avatar>
+      <span className="flex flex-col leading-tight">
+        <span className="text-sm font-medium">{name}</span>
+        <span className="text-sm text-muted-foreground">{role}</span>
+      </span>
+    </figcaption>
+  )
+}
+
+/** One quote set large, the other two beside it at reading size. */
+export function Testimonials() {
+  const [lead, ...rest] = testimonials
+  return (
+    <section aria-labelledby="quotes-title" className="py-24">
       <Container className="flex flex-col gap-12">
-        <SectionHeading eyebrow="Customers" title="Teams that stopped babysitting their agent." />
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {testimonials.map((t) => (
-            <Card key={t.name} className="justify-between gap-6">
-              <CardContent>
+        <SectionHeading id="quotes-title" title="Teams that stopped babysitting their agent." />
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          {lead && (
+            <figure className="flex flex-col gap-6 lg:col-span-7">
+              <blockquote className="text-xl leading-snug font-medium tracking-tight text-balance sm:text-2xl">“{lead.quote}”</blockquote>
+              <Quoted name={lead.name} role={lead.role} />
+            </figure>
+          )}
+          <div className="flex flex-col gap-10 lg:col-span-5">
+            {rest.map((t) => (
+              <figure key={t.name} className="flex flex-col gap-4">
                 <blockquote className="text-base leading-relaxed text-pretty">“{t.quote}”</blockquote>
-              </CardContent>
-              <CardFooter className="gap-3">
-                <Avatar>
-                  <AvatarFallback>{initials(t.name)}</AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col leading-tight">
-                  <span className="text-sm font-medium">{t.name}</span>
-                  <span className="text-xs text-muted-foreground">{t.role}</span>
-                </div>
-              </CardFooter>
-            </Card>
-          ))}
+                <Quoted name={t.name} role={t.role} />
+              </figure>
+            ))}
+          </div>
         </div>
       </Container>
     </section>
@@ -316,10 +306,16 @@ export function Testimonials() {
 
 export function Faq() {
   return (
-    <section id="faq" className="scroll-mt-20 py-24">
-      <Container className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
-        <SectionHeading eyebrow="FAQ" title="Questions, answered." body={`Can't find what you need? Write to ${brand.supportEmail} and a human will reply within a day.`} />
-        <Accordion defaultValue={["data"]}>
+    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-20 py-24">
+      <Container className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <SectionHeading
+            id="faq-title"
+            title="Questions, answered."
+            body={`Can't find what you need? Write to ${brand.supportEmail} and a human will reply within a day.`}
+          />
+        </div>
+        <Accordion defaultValue={["data"]} className="lg:col-span-7">
           {faqs.map((f) => (
             <AccordionItem key={f.id} value={f.id}>
               <AccordionTrigger>{f.q}</AccordionTrigger>
@@ -332,28 +328,28 @@ export function Faq() {
   )
 }
 
+/** The close: a flat tinted field, the ask on the left and both actions on the right. */
 export function Cta() {
   return (
-    <section className="pb-24">
-      <Container>
-        <ShaderBackground
-          variant="mesh-gradient"
-          speed={0.3}
-          className="flex flex-col items-center gap-6 rounded-3xl px-6 py-20 text-center shadow-raised"
-          shaderClassName="opacity-40 dark:opacity-30"
-        >
-          <h2 className="max-w-xl text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-4xl">Give Tessel your next ticket.</h2>
-          <p className="max-w-md text-pretty text-muted-foreground">Install the GitHub app, point it at an issue and review the PR it opens. Free for one seat.</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Button size="lg" nativeButton={false} render={<AppLink href={routes.signup} />}>
-              Start free
-              <ArrowRightIcon className="rtl:-scale-x-100" data-icon="inline-end" />
-            </Button>
-            <Button size="lg" variant="secondary" nativeButton={false} render={<AppLink href={routes.login} />}>
-              Sign in
-            </Button>
-          </div>
-        </ShaderBackground>
+    <section aria-labelledby="cta-title" className="bg-muted py-20">
+      <Container className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12">
+        <div className="flex flex-col gap-4 lg:col-span-7">
+          <h2 id="cta-title" className="text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-4xl">
+            Give Tessel your next ticket.
+          </h2>
+          <p className="max-w-xl text-lg text-pretty text-muted-foreground">
+            Install the GitHub app, point it at an issue and review the PR it opens. Free for one seat.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
+          <Button size="lg" nativeButton={false} render={<AppLink href={routes.signup} />}>
+            Start free
+            <ArrowRightIcon className="rtl:-scale-x-100" data-icon="inline-end" />
+          </Button>
+          <Button size="lg" variant="secondary" nativeButton={false} render={<AppLink href={routes.login} />}>
+            Sign in
+          </Button>
+        </div>
       </Container>
     </section>
   )

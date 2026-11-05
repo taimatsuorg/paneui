@@ -220,7 +220,7 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
-      <IconChip size="xl" className="text-primary">
+      <IconChip size="xl" className="text-primary-text">
         <BotIcon />
       </IconChip>
       <div className="flex flex-col gap-1">
@@ -451,7 +451,7 @@ function ChatApp({
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                className="rounded-full bg-primary/10 px-2.5 py-0.5 text-ui-sm font-medium text-primary"
+                className="rounded-full bg-primary/10 px-2.5 py-0.5 text-ui-sm font-medium text-primary-text"
               >
                 {l10n.toolRunning}
               </motion.span>

@@ -64,7 +64,7 @@ function UserMenu({
       <MenuTrigger
         data-slot="user-menu"
         className={cn(
-          "flex min-w-0 cursor-pointer items-center rounded-inner text-start text-ui outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring/50 data-popup-open:bg-secondary",
+          "flex min-w-0 cursor-pointer items-center rounded-inner text-start text-ui outline-none hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring data-popup-open:bg-secondary",
           compact ? (variant === "compact" ? "size-8 justify-center" : "h-10 w-full justify-center") : "h-11 w-full gap-2.5 px-2",
           className
         )}

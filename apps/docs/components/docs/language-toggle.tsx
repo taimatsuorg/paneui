@@ -11,7 +11,7 @@ export function LanguageToggle() {
     <Menu>
       <MenuTrigger render={<Button variant="ghost" size="sm" aria-label={locale === "en" ? "Language: English" : "语言：简体中文"} />}>
         <GlobeIcon data-icon="inline-start" />
-        <span className="hidden sm:inline" lang={locale === "en" ? "en" : "zh-CN"}>{locale === "en" ? "English" : "简体中文"}</span>
+        <span className="hidden lg:inline" lang={locale === "en" ? "en" : "zh-CN"}>{locale === "en" ? "English" : "简体中文"}</span>
         <ChevronDownIcon data-icon="inline-end" />
       </MenuTrigger>
       <MenuContent align="end">
