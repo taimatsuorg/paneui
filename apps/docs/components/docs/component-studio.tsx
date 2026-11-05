@@ -10,6 +10,7 @@ import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible"
 import { ArrowLeftIcon, ArrowRightIcon, CheckIcon, ChevronRightIcon, CodeIcon, CopyIcon, EyeIcon, LinkIcon, XIcon } from "@paneui/ui/icons"
 import { cn } from "@paneui/ui/lib/utils"
 import { Button } from "@paneui/ui/components/button"
+import { isPanelCollapsed } from "@paneui/ui/components/collapsible"
 import { SegmentedControl, SegmentedControlItem } from "@paneui/ui/components/segmented-control"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@paneui/ui/components/tooltip"
 import { useToast } from "@paneui/ui/components/toast"
@@ -87,8 +88,31 @@ function CopyButton({ text, label }: { text: string | (() => string); label: str
   )
 }
 
+/**
+ * Whether a closed row's body should be in the page yet. Bodies arrive one at a time in idle
+ * time after the Code view shows (`order` staggers them), so switching views stays quick and a
+ * later click only animates a body that is already laid out.
+ */
+function useWarmBody(open: boolean, order: number) {
+  const [warm, setWarm] = React.useState(open)
+  React.useEffect(() => {
+    if (warm) return
+    let idle = 0
+    const timer = window.setTimeout(() => {
+      if ("requestIdleCallback" in window) idle = window.requestIdleCallback(() => setWarm(true), { timeout: 1000 })
+      else setWarm(true)
+    }, 200 + order * 120)
+    return () => {
+      window.clearTimeout(timer)
+      if (idle) window.cancelIdleCallback(idle)
+    }
+  }, [warm, order])
+  return warm || open
+}
+
 /** A white row on the stage: chevron and title open its body; the copy button sits outside the trigger. */
-function CodeRow({ row, open, onOpenChange, copyLabel }: { row: StudioCodeRow; open: boolean; onOpenChange: (open: boolean) => void; copyLabel: string }) {
+function CodeRow({ row, order, open, onOpenChange, copyLabel }: { row: StudioCodeRow; order: number; open: boolean; onOpenChange: (open: boolean) => void; copyLabel: string }) {
+  const warm = useWarmBody(open, order)
   return (
     <CollapsiblePrimitive.Root
       open={open}
@@ -99,7 +123,7 @@ function CodeRow({ row, open, onOpenChange, copyLabel }: { row: StudioCodeRow; o
       <CollapsiblePrimitive.Trigger className="group/row flex h-12 cursor-pointer items-center gap-2.5 rounded-inner ps-3.5 pe-12 text-start text-ui-lg font-medium text-foreground outline-none select-none focus-visible:ring-2 focus-visible:ring-ring">
         <ChevronRightIcon
           aria-hidden
-          className="size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-data-panel-open/row:rotate-90 motion-reduce:transition-none rtl:-scale-x-100 rtl:group-data-panel-open/row:-rotate-90"
+          className="size-4 shrink-0 text-muted-foreground transition-transform duration-150 ease-out group-data-panel-open/row:rotate-90 motion-reduce:transition-none rtl:-scale-x-100 rtl:group-data-panel-open/row:-rotate-90"
         />
         <LocalizedText text={row.title} />
       </CollapsiblePrimitive.Trigger>
@@ -108,9 +132,19 @@ function CodeRow({ row, open, onOpenChange, copyLabel }: { row: StudioCodeRow; o
           <CopyButton text={row.copy} label={copyLabel} />
         </div>
       )}
-      {/* The panel clips while it animates, so its body starts 2px down: the first sheet keeps its top hairline. */}
-      <CollapsiblePrimitive.Panel className="h-(--collapsible-panel-height) overflow-hidden transition-[height] duration-300 ease-out data-ending-style:h-0 data-starting-style:h-0 motion-reduce:transition-none">
-        <div className="flex min-w-0 flex-col gap-3 px-2 pt-0.5 pb-2">{row.body}</div>
+      {/* The panel clips while it animates, so its body starts 2px down: the first sheet keeps its top hairline.
+          Kept mounted and laid out while closed (zero height, invisible), so opening a row only animates its height. */}
+      <CollapsiblePrimitive.Panel
+        keepMounted
+        hidden={false}
+        className={(state) =>
+          cn(
+            "h-(--collapsible-panel-height) overflow-hidden transition-[height] duration-200 ease-out data-ending-style:h-0 data-starting-style:h-0 motion-reduce:transition-none",
+            isPanelCollapsed(state) && "invisible h-0"
+          )
+        }
+      >
+        {warm && <div className="flex min-w-0 flex-col gap-3 px-2 pt-0.5 pb-2">{row.body}</div>}
       </CollapsiblePrimitive.Panel>
     </CollapsiblePrimitive.Root>
   )
@@ -297,10 +331,11 @@ export function ComponentStudio({
             )
           ) : (
             <div className="flex min-w-0 flex-col gap-2">
-              {rows.map((row) => (
+              {rows.map((row, i) => (
                 <CodeRow
                   key={row.id === "code" ? `code-${sel.g}-${sel.id}` : `${sel.g}-${row.id}`}
                   row={row}
+                  order={i}
                   open={open.has(row.id)}
                   onOpenChange={(on) => toggleRow(row.id, on)}
                   copyLabel={label("Copy code")}
