@@ -37,7 +37,11 @@ export default {
   notes: [
     {
       title: "Motion",
-      body: { en: "The panel height eases open while the content fades in, slides down 4px and un-blurs; the chevron turns 180°. With reduced motion the panel opens instantly.", zh: "面板高度缓动展开，同时内容淡入、下滑 4px 并取消模糊；箭头旋转 180°。在减少动态效果下面板立即打开。" },
+      body: { en: "The panel height eases open in 200ms while the content fades in and slides down 4px; the chevron turns 180°. With reduced motion the panel opens instantly.", zh: "面板高度在 200ms 内缓动展开，同时内容淡入并下滑 4px；箭头旋转 180°。在减少动态效果下面板立即打开。" },
+    },
+    {
+      title: "Long content",
+      body: { en: "Add `keepMounted` to a panel with long content, such as a whole file. It stays laid out while closed, so a click only animates its height.", zh: "内容很长的面板（例如整份文件）加上 `keepMounted`。关闭时它仍保持布局，点击只需为高度做动画。" },
     },
   ],
   api: [
@@ -69,6 +73,7 @@ export default {
       extends: "Collapsible.Panel",
       extendsHref: "https://base-ui.com/react/components/collapsible#panel",
       props: [
+        { name: "keepMounted", type: "boolean", default: "false", description: { en: "Keep the content in the page while closed, laid out at zero height and invisible.", zh: "关闭时内容仍保留在页面中，以零高度、不可见的方式布局。" } },
         { name: "typeset", type: 'boolean | "docs" | "reading" | "chat"', default: "false", description: { en: "Turn prose styles back on for the panel content inside a `typeset` container, or name a preset when it stands alone.", zh: "在 `typeset` 容器内为面板内容重新启用 prose 样式，或单独使用时指定预设名称。" } },
       ],
       dataAttributes: [

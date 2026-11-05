@@ -61,8 +61,10 @@ export function AgentSkill({ name, skill, html }: { name: string; skill: string;
           </Button>
         </div>
         {/* The panel clips while it animates. The negative margin and matching padding give the
-            sheet's outer hairline room inside that clip, so it keeps its edge on the page colour. */}
-        <CollapsiblePanel className="-mx-1 -mb-1">
+            sheet's outer hairline room inside that clip, so it keeps its edge on the page colour.
+            keepMounted styles the long sheet with the page, so the click only animates height; the
+            Markdown copy of the page leaves the file out, as before. */}
+        <CollapsiblePanel keepMounted data-md-skip className="-mx-1 -mb-1">
           <div className="px-1 pt-2 pb-1">
             <CodeBlock html={html} maxHeight={480} copyable={false} />
           </div>
