@@ -33,6 +33,21 @@ const RAMP = /^[ \t]*--(?:color-)?accent-(?:50|[1-9]00|950):[^;]*;[ \t]*\n/gm
 const UNDASHED =
   /^[ \t]*(?:primary|primary-[a-z-]+|ring|destructive(?:-[a-z]+)?|success(?:-[a-z]+)?|warning(?:-[a-z]+)?|chart-[1-8]|shadow-lg):[^;]*;[ \t]*\n/gm
 
+/* Faces the fonts item installs, and faces earlier theme versions named that it no longer ships. */
+const SELF_HOSTED = ["Noto Sans", "Noto Sans SC", "JetBrains Mono", "Newsreader", "Noto Serif SC", "Source Serif 4"]
+const RETIRED_FACES = ["Inter"]
+
+/** The variable faces the --font-* stacks list, in stack order, without the " Variable" suffix. */
+function fontStackFaces(css) {
+  const names = []
+  for (const decl of css.matchAll(/--font-(?:sans|mono|serif|heading)\s*:([^;]*);/g))
+    for (const face of decl[1].matchAll(/["']([^"']+?) Variable["']/g))
+      if (!names.includes(face[1])) names.push(face[1])
+  return names
+}
+
+const listNames = (names) => (names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`)
+
 const fixedFiles = []
 
 function checkCss(file, fix) {
@@ -107,8 +122,15 @@ function checkCss(file, fix) {
   if (!/--primary:\s*color\(display-p3/.test(css))
     note("info", file, "no wide-gamut values: colours render in sRGB on P3 screens", "Reinstall the theme to add them.")
 
-  if (/"(?:Inter|Noto Sans) Variable"/.test(css) && !sourceFiles.some((f) => /fonts\.css/.test(fs.readFileSync(f, "utf8"))) && !/fonts\.css/.test(css))
-    note("info", file, "the font stack names Inter, JetBrains Mono and Newsreader but nothing imports fonts.css", "Install the fonts item to self-host them, or keep the system-font fallback.")
+  // Name the self-hosted faces the stacks actually list, so the note matches the installed theme version.
+  const stackFaces = fontStackFaces(css)
+  const hosted = stackFaces.filter((name) => SELF_HOSTED.includes(name))
+  if (hosted.length && !sourceFiles.some((f) => /fonts\.css/.test(fs.readFileSync(f, "utf8"))) && !/fonts\.css/.test(css))
+    note("info", file, `the font stack names ${listNames(hosted)} but nothing imports fonts.css`, "Install the fonts item to self-host them, or keep the system-font fallback.")
+  const retired = stackFaces.filter((name) => RETIRED_FACES.includes(name))
+  if (retired.length)
+    note("info", file, `the font stack still names ${listNames(retired)}, which the theme and fonts item no longer use`,
+      "Reinstall the theme for the current stacks: shadcn add <registry>/r/theme.json --overwrite")
 
   if (fix && css !== before) {
     fs.writeFileSync(abs, css)
