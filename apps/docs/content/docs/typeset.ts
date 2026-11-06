@@ -36,6 +36,10 @@ export default {
       body: { en: "Spacing only flows downward (`margin-block-start`), so a new block never restyles the ones above it.", zh: "间距只向下流动（`margin-block-start`），因此新块不会重新设置上方块的样式。" },
     },
     {
+      title: "Math",
+      body: { en: "Block math (`math[display=\"block\"]` or `.katex-display`) gets the wider block space and scrolls sideways when a formula is too wide. Inline `.katex` is set at 1.1em and takes the text colour, in both themes. Import the math renderer's stylesheet into a lower layer, such as `@import \"…\" layer(base);`, so these rules win.", zh: "块级公式（`math[display=\"block\"]` 或 `.katex-display`）使用较宽的块间距，公式过宽时横向滚动。行内 `.katex` 字号为 1.1em，并在两种主题下继承文字颜色。请把公式渲染器的样式表导入较低的层，例如 `@import \"…\" layer(base);`，以便这些规则生效。" },
+    },
+    {
       title: "Width",
       body: { en: "Typeset sets no max width; add `max-w-reading` (68ch) on the container.", zh: "Typeset 不设置最大宽度；在容器上添加 `max-w-reading`（68ch）。" },
     },

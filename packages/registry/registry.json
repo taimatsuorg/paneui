@@ -2923,6 +2923,29 @@
       }
     },
     {
+      "name": "banner",
+      "type": "registry:ui",
+      "title": "Banner",
+      "description": "Announces news in a bar above the site header.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/icons",
+        "@paneui/locale-provider"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/banner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Display"
+      }
+    },
+    {
       "name": "collapsible",
       "type": "registry:ui",
       "title": "Collapsible",
@@ -3444,6 +3467,55 @@
       "files": [
         {
           "path": "packages/ui/src/components/aspect-ratio.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Display"
+      }
+    },
+    {
+      "name": "image-zoom",
+      "type": "registry:ui",
+      "title": "Image Zoom",
+      "description": "Opens an image full size to zoom and pan.",
+      "dependencies": [
+        "@base-ui/react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/icons",
+        "@paneui/button",
+        "@paneui/locale-provider"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/image-zoom.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Display"
+      }
+    },
+    {
+      "name": "diagram",
+      "type": "registry:ui",
+      "title": "Diagram",
+      "description": "Frames a diagram drawn in the browser, with full-screen zoom.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/icons",
+        "@paneui/image-zoom",
+        "@paneui/locale-provider"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/diagram.tsx",
           "type": "registry:ui"
         }
       ],
@@ -4009,7 +4081,7 @@
       "name": "command-copy",
       "type": "registry:ui",
       "title": "Command Copy",
-      "description": "Shows a shell command with a button that copies it.",
+      "description": "Shows a command or prompt with a button that copies it.",
       "dependencies": [
         "class-variance-authority",
         "motion"

@@ -20,6 +20,7 @@ import d_aspect_ratio from "./aspect-ratio"
 import d_avatar from "./avatar"
 import d_avatar_generator from "./avatar-generator"
 import d_badge from "./badge"
+import d_banner from "./banner"
 import d_bar_list from "./bar-list"
 import d_bottom_sheet from "./bottom-sheet"
 import d_brand_icon from "./brand-icon"
@@ -40,6 +41,7 @@ import d_color_picker from "./color-picker"
 import d_combobox from "./combobox"
 import d_command from "./command"
 import d_command_copy from "./command-copy"
+import d_command_palette from "./command-palette"
 import d_comparison_table from "./comparison-table"
 import d_composition_chart from "./composition-chart"
 import d_context_menu from "./context-menu"
@@ -47,6 +49,7 @@ import d_cover_art from "./cover-art"
 import d_data_table from "./data-table"
 import d_date_picker from "./date-picker"
 import d_date_range_picker from "./date-range-picker"
+import d_diagram from "./diagram"
 import d_dialog from "./dialog"
 import d_digit_swap from "./digit-swap"
 import d_docs from "./docs"
@@ -64,6 +67,7 @@ import d_heat_calendar from "./heat-calendar"
 import d_hover_card from "./hover-card"
 import d_icon_chip from "./icon-chip"
 import d_image_generation from "./image-generation"
+import d_image_zoom from "./image-zoom"
 import d_input from "./input"
 import d_input_group from "./input-group"
 import d_input_otp from "./input-otp"
@@ -185,6 +189,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "avatar": d_avatar,
   "avatar-generator": d_avatar_generator,
   "badge": d_badge,
+  "banner": d_banner,
   "bar-list": d_bar_list,
   "bottom-sheet": d_bottom_sheet,
   "brand-icon": d_brand_icon,
@@ -205,6 +210,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "combobox": d_combobox,
   "command": d_command,
   "command-copy": d_command_copy,
+  "command-palette": d_command_palette,
   "comparison-table": d_comparison_table,
   "composition-chart": d_composition_chart,
   "context-menu": d_context_menu,
@@ -212,6 +218,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "data-table": d_data_table,
   "date-picker": d_date_picker,
   "date-range-picker": d_date_range_picker,
+  "diagram": d_diagram,
   "dialog": d_dialog,
   "digit-swap": d_digit_swap,
   "docs": d_docs,
@@ -229,6 +236,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "hover-card": d_hover_card,
   "icon-chip": d_icon_chip,
   "image-generation": d_image_generation,
+  "image-zoom": d_image_zoom,
   "input": d_input,
   "input-group": d_input_group,
   "input-otp": d_input_otp,
