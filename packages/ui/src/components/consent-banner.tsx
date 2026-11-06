@@ -171,7 +171,7 @@ function ConsentBanner({
       }}
       {...props}
     >
-      <p data-slot="consent-banner-text" className="m-0 text-ui text-pretty text-muted-foreground">
+      <p data-slot="consent-banner-text" className="m-0 text-ui text-pretty text-muted-foreground [&_code]:rounded-sm [&_code]:bg-muted [&_code]:px-1 [&_code]:py-px [&_code]:font-mono [&_code]:text-ui-sm [&_code]:text-foreground [&_strong]:font-medium [&_strong]:text-foreground">
         {children ?? <InlineMarkdown text={text ?? labels.consentText} linkClassName={policyLink} />}
         {policyHref && (
           <>

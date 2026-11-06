@@ -177,6 +177,9 @@ import ComparisonTableDemo from "@/registry/examples/comparison-table-demo"
 import SchemaTreeDemo from "@/registry/examples/schema-tree-demo"
 import ImageZoomDemo from "@/registry/examples/image-zoom-demo"
 import BannerDemo from "@/registry/examples/banner-demo"
+import BottomStackDemo from "@/registry/examples/bottom-stack-demo"
+import ConsentBannerDemo from "@/registry/examples/consent-banner-demo"
+import MediaBarDemo from "@/registry/examples/media-bar-demo"
 import DiagramDemo from "@/registry/examples/diagram-demo"
 import LocaleSwitcherDemo from "@/registry/examples/locale-switcher-demo"
 import VersionSwitcherDemo from "@/registry/examples/version-switcher-demo"
@@ -384,6 +387,9 @@ export const demos: Record<string, React.ComponentType> = {
   "schema-tree": SchemaTreeDemo,
   "image-zoom": ImageZoomDemo,
   "banner": BannerDemo,
+  "bottom-stack": BottomStackDemo,
+  "consent-banner": ConsentBannerDemo,
+  "media-bar": MediaBarDemo,
   "diagram": DiagramDemo,
   "locale-switcher": LocaleSwitcherDemo,
   "version-switcher": VersionSwitcherDemo,
