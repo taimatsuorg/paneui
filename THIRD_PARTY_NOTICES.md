@@ -100,6 +100,23 @@ licensed under the Apache License, Version 2.0 (https://www.apache.org/licenses/
 It is installed from npm as a dependency and not vendored or modified; the package ships no
 NOTICE file. Its full license text is in `node_modules/@pierre/diffs/LICENSE.md`.
 
+## @paper-design/shaders and @paper-design/shaders-react (runtime dependencies of `shader-background`)
+
+The `shader-background` item draws its animated backgrounds with `@paper-design/shaders-react`,
+which builds on `@paper-design/shaders` (https://shaders.paper.design). `cover-art` loads
+`shader-background` on demand for `renderer="shader"`; `og-image` does not use either package.
+Both are installed from npm as dependencies and not vendored or modified. They are licensed
+under the Apache License, Version 2.0 (https://www.apache.org/licenses/LICENSE-2.0); the full
+license text is in each package's `LICENSE` file. Both packages ship this NOTICE file:
+
+```
+Paper Shaders
+Copyright 2026 Paper
+
+Powered by Paper Shaders:
+https://shaders.paper.design
+```
+
 ## DiceBear and Notionists (generated avatars)
 
 `registry/base-nova/ui/generated-avatar.tsx` (and the `avatar-generator` registry item) draws its
