@@ -28,6 +28,7 @@ export default {
         { name: "position", type: `"bottom-right" | "bottom-left"`, default: `"bottom-right"`, description: { en: "Floating only. The corner.", zh: "仅浮动。所在角落。" } },
         { name: "strategy", type: `"absolute" | "fixed"`, default: `"absolute"`, description: { en: "Floating only. `fixed` pins to the viewport.", zh: "仅浮动。`fixed` 固定在视口上。" } },
         { name: "label", type: "ReactNode", description: { en: "Floating only. Trigger text.", zh: "仅浮动。触发按钮文字。" } },
+        { name: "bordered", type: "boolean", default: "true", description: { en: "Inline only. The rule above the question; turn it off when the next section already draws one.", zh: "仅内嵌。问题上方的分隔线；相邻区块已有分隔线时可关闭。" } },
         { name: "title", type: "ReactNode", description: { en: "Form heading; inline, the question.", zh: "表单标题；内嵌时为问题。" } },
         { name: "placeholder", type: "string", description: { en: "Note placeholder.", zh: "备注占位文字。" } },
         { name: "successTitle", type: "ReactNode", description: { en: "Shown after sending.", zh: "发送后显示。" } },
@@ -35,6 +36,7 @@ export default {
       ],
       dataAttributes: [
         { name: "data-placement", description: { en: "`floating` or `inline`.", zh: "`floating` 或 `inline`。" } },
+        { name: "data-bordered", description: { en: "Inline, while the top rule shows.", zh: "内嵌且显示顶部分隔线时。" } },
         { name: "data-state", description: { en: "`closed`, `open`, `sending`, `sent` or `error`.", zh: "`closed`、`open`、`sending`、`sent` 或 `error`。" } },
       ],
     },
