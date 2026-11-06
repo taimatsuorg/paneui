@@ -11,7 +11,7 @@ export default function LocaleSwitcherResponsive() {
     <div className="flex h-12 w-full max-w-md items-center gap-2 rounded-xl bg-background ps-4 pe-2 shadow-raised">
       <span className="text-ui font-semibold">Acme Docs</span>
       <span className="ms-auto">
-        <LocaleSwitcher locales={locales} value="ja" size="responsive" />
+        <LocaleSwitcher locales={locales} value="de" size="responsive" />
       </span>
     </div>
   )
