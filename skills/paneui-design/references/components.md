@@ -20,6 +20,9 @@
   `min-h-6.5 px-2 rounded-lg` (inner), separators `mx-2 my-1`. Popovers stay opaque.
 - Dialogs, drawers and sheets: `rounded-3xl shadow-xl`, a plain dim backdrop (no blur), `overscroll-contain`
   on anything that scrolls. Keep a dialog mounted and drive it with `open`, so it can animate out.
+- Bars and cards pinned to the bottom (consent card, media bar, a save bar): put them in the bottom stack
+  (`BottomStackItem`, or `ConsentBanner` / `MediaBar`, which join it themselves) so they stack instead of
+  covering each other. Other fixed overlays lift above it with `bottom: calc(var(--bottom-overlay-offset, 0px) + 1rem)`.
 - Code: static code is `CodeBlock` / `CodeGroup` with markup highlighted at build time. The streaming code
   block is only for code an agent writes or opens live.
 
