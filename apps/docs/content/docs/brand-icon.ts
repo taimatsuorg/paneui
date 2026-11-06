@@ -22,7 +22,7 @@ import { BrandIcon } from "@/components/ui/brand-icon"`,
     },
     {
       title: "Brands that are not in the package",
-      body: { en: "Brands whose owners asked for removal or never gave permission are not in the package: Microsoft and its products (Teams, Outlook, Azure, VS Code, LinkedIn, Xbox), Amazon and AWS, OpenAI, Salesforce and Slack, Adobe, Oracle and Java, IBM, Twilio and Yahoo, among others. Use the brand's own asset under its guidelines, or a neutral glyph from the icon set (the templates use one for the Codex agent)", zh: "所有者要求移除或从未给予许可的品牌不在包中：Microsoft 及其产品（Teams、Outlook、Azure、VS Code、LinkedIn、Xbox）、Amazon 和 AWS、OpenAI、Salesforce 和 Slack、Adobe、Oracle 和 Java、IBM、Twilio 和 Yahoo 等。根据品牌指南使用品牌自己的资产，或使用图标集中的中性字形（模板为 Codex 代理使用了一个）" },
+      body: { en: "Brands whose owners asked for removal or never gave permission are not in the package: Microsoft and its products (Teams, Outlook, Azure, VS Code, LinkedIn, Xbox), Amazon and AWS, OpenAI, Salesforce and Slack, Adobe, Oracle and Java, IBM, Twilio and Yahoo, among others. Use the brand's own asset under its guidelines, or a neutral glyph from the icon set (the templates use one for the Codex agent). A few ship with this item in `@paneui/ui/lib/brand-marks`, in the same shape; every other mark comes from the package.", zh: "所有者要求移除或从未给予许可的品牌不在包中：Microsoft 及其产品（Teams、Outlook、Azure、VS Code、LinkedIn、Xbox）、Amazon 和 AWS、OpenAI、Salesforce 和 Slack、Adobe、Oracle 和 Java、IBM、Twilio 和 Yahoo 等。根据品牌指南使用品牌自己的资产，或使用图标集中的中性字形（模板为 Codex 代理使用了一个）。其中少数随本组件提供在 `@paneui/ui/lib/brand-marks` 中，结构相同；其余标志都来自图标包。" },
     },
     {
       title: "Dark marks",
