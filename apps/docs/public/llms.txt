@@ -68,11 +68,14 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 
 - [Alert Dialog](https://paneui.dev/docs/alert-dialog.md): Interrupts to confirm a destructive or important action. JSON: https://paneui.dev/r/alert-dialog.json
 - [Bottom Sheet](https://paneui.dev/docs/bottom-sheet.md): Opens a panel from the bottom of the page. JSON: https://paneui.dev/r/bottom-sheet.json
+- [Bottom Stack](https://paneui.dev/docs/bottom-stack.md): Stacks bars and cards pinned to the bottom of the screen. JSON: https://paneui.dev/r/bottom-stack.json
 - [Command](https://paneui.dev/docs/command.md): Searchable list of actions, inline or in a dialog. JSON: https://paneui.dev/r/command.json
+- [Consent Banner](https://paneui.dev/docs/consent-banner.md): Asks once whether the site may use analytics. JSON: https://paneui.dev/r/consent-banner.json
 - [Context Menu](https://paneui.dev/docs/context-menu.md): Opens actions for an item on right-click or long-press. JSON: https://paneui.dev/r/context-menu.json
 - [Dialog](https://paneui.dev/docs/dialog.md): Asks for a decision or input in a modal window. JSON: https://paneui.dev/r/dialog.json
 - [Drawer](https://paneui.dev/docs/drawer.md): Side panel for navigation or secondary tasks over the page. JSON: https://paneui.dev/r/drawer.json
 - [Hover Card](https://paneui.dev/docs/hover-card.md): Previews a linked item while it is hovered. JSON: https://paneui.dev/r/hover-card.json
+- [Media Bar](https://paneui.dev/docs/media-bar.md): A floating bar that controls playback or reading aloud. JSON: https://paneui.dev/r/media-bar.json
 - [Menu](https://paneui.dev/docs/menu.md): Dropdown of actions or options opened from a trigger. JSON: https://paneui.dev/r/menu.json
 - [Menu List](https://paneui.dev/docs/menu-list.md): Keyboard-driven option list that leaves focus in the text field. JSON: https://paneui.dev/r/menu-list.json
 - [Morphing Modal](https://paneui.dev/docs/morphing-modal.md): Dialog that moves between several views inside one panel. JSON: https://paneui.dev/r/morphing-modal.json

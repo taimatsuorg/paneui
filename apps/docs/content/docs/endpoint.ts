@@ -3,7 +3,7 @@ import type { ComponentDoc } from "@/lib/doc-types"
 export default {
   summary: { en: "Shows an API endpoint's method and path, ready to copy.", zh: "显示 API 端点的方法和路径，可一键复制。" },
   usage: {
-    imports: `import { Endpoint, MethodBadge } from "@/components/ui/endpoint"`,
+    imports: `import { Endpoint, MethodBadge, joinEndpoint } from "@/components/ui/endpoint"`,
     code: `<Endpoint method="get" path="/projects/{projectId}" server="https://api.example.com/v1" />`,
   },
   examples: [
@@ -70,6 +70,17 @@ export default {
       description: { en: "The path with its parameters set apart, for headings and lists.", zh: "突出参数的路径，可用于标题和列表。" },
       extends: "span",
       props: [{ name: "path", type: "string", required: true, description: { en: "Path to render.", zh: "要显示的路径。" } }],
+    },
+    {
+      name: "joinEndpoint",
+      description: {
+        en: "The URL `Endpoint` shows and copies, for code samples and exported text: `server` and `path` with exactly one `/` between them.",
+        zh: "`Endpoint` 显示和复制的 URL，可用于代码示例和导出文本：`server` 与 `path` 之间恰好一个 `/`。",
+      },
+      props: [
+        { name: "server", type: "string | undefined", required: true, description: { en: "Base URL; trailing slashes are dropped. Without it the path is returned as is.", zh: "基础 URL，末尾斜杠会被去掉。为空时原样返回路径。" } },
+        { name: "path", type: "string", required: true, description: { en: "Path or address to append.", zh: "要追加的路径或地址。" } },
+      ],
     },
   ],
 } satisfies ComponentDoc
