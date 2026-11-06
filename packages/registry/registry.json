@@ -421,6 +421,12 @@
           },
           "::selection": {
             "background-color": "var(--selection)"
+          },
+          "[data-speaking]": {
+            "border-radius": "var(--radius-sm)",
+            "background-color": "var(--accent)",
+            "box-shadow": "0 0 0 4px var(--accent), 0 0 0 5px color-mix(in oklab, var(--ring) 30%, transparent)",
+            "transition": "background-color 200ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1)"
           }
         },
         "@utility scrollbar-thin": {
@@ -4866,6 +4872,70 @@
       "files": [
         {
           "path": "packages/ui/src/components/toast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Overlays"
+      }
+    },
+    {
+      "name": "bottom-stack",
+      "type": "registry:ui",
+      "title": "Bottom Stack",
+      "description": "Stacks bars and cards pinned to the bottom of the screen.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@paneui/theme"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/bottom-stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Overlays"
+      }
+    },
+    {
+      "name": "consent-banner",
+      "type": "registry:ui",
+      "title": "Consent Banner",
+      "description": "Asks once whether the site may use analytics.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/locale-provider",
+        "@paneui/button",
+        "@paneui/bottom-stack",
+        "@paneui/inline-markdown"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/consent-banner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Overlays"
+      }
+    },
+    {
+      "name": "media-bar",
+      "type": "registry:ui",
+      "title": "Media Bar",
+      "description": "A floating bar that controls playback or reading aloud.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/icons",
+        "@paneui/locale-provider",
+        "@paneui/bottom-stack"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/media-bar.tsx",
           "type": "registry:ui"
         }
       ],
