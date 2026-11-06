@@ -8,7 +8,10 @@ import { CheckCircleIcon, InfoIcon, LoaderIcon, WarningIcon, XCircleIcon, XIcon 
 import { cn } from "@paneui/ui/lib/utils"
 import { useLocale } from "@paneui/ui/components/locale-provider"
 
-/** Wrap your app once. Renders the stacked toast viewport at the bottom end corner (bottom-left in right-to-left). */
+/**
+ * Wrap your app once. Renders the stacked toast viewport at the bottom end corner (bottom-left in right-to-left),
+ * lifted above a bottom stack (`--bottom-overlay-offset`) while one is showing.
+ */
 function ToastProvider({ children, limit = 3, timeout = 5000, ...props }: ToastPrimitive.Provider.Props) {
   // Portaled popups leave the DOM subtree that sets `dir`; carry the provider direction over.
   const dir = useDirection() === "rtl" ? "rtl" : undefined
@@ -18,7 +21,7 @@ function ToastProvider({ children, limit = 3, timeout = 5000, ...props }: ToastP
       <ToastPrimitive.Portal dir={dir}>
         <ToastPrimitive.Viewport
           data-slot="toast-viewport"
-          className="fixed end-4 bottom-4 z-[60] mx-auto flex w-[calc(100%-2rem)] sm:end-6 sm:bottom-6 sm:w-90"
+          className="fixed end-4 bottom-[calc(var(--bottom-overlay-offset,0px)+--spacing(4))] z-[60] mx-auto flex w-[calc(100%-2rem)] transition-[bottom] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none sm:end-6 sm:bottom-[calc(var(--bottom-overlay-offset,0px)+--spacing(6))] sm:w-90"
         >
           <ToastList />
         </ToastPrimitive.Viewport>
