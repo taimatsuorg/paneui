@@ -125,15 +125,17 @@ function MediaBar({
 /** The attribute that marks the block being read; the theme styles `[data-speaking]`. */
 const SPEAKING_ATTRIBUTE = "data-speaking"
 
+// The block markSpeaking marked last, so the next call moves the mark without touching other markup.
+let speakingEl: Element | null = null
+
 /**
- * Marks `el` as the block being read and clears the mark from every other element; `null` clears
+ * Marks `el` as the block being read and moves the mark off the block marked before; `null` clears
  * it. Scrolls the block into view unless `scroll` is false (instantly under reduced motion).
  */
 function markSpeaking(el: Element | null, { scroll = true }: { scroll?: boolean } = {}) {
   if (typeof document === "undefined") return
-  document.querySelectorAll(`[${SPEAKING_ATTRIBUTE}]`).forEach((n) => {
-    if (n !== el) n.removeAttribute(SPEAKING_ATTRIBUTE)
-  })
+  if (speakingEl && speakingEl !== el) speakingEl.removeAttribute(SPEAKING_ATTRIBUTE)
+  speakingEl = el
   if (!el) return
   el.setAttribute(SPEAKING_ATTRIBUTE, "")
   if (scroll) {

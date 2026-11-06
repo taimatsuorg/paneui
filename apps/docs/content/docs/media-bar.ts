@@ -41,8 +41,8 @@ export default {
     {
       title: "Highlighting the block",
       body: {
-        en: "`markSpeaking(el)` sets `data-speaking` on the block being read, clears it everywhere else and scrolls the block into view (`{ scroll: false }` skips that). The theme paints `[data-speaking]` with the accent fill, a halo and a soft ring; `markSpeaking(null)` clears it.",
-        zh: "`markSpeaking(el)` 给正在朗读的段落设置 `data-speaking`，清除其他位置的标记，并把段落滚动到可见区域（`{ scroll: false }` 跳过滚动）。主题用强调填充、外延光晕和柔和描边绘制 `[data-speaking]`；`markSpeaking(null)` 清除标记。",
+        en: "`markSpeaking(el)` sets `data-speaking` on the block being read, moves it off the block it marked before and scrolls the block into view (`{ scroll: false }` skips that). The theme paints `[data-speaking]` with the accent fill, a halo and a soft ring; `markSpeaking(null)` clears it.",
+        zh: "`markSpeaking(el)` 给正在朗读的段落设置 `data-speaking`，移除它上次标记的段落上的标记，并把段落滚动到可见区域（`{ scroll: false }` 跳过滚动）。主题用强调填充、外延光晕和柔和描边绘制 `[data-speaking]`；`markSpeaking(null)` 清除标记。",
       },
     },
     {

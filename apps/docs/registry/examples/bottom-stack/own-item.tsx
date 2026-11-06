@@ -26,7 +26,7 @@ export default function BottomStackOwnItem() {
         <MediaBar playing={playing} onPlayingChange={setPlaying} activity="playing" />
         {!saved && (
           <BottomStackItem order={10} className="self-stretch">
-            <div className="flex items-center justify-between gap-3 rounded-2xl bg-popover p-3 ps-4 text-ui shadow-surface">
+            <div className="flex w-full items-center justify-between gap-3 rounded-2xl bg-popover p-3 ps-4 text-ui shadow-surface">
               <span className="text-muted-foreground">You have unsaved changes.</span>
               <Button size="sm" onClick={() => setSaved(true)}>
                 Save
