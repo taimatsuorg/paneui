@@ -59,6 +59,7 @@ import d_edited_files_card from "./edited-files-card"
 import d_email_editor from "./email-editor"
 import d_empty_state from "./empty-state"
 import d_expandable_control from "./expandable-control"
+import d_feedback_widget from "./feedback-widget"
 import d_field from "./field"
 import d_file_diff from "./file-diff"
 import d_file_tree from "./file-tree"
@@ -228,6 +229,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "email-editor": d_email_editor,
   "empty-state": d_empty_state,
   "expandable-control": d_expandable_control,
+  "feedback-widget": d_feedback_widget,
   "field": d_field,
   "file-diff": d_file_diff,
   "file-tree": d_file_tree,
