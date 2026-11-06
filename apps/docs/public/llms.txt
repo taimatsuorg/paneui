@@ -138,7 +138,7 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 - [Action Swap Roll](https://paneui.dev/docs/action-swap-roll.md): Rolls between button states. JSON: https://paneui.dev/r/action-swap-roll.json
 - [Animated Number](https://paneui.dev/docs/animated-number.md): Counts up to a number when it scrolls into view. JSON: https://paneui.dev/r/animated-number.json
 - [Code Block](https://paneui.dev/docs/code-block.md): Shows code highlighted at build time, alone or in tabs. JSON: https://paneui.dev/r/code-block.json
-- [Command Copy](https://paneui.dev/docs/command-copy.md): Shows a shell command with a button that copies it. JSON: https://paneui.dev/r/command-copy.json
+- [Command Copy](https://paneui.dev/docs/command-copy.md): Shows a command or prompt with a button that copies it. JSON: https://paneui.dev/r/command-copy.json
 - [Digit Swap](https://paneui.dev/docs/digit-swap.md): Rolls only the digits that change. JSON: https://paneui.dev/r/digit-swap.json
 - [Marquee](https://paneui.dev/docs/marquee.md): Scrolls content past in an endless loop. JSON: https://paneui.dev/r/marquee.json
 - [Number Ticker](https://paneui.dev/docs/number-ticker.md): Number whose digits roll to each new value. JSON: https://paneui.dev/r/number-ticker.json
