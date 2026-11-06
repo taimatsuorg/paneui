@@ -23,6 +23,7 @@ import d_badge from "./badge"
 import d_banner from "./banner"
 import d_bar_list from "./bar-list"
 import d_bottom_sheet from "./bottom-sheet"
+import d_bottom_stack from "./bottom-stack"
 import d_brand_icon from "./brand-icon"
 import d_breadcrumb from "./breadcrumb"
 import d_button from "./button"
@@ -44,6 +45,7 @@ import d_command_copy from "./command-copy"
 import d_command_palette from "./command-palette"
 import d_comparison_table from "./comparison-table"
 import d_composition_chart from "./composition-chart"
+import d_consent_banner from "./consent-banner"
 import d_context_menu from "./context-menu"
 import d_cover_art from "./cover-art"
 import d_data_table from "./data-table"
@@ -81,6 +83,7 @@ import d_locale_provider from "./locale-provider"
 import d_locale_switcher from "./locale-switcher"
 import d_magnetic from "./magnetic"
 import d_marquee from "./marquee"
+import d_media_bar from "./media-bar"
 import d_menu from "./menu"
 import d_menu_list from "./menu-list"
 import d_menubar from "./menubar"
@@ -197,6 +200,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "banner": d_banner,
   "bar-list": d_bar_list,
   "bottom-sheet": d_bottom_sheet,
+  "bottom-stack": d_bottom_stack,
   "brand-icon": d_brand_icon,
   "breadcrumb": d_breadcrumb,
   "button": d_button,
@@ -218,6 +222,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "command-palette": d_command_palette,
   "comparison-table": d_comparison_table,
   "composition-chart": d_composition_chart,
+  "consent-banner": d_consent_banner,
   "context-menu": d_context_menu,
   "cover-art": d_cover_art,
   "data-table": d_data_table,
@@ -255,6 +260,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "locale-switcher": d_locale_switcher,
   "magnetic": d_magnetic,
   "marquee": d_marquee,
+  "media-bar": d_media_bar,
   "menu": d_menu,
   "menu-list": d_menu_list,
   "menubar": d_menubar,
