@@ -1598,3 +1598,86 @@ export const PlugIcon = (p: IconProps) => (
     )}
   </Icon>
 );
+
+export const RssIcon = (p: IconProps) => (
+  <Icon {...p} tones={["orange"]}>
+    {(c) => (
+      <>
+        <rect x="2.4" y="2.4" width="19.2" height="19.2" rx="5" fill={c.f("orange")} />
+        <path d="M6.8 11.4a5.8 5.8 0 0 1 5.8 5.8M6.8 6.6a10.6 10.6 0 0 1 10.6 10.6" {...glyph("#fff", 2.4)} />
+        <circle cx="7.6" cy="16.4" r="1.9" fill="#fff" />
+        <ellipse cx="6.6" cy="4.9" rx="2.3" ry="1" {...shine} />
+      </>
+    )}
+  </Icon>
+);
+
+export const LanguagesIcon = (p: IconProps) => (
+  <Icon {...p} tones={["purple", "sky"]}>
+    {(c) => (
+      <>
+        <rect x="2.2" y="2.2" width="12.6" height="12.6" rx="3.4" fill={c.f("purple")} />
+        <path d="M5 5.9h6.6M8.3 4.4v1.5M10 5.9c-.5 2.3-2 4.2-4.6 5.4M6.6 8.2c.8 1.3 1.9 2.4 3.3 3" {...glyph("#fff", 1.3)} />
+        <rect x="9.2" y="9.2" width="12.6" height="12.6" rx="3.4" fill={c.f("sky")} />
+        <path d="M12.6 19.2l2.9-6.8 2.9 6.8M13.6 17.1h3.8" {...glyph("#fff", 1.5)} />
+        <ellipse cx="12.4" cy="10.9" rx="1.8" ry="0.8" {...shine} />
+      </>
+    )}
+  </Icon>
+);
+
+export const BlocksIcon = (p: IconProps) => (
+  <Icon {...p} tones={["gold", "red", "blue", "green"]}>
+    {(c) => (
+      <>
+        <rect x="2.4" y="4" width="8.6" height="8.6" rx="2.2" fill={c.f("gold")} />
+        <rect x="2.4" y="13" width="8.6" height="8.6" rx="2.2" fill={c.f("red")} />
+        <rect x="11.4" y="13" width="8.6" height="8.6" rx="2.2" fill={c.f("blue")} />
+        <rect x="13.4" y="2.4" width="8.2" height="8.2" rx="2.2" fill={c.f("green")} />
+        <rect x="4" y="5.4" width="3.4" height="1" rx="0.5" {...shine} />
+        <rect x="4" y="14.4" width="3.4" height="1" rx="0.5" {...shine} />
+        <rect x="13" y="14.4" width="3.4" height="1" rx="0.5" {...shine} />
+        <rect x="15" y="3.8" width="3.2" height="1" rx="0.5" {...shine} />
+      </>
+    )}
+  </Icon>
+);
+
+export const PuzzleIcon = (p: IconProps) => (
+  <Icon {...p} tones={["green"]}>
+    {(c) => (
+      <>
+        <path d="M3.2 10a2.6 2.6 0 0 1 2.6-2.6h2.1a2.7 2.7 0 1 1 4.4 0h2.1a2.6 2.6 0 0 1 2.6 2.6v2.1a2.7 2.7 0 1 1 0 4.4v1.9a2.6 2.6 0 0 1-2.6 2.6H5.8a2.6 2.6 0 0 1-2.6-2.6z" fill={c.f("green")} />
+        <ellipse cx="7" cy="10.2" rx="2" ry="1.1" {...shine} />
+        <ellipse cx="10.1" cy="4.6" rx="1" ry="0.6" {...shine} />
+      </>
+    )}
+  </Icon>
+);
+
+export const MessageSquareIcon = (p: IconProps) => (
+  <Icon {...p} tones={["teal"]}>
+    {(c) => (
+      <>
+        <path d="M7 3.4h10a4.6 4.6 0 0 1 4.6 4.6v5.6a4.6 4.6 0 0 1-4.6 4.6H8.4l-4.2 3.3c-.7.5-1.8.1-1.8-.8V8A4.6 4.6 0 0 1 7 3.4z" fill={c.f("teal")} />
+        <path d="M7.4 9.6h9.2M7.4 13.2h6" {...glyph("#fff", 1.6)} opacity={0.9} />
+        <path d="M5 7.4 a2.6 2.6 0 0 1 2.2 -1.6" {...glyph("#fff", 1)} opacity={0.6} />
+      </>
+    )}
+  </Icon>
+);
+
+export const ScrollTextIcon = (p: IconProps) => (
+  <Icon {...p} tones={["paper", "wood", "steel"]}>
+    {(c) => (
+      <>
+        <rect x="5.2" y="4" width="13.6" height="15.6" fill={c.f("paper")} {...rim("#a9afbd")} />
+        <path d="M8.6 9h6.8M8.6 12h6.8M8.6 15h4.4" {...glyph(c.s("steel"), 1.3)} />
+        <rect x="3.2" y="2.4" width="17.6" height="3.4" rx="1.7" fill={c.f("wood")} />
+        <rect x="3.2" y="18.2" width="17.6" height="3.4" rx="1.7" fill={c.f("wood")} />
+        <rect x="5" y="3.1" width="5" height="0.9" rx="0.45" {...shine} />
+        <rect x="5" y="18.9" width="5" height="0.9" rx="0.45" {...shine} />
+      </>
+    )}
+  </Icon>
+);

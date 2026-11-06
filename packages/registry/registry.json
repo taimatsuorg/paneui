@@ -1781,6 +1781,29 @@
       }
     },
     {
+      "name": "schema-tree",
+      "type": "registry:ui",
+      "title": "Schema Tree",
+      "description": "Lists schema properties in a table that nests objects and arrays.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/icons",
+        "@paneui/locale-provider",
+        "@paneui/badge",
+        "@paneui/tabs"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/schema-tree.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Data"
+      }
+    },
+    {
       "name": "saas",
       "type": "registry:block",
       "title": "SaaS",
@@ -2938,6 +2961,77 @@
       "files": [
         {
           "path": "packages/ui/src/components/banner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Display"
+      }
+    },
+    {
+      "name": "locale-switcher",
+      "type": "registry:ui",
+      "title": "Locale Switcher",
+      "description": "Lets readers switch the site's language from the header.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/icons",
+        "@paneui/button",
+        "@paneui/menu",
+        "@paneui/locale-provider"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/locale-switcher.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Navigation"
+      }
+    },
+    {
+      "name": "version-switcher",
+      "type": "registry:ui",
+      "title": "Version Switcher",
+      "description": "Picks the docs version at the top of a sidebar.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/icons",
+        "@paneui/badge",
+        "@paneui/button",
+        "@paneui/menu",
+        "@paneui/locale-provider"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/version-switcher.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Navigation"
+      }
+    },
+    {
+      "name": "endpoint",
+      "type": "registry:ui",
+      "title": "Endpoint",
+      "description": "Shows an API endpoint's method and path, ready to copy.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/badge",
+        "@paneui/code-block",
+        "@paneui/locale-provider"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/endpoint.tsx",
           "type": "registry:ui"
         }
       ],
@@ -5522,8 +5616,13 @@
       "type": "registry:ui",
       "title": "Timeline",
       "description": "Lists entries in time order along a line.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
       "registryDependencies": [
-        "@paneui/theme"
+        "@paneui/theme",
+        "@paneui/icons",
+        "@paneui/locale-provider"
       ],
       "files": [
         {
@@ -6682,7 +6781,7 @@
       "description": "Highlights static and streaming code with theme colours.",
       "dependencies": [
         "@pierre/highlights@0.2.0",
-        "shiki@>=3.23 <5"
+        "shiki@^4"
       ],
       "files": [
         {
