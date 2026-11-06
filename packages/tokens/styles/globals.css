@@ -676,6 +676,7 @@ html[data-accent="violet"].dark {
     border-radius: var(--radius-sm);
     background-color: var(--accent);
     box-shadow: 0 0 0 4px var(--accent), 0 0 0 5px color-mix(in oklab, var(--ring) 20%, transparent);
+    scroll-margin-bottom: calc(var(--bottom-overlay-offset, 0px) + 1rem);
     transition: background-color 200ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   body {
@@ -786,6 +787,11 @@ html[data-accent="violet"].dark {
   animation: var(--scroll-fade-y-animation, none);
   animation-timeline: scroll(self), scroll(self);
   animation-range: 0 2px, calc(100% - 2px) 100%;
+}
+
+/* Pads a page or footer by the height the bottom stack covers, so the last content scrolls clear of it. */
+@utility pb-bottom-overlay {
+  padding-bottom: var(--bottom-overlay-offset, 0px);
 }
 
 @utility scroll-fade-x {

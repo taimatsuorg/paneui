@@ -30,8 +30,8 @@ export default {
     {
       title: "Offset for other overlays",
       body: {
-        en: "While it holds items, the stack writes the height it covers to `--bottom-overlay-offset` on `<html>` (on the container for a stack that is not fixed). Toast and the fixed feedback widget already read it; give your own floating elements `bottom: calc(var(--bottom-overlay-offset, 0px) + 1rem)`.",
-        zh: "堆叠中有条目时，它会把所占高度写入 `<html>` 上的 `--bottom-overlay-offset`（非固定定位的堆叠写在其容器上）。Toast 和固定定位的反馈组件已读取该值；自己的悬浮元素可设置 `bottom: calc(var(--bottom-overlay-offset, 0px) + 1rem)`。",
+        en: "While it holds items, the stack writes the height it covers to `--bottom-overlay-offset` on `<html>` (on the container for a stack that is not fixed). Toast and the fixed feedback widget already read it; give your own floating elements `bottom: calc(var(--bottom-overlay-offset, 0px) + 1rem)`, and put `pb-bottom-overlay` on the page or footer so its end scrolls clear.",
+        zh: "堆叠中有条目时，它会把所占高度写入 `<html>` 上的 `--bottom-overlay-offset`（非固定定位的堆叠写在其容器上）。Toast 和固定定位的反馈组件已读取该值；自己的悬浮元素可设置 `bottom: calc(var(--bottom-overlay-offset, 0px) + 1rem)`，页面或页脚加上 `pb-bottom-overlay` 即可让末尾内容滚出遮挡。",
       },
     },
     {
