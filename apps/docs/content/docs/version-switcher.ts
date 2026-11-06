@@ -18,8 +18,19 @@ export default {
       title: { en: "Tags", zh: "标签" },
       description: { en: "Use a custom tag for states the presets don't cover, such as long-term support.", zh: "预设未覆盖的状态（例如长期支持）可使用自定义标签。" },
     },
+    {
+      id: "compact",
+      title: { en: "In a Header", zh: "放在页头" },
+    },
   ],
   notes: [
+    {
+      title: "Sizes",
+      body: {
+        en: "The default fills its container at the control height, for the top of a sidebar. `size=\"compact\"` takes its content's width at the small height, for a header.",
+        zh: "默认尺寸以控件高度填满容器，适合侧边栏顶部。`size=\"compact\"` 按内容宽度显示，高度较小，适合页头。",
+      },
+    },
     {
       title: "Links",
       body: {
@@ -42,6 +53,7 @@ export default {
       props: [
         { name: "versions", type: "VersionOption[]", required: true, description: { en: "`{ value, label, href, tag? }` per version.", zh: "每个版本一个 `{ value, label, href, tag? }`。" } },
         { name: "value", type: "string", required: true, description: { en: "Value of the version being read.", zh: "正在阅读的版本值。" } },
+        { name: "size", type: `"default" | "compact"`, default: `"default"`, description: { en: "`compact` drops the full width and uses the small height, for headers.", zh: "`compact` 不再占满宽度并使用较小高度，适合页头。" } },
         {
           name: "onSelect",
           type: "(version: VersionOption, event: MouseEvent) => void",
