@@ -26,7 +26,7 @@ export default {
   composition: `SidebarNav
 ├── SidebarNavSearch
 ├── SidebarNavContent
-│   └── SidebarNavSection            label, count, href, active, icon
+│   └── SidebarNavSection            label, count, badge, href, active, icon
 │       ├── SidebarNavList
 │       │   └── SidebarNavLink       active, icon, badge
 │       └── SidebarNavSection level="group"
@@ -35,6 +35,7 @@ export default {
     { id: "fill", title: { en: "Filled surface", zh: "填充背景" } },
     { id: "captions", title: { en: "Captions", zh: "分组标题" }, description: { en: "Use for long flat docs lists.", zh: "适合较长的扁平文档列表。" } },
     { id: "icons", title: { en: "Icons", zh: "图标" },  },
+    { id: "badges", title: { en: "Badges", zh: "徽标" }, description: { en: "Use to flag a new section or group, not only a page.", zh: "用于标记新的分区或分组，而不只是页面。" } },
     { id: "icon-groups", title: { en: "Icons and Groups", zh: "图标与分组" },  },
     { id: "linked-groups", title: { en: "Linked Groups", zh: "分组链接" },  },
     { id: "persisted", title: { en: "Remembered Sections", zh: "记住展开状态" },  },
@@ -73,7 +74,8 @@ export default {
       props: [
         { name: "label", type: "React.ReactNode", required: true, description: { en: "Heading text.", zh: "标题文字。" } },
         { name: "count", type: "number", description: { en: "Muted count after the label.", zh: "标签后的数量。" } },
-        { name: "level", type: `"section" | "group" | "label"`, default: `"section"`, description: { en: "`group` is a smaller muted heading inside a section; `label` is a small caption over flat rows that never folds.", zh: "`group` 为分区内较小的次级标题；`label` 为扁平行上方不折叠的小标题。" } },
+        { name: "badge", type: "React.ReactNode", description: { en: "Trailing content on the label row, such as a New badge. Same place and radius as on `SidebarNavLink`.", zh: "标签行末尾的内容，例如新功能徽标。位置和圆角与 `SidebarNavLink` 一致。" } },
+        { name: "level", type: `"section" | "group" | "label"`, default: `"section"`, description: { en: "`group` is a smaller muted heading inside a section; `label` is a small medium-weight muted caption over flat rows that never folds; between rows it takes 8px more space above it.", zh: "`group` 为分区内较小的次级标题；`label` 为扁平行上方不折叠的中等字重弱化小标题；位于行之间时上方多留 8px。" } },
         { name: "collapsible", type: "boolean", default: "true", description: { en: "`false` drops the toggle and keeps it open.", zh: "设为 `false` 后始终展开。" } },
         { name: "href", type: "string", description: { en: "Makes the label a link to the section's own page; the chevron beside it still folds the rows.", zh: "将标签设为分区页面的链接，旁边的箭头仍可折叠列表。" } },
         { name: "labelRender", type: "React.ReactElement | (props) => React.ReactElement", description: { en: "Renders the label link with your router's link, such as `<Link href=\"…\" />`.", zh: "使用路由链接渲染标签，例如 `<Link href=\"…\" />`。" } },
