@@ -126,6 +126,17 @@ export default {
       ],
     },
     {
+      name: "MenuLinkItem",
+      description: { en: "Item that is a link. The browser navigates, so it works with any router.", zh: "作为链接的项。由浏览器导航，可配合任意路由使用。" },
+      extends: "Menu.LinkItem",
+      extendsHref: "https://base-ui.com/react/components/menu#link-item",
+      props: [
+        { name: "href", type: "string", description: { en: "Where the link goes.", zh: "链接地址。" } },
+        { name: "inset", type: "boolean", default: "false", description: { en: "Left padding that matches items with an icon.", zh: "与带图标的项匹配的左侧内边距。" } },
+        { name: "closeOnClick", type: "boolean", default: "false", description: { en: "Close the menu when the link is followed.", zh: "打开链接时关闭菜单。" } },
+      ],
+    },
+    {
       name: "MenuCheckboxItem",
       description: { en: "Item with a check indicator in the left gutter.", zh: "左侧槽位带勾选指示器的项。" },
       extends: "Menu.CheckboxItem",

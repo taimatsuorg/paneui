@@ -58,6 +58,7 @@ import d_drawer from "./drawer"
 import d_edited_files_card from "./edited-files-card"
 import d_email_editor from "./email-editor"
 import d_empty_state from "./empty-state"
+import d_endpoint from "./endpoint"
 import d_expandable_control from "./expandable-control"
 import d_field from "./field"
 import d_file_diff from "./file-diff"
@@ -76,6 +77,7 @@ import d_kbd from "./kbd"
 import d_label from "./label"
 import d_loader from "./loader"
 import d_locale_provider from "./locale-provider"
+import d_locale_switcher from "./locale-switcher"
 import d_magnetic from "./magnetic"
 import d_marquee from "./marquee"
 import d_menu from "./menu"
@@ -163,6 +165,7 @@ import d_trend_chart from "./trend-chart"
 import d_typeset from "./typeset"
 import d_usage_meter from "./usage-meter"
 import d_user_menu from "./user-menu"
+import d_version_switcher from "./version-switcher"
 import d_vscode from "./vscode"
 import d_wheel_picker from "./wheel-picker"
 import d_window_frame from "./window-frame"
@@ -227,6 +230,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "edited-files-card": d_edited_files_card,
   "email-editor": d_email_editor,
   "empty-state": d_empty_state,
+  "endpoint": d_endpoint,
   "expandable-control": d_expandable_control,
   "field": d_field,
   "file-diff": d_file_diff,
@@ -245,6 +249,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "label": d_label,
   "loader": d_loader,
   "locale-provider": d_locale_provider,
+  "locale-switcher": d_locale_switcher,
   "magnetic": d_magnetic,
   "marquee": d_marquee,
   "menu": d_menu,
@@ -332,6 +337,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "typeset": d_typeset,
   "usage-meter": d_usage_meter,
   "user-menu": d_user_menu,
+  "version-switcher": d_version_switcher,
   "vscode": d_vscode,
   "wheel-picker": d_wheel_picker,
   "window-frame": d_window_frame,
