@@ -40,6 +40,7 @@ import d_color_picker from "./color-picker"
 import d_combobox from "./combobox"
 import d_command from "./command"
 import d_command_copy from "./command-copy"
+import d_command_palette from "./command-palette"
 import d_comparison_table from "./comparison-table"
 import d_composition_chart from "./composition-chart"
 import d_context_menu from "./context-menu"
@@ -205,6 +206,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "combobox": d_combobox,
   "command": d_command,
   "command-copy": d_command_copy,
+  "command-palette": d_command_palette,
   "comparison-table": d_comparison_table,
   "composition-chart": d_composition_chart,
   "context-menu": d_context_menu,
