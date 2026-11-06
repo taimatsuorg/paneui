@@ -2946,6 +2946,77 @@
       }
     },
     {
+      "name": "locale-switcher",
+      "type": "registry:ui",
+      "title": "Locale Switcher",
+      "description": "Lets readers switch the site's language from the header.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/icons",
+        "@paneui/button",
+        "@paneui/menu",
+        "@paneui/locale-provider"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/locale-switcher.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Navigation"
+      }
+    },
+    {
+      "name": "version-switcher",
+      "type": "registry:ui",
+      "title": "Version Switcher",
+      "description": "Picks the docs version at the top of a sidebar.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/icons",
+        "@paneui/badge",
+        "@paneui/button",
+        "@paneui/menu",
+        "@paneui/locale-provider"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/version-switcher.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Navigation"
+      }
+    },
+    {
+      "name": "endpoint",
+      "type": "registry:ui",
+      "title": "Endpoint",
+      "description": "Shows an API endpoint's method and path, ready to copy.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/badge",
+        "@paneui/code-block",
+        "@paneui/locale-provider"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/endpoint.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Display"
+      }
+    },
+    {
       "name": "collapsible",
       "type": "registry:ui",
       "title": "Collapsible",

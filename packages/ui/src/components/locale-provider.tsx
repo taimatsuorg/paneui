@@ -576,6 +576,16 @@ type LocaleLabels = {
   diagram: string
   openDiagram: string
   diagramError: string
+  /* Locale switcher, version switcher and endpoint */
+  language: string
+  languageCurrent: (label: string) => string
+  version: string
+  versionCurrent: (label: string) => string
+  versionLatest: string
+  versionBeta: string
+  versionArchived: string
+  copyUrl: string
+  deprecated: string
   /* Page navigation */
   onThisPage: string
   backToTop: string
@@ -1273,6 +1283,15 @@ const en: LocaleLabels = {
   diagram: "Diagram",
   openDiagram: "Open diagram full screen",
   diagramError: "Couldn't draw this diagram.",
+  language: "Language",
+  languageCurrent: (label) => `Language: ${label}`,
+  version: "Version",
+  versionCurrent: (label) => `Version: ${label}`,
+  versionLatest: "Latest",
+  versionBeta: "Beta",
+  versionArchived: "Archived",
+  copyUrl: "Copy URL",
+  deprecated: "Deprecated",
   onThisPage: "On this page",
   backToTop: "Back to top",
   linkTo: (t) => `Link to ${t}`,
@@ -1959,6 +1978,15 @@ const zhCN: LocaleLabels = {
   diagram: "示意图",
   openDiagram: "全屏查看示意图",
   diagramError: "无法绘制此示意图。",
+  language: "语言",
+  languageCurrent: (label) => `语言：${label}`,
+  version: "版本",
+  versionCurrent: (label) => `版本：${label}`,
+  versionLatest: "最新",
+  versionBeta: "测试版",
+  versionArchived: "已归档",
+  copyUrl: "复制 URL",
+  deprecated: "已弃用",
   onThisPage: "本页目录",
   backToTop: "回到顶部",
   linkTo: (t) => `链接到“${t}”`,

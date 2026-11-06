@@ -177,6 +177,9 @@ import ComparisonTableDemo from "@/registry/examples/comparison-table-demo"
 import ImageZoomDemo from "@/registry/examples/image-zoom-demo"
 import BannerDemo from "@/registry/examples/banner-demo"
 import DiagramDemo from "@/registry/examples/diagram-demo"
+import LocaleSwitcherDemo from "@/registry/examples/locale-switcher-demo"
+import VersionSwitcherDemo from "@/registry/examples/version-switcher-demo"
+import EndpointDemo from "@/registry/examples/endpoint-demo"
 import ReasoningEffortDemo from "@/registry/examples/reasoning-effort-demo"
 import SeparatorDemo from "@/registry/examples/separator-demo"
 import KbdDemo from "@/registry/examples/kbd-demo"
@@ -380,6 +383,9 @@ export const demos: Record<string, React.ComponentType> = {
   "image-zoom": ImageZoomDemo,
   "banner": BannerDemo,
   "diagram": DiagramDemo,
+  "locale-switcher": LocaleSwitcherDemo,
+  "version-switcher": VersionSwitcherDemo,
+  "endpoint": EndpointDemo,
   "reasoning-effort": ReasoningEffortDemo,
   "kbd": KbdDemo,
   "input-otp": InputOTPDemo,
