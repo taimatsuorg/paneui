@@ -50,7 +50,7 @@ export default function MediaBarDemo() {
         </Button>
       </div>
       <div ref={article} className="flex flex-col gap-3 px-6 text-sm">
-        <h3 className="text-lg font-semibold">{BLOCKS[0]}</h3>
+        <h3 className="text-lg font-semibold text-balance">{BLOCKS[0]}</h3>
         {BLOCKS.slice(1).map((text) => (
           <p key={text}>{text}</p>
         ))}
