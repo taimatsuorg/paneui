@@ -110,6 +110,7 @@ import d_range_slider_inline from "./range-slider-inline"
 import d_reasoning_effort from "./reasoning-effort"
 import d_reasoning_text from "./reasoning-text"
 import d_resizable from "./resizable"
+import d_schema_tree from "./schema-tree"
 import d_scroll_area from "./scroll-area"
 import d_scroll_progress from "./scroll-progress"
 import d_scroll_reveal from "./scroll-reveal"
@@ -283,6 +284,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "reasoning-effort": d_reasoning_effort,
   "reasoning-text": d_reasoning_text,
   "resizable": d_resizable,
+  "schema-tree": d_schema_tree,
   "scroll-area": d_scroll_area,
   "scroll-progress": d_scroll_progress,
   "scroll-reveal": d_scroll_reveal,
