@@ -90,11 +90,14 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 - [Avatar](https://paneui.dev/docs/avatar.md): Shows a photo or initials. JSON: https://paneui.dev/r/avatar.json
 - [Avatar Generator](https://paneui.dev/docs/avatar-generator.md): Creates and edits avatars. JSON: https://paneui.dev/r/avatar-generator.json
 - [Badge](https://paneui.dev/docs/badge.md): Labels an item with a short status or category. JSON: https://paneui.dev/r/badge.json
+- [Banner](https://paneui.dev/docs/banner.md): Announces news in a bar above the site header. JSON: https://paneui.dev/r/banner.json
 - [Card](https://paneui.dev/docs/card.md): Groups related content and actions on one surface. JSON: https://paneui.dev/r/card.json
 - [Carousel](https://paneui.dev/docs/carousel.md): Scrolls through slides one at a time. JSON: https://paneui.dev/r/carousel.json
 - [Collapsible](https://paneui.dev/docs/collapsible.md): Shows and hides a section of content. JSON: https://paneui.dev/r/collapsible.json
 - [Cover Art](https://paneui.dev/docs/cover-art.md): Cover images for posts and cards. JSON: https://paneui.dev/r/cover-art.json
+- [Diagram](https://paneui.dev/docs/diagram.md): Frames a diagram drawn in the browser, with full-screen zoom. JSON: https://paneui.dev/r/diagram.json
 - [Empty State](https://paneui.dev/docs/empty-state.md): Explains an empty view and what to do next. JSON: https://paneui.dev/r/empty-state.json
+- [Image Zoom](https://paneui.dev/docs/image-zoom.md): Opens an image full size to zoom and pan. JSON: https://paneui.dev/r/image-zoom.json
 - [Kbd](https://paneui.dev/docs/kbd.md): Shows a keyboard key or shortcut. JSON: https://paneui.dev/r/kbd.json
 - [Loader](https://paneui.dev/docs/loader.md): Shows that something is loading. JSON: https://paneui.dev/r/loader.json
 - [OG Image](https://paneui.dev/docs/og-image.md): Creates page share images. JSON: https://paneui.dev/r/og-image.json
