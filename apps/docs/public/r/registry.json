@@ -421,6 +421,12 @@
           },
           "::selection": {
             "background-color": "var(--selection)"
+          },
+          "[data-speaking]": {
+            "border-radius": "var(--radius-sm)",
+            "background-color": "var(--accent)",
+            "box-shadow": "0 0 0 4px var(--accent), 0 0 0 5px color-mix(in oklab, var(--ring) 20%, transparent)",
+            "transition": "background-color 200ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1)"
           }
         },
         "@utility scrollbar-thin": {
@@ -1791,7 +1797,8 @@
         "https://paneui.dev/r/icons.json",
         "https://paneui.dev/r/locale-provider.json",
         "https://paneui.dev/r/badge.json",
-        "https://paneui.dev/r/tabs.json"
+        "https://paneui.dev/r/tabs.json",
+        "https://paneui.dev/r/inline-markdown.json"
       ],
       "files": [
         {
@@ -4873,6 +4880,70 @@
       }
     },
     {
+      "name": "bottom-stack",
+      "type": "registry:ui",
+      "title": "Bottom Stack",
+      "description": "Stacks bars and cards pinned to the bottom of the screen.",
+      "dependencies": [],
+      "registryDependencies": [
+        "https://paneui.dev/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/web/ui/bottom-stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Overlays"
+      }
+    },
+    {
+      "name": "consent-banner",
+      "type": "registry:ui",
+      "title": "Consent Banner",
+      "description": "Asks once whether the site may use analytics.",
+      "dependencies": [],
+      "registryDependencies": [
+        "https://paneui.dev/r/theme.json",
+        "https://paneui.dev/r/locale-provider.json",
+        "https://paneui.dev/r/button.json",
+        "https://paneui.dev/r/bottom-stack.json",
+        "https://paneui.dev/r/inline-markdown.json"
+      ],
+      "files": [
+        {
+          "path": "registry/web/ui/consent-banner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Overlays"
+      }
+    },
+    {
+      "name": "media-bar",
+      "type": "registry:ui",
+      "title": "Media Bar",
+      "description": "A floating bar that controls playback or reading aloud.",
+      "dependencies": [],
+      "registryDependencies": [
+        "https://paneui.dev/r/theme.json",
+        "https://paneui.dev/r/icons.json",
+        "https://paneui.dev/r/locale-provider.json",
+        "https://paneui.dev/r/bottom-stack.json"
+      ],
+      "files": [
+        {
+          "path": "registry/web/ui/media-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Overlays"
+      }
+    },
+    {
       "name": "prompt-bar",
       "type": "registry:block",
       "title": "Prompt Bar",
@@ -6790,6 +6861,23 @@
         },
         {
           "path": "lib/use-code-tokens.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "meta": {
+        "category": "Foundations",
+        "hidden": true
+      }
+    },
+    {
+      "name": "inline-markdown",
+      "type": "registry:lib",
+      "title": "Inline Markdown",
+      "description": "Renders code, emphasis and links in short strings.",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "lib/inline-markdown.tsx",
           "type": "registry:lib"
         }
       ],
