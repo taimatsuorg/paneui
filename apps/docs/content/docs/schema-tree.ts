@@ -26,9 +26,14 @@ export default {
       title: { en: "Narrow Column", zh: "窄栏" },
     },
     {
+      id: "markdown",
+      title: { en: "Markdown Descriptions", zh: "Markdown 说明" },
+      description: { en: "Use when schema descriptions are written in Markdown and arrive as strings.", zh: "适用于 schema 说明以 Markdown 书写、以字符串传入的情况。" },
+    },
+    {
       id: "render",
-      title: { en: "Rich Descriptions", zh: "富文本说明" },
-      description: { en: "Use when descriptions arrive as Markdown or plain text with code spans.", zh: "适用于说明以 Markdown 或带代码片段的纯文本提供的情况。" },
+      title: { en: "Custom Descriptions", zh: "自定义说明" },
+      description: { en: "Use when you already have a renderer, or descriptions need more than inline Markdown.", zh: "适用于已有渲染器，或说明需要超出行内 Markdown 的格式。" },
     },
   ],
   notes: [
@@ -59,7 +64,8 @@ export default {
         { name: "layout", type: `"auto" | "stacked"`, default: `"auto"`, description: { en: "Columns from 32rem of the tree's width, or always stacked.", zh: "树宽达到 32rem 时分列，或始终堆叠。" } },
         { name: "renderName", type: "(row: SchemaRowContext) => ReactNode", description: { en: "Replaces the property name.", zh: "替换属性名。" } },
         { name: "renderType", type: "(row: SchemaRowContext) => ReactNode", description: { en: "Replaces the type label.", zh: "替换类型标签。" } },
-        { name: "renderDescription", type: "(row: SchemaRowContext) => ReactNode", description: { en: "Replaces the description, for example to render Markdown.", zh: "替换说明，例如渲染 Markdown。" } },
+        { name: "renderDescription", type: "(row: SchemaRowContext) => ReactNode", description: { en: "Replaces the description, for example with your own Markdown renderer. Wins over `descriptionFormat`.", zh: "替换说明，例如使用你自己的 Markdown 渲染器。优先于 `descriptionFormat`。" } },
+        { name: "descriptionFormat", type: `"text" | "markdown"`, default: `"text"`, description: { en: "`markdown` renders code, emphasis, strong and links in string descriptions. HTML stays text; links keep http(s), relative and `#` targets only.", zh: "`markdown` 在字符串说明中渲染代码、强调、加粗和链接。HTML 保持为文本；链接只保留 http(s)、相对路径和 `#` 目标。" } },
       ],
       dataAttributes: [
         { name: "data-layout", description: { en: "The layout prop.", zh: "layout 属性。" } },
