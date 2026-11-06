@@ -1791,7 +1791,8 @@
         "@paneui/icons",
         "@paneui/locale-provider",
         "@paneui/badge",
-        "@paneui/tabs"
+        "@paneui/tabs",
+        "@paneui/inline-markdown"
       ],
       "files": [
         {
@@ -6790,6 +6791,23 @@
         },
         {
           "path": "packages/ui/src/lib/use-code-tokens.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "meta": {
+        "category": "Foundations",
+        "hidden": true
+      }
+    },
+    {
+      "name": "inline-markdown",
+      "type": "registry:lib",
+      "title": "Inline Markdown",
+      "description": "Renders code, emphasis and links in short strings.",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "packages/ui/src/lib/inline-markdown.tsx",
           "type": "registry:lib"
         }
       ],
