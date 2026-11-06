@@ -1,9 +1,9 @@
 import type { ComponentDoc } from "@/lib/doc-types"
 
 export default {
-  summary: { en: "Shows a shell command with a button that copies it.", zh: "展示一条命令，并可一键复制。" },
+  summary: { en: "Shows a command or prompt with a button that copies it.", zh: "展示命令或提示词，并可一键复制。" },
   usage: {
-    imports: `import { CommandCopy } from "@/components/ui/command-copy"`,
+    imports: `import { CommandCopy, PromptCopy } from "@/components/ui/command-copy"`,
     code: `<CommandCopy command="npx @taimatsu/paneui@latest init" />`,
   },
   examples: [
@@ -11,6 +11,7 @@ export default {
     { id: "sizes", title: { en: "Sizes", zh: "尺寸" }, description: { en: "Use `lg` for the one install line on a landing page.", zh: "落地页上的安装命令用 `lg`。" } },
     { id: "floating", title: { en: "Floating", zh: "悬浮" }, description: { en: "Use on pictures and tinted sections.", zh: "用于图片或有底色的区块上。" } },
     { id: "no-prompt", title: { en: "Without prompt", zh: "无提示符" } },
+    { id: "prompt", title: { en: "Multi-line text", zh: "多行文本" }, description: { en: "Use `PromptCopy` for a prompt or any text longer than one line.", zh: "提示词或超过一行的文本用 `PromptCopy`。" } },
   ],
   notes: [
     { title: "Copy feedback", body: { en: "The copy glyph cross-fades to a check for 1.6s and a polite live region says “Copied”. Under reduced motion the swap is an opacity fade only. If the clipboard is blocked nothing changes and `onCopy` is not called.", zh: "复制图标交叉淡入为对勾，持续 1.6 秒，礼貌的实时区域朗读“已复制”。在减少动态效果下，仅以不透明度淡入淡出切换。如果剪贴板被阻止，则无变化且不调用 `onCopy`。" } },
@@ -33,6 +34,17 @@ export default {
       dataAttributes: [
         { name: "data-variant", description: { en: "The variant.", zh: "变体。" } },
         { name: "data-size", description: { en: "The size.", zh: "尺寸。" } },
+      ],
+    },
+    {
+      name: "PromptCopy",
+      extends: "div",
+      description: { en: "Multi-line text under a title bar with the copy button.", zh: "标题栏带复制按钮，下方是多行文本。" },
+      props: [
+        { name: "text", type: "string", required: true, description: { en: "The text, exactly as it is copied. Line breaks are kept and long lines wrap.", zh: "文本，与复制时完全一致。保留换行，长行自动折行。" } },
+        { name: "title", type: "ReactNode", description: { en: "Shown on the title bar.", zh: "显示在标题栏上。" } },
+        { name: "label", type: "string", description: { en: "Accessible name of the copy button. Defaults to the locale's `copyPrompt`.", zh: "复制按钮的无障碍名称，默认取语言包的 `copyPrompt`。" } },
+        { name: "onCopy", type: "(text: string) => void", description: { en: "Called after the text reaches the clipboard.", zh: "文本到达剪贴板后调用。" } },
       ],
     },
     {

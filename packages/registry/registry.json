@@ -4009,7 +4009,7 @@
       "name": "command-copy",
       "type": "registry:ui",
       "title": "Command Copy",
-      "description": "Shows a shell command with a button that copies it.",
+      "description": "Shows a command or prompt with a button that copies it.",
       "dependencies": [
         "class-variance-authority",
         "motion"
