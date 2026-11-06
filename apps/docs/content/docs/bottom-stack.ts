@@ -14,8 +14,8 @@ export default {
       id: "own-item",
       title: { en: "Your Own Bar", zh: "自定义横条" },
       description: {
-        en: "Wrap any bottom bar in `BottomStackItem`. Elements outside the stack lift above it with `--bottom-overlay-offset`.",
-        zh: "把任意底部横条包在 `BottomStackItem` 中。堆叠之外的元素用 `--bottom-overlay-offset` 让到它上方。",
+        en: "Wrap any bottom bar in `BottomStackItem`; `order` keeps it at the edge.",
+        zh: "把任意底部横条包在 `BottomStackItem` 中；`order` 让它贴近底边。",
       },
     },
   ],
