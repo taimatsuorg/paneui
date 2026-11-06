@@ -2923,6 +2923,29 @@
       }
     },
     {
+      "name": "banner",
+      "type": "registry:ui",
+      "title": "Banner",
+      "description": "Announces news in a bar above the site header.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://paneui.dev/r/theme.json",
+        "https://paneui.dev/r/icons.json",
+        "https://paneui.dev/r/locale-provider.json"
+      ],
+      "files": [
+        {
+          "path": "registry/web/ui/banner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Display"
+      }
+    },
+    {
       "name": "collapsible",
       "type": "registry:ui",
       "title": "Collapsible",
@@ -3444,6 +3467,55 @@
       "files": [
         {
           "path": "registry/web/ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Display"
+      }
+    },
+    {
+      "name": "image-zoom",
+      "type": "registry:ui",
+      "title": "Image Zoom",
+      "description": "Opens an image full size to zoom and pan.",
+      "dependencies": [
+        "@base-ui/react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://paneui.dev/r/theme.json",
+        "https://paneui.dev/r/icons.json",
+        "https://paneui.dev/r/button.json",
+        "https://paneui.dev/r/locale-provider.json"
+      ],
+      "files": [
+        {
+          "path": "registry/web/ui/image-zoom.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Display"
+      }
+    },
+    {
+      "name": "diagram",
+      "type": "registry:ui",
+      "title": "Diagram",
+      "description": "Frames a diagram drawn in the browser, with full-screen zoom.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://paneui.dev/r/theme.json",
+        "https://paneui.dev/r/icons.json",
+        "https://paneui.dev/r/image-zoom.json",
+        "https://paneui.dev/r/locale-provider.json"
+      ],
+      "files": [
+        {
+          "path": "registry/web/ui/diagram.tsx",
           "type": "registry:ui"
         }
       ],
