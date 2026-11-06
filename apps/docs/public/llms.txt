@@ -97,6 +97,7 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 - [Cover Art](https://paneui.dev/docs/cover-art.md): Cover images for posts and cards. JSON: https://paneui.dev/r/cover-art.json
 - [Diagram](https://paneui.dev/docs/diagram.md): Frames a diagram drawn in the browser, with full-screen zoom. JSON: https://paneui.dev/r/diagram.json
 - [Empty State](https://paneui.dev/docs/empty-state.md): Explains an empty view and what to do next. JSON: https://paneui.dev/r/empty-state.json
+- [Endpoint](https://paneui.dev/docs/endpoint.md): Shows an API endpoint's method and path, ready to copy. JSON: https://paneui.dev/r/endpoint.json
 - [Image Zoom](https://paneui.dev/docs/image-zoom.md): Opens an image full size to zoom and pan. JSON: https://paneui.dev/r/image-zoom.json
 - [Kbd](https://paneui.dev/docs/kbd.md): Shows a keyboard key or shortcut. JSON: https://paneui.dev/r/kbd.json
 - [Loader](https://paneui.dev/docs/loader.md): Shows that something is loading. JSON: https://paneui.dev/r/loader.json
@@ -120,6 +121,7 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 - [App Shell](https://paneui.dev/docs/app-shell.md): App frame with a collapsible sidebar and an inset content panel. JSON: https://paneui.dev/r/app-shell.json
 - [Breadcrumb](https://paneui.dev/docs/breadcrumb.md): Shows where the current page sits in the site hierarchy. JSON: https://paneui.dev/r/breadcrumb.json
 - [File Tree](https://paneui.dev/docs/file-tree.md): Browses files and folders in a keyboard-navigable tree. JSON: https://paneui.dev/r/file-tree.json
+- [Locale Switcher](https://paneui.dev/docs/locale-switcher.md): Lets readers switch the site's language from the header. JSON: https://paneui.dev/r/locale-switcher.json
 - [Menubar](https://paneui.dev/docs/menubar.md): Row of menus for a desktop app window. JSON: https://paneui.dev/r/menubar.json
 - [Navigation Menu](https://paneui.dev/docs/navigation-menu.md): Site navigation with panels of links. JSON: https://paneui.dev/r/navigation-menu.json
 - [Outline](https://paneui.dev/docs/outline.md): Follows your reading position in the page outline. JSON: https://paneui.dev/r/outline.json
@@ -133,6 +135,7 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 - [Tabs](https://paneui.dev/docs/tabs.md): Switches between related panels of content in one place. JSON: https://paneui.dev/r/tabs.json
 - [Toolbar](https://paneui.dev/docs/toolbar.md): Groups related actions into one keyboard-navigable bar. JSON: https://paneui.dev/r/toolbar.json
 - [User Menu](https://paneui.dev/docs/user-menu.md): Opens account actions for the signed-in user. JSON: https://paneui.dev/r/user-menu.json
+- [Version Switcher](https://paneui.dev/docs/version-switcher.md): Picks the docs version at the top of a sidebar. JSON: https://paneui.dev/r/version-switcher.json
 - [Workspace Switcher](https://paneui.dev/docs/workspace-switcher.md): Switches between workspaces or teams from the sidebar header. JSON: https://paneui.dev/r/workspace-switcher.json
 
 ## Text
@@ -165,6 +168,7 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 
 - [Comparison Table](https://paneui.dev/docs/comparison-table.md): Compares features across plans with included and excluded marks. JSON: https://paneui.dev/r/comparison-table.json
 - [Data Table](https://paneui.dev/docs/data-table.md): Browses, filters and acts on a set of rows. JSON: https://paneui.dev/r/data-table.json
+- [Schema Tree](https://paneui.dev/docs/schema-tree.md): Lists schema properties in a table that nests objects and arrays. JSON: https://paneui.dev/r/schema-tree.json
 - [Simple Table](https://paneui.dev/docs/simple-table.md): A plain table for reference content like props and tokens. JSON: https://paneui.dev/r/simple-table.json
 - [Table](https://paneui.dev/docs/table.md): Shows large data sets that people sort, select and resize. JSON: https://paneui.dev/r/table.json
 - [Table Async](https://paneui.dev/docs/table-async.md): Loads table rows page by page as the reader scrolls. JSON: https://paneui.dev/r/table-async.json
