@@ -1185,6 +1185,74 @@ export const StopIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const SkipBackIcon = (p: IconProps) => (
+  <Icon {...p} tones={["sky"]}>
+    {(c) => (
+      <>
+        <path d="M19.6 6.4 v11.2 c0 1.1 -1.2 1.8 -2.2 1.2 l-8.6 -5.6 c-.9 -.6 -.9 -1.8 0 -2.4 l8.6 -5.6 c1 -.6 2.2 .1 2.2 1.2 Z" fill={c.f("sky")} />
+        <rect x="3.4" y="4.6" width="3.4" height="14.8" rx="1.7" fill={c.f("sky")} />
+        <path d="M17.6 7.6 V11" {...glyph("#fff", 1.1)} opacity={0.6} />
+      </>
+    )}
+  </Icon>
+);
+
+export const SkipForwardIcon = (p: IconProps) => (
+  <Icon {...p} tones={["sky"]}>
+    {(c) => (
+      <>
+        <path d="M4.4 6.4 v11.2 c0 1.1 1.2 1.8 2.2 1.2 l8.6 -5.6 c.9 -.6 .9 -1.8 0 -2.4 l-8.6 -5.6 c-1 -.6 -2.2 .1 -2.2 1.2 Z" fill={c.f("sky")} />
+        <rect x="17.2" y="4.6" width="3.4" height="14.8" rx="1.7" fill={c.f("sky")} />
+        <path d="M6.4 7.6 V11" {...glyph("#fff", 1.1)} opacity={0.6} />
+      </>
+    )}
+  </Icon>
+);
+
+export const Volume2Icon = (p: IconProps) => (
+  <Icon {...p} tones={["steel", "sky"]}>
+    {(c) => (
+      <>
+        <path d="M11.6 4.6 v14.8 c0 1 -1.1 1.5 -1.9 .9 L6.1 16.6 H4.4 a2 2 0 0 1 -2 -2 V9.4 a2 2 0 0 1 2 -2 h1.7 l3.6 -3.7 c.8 -.6 1.9 -.1 1.9 .9 Z" fill={c.f("steel")} />
+        <path d="M8.2 7.2 L10.2 5.4" {...glyph("#fff", 0.9)} opacity={0.6} />
+        <path d="M14.8 8.6 a4.8 4.8 0 0 1 0 6.8" {...glyph(c.s("sky"), 2)} />
+        <path d="M17.8 5.6 a9 9 0 0 1 0 12.8" {...glyph(c.s("sky"), 2)} />
+      </>
+    )}
+  </Icon>
+);
+
+export const VolumeXIcon = (p: IconProps) => (
+  <Icon {...p} tones={["steel", "red"]}>
+    {(c) => (
+      <>
+        <path d="M11.6 4.6 v14.8 c0 1 -1.1 1.5 -1.9 .9 L6.1 16.6 H4.4 a2 2 0 0 1 -2 -2 V9.4 a2 2 0 0 1 2 -2 h1.7 l3.6 -3.7 c.8 -.6 1.9 -.1 1.9 .9 Z" fill={c.f("steel")} />
+        <path d="M8.2 7.2 L10.2 5.4" {...glyph("#fff", 0.9)} opacity={0.6} />
+        <path d="M15.2 9.2 l5.4 5.6 M20.6 9.2 l-5.4 5.6" {...glyph(c.s("red"), 2.4)} />
+      </>
+    )}
+  </Icon>
+);
+
+export const HeadphonesIcon = (p: IconProps) => (
+  <Icon {...p} tones={["graphite", "purple"]}>
+    {(c) => (
+      <>
+        <path d="M4 15.4 V12 a8 8 0 0 1 16 0 v3.4" {...glyph(c.s("graphite"), 2)} />
+        <rect x="2.6" y="12.8" width="6" height="8.6" rx="2.6" fill={c.f("purple")} />
+        <rect x="15.4" y="12.8" width="6" height="8.6" rx="2.6" fill={c.f("purple")} />
+        <path d="M4.4 14.6 V17 M17.2 14.6 V17" {...glyph("#fff", 1)} opacity={0.6} />
+      </>
+    )}
+  </Icon>
+);
+
+export const AudioLinesIcon = (p: IconProps) => (
+  <Icon {...p} tones={["purple"]}>
+    {(c) => <path d="M3 10v4M7.5 6.5v11M12 3.5v17M16.5 7.5v9M21 10v4" {...glyph(c.s("purple"), 2.6)} />}
+  </Icon>
+);
+
 export const MonitorIcon = (p: IconProps) => (
   <Icon {...p} tones={["graphite", "sky", "silver"]}>
     {(c) => (
