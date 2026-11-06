@@ -5,7 +5,7 @@
   "description": "Highlights static and streaming code with theme colours.",
   "dependencies": [
     "@pierre/highlights@0.2.0",
-    "shiki@^3.23.0"
+    "shiki@>=3.23 <5"
   ],
   "files": [
     {
