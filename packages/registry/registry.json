@@ -1781,6 +1781,29 @@
       }
     },
     {
+      "name": "schema-tree",
+      "type": "registry:ui",
+      "title": "Schema Tree",
+      "description": "Lists schema properties in a table that nests objects and arrays.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/icons",
+        "@paneui/locale-provider",
+        "@paneui/badge",
+        "@paneui/tabs"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/schema-tree.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Data"
+      }
+    },
+    {
       "name": "saas",
       "type": "registry:block",
       "title": "SaaS",

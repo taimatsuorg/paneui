@@ -565,6 +565,16 @@ type LocaleLabels = {
   feature: string
   included: string
   notIncluded: string
+  /* Schema tree */
+  schemaProperty: string
+  schemaType: string
+  schemaRequired: string
+  schemaReadOnly: string
+  schemaDeprecated: string
+  schemaAllowedValues: string
+  schemaOneOf: string
+  schemaAnyOf: string
+  schemaOption: (n: number) => string
   /* Image zoom, banner and diagram */
   enlargeImage: (alt?: string) => string
   zoomIn: string
@@ -1260,6 +1270,15 @@ const en: LocaleLabels = {
   feature: "Feature",
   included: "Included",
   notIncluded: "Not included",
+  schemaProperty: "Property",
+  schemaType: "Type",
+  schemaRequired: "Required",
+  schemaReadOnly: "Read-only",
+  schemaDeprecated: "Deprecated",
+  schemaAllowedValues: "Allowed values",
+  schemaOneOf: "One of",
+  schemaAnyOf: "Any of",
+  schemaOption: (n) => `Option ${n}`,
   enlargeImage: (alt) => (alt ? `Enlarge image: ${alt}` : "Enlarge image"),
   zoomIn: "Zoom in",
   zoomOut: "Zoom out",
@@ -1943,6 +1962,15 @@ const zhCN: LocaleLabels = {
   feature: "功能",
   included: "包含",
   notIncluded: "不包含",
+  schemaProperty: "属性",
+  schemaType: "类型",
+  schemaRequired: "必填",
+  schemaReadOnly: "只读",
+  schemaDeprecated: "已弃用",
+  schemaAllowedValues: "可选值",
+  schemaOneOf: "以下之一",
+  schemaAnyOf: "以下任意",
+  schemaOption: (n) => `选项 ${n}`,
   enlargeImage: (alt) => (alt ? `查看大图：${alt}` : "查看大图"),
   zoomIn: "放大",
   zoomOut: "缩小",
