@@ -62,7 +62,6 @@ export const galleryHeights: Record<string, number> = {
   "scroll-to": 384,
   "shader-background": 360,
   "signup-form": 534,
-  "slider": 308,
   "smooth-scroll": 384,
   "sortable-stack": 376,
   "status-bar": 320,

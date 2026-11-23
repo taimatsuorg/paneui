@@ -25,7 +25,7 @@ export default function AgentPage() {
 │       ├── TabStrip              open threads, reorder + close
 │       ├── ChatPane (× 2 split)  MessageScroller → WorkSummary, messages,
 │       │                         ToolApproval, EditedFilesCard;
-│       │                         AgentComposer + Mode/Model/EffortPicker
+│       │                         AgentComposer + ModePicker · ThinkingModelPicker
 │       └── Dock                  Terminal (TerminalView) · Explorer (FileTree) · Browser
 ├── CommandPalette (⌘K) · SettingsDialog · review Dialog (FileDiff)
 └── acp/                          AcpClient store, transports, demo agent

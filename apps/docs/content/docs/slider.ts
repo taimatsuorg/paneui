@@ -44,7 +44,7 @@ export default {
     },
     {
       title: "Related",
-      body: { en: "For a single value with the label on the track, see [Range Slider Inline](/docs/range-slider-inline).", zh: "对于轨道上带标签的单个值，请参见 [Range Slider Inline](/docs/range-slider-inline)。" },
+      body: { en: "For a single value with the label on the track, see [Range Slider Inline](/docs/range-slider-inline); for model thought levels, see [Reasoning Effort](/docs/reasoning-effort).", zh: "对于轨道上带标签的单个值，请参见 [Range Slider Inline](/docs/range-slider-inline)；模型思考强度请参见 [Reasoning Effort](/docs/reasoning-effort)。" },
     },
   ],
   api: [

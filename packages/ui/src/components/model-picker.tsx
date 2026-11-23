@@ -402,7 +402,7 @@ function ThinkingModelPicker({ models, levels, effort, onEffortChange, value, ..
         // The tab rises over the list's last row while dragging; the track sits on the popover.
         className="-mt-4 w-auto min-w-0 flex-1 [--reasoning-effort-surface:var(--popover)]"
       />
-      <span className="w-12 shrink-0 truncate text-ui-sm text-muted-foreground">{current?.label}</span>
+      <span className="w-16 shrink-0 truncate text-ui-sm text-muted-foreground">{current?.label}</span>
       <Kbd size="sm" className="shrink-0">Tab</Kbd>
     </div>
   ) : undefined

@@ -169,10 +169,16 @@ function ReasoningEffort({
   }, [width, radius, half])
 
   const centreAt = React.useCallback((p: number, w: number) => half + (p / last) * Math.max(0, w - 2 * half), [half, last])
-  const fillWidth = useTransform(() => centreAt(pos.get(), width.get()) + half)
-  const thumbX = useTransform(() => {
-    const w = thumbWidth.get()
-    return clamp(centreAt(pos.get(), width.get()) - w / 2, INSET, Math.max(INSET, width.get() - INSET - w))
+  const thumbLeftAt = React.useCallback(
+    (p: number, w: number, tw: number) => clamp(centreAt(p, w) - tw / 2, INSET, Math.max(INSET, w - INSET - tw)),
+    [centreAt]
+  )
+  const thumbX = useTransform(() => thumbLeftAt(pos.get(), width.get(), thumbWidth.get()))
+  const fillWidth = useTransform(() => {
+    const w = width.get()
+    const tw = thumbWidth.get()
+    const right = thumbLeftAt(pos.get(), w, tw) + tw + INSET
+    return w > 0 ? Math.min(w, right) : right
   })
   const path = useTransform(() =>
     tabPath(
@@ -298,7 +304,7 @@ function ReasoningEffort({
       data-size={size}
       data-dragging={dragging || undefined}
       data-disabled={disabled || undefined}
-      className={cn("relative w-56 touch-none select-none data-disabled:opacity-64", className)}
+      className={cn("pointer-events-none relative w-56 touch-none select-none data-disabled:opacity-64", className)}
       style={{ height: dims.tab + dims.track, ...style }}
       {...props}
     >
@@ -350,7 +356,7 @@ function ReasoningEffort({
         onPointerCancel={(e) => release(e, true)}
         onKeyDown={onKeyDown}
         className={cn(
-          "frame-control frame-p-0.5 absolute inset-x-0 bottom-0 cursor-grab bg-(--reasoning-effort-surface,var(--card)) outline-none",
+          "frame-control frame-p-0.5 pointer-events-auto absolute inset-x-0 bottom-0 cursor-grab touch-none bg-(--reasoning-effort-surface,var(--card)) outline-none",
           "focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           "data-[dragging=true]:cursor-grabbing aria-disabled:cursor-not-allowed"
         )}
@@ -367,10 +373,11 @@ function ReasoningEffort({
         {trackWidth > 0 && levels.map((l, i) => {
           const w = trackWidth
           const x = centreAt(i, w)
-          const thumbCentre = centreAt(live, w)
-          const thumbHalf = (dragging ? dims.drag : dims.thumb) / 2
-          const onThumb = Math.abs(x - thumbCentre) < thumbHalf - 1
-          const filled = x < thumbCentre
+          const tw = dragging ? dims.drag : dims.thumb
+          const tx = thumbLeftAt(live, w, tw)
+          const thumbCentre = tx + tw / 2
+          const onThumb = Math.abs(x - thumbCentre) < tw / 2 - 1
+          const filled = x < tx + tw + INSET
           const target = dragging && i === hover && !onThumb
           const tone = onThumb ? "thumb" : target ? "target" : filled ? "fill" : "track"
           return (
