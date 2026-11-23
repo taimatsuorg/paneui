@@ -40,9 +40,10 @@ def text_role(H, C, pages, subtle, mode, target=TEXT_TARGET, L_start=None):
     return Ok(solve_L(lambda L: Ok(L, C, H), ok, L_start or 0.72, 0.95, prefer="low"), C, H)
 
 
-def ring_role(solid, text, page):
-    """Focus ring: the solid when it clears 3:1 on the page, otherwise the text role."""
-    return solid if ratio(solid, page) >= 3.2 else text
+def ring_role(solid, text, page, pages=None):
+    """Focus ring: the solid when it clears 3.15:1 on every tested surface, otherwise the text role."""
+    check = pages if pages is not None else [page]
+    return solid if all(ratio(solid, p) >= 3.15 for p in check) else text
 
 
 def accent_roles(solid, fg, page, pages, mode, alphas=None, text_chroma=0.9, text_start=None):
@@ -60,7 +61,7 @@ def accent_roles(solid, fg, page, pages, mode, alphas=None, text_chroma=0.9, tex
         "primary-subtle-hover": solid.with_(a=a["subtle-hover"]),
         "primary-border": solid.with_(a=a["border"]),
         "primary-text": text,
-        "ring": ring_role(solid, text, page),
+        "ring": ring_role(solid, text, page, pages),
         "selection": solid.with_(a=a["selection"]),
     }
 
@@ -84,7 +85,7 @@ TAG_HUES = {"gray": (None, 0.006), "brown": (48, 0.07), "orange": (55, 0.15), "y
 TAGS = ["default", *TAG_HUES]
 
 
-def tag_roles(mode, pages, foreground, ink_fill, gray_hue, gray_chroma=None):
+def tag_roles(mode, pages, foreground, ink_fill, gray_hue, gray_chroma=None, light_bg_L=0.965, light_fill_L=0.93):
     """text, highlight background (bg) and pill fill per tag colour; text reaches 4.5:1 on all three."""
     page = pages[0]
     out = {"tag-default-text": foreground, "tag-default-bg": "transparent", "tag-default-fill": ink_fill}
@@ -92,8 +93,8 @@ def tag_roles(mode, pages, foreground, ink_fill, gray_hue, gray_chroma=None):
         if name == "gray":
             h, c = gray_hue, (c if gray_chroma is None else gray_chroma)
         if mode == "light":
-            bg = Ok(0.965, min(c * 0.18, 0.03), h)
-            fill = Ok(0.93, min(c * 0.35, 0.06), h)
+            bg = Ok(light_bg_L, min(c * 0.18, 0.03), h)
+            fill = Ok(light_fill_L, min(c * 0.35, 0.06), h)
             start = 0.47 if name in ("orange", "yellow") else 0.49
         else:
             bg = Ok(0.27, min(c * 0.2, 0.03), h)

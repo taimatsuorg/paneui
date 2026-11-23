@@ -25,12 +25,12 @@ import { Radio, RadioGroup } from "@paneui/ui/components/radio"
 import { Slider } from "@paneui/ui/components/slider"
 import { Switch } from "@paneui/ui/components/switch"
 
-import { ACCENT_VARS, DEFAULT_ACCENT, opaqueHex, PRESET_LABELS, PRESET_THEMES, themeCss, type PresetAccent } from "./accent-color"
+import { ACCENT_VARS, colorToHex, DEFAULT_ACCENT, PRESET_LABELS, PRESET_THEMES, themeCss, type PresetAccent } from "./accent-color"
 import { setAccent, setCustomAccent, useAccentState } from "./accent-store"
 
 const PRESETS = Object.keys(PRESET_THEMES) as PresetAccent[]
 /** Each mode's page colour, so translucent roles read as they do there. Mirrors --background. */
-const PAGE = { light: "#fff", dark: "oklch(15% 0 0)" } as const
+const PAGE = { light: "oklch(96.5% 0.007 82)", dark: "oklch(17.5% 0.007 70)" } as const
 /** Short role name under the strip: `primary-subtle-hover` → `subtle-hover`, `primary` → `solid`. */
 const roleLabel = (k: string) => (k === "ring" ? "ring" : k.replace("primary-", "").replace("primary", "solid"))
 const CHARTS = ["bg-chart-1", "bg-chart-2", "bg-chart-3", "bg-chart-4", "bg-chart-5", "bg-chart-6", "bg-chart-7", "bg-chart-8"]
@@ -51,7 +51,7 @@ export function ThemingAccent() {
   const css = themeCss(theme, label)
 
   // The picker shows the custom colour once there is one, otherwise the current light primary.
-  const pickerHex = custom?.hex ?? opaqueHex(preset.light.primary)
+  const pickerHex = custom?.hex ?? colorToHex(preset.light.primary)
 
   // Coalesce drag updates to one per frame (each writes localStorage and re-syncs template iframes).
   const frame = React.useRef<number | null>(null)

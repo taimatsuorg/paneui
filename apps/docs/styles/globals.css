@@ -5,8 +5,8 @@
 @source "../components";
 
 /*
- * Studio parts for the site's own pages. A tile is a soft grey block with no border or shadow that
- * components sit on. A tile label is a small muted caption. The lamp is a plain status dot.
+ * Studio parts for the site's own pages. A tile is a lifted warm white block (var(--card)) with no
+ * border or shadow on the Warm Stone canvas. A tile label is a small muted caption. The lamp is a plain status dot.
  */
 @utility tile {
   position: relative;

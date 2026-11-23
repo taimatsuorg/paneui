@@ -43,146 +43,146 @@ type OgImageColors = {
 const OG_IMAGE_TOKENS = {
   blue: {
     light: {
-      background: "#ffffff",
-      card: "#ffffff",
-      foreground: "#202020",
-      mutedForeground: "#646464",
-      border: "#e8e8e8",
-      primary: "#0075d2",
+      background: "#f6f3ee",
+      card: "#fefcf9",
+      foreground: "#191511",
+      mutedForeground: "#605c58",
+      border: "#d9d6d2",
+      primary: "#066bb8",
       primaryForeground: "#ffffff",
-      primarySubtle: "#e6f1fa",
-      primaryBorder: "#add3f1"
+      primarySubtle: "#dee5e9",
+      primaryBorder: "#a9c8dd"
     },
     dark: {
-      background: "#0b0b0b",
-      card: "#111111",
-      foreground: "#eeeeee",
-      mutedForeground: "#9d9d9d",
-      border: "#252525",
-      primary: "#0075d2",
-      primaryForeground: "#ffffff",
-      primarySubtle: "#091c2b",
-      primaryBorder: "#06385f"
+      background: "#13100d",
+      card: "#1d1a17",
+      foreground: "#efece7",
+      mutedForeground: "#a9a6a1",
+      border: "#2d2a27",
+      primary: "#5aaced",
+      primaryForeground: "#0e171f",
+      primarySubtle: "#1e2931",
+      primaryBorder: "#31516b"
     }
   },
   neutral: {
     light: {
-      background: "#ffffff",
-      card: "#ffffff",
-      foreground: "#202020",
-      mutedForeground: "#646464",
-      border: "#e8e8e8",
-      primary: "#0d0d0d",
-      primaryForeground: "#ffffff",
-      primarySubtle: "#f0f0f0",
-      primaryBorder: "#d9d9d9"
+      background: "#f6f3ee",
+      card: "#fefcf9",
+      foreground: "#191511",
+      mutedForeground: "#605c58",
+      border: "#d9d6d2",
+      primary: "#191511",
+      primaryForeground: "#faf8f5",
+      primarySubtle: "#e6e3df",
+      primaryBorder: "#cac7c2"
     },
     dark: {
-      background: "#0b0b0b",
-      card: "#111111",
-      foreground: "#eeeeee",
-      mutedForeground: "#9d9d9d",
-      border: "#252525",
-      primary: "#f3f3f3",
-      primaryForeground: "#000000",
-      primarySubtle: "#1c1c1c",
-      primaryBorder: "#343434"
+      background: "#13100d",
+      card: "#1d1a17",
+      foreground: "#efece7",
+      mutedForeground: "#a9a6a1",
+      border: "#2d2a27",
+      primary: "#efece7",
+      primaryForeground: "#13100d",
+      primarySubtle: "#24221f",
+      primaryBorder: "#3f3c39"
     }
   },
   green: {
     light: {
-      background: "#ffffff",
-      card: "#ffffff",
-      foreground: "#202020",
-      mutedForeground: "#646464",
-      border: "#e8e8e8",
-      primary: "#008652",
+      background: "#f6f3ee",
+      card: "#fefcf9",
+      foreground: "#191511",
+      mutedForeground: "#605c58",
+      border: "#d9d6d2",
+      primary: "#007d4d",
       primaryForeground: "#ffffff",
-      primarySubtle: "#e6f3ee",
-      primaryBorder: "#add8c8"
+      primarySubtle: "#dde7de",
+      primaryBorder: "#a7cdbb"
     },
     dark: {
-      background: "#0b0b0b",
-      card: "#111111",
-      foreground: "#eeeeee",
-      mutedForeground: "#9d9d9d",
-      border: "#252525",
-      primary: "#008652",
-      primaryForeground: "#ffffff",
-      primarySubtle: "#091f16",
-      primaryBorder: "#063f29"
+      background: "#13100d",
+      card: "#1d1a17",
+      foreground: "#efece7",
+      mutedForeground: "#a9a6a1",
+      border: "#2d2a27",
+      primary: "#62be8c",
+      primaryForeground: "#0e1913",
+      primarySubtle: "#1f2c21",
+      primaryBorder: "#345942"
     }
   },
   orange: {
     light: {
-      background: "#ffffff",
-      card: "#ffffff",
-      foreground: "#202020",
-      mutedForeground: "#646464",
-      border: "#e8e8e8",
-      primary: "#ce4700",
+      background: "#f6f3ee",
+      card: "#fefcf9",
+      foreground: "#191511",
+      mutedForeground: "#605c58",
+      border: "#d9d6d2",
+      primary: "#c84709",
       primaryForeground: "#ffffff",
-      primarySubtle: "#faede6",
-      primaryBorder: "#efc4ad"
+      primarySubtle: "#f1e2d7",
+      primaryBorder: "#e7bca5"
     },
     dark: {
-      background: "#0b0b0b",
-      card: "#111111",
-      foreground: "#eeeeee",
-      mutedForeground: "#9d9d9d",
-      border: "#252525",
-      primary: "#ce4700",
-      primaryForeground: "#ffffff",
-      primarySubtle: "#2a1509",
-      primaryBorder: "#5d2406"
+      background: "#13100d",
+      card: "#1d1a17",
+      foreground: "#efece7",
+      mutedForeground: "#a9a6a1",
+      border: "#2d2a27",
+      primary: "#f88d5b",
+      primaryForeground: "#1e130e",
+      primarySubtle: "#37241a",
+      primaryBorder: "#73452e"
     }
   },
   rose: {
     light: {
-      background: "#ffffff",
-      card: "#ffffff",
-      foreground: "#202020",
-      mutedForeground: "#646464",
-      border: "#e8e8e8",
-      primary: "#d92b75",
+      background: "#f6f3ee",
+      card: "#fefcf9",
+      foreground: "#191511",
+      mutedForeground: "#605c58",
+      border: "#d9d6d2",
+      primary: "#c7316a",
       primaryForeground: "#ffffff",
-      primarySubtle: "#fbeaf1",
-      primaryBorder: "#f3bbd3"
+      primarySubtle: "#f1e0e1",
+      primaryBorder: "#e7b5c4"
     },
     dark: {
-      background: "#0b0b0b",
-      card: "#111111",
-      foreground: "#eeeeee",
-      mutedForeground: "#9d9d9d",
-      border: "#252525",
-      primary: "#d92b75",
-      primaryForeground: "#ffffff",
-      primarySubtle: "#2c101c",
-      primaryBorder: "#621838"
+      background: "#13100d",
+      card: "#1d1a17",
+      foreground: "#efece7",
+      mutedForeground: "#a9a6a1",
+      border: "#2d2a27",
+      primary: "#f17e9f",
+      primaryForeground: "#1e1215",
+      primarySubtle: "#362225",
+      primaryBorder: "#703e4a"
     }
   },
   violet: {
     light: {
-      background: "#ffffff",
-      card: "#ffffff",
-      foreground: "#202020",
-      mutedForeground: "#646464",
-      border: "#e8e8e8",
-      primary: "#6e56cf",
+      background: "#f6f3ee",
+      card: "#fefcf9",
+      foreground: "#191511",
+      mutedForeground: "#605c58",
+      border: "#d9d6d2",
+      primary: "#6757c5",
       primaryForeground: "#ffffff",
-      primarySubtle: "#f0eefa",
-      primaryBorder: "#d1c9f0"
+      primarySubtle: "#e7e3ea",
+      primaryBorder: "#c8c1e1"
     },
     dark: {
-      background: "#0b0b0b",
-      card: "#111111",
-      foreground: "#eeeeee",
-      mutedForeground: "#9d9d9d",
-      border: "#252525",
-      primary: "#6e56cf",
-      primaryForeground: "#ffffff",
-      primarySubtle: "#1b172a",
-      primaryBorder: "#352b5d"
+      background: "#13100d",
+      card: "#1d1a17",
+      foreground: "#efece7",
+      mutedForeground: "#a9a6a1",
+      border: "#2d2a27",
+      primary: "#a19af8",
+      primaryForeground: "#15151f",
+      primarySubtle: "#292633",
+      primaryBorder: "#4e4a70"
     }
   }
 } as const satisfies Record<OgImageAccent, Record<OgImageMode, OgImageColors>>

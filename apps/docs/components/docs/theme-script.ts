@@ -39,11 +39,11 @@ export type StylePreset = (typeof STYLES)[number]
 export const RADII = ["none", "sm", "default", "lg", "xl"] as const
 export type RadiusPreset = (typeof RADII)[number]
 
-/** Accent presets. "blue" is the base (its roles are on :root and .dark, no attribute); "neutral" is the default choice; the rest have a `html[data-accent]` block in packages/tokens/styles/globals.css. */
+/** Accent presets. "blue" is the base and default (its roles sit on :root and .dark, no attribute); the rest have a `html[data-accent]` block in packages/tokens/styles/globals.css. */
 export const ACCENTS = ["blue", "neutral", "green", "orange", "rose", "violet"] as const
 
 /** Mirror accent-color.ts DEFAULT_ACCENT and BASE_ACCENT (kept here so the pre-paint script has no extra import). */
-const DEFAULT = "neutral"
+const DEFAULT = "blue"
 const BASE = "blue"
 
 export type Accent = (typeof ACCENTS)[number]

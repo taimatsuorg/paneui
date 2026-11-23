@@ -1,7 +1,7 @@
-"""Writes the colour tokens of the default style and everything that mirrors them:
+"""Writes the colour tokens of the default style (Warm Stone) and everything that mirrors them:
 
 - packages/tokens/styles/globals.css: the colour mappings in `@theme inline`, the `:root` / `.dark` token blocks,
-  the wide-gamut chart block and the `html[data-accent]` preset blocks (between `gen-theme` markers);
+  and the `html[data-accent]` preset blocks (between `gen-theme` markers);
 - packages/tokens/styles/theme-accents.css (the runtime preset bundle);
 - apps/docs/components/docs/accent-presets.generated.ts and the preset CSS inside packages/ui/src/components/accent-picker.tsx;
 - packages/registry/registry.json: the `theme` item (cssVars, css, version) and the `theme-<accent>` items.
@@ -15,8 +15,8 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).parent))
-from theme_color import Ok, hex_to_oklch, ratio, solve_alpha, solve_L  # noqa: E402
-from theme_roles import TAGS, accent_roles, status_roles, solid_for, tag_roles, states  # noqa: E402
+from theme_color import Ok, hex_to_oklch, ratio, solve_alpha  # noqa: E402
+from theme_roles import TAGS, accent_roles, status_roles, solid_for, tag_roles  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 GLOBALS = ROOT / "packages/tokens/styles/globals.css"
@@ -24,28 +24,29 @@ ACCENTS_CSS = ROOT / "packages/tokens/styles/theme-accents.css"
 PRESETS_TS = ROOT / "apps/docs/components/docs/accent-presets.generated.ts"
 PICKER = ROOT / "packages/ui/src/components/accent-picker.tsx"
 REGISTRY = ROOT / "packages/registry/registry.json"
-THEME_VERSION = "2.5"
+THEME_VERSION = "2.6"
 
 WHITE, BLACK = Ok(1), Ok(0)
-PAGE = {"light": Ok(1), "dark": Ok(0.15)}
-CARD = {"light": Ok(1), "dark": Ok(0.1776)}  # #111
-POPOVER = {"light": Ok(1), "dark": Ok(0.252)}
-# The Paper page is the lightest dark page and the darkest light page the presets meet; text roles clear both.
+PAGE = {"light": Ok(0.965, 0.007, 82), "dark": Ok(0.175, 0.007, 70)}
+CARD = {"light": Ok(0.992, 0.004, 85), "dark": Ok(0.22, 0.008, 70)}
+POPOVER = {"light": Ok(0.996, 0.002, 85), "dark": Ok(0.255, 0.008, 70)}
+SHELL = {"light": Ok(0.935, 0.009, 80), "dark": Ok(0.14, 0.007, 70)}
+CODE = {"light": Ok(0.942, 0.007, 82), "dark": Ok(0.20, 0.007, 70)}
+# The Paper page is also checked so shared accent and status presets read cleanly on both styles.
 PAPER_PAGE = {"light": Ok(0.99, 0.002, 234.82), "dark": Ok(0.195, 0.004, 289.15)}
 PAPER_POPOVER = {"light": Ok(0.998, 0.001, 234.82), "dark": Ok(0.255, 0.004, 289.15)}
 
 
-def ink(alpha, white=False):
-    """Pure black (white in dark) at an alpha, as #rrggbbaa."""
-    return ("#ffffff" if white else "#000000") + f"{round(alpha * 255):02x}"
+def ink_ok(alpha, dark=False):
+    return Ok(0.945, 0.008, 82, alpha) if dark else Ok(0.20, 0.01, 65, alpha)
 
 
-def ink_ok(alpha, white=False):
-    return Ok(1 if white else 0, 0, 0, alpha)
+def ink(alpha, dark=False):
+    return ink_ok(alpha, dark).css()
 
 
-def solve_ink(target, white, pages):
-    return solve_alpha(lambda a: ink_ok(a, white), lambda c: all(ratio(c, p) >= target for p in pages), 0.02, 1)
+def solve_ink(target, dark, pages, under):
+    return solve_alpha(lambda a: ink_ok(a, dark), lambda c: all(ratio(c, p, under) >= target for p in pages), 0.02, 1)
 
 
 def hue(h):
@@ -56,113 +57,175 @@ def hue(h):
 # ───────────────────────────── neutrals ─────────────────────────────
 def neutrals(mode):
     dark = mode == "dark"
-    w = dark
     page = PAGE[mode]
-    border_control = solve_ink(3.1, w, [page, CARD[mode]])
-    muted_alpha = 0.6 if dark else 0.608
+    fg = ink_ok(1.0, dark)
+    fill_hover = ink_ok(0.075 if dark else 0.065, dark)
+    fill_active = ink_ok(0.12 if dark else 0.11, dark)
+    fill_strong = ink_ok(0.17 if dark else 0.16, dark)
+    muted_alpha = max(
+        0.68,
+        solve_ink(4.7, dark, [page, CARD[mode], POPOVER[mode], SHELL[mode], fill_hover, fill_active], page),
+    )
+    tert_alpha = solve_ink(3.2, dark, [page, CARD[mode]], page)
+    border_control = solve_ink(3.15, dark, [page, CARD[mode]], page)
     return {
-        # Surfaces: page, container (card) and modal (popover), opaque; raised surfaces step lighter in dark.
-        "background": "oklch(15% 0 0)" if dark else "#fff",
-        "card": "#111" if dark else "#fff",
-        "popover": "oklch(25.2% 0 0)" if dark else "#fff",
-        "surface-sunken": "#0006" if dark else "#0000000d",
-        "surface-standout": "#222" if dark else "#202020",
-        "standout-foreground": "#ffffffed" if dark else "#fff",
-        # Text: primary, secondary (≥ 4.5:1, ~6–7.5:1), tertiary (≥ 3:1: meta, placeholders), disabled. Translucent ink.
-        "foreground": ink(0.93, w) if dark else "#000000df",
-        "card-foreground": ink(0.93, w) if dark else "#000000df",
-        "popover-foreground": ink(0.93, w) if dark else "#000000df",
-        "muted-foreground": ink(muted_alpha, w),
-        "fg-tertiary": "#ffffff64" if dark else "#00000072",
-        "fg-disabled": "#fff5" if dark else "#0004",
+        # Surfaces: Warm Stone page, warm white/lifted card and popover, opaque.
+        "background": page,
+        "card": CARD[mode],
+        "popover": POPOVER[mode],
+        "surface-sunken": Ok(0, 0, 0, 0.32) if dark else ink_ok(0.06, False),
+        "surface-standout": Ok(0.945, 0.008, 82) if dark else Ok(0.22, 0.01, 65),
+        "standout-foreground": Ok(0.175, 0.007, 70) if dark else Ok(0.98, 0.004, 85),
+        # Text: primary, secondary (≥ 4.5:1), tertiary (≥ 3:1: meta, placeholders), disabled. Warm translucent ink.
+        "foreground": fg,
+        "card-foreground": fg,
+        "popover-foreground": fg,
+        "muted-foreground": ink_ok(muted_alpha, dark),
+        "fg-tertiary": ink_ok(tert_alpha, dark),
+        "fg-disabled": ink_ok(round(tert_alpha * 0.68, 3), dark),
         # Fills, translucent ink: hover (rest of a filled control), active (pressed, open, selected), strong (pressed on hover).
-        "fill-hover": ink(0.07, w) if dark else "#0000000f",
-        "fill-active": ink(0.106, w) if dark else "#00000017",
-        "fill-strong": ink(0.16, w) if dark else ink(0.15),
+        "fill-hover": fill_hover,
+        "fill-active": fill_active,
+        "fill-strong": fill_strong,
         # The shadcn names read the fills.
         "secondary": "var(--fill-hover)",
-        "secondary-foreground": ink(0.93, w) if dark else "#000000df",
+        "secondary-foreground": fg,
         "muted": "var(--fill-hover)",
         "accent": "var(--fill-active)",
-        "accent-foreground": ink(0.93, w) if dark else "#000000df",
-        # Borders: subtle (separators), default (cards, fields, outline buttons), strong (hover, emphasis), control (≥ 3:1 edge).
-        "border": ink(0.106, w) if dark else "#00000017",
-        "border-subtle": ink(0.06, w) if dark else ink(0.05),
-        "border-strong": ink(0.2, w) if dark else ink(0.18),
-        "border-control": ink(border_control, w),
-        "input": ink(0.106, w) if dark else "#00000017",
+        "accent-foreground": fg,
+        # Borders: subtle (separators), default (cards, outline buttons), strong (hover, emphasis), control (≥ 3:1 edge).
+        "border": ink_ok(0.12 if dark else 0.13, dark),
+        "border-subtle": ink_ok(0.07, dark),
+        "border-strong": ink_ok(0.22 if dark else 0.24, dark),
+        "border-control": ink_ok(border_control, dark),
+        "input": ink_ok(0.15 if dark else 0.16, dark),
     }
 
 
 # ───────────────────────────── status ─────────────────────────────
 def status(mode):
     pages = [PAGE[mode], CARD[mode], POPOVER[mode], PAPER_PAGE[mode], PAPER_POPOVER[mode]]
+    dark = mode == "dark"
     out = {}
-    for name, hx in [("destructive", "#e54d2e"), ("success", "#30a46c")]:
+    for name, hx in [("destructive", "#d13f26"), ("success", "#188653"), ("info", "#066bb8")]:
         L, C, H = hue(hx)
-        solid = solid_for(WHITE, H, C, L)
-        out.update(status_roles(name, solid, WHITE, pages, mode))
-    # Warning keeps its vivid solid and takes dark text.
-    L, C, H = hue("#f76b15")
-    fg = Ok(0.22, 0.04, H)
-    out.update(status_roles("warning", solid_for(fg, H, C, L), fg, pages, mode))
-    # Info is a fixed blue: it never follows the accent.
-    L, C, H = hue("#0090ff")
-    out.update(status_roles("info", solid_for(WHITE, H, C, L), WHITE, pages, mode))
+        if dark:
+            fg = Ok(0.20, 0.02, H)
+            solid = solid_for(fg, H, min(C, 0.145), 0.73)
+            out.update(status_roles(name, solid, fg, pages, mode, text_chroma=0.95, text_start=solid.L))
+        else:
+            solid = solid_for(WHITE, H, C, L)
+            out.update(status_roles(name, solid, WHITE, pages, mode))
+    L, C, H = hue("#e06d14")
+    fg = Ok(0.20, 0.03, H)
+    if dark:
+        solid = solid_for(fg, H, C, max(L, 0.76))
+        out.update(status_roles("warning", solid, fg, pages, mode, text_chroma=0.95, text_start=solid.L))
+    else:
+        out.update(status_roles("warning", solid_for(fg, H, C, L), fg, pages, mode))
     return out
 
 
 # ───────────────────────────── accents ─────────────────────────────
-PRESET_ORDER = ["neutral", "blue", "green", "orange", "rose", "violet"]
-PRESET_HEX = {"blue": "#0090ff", "green": "#30a46c", "orange": "#f76b15", "rose": "#e93d82", "violet": "#6e56cf"}
+PRESET_ORDER = ["blue", "neutral", "green", "orange", "rose", "violet"]
+PRESET_LIGHT = {
+    "blue": (0.52, 0.145, 250.0),
+    "green": (0.52, 0.125, 158.0),
+    "orange": (0.57, 0.175, 40.0),
+    "rose": (0.56, 0.19, 3.0),
+    "violet": (0.53, 0.165, 286.0),
+}
+PRESET_DARK = {
+    "blue": (0.72, 0.125, 245.0),
+    "green": (0.73, 0.115, 158.0),
+    "orange": (0.75, 0.145, 45.0),
+    "rose": (0.73, 0.145, 3.0),
+    "violet": (0.73, 0.135, 286.0),
+}
 ACC = ["primary", "primary-hover", "primary-active", "primary-foreground", "primary-subtle", "primary-subtle-hover", "primary-border", "primary-text", "ring", "selection"]
 
 
 def neutral_preset(mode):
-    dark = mode == "dark"
-    page = PAGE[mode]
-    ring = solve_ink(3.2, dark, [page, PAPER_PAGE[mode]])
+    if mode == "light":
+        ring = solve_ink(3.2, False, [PAGE["light"], CARD["light"], PAPER_PAGE["light"]], PAGE["light"])
+        return {
+            "primary": Ok(0.20, 0.01, 65),
+            "primary-hover": Ok(0.27, 0.01, 65),
+            "primary-active": Ok(0.33, 0.01, 65),
+            "primary-foreground": Ok(0.98, 0.004, 85),
+            "primary-subtle": ink_ok(0.07, False),
+            "primary-subtle-hover": ink_ok(0.11, False),
+            "primary-border": ink_ok(0.2, False),
+            "primary-text": Ok(0.20, 0.01, 65),
+            "ring": ink_ok(ring, False),
+            "selection": ink_ok(0.18, False),
+        }
+    ring = solve_ink(3.2, True, [PAGE["dark"], CARD["dark"], PAPER_PAGE["dark"]], PAGE["dark"])
     return {
-        "primary": ink(0.95, dark),
-        "primary-hover": ink(0.8, dark),
-        "primary-active": ink(0.7, dark),
-        "primary-foreground": "#000" if dark else "#fff",
-        "primary-subtle": ink(0.07, dark) if dark else ink(0.06),
-        "primary-subtle-hover": ink(0.106, dark) if dark else ink(0.09),
-        "primary-border": ink(0.17, dark) if dark else ink(0.15),
-        "primary-text": ink(0.93, dark) if dark else "#000000df",
-        "ring": ink(ring, dark),
-        "selection": ink(0.24, dark) if dark else ink(0.16),
+        "primary": Ok(0.945, 0.008, 82),
+        "primary-hover": Ok(0.88, 0.008, 82),
+        "primary-active": Ok(0.82, 0.008, 82),
+        "primary-foreground": Ok(0.175, 0.007, 70),
+        "primary-subtle": ink_ok(0.08, True),
+        "primary-subtle-hover": ink_ok(0.12, True),
+        "primary-border": ink_ok(0.2, True),
+        "primary-text": Ok(0.945, 0.008, 82),
+        "ring": ink_ok(ring, True),
+        "selection": ink_ok(0.26, True),
     }
 
 
 def preset(name, mode):
     if name == "neutral":
         return neutral_preset(mode)
-    L, C, H = hue(PRESET_HEX[name])
     pages = [PAGE[mode], CARD[mode], POPOVER[mode], PAPER_PAGE[mode], PAPER_POPOVER[mode]]
-    # Every accent darkens until white text reaches AA. Orange moves its hue to 40 there: at that lightness hue 45
-    # only holds a muted, brownish chroma, while 40 keeps a clear orange.
-    if name == "orange":
-        H, C = 40.0, 0.22
-    solid = solid_for(WHITE, H, C, L)
-    fg = WHITE
-    return accent_roles(solid, fg, PAGE[mode], pages, mode)
+    if mode == "light":
+        L, C, H = PRESET_LIGHT[name]
+        solid = solid_for(WHITE, H, C, L)
+        return accent_roles(solid, WHITE, PAGE[mode], pages, mode)
+    L, C, H = PRESET_DARK[name]
+    fg = Ok(0.20, 0.02, H)
+    solid = solid_for(fg, H, C, L)
+    return accent_roles(solid, fg, PAGE[mode], pages, mode, text_chroma=0.95, text_start=solid.L)
 
 
 def charts(mode):
     if mode == "dark":
-        return {"chart-1": "#0090ff", "chart-2": "#f76b15", "chart-3": "#6e56cf", "chart-4": "#30a46c", "chart-5": "#d6409f", "chart-6": "#ffc53d", "chart-7": "#00a2c7", "chart-8": "#6e6e6e"}
-    # chart-7 (cyan) is darkened just enough to keep 3:1 on the Paper page as well as on white.
-    L, C, H = hue("#00a2c7")
-    c7 = Ok(solve_L(lambda L: Ok(L, C, H), lambda c: ratio(c, PAPER_PAGE["light"]) >= 3.05, 0.3, L, prefer="high"), C, H)
-    return {"chart-1": "#0090ff", "chart-2": "#ef5f00", "chart-3": "#6e56cf", "chart-4": "#30a46c", "chart-5": "#d6409f", "chart-6": "#ab6400", "chart-7": c7, "chart-8": "#8d8d8d"}
+        return {
+            "chart-1": "#4ea4eb",
+            "chart-2": "#f2833c",
+            "chart-3": "#9988f0",
+            "chart-4": "#42b883",
+            "chart-5": "#e472b2",
+            "chart-6": "#f2be49",
+            "chart-7": "#3ec0db",
+            "chart-8": "#969089",
+        }
+    return {
+        "chart-1": "#066bb8",
+        "chart-2": "#c84709",
+        "chart-3": "#6757c5",
+        "chart-4": "#007d4d",
+        "chart-5": "#be347c",
+        "chart-6": "#9c5e00",
+        "chart-7": "#007c96",
+        "chart-8": "#6d6862",
+    }
 
 
 def tags(mode):
     dark = mode == "dark"
     pages = [PAGE[mode], CARD[mode], POPOVER[mode]]
-    return tag_roles(mode, pages, Ok(1, 0, 0, 0.93) if dark else Ok(0, 0, 0, 0.875), ink_ok(0.12 if dark else 0.07, dark), 0, 0)
+    return tag_roles(
+        mode,
+        pages,
+        ink_ok(1.0, dark),
+        ink_ok(0.13 if dark else 0.09, dark),
+        75,
+        0.008,
+        light_bg_L=0.94,
+        light_fill_L=0.895,
+    )
 
 
 def s(v):
@@ -179,11 +242,11 @@ def tokens(mode):
     d.update(charts(mode))
     d.update(
         {
-            "code": "#191919" if dark else "#f9f9f9",
-            "scrollbar": "var(--fill-strong)",
-            "scrollbar-hover": "#fff5" if dark else "#0004",
-            "shell": "#000" if dark else "oklch(97.3% 0 0)",
-            "shell-border": "oklch(100% 0 0 / 9%)" if dark else "oklch(0% 0 0 / 10%)",
+            "code": CODE[mode],
+            "scrollbar": ink_ok(0.2, dark),
+            "scrollbar-hover": ink_ok(0.34, dark),
+            "shell": SHELL[mode],
+            "shell-border": ink_ok(0.1 if dark else 0.12, dark),
         }
     )
     d.update(tags(mode))
@@ -195,15 +258,15 @@ PRESETS = {n: {m: {k: s(v) for k, v in preset(n, m).items()} for m in ("light", 
 
 # ───────────────────────────── globals.css ─────────────────────────────
 GROUPS = [
-    ("Surfaces: page, container (card) and modal (popover), opaque; in dark each raised level is lighter.", ["background", "card", "popover"]),
-    ("Sunken wells, and the inverted standout surface (dark callouts, toasts).", ["surface-sunken", "surface-standout", "standout-foreground"]),
-    ("Text: primary, secondary (≥ 4.5:1), tertiary (≥ 3:1, meta and placeholders) and disabled. Translucent ink, so it sits on any surface.", ["foreground", "card-foreground", "popover-foreground", "muted-foreground", "fg-tertiary", "fg-disabled"]),
+    ("Surfaces: Warm Stone page, warm white/lifted container (card) and modal (popover), opaque.", ["background", "card", "popover"]),
+    ("Sunken wells, and the inverted standout surface (warm dark callouts, toasts).", ["surface-sunken", "surface-standout", "standout-foreground"]),
+    ("Text: primary, secondary (≥ 4.5:1), tertiary (≥ 3:1, meta and placeholders) and disabled. Warm translucent ink.", ["foreground", "card-foreground", "popover-foreground", "muted-foreground", "fg-tertiary", "fg-disabled"]),
     ("Accent: solid, hover, active and its label (≥ 4.5:1), subtle fills, border, text (links, active items: ≥ 4.5:1 on the page and the subtle fill), focus ring (≥ 3:1) and text selection. Presets swap these ten.", ACC),
     ("Fills, translucent ink: hover (a filled control at rest, hovered rows), active (pressed, open, selected), strong (pressed on hover). Never surfaces.", ["fill-hover", "fill-active", "fill-strong"]),
     ("The shadcn fill names read the fills above.", ["secondary", "secondary-foreground", "muted", "accent", "accent-foreground"]),
-    ("Status: solid, hover, label on the solid (≥ 4.5:1), subtle fill, border and text (≥ 4.5:1 on the page and the subtle fill). Warning takes dark text on its vivid solid; info is a fixed blue.", [f"{n}{r}" for n in ("destructive", "success", "warning", "info") for r in ("", "-hover", "-foreground", "-subtle", "-border", "-text")]),
-    ("Borders: subtle (separators), default (cards, fields, outline buttons, the raised ring), strong (hover, emphasis), control (≥ 3:1, edges that must be found). input = border.", ["border", "border-subtle", "border-strong", "border-control", "input"]),
-    ("Charts: chart-1…8 = blue, orange, violet, green, pink, amber, cyan, gray, each ≥ 3:1 on the page. Never follow the accent.", [f"chart-{i}" for i in range(1, 9)]),
+    ("Status: solid, hover, label on the solid (≥ 4.5:1), subtle fill, border and text (≥ 4.5:1 on the page and the subtle fill). Dark mode uses luminous solids with dark ink labels; info is a fixed blue.", [f"{n}{r}" for n in ("destructive", "success", "warning", "info") for r in ("", "-hover", "-foreground", "-subtle", "-border", "-text")]),
+    ("Borders: subtle (separators), default (cards, outline buttons, the raised ring), strong (hover, emphasis), control (≥ 3:1, edges that must be found), input (field ring).", ["border", "border-subtle", "border-strong", "border-control", "input"]),
+    ("Charts: chart-1…8 = blue, orange, violet, green, pink, amber, cyan, gray, each ≥ 3:1 on the page and card. Never follow the accent.", [f"chart-{i}" for i in range(1, 9)]),
     ("Code well; scrollbar thumb at rest and hovered.", ["code", "scrollbar", "scrollbar-hover"]),
     ("Shell band (window chrome, rail sidebar) and the inset panel hairline.", ["shell", "shell-border"]),
     ("Tags and highlights: per colour, text, a highlight background and a pill fill; text is ≥ 4.5:1 on all three. They never follow the accent.", [f"tag-{t}-{r}" for t in TAGS for r in ("text", "bg", "fill")]),
@@ -213,29 +276,29 @@ assert sorted(k for _, ks in GROUPS for k in ks) == sorted(LIGHT), set(LIGHT) ^ 
 SHADOWS = {
     "light": """
   /* Shadow scale: border ring, default (resting), lg (menus, popovers), xl (dialogs). */
-  --shadow-border: 0 0 0 1px #00000017;
-  --shadow-default: 0 0 0 0.5px #0000 inset, 0 0 0 1px #00000017, 0 1px 1px -1px #0000001a, 0 1px 2px 0 #0000000d;
-  --shadow-lg: 0 0 0 0.5px #0000000f, 0 2px 3px -2px #0000000f, 0 3px 12px -4px #0000001a, 0 4px 16px -8px #0000000d;
-  --shadow-xl: 0 0 0 0.5px #0000 inset, 0 0 0 0.5px #0000000f, 0 8px 40px 0 #0000000d, 0 12px 32px -16px #00000026;
+  --shadow-border: 0 0 0 1px oklch(20% 0.01 65 / 0.13);
+  --shadow-default: 0 0 0 1px oklch(20% 0.01 65 / 0.11), 0 1px 2px oklch(20% 0.01 65 / 0.07);
+  --shadow-lg: 0 0 0 1px oklch(20% 0.01 65 / 0.11), 0 4px 12px -3px oklch(20% 0.01 65 / 0.12), 0 16px 32px -12px oklch(20% 0.01 65 / 0.16);
+  --shadow-xl: 0 0 0 1px oklch(20% 0.01 65 / 0.1), 0 12px 28px -8px oklch(20% 0.01 65 / 0.16), 0 28px 60px -16px oklch(20% 0.01 65 / 0.22);
   /* Named elevation (components use these), restated in .dark so they resolve per mode. */
   --skeuo-raised: var(--shadow-default);
-  --skeuo-raised-hover: 0 0 0 0.5px #0000 inset, 0 0 0 1px #00000026, 0 1px 1px -1px #0000001a, 0 1px 2px 0 #0000000d;
-  --skeuo-pressed: var(--shadow-border);
-  --skeuo-primary: 0 1px 2px #0000000d;
+  --skeuo-raised-hover: 0 0 0 1px oklch(20% 0.01 65 / 0.18), 0 2px 4px oklch(20% 0.01 65 / 0.09);
+  --skeuo-pressed: inset 0 1px 2px oklch(20% 0.01 65 / 0.14), 0 0 0 1px oklch(20% 0.01 65 / 0.15);
+  --skeuo-primary: 0 1px 2px oklch(20% 0.01 65 / 0.12);
   --skeuo-well: inset 0 0 0 1px var(--input);
   --skeuo-surface: var(--shadow-lg);
   --skeuo-chip: var(--shadow-border);
 """,
     "dark": """
   /* Shadow scale: border ring, default (resting), lg (menus, popovers), xl (dialogs). */
-  --shadow-border: 0 0 0 1px #ffffff1b;
-  --shadow-default: 0 0 0 1px #ffffff1b inset, 0 0 0 1px #0000, 0 1px 1px -1px #0000, 0 1px 2px 0 #0000;
-  --shadow-lg: 0 0 0 1px #ffffff2c, 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080;
-  --shadow-xl: 0 0 0 0.5px #ffffff12 inset, 0 0 0 0.5px #0000, 0 8px 40px 0 #0000000d, 0 12px 32px -16px #00000026;
+  --shadow-border: 0 0 0 1px oklch(94.5% 0.008 82 / 0.12);
+  --shadow-default: 0 0 0 1px oklch(94.5% 0.008 82 / 0.1) inset, 0 1px 2px oklch(0% 0 0 / 0.32);
+  --shadow-lg: 0 0 0 1px oklch(94.5% 0.008 82 / 0.14), 0 6px 14px -4px oklch(0% 0 0 / 0.42), 0 18px 36px -12px oklch(0% 0 0 / 0.56);
+  --shadow-xl: 0 0 0 1px oklch(94.5% 0.008 82 / 0.12) inset, 0 12px 28px -8px oklch(0% 0 0 / 0.44), 0 32px 64px -16px oklch(0% 0 0 / 0.62);
   /* Named elevation (components use these), restated in .dark so they resolve per mode. */
   --skeuo-raised: var(--shadow-default);
-  --skeuo-raised-hover: 0 0 0 1px #ffffff2c inset, 0 0 0 1px #0000, 0 1px 1px -1px #0000, 0 1px 2px 0 #0000;
-  --skeuo-pressed: var(--shadow-border);
+  --skeuo-raised-hover: 0 0 0 1px oklch(94.5% 0.008 82 / 0.16) inset, 0 1px 3px oklch(0% 0 0 / 0.38);
+  --skeuo-pressed: inset 0 1px 2px oklch(0% 0 0 / 0.5), 0 0 0 1px oklch(94.5% 0.008 82 / 0.1);
   --skeuo-primary: 0 0 0 0 transparent;
   --skeuo-well: inset 0 0 0 1px var(--input);
   --skeuo-surface: var(--shadow-lg);
@@ -243,18 +306,12 @@ SHADOWS = {
 """,
 }
 
-# Wide-gamut charts (unchanged hues; chart-7 light is sRGB-only since it was darkened for contrast).
-P3_CHARTS = {
-    "light": {"chart-1": "color(display-p3 .247 .556 .969)", "chart-2": "color(display-p3 .87 .409 .164)", "chart-3": "color(display-p3 .417 .341 .784)", "chart-4": "color(display-p3 .332 .634 .442)", "chart-5": "color(display-p3 .775 .297 .61)", "chart-6": "color(display-p3 .64 .4 0)", "chart-8": "color(display-p3 .553 .553 .553)"},
-    "dark": {"chart-1": "color(display-p3 .247 .556 .969)", "chart-2": "color(display-p3 .9 .45 .2)", "chart-3": "color(display-p3 .417 .341 .784)", "chart-4": "color(display-p3 .332 .634 .442)", "chart-5": "color(display-p3 .775 .297 .61)", "chart-6": "color(display-p3 1 .77 .26)", "chart-7": "color(display-p3 .282 .627 .765)", "chart-8": "color(display-p3 .431 .431 .431)"},
-}
-
 
 def token_block(sel, values, mode):
     lines = [f"{sel} {{"]
     if mode == "light":
         lines += ["  --radius: 0.5rem;", "  /* The largest radius any token reaches, whatever --radius is (the Customize slider stops at 1rem). */", "  --radius-max: 1rem;", ""]
-    for i, (comment, keys) in enumerate(GROUPS):
+    for _, (comment, keys) in enumerate(GROUPS):
         lines.append(f"  /* {comment} */")
         lines += [f"  --{k}: {values[k]};" for k in keys]
     return "\n".join(lines) + SHADOWS[mode].rstrip("\n") + "\n}\n"
@@ -282,85 +339,89 @@ def replace_between(src, start, end, body):
     return src[: a + len(start)] + "\n" + body + src[b:]
 
 
-css = GLOBALS.read_text()
-M = {k: (f"/* gen-theme:{k}:start (tooling/scripts/gen-theme.py; do not edit) */", f"/* gen-theme:{k}:end */") for k in ("inline", "tokens", "accents")}
-css = replace_between(css, M["inline"][0], "  " + M["inline"][1], theme_inline())
-p3 = "@supports (color: color(display-p3 1 1 1)) {\n  @media (color-gamut: p3) {\n" + "".join(f"    {sel} {{\n{decls(P3_CHARTS[m], '      ')}    }}\n" for sel, m in ((":root", "light"), (".dark", "dark"))) + "  }\n}\n"
-tok = token_block(":root", LIGHT, "light") + "\n" + token_block(".dark", DARK, "dark") + "\n/* Wide-gamut displays get the chart hues in display-p3. */\n" + p3
-css = replace_between(css, M["tokens"][0], M["tokens"][1], tok)
-acc_css = [
-    "/*",
-    " * Accent presets: `data-accent` on <html> swaps the ten accent roles (default, no attribute, is blue).",
-    " * Every preset meets the same contrast floor: label on the solid, hover and active ≥ 4.5:1, primary-text ≥ 4.5:1 on",
-    " * the page and the subtle fill, ring ≥ 3:1. Every coloured solid takes white text; neutral is the black / white",
-    " * solid. The docs header persists the pick in localStorage[\"accent\"]; registry items theme-<name> ship the same values.",
-    " */",
-]
-for n in PRESET_ORDER:
-    if n == "blue":
-        continue
-    acc_css.append(f'html[data-accent="{n}"] {{\n{decls(PRESETS[n]["light"], "  ")}}}')
-    acc_css.append(f'html[data-accent="{n}"].dark {{\n{decls(PRESETS[n]["dark"], "  ")}}}')
-css = replace_between(css, M["accents"][0], M["accents"][1], "\n".join(acc_css) + "\n")
-GLOBALS.write_text(css)
+def main():
+    css = GLOBALS.read_text()
+    M = {k: (f"/* gen-theme:{k}:start (tooling/scripts/gen-theme.py; do not edit) */", f"/* gen-theme:{k}:end */") for k in ("inline", "tokens", "accents")}
+    css = replace_between(css, M["inline"][0], "  " + M["inline"][1], theme_inline())
+    tok = token_block(":root", LIGHT, "light") + "\n" + token_block(".dark", DARK, "dark")
+    css = replace_between(css, M["tokens"][0], M["tokens"][1], tok)
+    acc_css = [
+        "/*",
+        " * Accent presets: `data-accent` on <html> swaps the ten accent roles (default, no attribute, is blue).",
+        " * Every preset meets the same contrast floor: label on the solid, hover and active ≥ 4.5:1, primary-text ≥ 4.5:1 on",
+        " * the page and the subtle fill, ring ≥ 3:1. Coloured solids take white text in light mode and dark ink text in dark mode;",
+        " * neutral is the inverted espresso / ivory solid. The docs header persists the pick in localStorage[\"accent\"];",
+        " * registry items theme-<name> ship the same values.",
+        " */",
+    ]
+    for n in PRESET_ORDER:
+        if n == "blue":
+            continue
+        acc_css.append(f'html[data-accent="{n}"] {{\n{decls(PRESETS[n]["light"], "  ")}}}')
+        acc_css.append(f'html[data-accent="{n}"].dark {{\n{decls(PRESETS[n]["dark"], "  ")}}}')
+    css = replace_between(css, M["accents"][0], M["accents"][1], "\n".join(acc_css) + "\n")
+    GLOBALS.write_text(css)
 
-# ───────────────────────────── runtime bundles ─────────────────────────────
-bundle = ["/*\n * Accent presets, switched at runtime with data-accent on <html> (no attribute = blue).\n * The attribute also works on any element to give one section its own accent.\n * Generated by tooling/scripts/gen-theme.py from the theme-<name> registry items; import after the theme.\n */\n"]
-for n in PRESET_ORDER:
-    bundle.append(f'html[data-accent="{n}"],\n[data-accent="{n}"] {{\n{decls(PRESETS[n]["light"], "  ")}}}\n')
-    bundle.append(f'html[data-accent="{n}"].dark,\n.dark [data-accent="{n}"] {{\n{decls(PRESETS[n]["dark"], "  ")}}}\n')
-ACCENTS_CSS.write_text("\n".join(bundle))
+    # ───────────────────────────── runtime bundles ─────────────────────────────
+    bundle = ["/*\n * Accent presets, switched at runtime with data-accent on <html> (no attribute = blue).\n * The attribute also works on any element to give one section its own accent.\n * Generated by tooling/scripts/gen-theme.py from the theme-<name> registry items; import after the theme.\n */\n"]
+    for n in PRESET_ORDER:
+        bundle.append(f'html[data-accent="{n}"],\n[data-accent="{n}"] {{\n{decls(PRESETS[n]["light"], "  ")}}}\n')
+        bundle.append(f'html[data-accent="{n}"].dark,\n.dark [data-accent="{n}"] {{\n{decls(PRESETS[n]["dark"], "  ")}}}\n')
+    ACCENTS_CSS.write_text("\n".join(bundle))
 
-PRESETS_TS.write_text(
-    "/* Generated by tooling/scripts/gen-theme.py (the html[data-accent] blocks in packages/tokens/styles/globals.css). Do not edit. */\n\n"
-    + "export const PRESET_ROLES = "
-    + json.dumps(PRESETS, indent=2)
-    + " as const\n"
-)
+    PRESETS_TS.write_text(
+        "/* Generated by tooling/scripts/gen-theme.py (the html[data-accent] blocks in packages/tokens/styles/globals.css). Do not edit. */\n\n"
+        + "export const PRESET_ROLES = "
+        + json.dumps(PRESETS, indent=2)
+        + " as const\n"
+    )
 
-pick = " ".join(
-    f'html[data-accent="{n}"] {{ ' + " ".join(f"--{k}: {v};" for k, v in PRESETS[n]["light"].items()) + " } "
-    f'html[data-accent="{n}"].dark {{ ' + " ".join(f"--{k}: {v};" for k, v in PRESETS[n]["dark"].items()) + " }"
-    for n in PRESET_ORDER
-    if n != "blue"
-)
-src = PICKER.read_text()
-src = re.sub(r"(?m)^const PRESETS_CSS = `.*`$", lambda m: "const PRESETS_CSS = `" + pick + "`", src)
-swatch = {n: ("var(--foreground)" if n == "neutral" else PRESETS[n]["light"]["primary"]) for n in PRESET_ORDER}
-src = re.sub(r"const SWATCH: Record<Accent, string> = \{.*?\n\}", lambda m: "const SWATCH: Record<Accent, string> = {\n" + "".join(f'  {n}: "{swatch[n]}",\n' for n in PRESET_ORDER) + "}", src, flags=re.S)
-fg = {n: ("var(--background)" if n == "neutral" else PRESETS[n]["light"]["primary-foreground"]) for n in PRESET_ORDER}
-src = re.sub(r"const SWATCH_FG: Record<Accent, string> = \{.*?\n\}", lambda m: "const SWATCH_FG: Record<Accent, string> = {\n" + "".join(f'  {n}: "{fg[n]}",\n' for n in PRESET_ORDER) + "}", src, flags=re.S)
-PICKER.write_text(src)
+    pick = " ".join(
+        f'html[data-accent="{n}"] {{ ' + " ".join(f"--{k}: {v};" for k, v in PRESETS[n]["light"].items()) + " } "
+        f'html[data-accent="{n}"].dark {{ ' + " ".join(f"--{k}: {v};" for k, v in PRESETS[n]["dark"].items()) + " }"
+        for n in PRESET_ORDER
+        if n != "blue"
+    )
+    src = PICKER.read_text()
+    src = re.sub(r"(?m)^const PRESETS_CSS = `.*`$", lambda m: "const PRESETS_CSS = `" + pick + "`", src)
+    swatch = {n: ("var(--foreground)" if n == "neutral" else PRESETS[n]["light"]["primary"]) for n in PRESET_ORDER}
+    src = re.sub(r"const SWATCH: Record<Accent, string> = \{.*?\n\}", lambda m: "const SWATCH: Record<Accent, string> = {\n" + "".join(f'  {n}: "{swatch[n]}",\n' for n in PRESET_ORDER) + "}", src, flags=re.S)
+    fg = {n: ("var(--background)" if n == "neutral" else PRESETS[n]["light"]["primary-foreground"]) for n in PRESET_ORDER}
+    src = re.sub(r"const SWATCH_FG: Record<Accent, string> = \{.*?\n\}", lambda m: "const SWATCH_FG: Record<Accent, string> = {\n" + "".join(f'  {n}: "{fg[n]}",\n' for n in PRESET_ORDER) + "}", src, flags=re.S)
+    PICKER.write_text(src)
 
-# ───────────────────────────── registry ─────────────────────────────
-def vars_of(body):
-    body = re.sub(r"/\*.*?\*/", "", body, flags=re.S)
-    return {m.group(1): re.sub(r"\s+", " ", m.group(2).strip()) for m in re.finditer(r"--([\w-]+):\s*(.*?);", body, re.S)}
+    # ───────────────────────────── registry ─────────────────────────────
+    def vars_of(body):
+        body = re.sub(r"/\*.*?\*/", "", body, flags=re.S)
+        return {m.group(1): re.sub(r"\s+", " ", m.group(2).strip()) for m in re.finditer(r"--([\w-]+):\s*(.*?);", body, re.S)}
+
+    css = GLOBALS.read_text()
+    root, dark = {}, {}
+    for m in re.finditer(r"(?m)^:root \{\n(.*?)\n\}", css, re.S):
+        root.update({k: v for k, v in vars_of(m.group(1)).items() if k not in root})
+    for m in re.finditer(r"(?m)^\.dark \{\n(.*?)\n\}", css, re.S):
+        dark.update({k: v for k, v in vars_of(m.group(1)).items() if k not in dark})
+    inline = vars_of(re.search(r"@theme inline \{(.*?)\n\}", css, re.S).group(1))
+    statics = {}
+    for m in re.finditer(r"(?m)^@theme \{\n(.*?)\n\}", css, re.S):
+        statics.update(vars_of(m.group(1)))
+    STD = {"color-background", "color-foreground", "color-card", "color-card-foreground", "color-popover", "color-popover-foreground", "color-primary", "color-primary-foreground", "color-secondary", "color-secondary-foreground", "color-muted", "color-muted-foreground", "color-accent", "color-accent-foreground", "color-destructive", "color-border", "color-input", "color-ring"}
+    reg = json.loads(REGISTRY.read_text())
+    items = {i["name"]: i for i in reg["items"]}
+    theme = items["theme"]
+    theme["cssVars"] = {"theme": {**{k: v for k, v in inline.items() if k not in STD}, **statics, "radius": root["radius"]}, "light": root, "dark": dark}
+    theme["css"].pop("@supports (color: color(display-p3 1 1 1))", None)
+    theme["css"].pop("@supports (color: color-mix(in oklab, red, red))", None)
+    base = theme["css"].setdefault("@layer base", {})
+    base["::selection"] = {"background-color": "var(--selection)"}
+    theme.setdefault("meta", {})["version"] = THEME_VERSION
+    for n in PRESET_ORDER:
+        item = items[f"theme-{n}"]
+        item["cssVars"] = {"light": PRESETS[n]["light"], "dark": PRESETS[n]["dark"]}
+        item.pop("css", None)
+    REGISTRY.write_text(json.dumps(reg, indent=2, ensure_ascii=False) + "\n")
+    print(f"gen-theme: {len(LIGHT)} roles per mode, {len(PRESET_ORDER)} accent presets, theme v{THEME_VERSION}")
 
 
-css = GLOBALS.read_text()
-root, dark = {}, {}
-for m in re.finditer(r"(?m)^:root \{\n(.*?)\n\}", css, re.S):
-    root.update({k: v for k, v in vars_of(m.group(1)).items() if k not in root})
-for m in re.finditer(r"(?m)^\.dark \{\n(.*?)\n\}", css, re.S):
-    dark.update({k: v for k, v in vars_of(m.group(1)).items() if k not in dark})
-inline = vars_of(re.search(r"@theme inline \{(.*?)\n\}", css, re.S).group(1))
-statics = {}
-for m in re.finditer(r"(?m)^@theme \{\n(.*?)\n\}", css, re.S):
-    statics.update(vars_of(m.group(1)))
-STD = {"color-background", "color-foreground", "color-card", "color-card-foreground", "color-popover", "color-popover-foreground", "color-primary", "color-primary-foreground", "color-secondary", "color-secondary-foreground", "color-muted", "color-muted-foreground", "color-accent", "color-accent-foreground", "color-destructive", "color-border", "color-input", "color-ring"}
-reg = json.loads(REGISTRY.read_text())
-items = {i["name"]: i for i in reg["items"]}
-theme = items["theme"]
-theme["cssVars"] = {"theme": {**{k: v for k, v in inline.items() if k not in STD}, **statics, "radius": root["radius"]}, "light": root, "dark": dark}
-P3_KEY, P3_MEDIA = "@supports (color: color(display-p3 1 1 1))", "@media (color-gamut: p3)"
-theme["css"][P3_KEY] = {P3_MEDIA: {":root": {f"--{k}": v for k, v in P3_CHARTS["light"].items()}, ".dark": {f"--{k}": v for k, v in P3_CHARTS["dark"].items()}}}
-base = theme["css"].setdefault("@layer base", {})
-base["::selection"] = {"background-color": "var(--selection)"}
-theme.setdefault("meta", {})["version"] = THEME_VERSION
-for n in PRESET_ORDER:
-    item = items[f"theme-{n}"]
-    item["cssVars"] = {"light": PRESETS[n]["light"], "dark": PRESETS[n]["dark"]}
-    item.pop("css", None)
-REGISTRY.write_text(json.dumps(reg, indent=2, ensure_ascii=False) + "\n")
-print(f"gen-theme: {len(LIGHT)} roles per mode, {len(PRESET_ORDER)} accent presets, theme v{THEME_VERSION}")
+if __name__ == "__main__":
+    main()

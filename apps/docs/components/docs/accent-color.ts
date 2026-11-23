@@ -29,18 +29,18 @@ export type AccentVars = Record<AccentVar, string>
 export type AccentTheme = { light: AccentVars; dark: AccentVars }
 export type PresetAccent = "blue" | "neutral" | "green" | "orange" | "rose" | "violet"
 
-/** The accent with no `data-accent` attribute: its roles are the ones on `:root` and `.dark`. */
-export const DEFAULT_ACCENT: PresetAccent = "neutral"
+/** The default accent on first visit. */
+export const DEFAULT_ACCENT: PresetAccent = "blue"
 /** The accent whose roles sit on :root and .dark (no `data-accent` attribute). */
 export const BASE_ACCENT: PresetAccent = "blue"
 
 /** Resolved roles of each preset, mirroring packages/tokens/styles/globals.css. */
 export const PRESET_THEMES: Record<PresetAccent, AccentTheme> = PRESET_ROLES
 
-/** Display names for the presets. */
+/** Display names for the presets, in display order. */
 export const PRESET_LABELS: Record<PresetAccent, string> = {
-  neutral: "Neutral",
   blue: "Blue",
+  neutral: "Neutral",
   green: "Green",
   orange: "Orange",
   rose: "Rose",
@@ -131,16 +131,33 @@ export function parseOklch(css: string): Oklch | null {
   return { l: m[2] ? +m[1] / 100 : +m[1], c: +m[3], h: +m[4] }
 }
 
+/** `#rrggbb` of any CSS hex or `oklch(...)` colour. */
+export function colorToHex(css: string): string {
+  const o = parseOklch(css)
+  return o ? oklchToHex(o) : opaqueHex(css)
+}
+
 const fmt = (c: Oklch) => {
   const r = (n: number, d: number) => +n.toFixed(d)
   return c.c < 0.0005 ? `oklch(${r(c.l, 3)} 0 0)` : `oklch(${r(c.l, 3)} ${r(c.c, 3)} ${r(c.h, 1)})`
 }
 
 const WHITE: Oklch = { l: 1, c: 0, h: 0 }
-/** The pages an accent must read on in each mode: the default and Paper page, card and popover. */
+/** The pages an accent must read on in each mode: Warm Stone, Paper and white surfaces. */
 const PAGES: Record<"light" | "dark", Oklch[]> = {
-  light: [WHITE, { l: 0.99, c: 0.002, h: 234.82 }],
-  dark: [{ l: 0.15, c: 0, h: 0 }, { l: 0.252, c: 0, h: 0 }, { l: 0.195, c: 0.004, h: 289.15 }, { l: 0.255, c: 0.004, h: 289.15 }],
+  light: [
+    { l: 0.965, c: 0.007, h: 82 },
+    { l: 0.992, c: 0.004, h: 85 },
+    WHITE,
+    { l: 0.99, c: 0.002, h: 234.82 },
+  ],
+  dark: [
+    { l: 0.175, c: 0.007, h: 70 },
+    { l: 0.22, c: 0.008, h: 70 },
+    { l: 0.255, c: 0.008, h: 70 },
+    { l: 0.195, c: 0.004, h: 289.15 },
+    { l: 0.255, c: 0.004, h: 289.15 },
+  ],
 }
 
 /** Gamma-encoded sRGB of a colour, optionally composited at `alpha` over `under`. */
@@ -197,9 +214,8 @@ export function deriveAccent(hex: string): AccentTheme | null {
   if (base.c < 0.03) return PRESET_THEMES.neutral
   const mode = (m: "light" | "dark"): AccentVars => {
     const pages = PAGES[m]
-    const page = pages[0]
     const a = ALPHAS[m]
-    const start = m === "dark" ? walk(base, 0.01, (c) => contrast(c, page) >= 3) : fitGamut(base)
+    const start = m === "dark" ? walk(base, 0.01, (c) => pages.every((p) => contrast(c, p) >= 3)) : fitGamut(base)
     const fg = pickForeground(start)
     const away = fg.l > 0.5 ? -0.005 : 0.005
     const fill = walk(start, away, (c) => contrast(c, fg) >= 4.6)
@@ -207,7 +223,7 @@ export function deriveAccent(hex: string): AccentTheme | null {
       const onPages = pages.every((p) => contrast(t, p) >= 5)
       return onPages && pages.every((p) => ratioRgb(srgb(t), srgb(fill, a.subtle, p)) >= 4.6)
     })
-    const ring = contrast(fill, page) >= 3.2 ? fill : text
+    const ring = pages.every((p) => contrast(fill, p) >= 3.2) ? fill : text
     return {
       primary: fmt(fill),
       "primary-hover": fmt(shift(fill, away * 7)),

@@ -8,28 +8,28 @@
   ],
   "cssVars": {
     "light": {
-      "primary": "oklch(59% 0.213 1.28)",
-      "primary-hover": "oklch(55.5% 0.213 1.28)",
-      "primary-active": "oklch(52% 0.2109 1.28)",
+      "primary": "oklch(56% 0.19 3)",
+      "primary-hover": "oklch(52.5% 0.19 3)",
+      "primary-active": "oklch(49% 0.19 3)",
       "primary-foreground": "oklch(100% 0 0)",
-      "primary-subtle": "oklch(59% 0.213 1.28 / 0.1)",
-      "primary-subtle-hover": "oklch(59% 0.213 1.28 / 0.16)",
-      "primary-border": "oklch(59% 0.213 1.28 / 0.32)",
-      "primary-text": "oklch(55% 0.1917 1.28)",
-      "ring": "oklch(59% 0.213 1.28)",
-      "selection": "oklch(59% 0.213 1.28 / 0.22)"
+      "primary-subtle": "oklch(56% 0.19 3 / 0.1)",
+      "primary-subtle-hover": "oklch(56% 0.19 3 / 0.16)",
+      "primary-border": "oklch(56% 0.19 3 / 0.32)",
+      "primary-text": "oklch(52.5% 0.171 3)",
+      "ring": "oklch(56% 0.19 3)",
+      "selection": "oklch(56% 0.19 3 / 0.22)"
     },
     "dark": {
-      "primary": "oklch(59% 0.213 1.28)",
-      "primary-hover": "oklch(55.5% 0.213 1.28)",
-      "primary-active": "oklch(52% 0.2109 1.28)",
-      "primary-foreground": "oklch(100% 0 0)",
-      "primary-subtle": "oklch(59% 0.213 1.28 / 0.16)",
-      "primary-subtle-hover": "oklch(59% 0.213 1.28 / 0.24)",
-      "primary-border": "oklch(59% 0.213 1.28 / 0.42)",
-      "primary-text": "oklch(72% 0.1893 1.28)",
-      "ring": "oklch(59% 0.213 1.28)",
-      "selection": "oklch(59% 0.213 1.28 / 0.4)"
+      "primary": "oklch(73% 0.145 3)",
+      "primary-hover": "oklch(76.5% 0.145 3)",
+      "primary-active": "oklch(80% 0.1221 3)",
+      "primary-foreground": "oklch(20% 0.02 3)",
+      "primary-subtle": "oklch(73% 0.145 3 / 0.16)",
+      "primary-subtle-hover": "oklch(73% 0.145 3 / 0.24)",
+      "primary-border": "oklch(73% 0.145 3 / 0.42)",
+      "primary-text": "oklch(73% 0.1377 3)",
+      "ring": "oklch(73% 0.145 3)",
+      "selection": "oklch(73% 0.145 3 / 0.4)"
     }
   },
   "meta": {

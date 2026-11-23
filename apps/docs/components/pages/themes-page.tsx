@@ -10,7 +10,7 @@ import { SegmentedControl, SegmentedControlItem } from "@paneui/ui/components/se
 import { Slider } from "@paneui/ui/components/slider"
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@paneui/ui/components/tabs"
 
-import { DEFAULT_ACCENT, hexToOklch, oklchToHex, opaqueHex, PRESET_LABELS, PRESET_THEMES, themeCss, type PresetAccent } from "@/components/docs/accent-color"
+import { colorToHex, DEFAULT_ACCENT, hexToOklch, oklchToHex, PRESET_LABELS, PRESET_THEMES, themeCss, type PresetAccent } from "@/components/docs/accent-color"
 import { setAccent, setCustomAccent, useAccentState } from "@/components/docs/accent-store"
 import { LiveCodeBlock } from "@/components/docs/live-code-block"
 import { LocalizedText } from "@/components/docs/localized"
@@ -42,7 +42,7 @@ type Lch = { l: number; c: number; h: number }
 /** Accent as OKLCH sliders, shared through the URL (`?lightness=&chroma=&hue=`) so a pick can be linked. */
 function useAccentLch() {
   const { accent, custom } = useAccentState()
-  const hex = custom && accent === "custom" ? custom.hex : opaqueHex(PRESET_THEMES[accent === "custom" ? DEFAULT_ACCENT : accent].light.primary)
+  const hex = custom && accent === "custom" ? custom.hex : colorToHex(PRESET_THEMES[accent === "custom" ? DEFAULT_ACCENT : accent].light.primary)
   const fromHex = React.useMemo<Lch>(() => {
     const o = hexToOklch(hex) ?? { l: 0.6, c: 0.15, h: 250 }
     return { l: round(o.l, 2), c: round(o.c, 3), h: Math.round(o.h) }

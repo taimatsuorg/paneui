@@ -42,6 +42,7 @@ function blocks(css) {
 }
 const globals = blocks(read("packages/tokens/styles/globals.css"))
 const accents = blocks(read("packages/tokens/styles/theme-accents.css"))
+const studio = blocks(read("packages/tokens/styles/theme-studio.css"))
 const paper = blocks(read("packages/tokens/styles/theme-paper.css"))
 const pick = (list, selector) => Object.assign({}, ...list.filter((b) => b.selectors.includes(selector)).map((b) => b.vars))
 
@@ -55,6 +56,9 @@ const PRESETS = ["blue", "neutral", "green", "orange", "rose", "violet"]
 function vars(style, accent, mode) {
   const dark = mode === "dark"
   const v = { ...pick(globals, ":root"), ...(dark ? pick(globals, ".dark") : {}) }
+  if (style === "studio") {
+    Object.assign(v, pick(studio, 'html[data-style="studio"]'), dark ? pick(studio, 'html[data-style="studio"].dark') : {})
+  }
   if (accent !== "blue" && PRESETS.includes(accent)) Object.assign(v, pick(accents, `html[data-accent="${accent}"]`), dark ? pick(accents, `html[data-accent="${accent}"].dark`) : {})
   if (style === "paper") {
     Object.assign(v, pick(paper, 'html[data-style="paper"]'), dark ? pick(paper, 'html[data-style="paper"].dark') : {})
@@ -127,7 +131,7 @@ function pairs() {
 
 const SOLID_BG = new Set(["background", "card", "popover", "shell", "surface-standout"])
 const rows = []
-for (const style of ["default", "paper"]) {
+for (const style of ["default", "studio", "paper"]) {
   for (const accent of [...PRESETS, ...Object.keys(CUSTOM)]) {
     for (const mode of ["light", "dark"]) {
       const v = vars(style, accent, mode)
@@ -168,8 +172,8 @@ if (failing.length) {
 if (missing.length) {
   md.push("## Missing roles", "", ...[...new Set(missing.map((r) => `- ${r.style} ${r.accent} ${r.mode}: ${r.fg} on ${r.bg}`))], "")
 }
-for (const style of ["default", "paper"]) {
-  md.push(`## ${style === "paper" ? "Paper style (the docs site)" : "Default style"}`, "")
+for (const style of ["default", "studio", "paper"]) {
+  md.push(`## ${style === "studio" ? "Studio style (the docs site)" : style === "paper" ? "Paper style" : "Default style"}`, "")
   md.push("### Neutral, status and tag roles (accent blue)", "", "| Foreground | Background | Min | Light | Dark |", "|---|---|---|---|---|")
   const base = rows.filter((r) => r.style === style && r.accent === "blue" && !ACCENT_ROLES.test(r.fg))
   const keyed = new Map()
