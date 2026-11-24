@@ -17,7 +17,7 @@ export default function AvatarFallbackExample() {
       <Avatar size="lg">
         <AvatarImage src="/missing-photo.png" alt="Grace Hopper" />
         <AvatarFallback>
-          <GeneratedAvatarImage seed="grace@example.com" gender="female" />
+          <GeneratedAvatarImage seed="grace@example.com" />
         </AvatarFallback>
       </Avatar>
     </div>

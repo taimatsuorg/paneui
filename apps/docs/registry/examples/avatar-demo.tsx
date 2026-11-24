@@ -17,15 +17,8 @@ export default function AvatarDemo() {
         </Avatar>
       </div>
       <AvatarGroup>
-        {(
-          [
-            ["aiko", "female"],
-            ["ben", "male"],
-            ["chloe", "female"],
-            ["dev", "male"],
-          ] as const
-        ).map(([seed, gender]) => (
-          <GeneratedAvatar key={seed} seed={seed} gender={gender} title={seed} />
+        {["aiko", "ben", "chloe", "dev"].map((seed) => (
+          <GeneratedAvatar key={seed} seed={seed} title={seed} />
         ))}
         <AvatarGroupCount>+5</AvatarGroupCount>
       </AvatarGroup>

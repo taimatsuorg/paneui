@@ -117,29 +117,16 @@ Powered by Paper Shaders:
 https://shaders.paper.design
 ```
 
-## DiceBear and Notionists (generated avatars)
+## Blobatar (generated avatars)
 
 `registry/base-nova/ui/generated-avatar.tsx` (and the `avatar-generator` registry item) draws its
-avatars with DiceBear's Notionists style. Both packages are installed from npm as dependencies
-(`@dicebear/core`, `@dicebear/notionists`) and not vendored or modified; the component crops the
-output, swaps in its own background, prefixes the SVG ids and strips DiceBear's `<metadata>`.
-The library no longer ships any avatar artwork of its own.
-
-### Artwork: Notionists by Zoish (CC0 1.0)
-
-Source: Notionists, https://heyzoish.gumroad.com/l/notionists
-Designer: Zoish, https://bio.link/heyzoish
-License: CC0 1.0 Universal (public domain dedication),
-https://creativecommons.org/publicdomain/zero/1.0/
-No attribution is required; it is credited here and on the Avatar Generator docs page.
-
-### Code: DiceBear (MIT)
-
-https://www.dicebear.com, https://github.com/dicebear/dicebear
+deterministic geometric avatars with `blobatar` (https://blobatar.dev,
+https://github.com/Alain00/blobatar), installed from npm as a zero-dependency runtime package and
+not vendored or modified. It is credited here and on the Avatar Generator docs page.
 
 MIT License
 
-Copyright (c) 2024 Florian Körner
+Copyright (c) 2026 Alain
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

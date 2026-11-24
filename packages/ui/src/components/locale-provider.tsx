@@ -751,6 +751,43 @@ type LocaleLabels = {
   mediaSkipForward: string
   mediaProgress: (current: number, total: number) => string
   mediaListen: string
+  /* Avatar generator (blobatar) */
+  silhouette: string
+  expression: string
+  backdrop: string
+  tone: string
+  circle: string
+  squircle: string
+  avatarShapeRound: string
+  avatarShapeOrganic: string
+  avatarShapeBoxy: string
+  avatarShapeCapsule: string
+  avatarShapeNub: string
+  avatarShapeCloud: string
+  avatarShapeDroplet: string
+  avatarShapeHexagon: string
+  avatarShapeSun: string
+  avatarShapeTriangle: string
+  avatarTonePastel: string
+  avatarTonePale: string
+  avatarToneMid: string
+  avatarToneDeep: string
+  avatarToneBright: string
+  avatarToneInk: string
+  avatarExprIdle: string
+  avatarExprHappy: string
+  avatarExprSad: string
+  avatarExprMad: string
+  avatarExprSurprised: string
+  avatarExprWink: string
+  avatarExprSleepy: string
+  avatarExprSmug: string
+  avatarExprUnsure: string
+  avatarExprScared: string
+  avatarExprLove: string
+  avatarExprShy: string
+  avatarExprSick: string
+  avatarExprThinking: string
 }
 
 const en: LocaleLabels = {
@@ -1471,6 +1508,42 @@ const en: LocaleLabels = {
   mediaSkipForward: "Skip forward",
   mediaProgress: (c, t) => `Part ${c} of ${t}`,
   mediaListen: "Listen",
+  silhouette: "Silhouette",
+  expression: "Expression",
+  backdrop: "Backdrop",
+  tone: "Tone",
+  circle: "Circle",
+  squircle: "Squircle",
+  avatarShapeRound: "Round",
+  avatarShapeOrganic: "Organic",
+  avatarShapeBoxy: "Boxy",
+  avatarShapeCapsule: "Capsule",
+  avatarShapeNub: "Nub",
+  avatarShapeCloud: "Cloud",
+  avatarShapeDroplet: "Droplet",
+  avatarShapeHexagon: "Hexagon",
+  avatarShapeSun: "Sun",
+  avatarShapeTriangle: "Triangle",
+  avatarTonePastel: "Pastel",
+  avatarTonePale: "Pale",
+  avatarToneMid: "Mid",
+  avatarToneDeep: "Deep",
+  avatarToneBright: "Bright",
+  avatarToneInk: "Ink",
+  avatarExprIdle: "Idle",
+  avatarExprHappy: "Happy",
+  avatarExprSad: "Sad",
+  avatarExprMad: "Mad",
+  avatarExprSurprised: "Surprised",
+  avatarExprWink: "Wink",
+  avatarExprSleepy: "Sleepy",
+  avatarExprSmug: "Smug",
+  avatarExprUnsure: "Unsure",
+  avatarExprScared: "Scared",
+  avatarExprLove: "Love",
+  avatarExprShy: "Shy",
+  avatarExprSick: "Sick",
+  avatarExprThinking: "Thinking",
 }
 
 const zhCN: LocaleLabels = {
@@ -2191,6 +2264,42 @@ const zhCN: LocaleLabels = {
   mediaSkipForward: "前进",
   mediaProgress: (c, t) => `第 ${c} 部分，共 ${t} 部分`,
   mediaListen: "朗读",
+  silhouette: "轮廓",
+  expression: "表情",
+  backdrop: "底板",
+  tone: "色调",
+  circle: "圆形",
+  squircle: "圆角方形",
+  avatarShapeRound: "圆形",
+  avatarShapeOrganic: "有机",
+  avatarShapeBoxy: "圆方",
+  avatarShapeCapsule: "胶囊",
+  avatarShapeNub: "豆瓣",
+  avatarShapeCloud: "云朵",
+  avatarShapeDroplet: "水滴",
+  avatarShapeHexagon: "六边形",
+  avatarShapeSun: "太阳",
+  avatarShapeTriangle: "三角",
+  avatarTonePastel: "粉彩",
+  avatarTonePale: "浅灰",
+  avatarToneMid: "中等",
+  avatarToneDeep: "深色",
+  avatarToneBright: "明亮",
+  avatarToneInk: "墨色",
+  avatarExprIdle: "默认",
+  avatarExprHappy: "开心",
+  avatarExprSad: "难过",
+  avatarExprMad: "生气",
+  avatarExprSurprised: "惊讶",
+  avatarExprWink: "眨眼",
+  avatarExprSleepy: "困倦",
+  avatarExprSmug: "得意",
+  avatarExprUnsure: "疑惑",
+  avatarExprScared: "害怕",
+  avatarExprLove: "喜爱",
+  avatarExprShy: "害羞",
+  avatarExprSick: "不适",
+  avatarExprThinking: "思考",
 }
 
 const ja: LocaleLabels = {
@@ -2911,6 +3020,42 @@ const ja: LocaleLabels = {
   mediaSkipForward: "進む",
   mediaProgress: (c, t) => `${t} 件中 ${c} 件目`,
   mediaListen: "読み上げ",
+  silhouette: "シルエット",
+  expression: "表情",
+  backdrop: "背景",
+  tone: "トーン",
+  circle: "円形",
+  squircle: "角丸四角",
+  avatarShapeRound: "丸",
+  avatarShapeOrganic: "オーガニック",
+  avatarShapeBoxy: "ボックス",
+  avatarShapeCapsule: "カプセル",
+  avatarShapeNub: "ナブ",
+  avatarShapeCloud: "クラウド",
+  avatarShapeDroplet: "しずく",
+  avatarShapeHexagon: "六角形",
+  avatarShapeSun: "太陽",
+  avatarShapeTriangle: "三角",
+  avatarTonePastel: "パステル",
+  avatarTonePale: "ペール",
+  avatarToneMid: "ミディアム",
+  avatarToneDeep: "ディープ",
+  avatarToneBright: "ブライト",
+  avatarToneInk: "インク",
+  avatarExprIdle: "通常",
+  avatarExprHappy: "うれしい",
+  avatarExprSad: "かなしい",
+  avatarExprMad: "おこる",
+  avatarExprSurprised: "おどろく",
+  avatarExprWink: "ウィンク",
+  avatarExprSleepy: "ねむい",
+  avatarExprSmug: "ドヤ顔",
+  avatarExprUnsure: "まよう",
+  avatarExprScared: "こわい",
+  avatarExprLove: "すき",
+  avatarExprShy: "てれる",
+  avatarExprSick: "ぐったり",
+  avatarExprThinking: "かんがえ中",
 }
 
 /** Built-in label sets, keyed by BCP 47 tag. */

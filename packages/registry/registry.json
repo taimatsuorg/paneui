@@ -5457,8 +5457,7 @@
       "description": "Creates and edits avatars.",
       "dependencies": [
         "@base-ui/react",
-        "@dicebear/core@^9.4.3",
-        "@dicebear/notionists@^9.4.3"
+        "blobatar@^2.7.0"
       ],
       "registryDependencies": [
         "@paneui/theme",
@@ -5466,6 +5465,7 @@
         "@paneui/button",
         "@paneui/input",
         "@paneui/select",
+        "@paneui/slider",
         "@paneui/tabs",
         "@paneui/icons",
         "@paneui/locale-provider"

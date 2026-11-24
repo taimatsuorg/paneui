@@ -1,6 +1,6 @@
 /** Seed data for the team chat template. Replace with your own store or API. */
 
-export type Person = { id: string; name: string; gender: "male" | "female"; status: "online" | "away" | "offline"; title: string }
+export type Person = { id: string; name: string; status: "online" | "away" | "offline"; title: string }
 
 export type Reaction = { emoji: string; by: string[] }
 
@@ -27,12 +27,12 @@ export type Conversation = {
 export const ME = "qinyang"
 
 export const PEOPLE: Record<string, Person> = {
-  qinyang: { id: "qinyang", name: "Qinyang Wang", gender: "male", status: "online", title: "Founder" },
-  mina: { id: "mina", name: "Mina Park", gender: "female", status: "online", title: "Design" },
-  leo: { id: "leo", name: "Leo Tanaka", gender: "male", status: "online", title: "Frontend" },
-  sara: { id: "sara", name: "Sara Ruiz", gender: "female", status: "away", title: "Product" },
-  omar: { id: "omar", name: "Omar Haddad", gender: "male", status: "offline", title: "Infrastructure" },
-  yuki: { id: "yuki", name: "Yuki Sato", gender: "female", status: "online", title: "Docs" },
+  qinyang: { id: "qinyang", name: "Qinyang Wang", status: "online", title: "Founder" },
+  mina: { id: "mina", name: "Mina Park", status: "online", title: "Design" },
+  leo: { id: "leo", name: "Leo Tanaka", status: "online", title: "Frontend" },
+  sara: { id: "sara", name: "Sara Ruiz", status: "away", title: "Product" },
+  omar: { id: "omar", name: "Omar Haddad", status: "offline", title: "Infrastructure" },
+  yuki: { id: "yuki", name: "Yuki Sato", status: "online", title: "Docs" },
 }
 
 const everyone = Object.keys(PEOPLE)

@@ -43,7 +43,7 @@ export default function MessageFlat() {
       <MessageMarker>Today</MessageMarker>
       <Message from="user">
         <MessageAvatar>
-          <GeneratedAvatarImage seed="mina-park" gender="female" />
+          <GeneratedAvatarImage seed="mina-park" />
         </MessageAvatar>
         <MessageContent>
           <MessageHeader>
@@ -79,7 +79,7 @@ export default function MessageFlat() {
       </Message>
       <Message from="assistant">
         <MessageAvatar>
-          <GeneratedAvatarImage seed="leo-tanaka" gender="male" />
+          <GeneratedAvatarImage seed="leo-tanaka" />
         </MessageAvatar>
         <MessageContent>
           <MessageHeader>

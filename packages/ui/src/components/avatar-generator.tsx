@@ -1,66 +1,48 @@
 "use client"
 
 import * as React from "react"
-import { useLocale, localeLabels, type LocaleLabels } from "@paneui/ui/components/locale-provider"
 
-import { CheckIcon, CopyIcon, DownloadIcon, RefreshIcon } from "@paneui/ui/icons"
-import { cn } from "@paneui/ui/lib/utils"
 import { Button } from "@paneui/ui/components/button"
 import {
   GeneratedAvatar,
+  GeneratedAvatarImage,
   createGeneratedAvatar,
-  getAvatarParts,
-  type AvatarGender,
-  type AvatarSelections,
-  type AvatarSlot,
+  getAvatarBackdrops,
+  getAvatarExpressions,
+  getAvatarSilhouettes,
+  getAvatarTones,
+  resolveAvatarTraits,
+  type AvatarBackdrop,
+  type AvatarExpression,
+  type AvatarSilhouette,
+  type AvatarTone,
 } from "@paneui/ui/components/generated-avatar"
 import { Input } from "@paneui/ui/components/input"
+import { localeLabels, useLocale, type LocaleLabels } from "@paneui/ui/components/locale-provider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paneui/ui/components/select"
+import { Slider } from "@paneui/ui/components/slider"
 import { Tabs, TabsList, TabsTab } from "@paneui/ui/components/tabs"
+import { CheckIcon, CopyIcon, DownloadIcon, RefreshIcon } from "@paneui/ui/icons"
+import { cn } from "@paneui/ui/lib/utils"
 
 /*
- * Avatar generator for the illustrated avatars: seed field with
- * shuffle, a gender segmented control, part pickers (hair, eyes, brows, mouth, glasses, beard, top,
- * gesture) where hair only offers the chosen gender's styles, a strip of seed variations, and SVG
- * download / JSX copy. Layout is the two-layer inset card: tinted frame (rounded-2xl, p-1) around a
- * raised panel (rounded-inner = 14px).
- *
- * The layout follows the generator's own width (container queries), not the viewport, so it holds up
- * in a narrow card on a wide screen: stacked below 36rem, preview beside the controls from there.
- * Inside the controls, the part pickers are label-beside rows until 18rem, then two-up with the label on top;
- * the actions stretch to fill until 24rem.
+ * Avatar generator for deterministic geometric avatars: seed field with shuffle,
+ * backdrop segmented control, silhouette / expression / tone pickers, hue slider,
+ * a strip of seed variations, and SVG download / JSX copy. Layout uses the
+ * two-layer inset card: tinted frame (rounded-2xl, p-1) around a raised panel
+ * (rounded-inner = 14px).
  */
 
 type AvatarGeneratorState = {
   seed: string
-  gender: AvatarGender
-  selections: AvatarSelections
-  accessories: boolean
-}
-
-function getGenders(l10n: LocaleLabels = localeLabels.en): { value: AvatarGender; label: string }[] {
-  return ([
-  { value: "any", label: l10n.any },
-  { value: "female", label: l10n.female },
-  { value: "male", label: l10n.male },
-])
-}
-
-function getPickers(l10n: LocaleLabels = localeLabels.en): { slot: AvatarSlot; label: string }[] {
-  return ([
-  { slot: "hair", label: l10n.hair },
-  { slot: "eyes", label: l10n.eyes },
-  { slot: "brows", label: l10n.brows },
-  { slot: "lips", label: l10n.mouth },
-  { slot: "glasses", label: l10n.glasses },
-  { slot: "beard", label: l10n.beard },
-  { slot: "body", label: l10n.top },
-  { slot: "gesture", label: l10n.gesture },
-])
+  silhouette?: AvatarSilhouette
+  expression: AvatarExpression
+  tone?: AvatarTone
+  hue?: number
+  background: AvatarBackdrop
 }
 
 const FROM_SEED = "__seed"
-const NO_ITEM = "none"
 const VARIATIONS = 6
 
 function randomSeed() {
@@ -70,77 +52,63 @@ function randomSeed() {
 }
 
 /** JSX for the current avatar, for the Copy code button. */
-function toJsx({ seed, gender, selections, accessories }: AvatarGeneratorState) {
+function toJsx({ seed, silhouette, expression, tone, hue, background }: AvatarGeneratorState) {
   const attrs = [`seed="${seed.replace(/"/g, "&quot;")}"`]
-  if (gender !== "any") attrs.push(`gender="${gender}"`)
-  if (accessories) attrs.push("accessories")
-  const picked = Object.entries(selections).filter(([, v]) => v)
-  if (picked.length) attrs.push(`selections={{ ${picked.map(([k, v]) => `${k}: "${v}"`).join(", ")} }}`)
+  if (silhouette) attrs.push(`silhouette="${silhouette}"`)
+  if (expression !== "idle") attrs.push(`expression="${expression}"`)
+  if (tone) attrs.push(`tone="${tone}"`)
+  if (hue !== undefined) attrs.push(`hue={${hue}}`)
+  if (background !== "none") attrs.push(`background="${background}"`)
   return `<GeneratedAvatar ${attrs.join(" ")} />`
+}
+
+function labelFor<T extends string>(items: { value: T; label: string }[], value: T, fallback: string) {
+  return items.find((item) => item.value === value)?.label ?? fallback
 }
 
 type AvatarGeneratorProps = Omit<React.ComponentProps<"div">, "onChange"> & {
   defaultSeed?: string
-  defaultGender?: AvatarGender
-  /** Called with the seed, gender and part overrides whenever they change; store this to redraw the same avatar. */
+  defaultBackground?: AvatarBackdrop
+  /** Called with the seed and overrides whenever they change; store this to redraw the same avatar. */
   onValueChange?: (state: AvatarGeneratorState) => void
 }
 
 function AvatarGenerator({
   className,
   defaultSeed = "paneui",
-  defaultGender = "any",
+  defaultBackground = "none",
   onValueChange,
   ...props
 }: AvatarGeneratorProps) {
-  const l10n = useLocale().labels
-  const GENDERS = getGenders(l10n)
-  const PICKERS = getPickers(l10n)
+  const l10n: LocaleLabels = useLocale().labels ?? localeLabels.en
+  const backdrops = getAvatarBackdrops(l10n)
+  const silhouettes = getAvatarSilhouettes(l10n)
+  const expressions = getAvatarExpressions(l10n)
+  const tones = getAvatarTones(l10n)
 
   const [state, setState] = React.useState<AvatarGeneratorState>({
     seed: defaultSeed,
-    gender: defaultGender,
-    selections: {},
-    accessories: false,
+    expression: "idle",
+    background: defaultBackground,
   })
   const [copied, setCopied] = React.useState(false)
   const seedId = React.useId()
+
   const update = (patch: Partial<AvatarGeneratorState>) => {
     const next = { ...state, ...patch }
     setState(next)
     onValueChange?.(next)
   }
 
-  const setGender = (gender: AvatarGender) => {
-    // Keep overrides that the new gender still offers; drop the rest back to the seed.
-    const selections: AvatarSelections = {}
-    for (const [slot, name] of Object.entries(state.selections) as [AvatarSlot, string][]) {
-      if (getAvatarParts(slot, gender, l10n).some((part) => part.name === name)) selections[slot] = name
-    }
-    update({ gender, selections })
-  }
-
-  const setPart = (slot: AvatarSlot, value: string) => {
-    const selections = { ...state.selections }
-    if (slot === "glasses") {
-      // Glasses: None, Random (the seed decides, via `accessories`) or a pinned pair.
-      delete selections.glasses
-      if (value === NO_ITEM) return update({ selections, accessories: false })
-      if (value !== FROM_SEED) selections.glasses = value
-      return update({ selections, accessories: true })
-    }
-    if (value === FROM_SEED) delete selections[slot]
-    else selections[slot] = value
-    update({ selections })
-  }
-
   const avatarOptions = {
     seed: state.seed,
-    gender: state.gender,
-    selections: state.selections,
-    accessories: state.accessories,
+    silhouette: state.silhouette,
+    expression: state.expression,
+    tone: state.tone,
+    hue: state.hue,
+    background: state.background,
   }
-  const resolved = createGeneratedAvatar(avatarOptions).selections
+  const resolved = resolveAvatarTraits(avatarOptions)
 
   const download = () => {
     const svg = createGeneratedAvatar(avatarOptions).toString(512)
@@ -162,7 +130,14 @@ function AvatarGenerator({
     }
   }
 
-  const glassesValue = !state.accessories ? NO_ITEM : (state.selections.glasses ?? FROM_SEED)
+  const silhouetteItems = [
+    { value: FROM_SEED, label: l10n.seedPart(labelFor(silhouettes, resolved.silhouette, resolved.silhouette)) },
+    ...silhouettes,
+  ]
+  const toneItems = [
+    { value: FROM_SEED, label: l10n.seedPart(labelFor(tones, resolved.tone, resolved.tone)) },
+    ...tones,
+  ]
 
   return (
     <div
@@ -176,11 +151,7 @@ function AvatarGenerator({
             data-slot="avatar-generator-preview"
             className="flex h-44 items-center justify-center rounded-xl bg-secondary @xl/avatar-generator:aspect-square @xl/avatar-generator:h-auto"
           >
-            <GeneratedAvatar
-              {...avatarOptions}
-              size={152}
-              title={l10n.avatarFor(state.seed)}
-            />
+            <GeneratedAvatarImage {...avatarOptions} title={l10n.avatarFor(state.seed)} className="size-38" />
           </div>
           <div
             className="flex items-center justify-center gap-2 @xl/avatar-generator:justify-between @xl/avatar-generator:gap-0"
@@ -194,15 +165,10 @@ function AvatarGenerator({
                   key={seed}
                   type="button"
                   aria-label={l10n.useSeed(seed)}
-                  onClick={() => update({ seed, selections: {} })}
+                  onClick={() => update({ seed, silhouette: undefined, tone: undefined, hue: undefined })}
                   className="cursor-pointer rounded-full outline-none transition-opacity duration-150 hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <GeneratedAvatar
-                    seed={seed}
-                    gender={state.gender}
-                    accessories={state.accessories}
-                    size="md"
-                  />
+                  <GeneratedAvatar seed={seed} expression={state.expression} background={state.background} size="md" />
                 </button>
               )
             })}
@@ -225,27 +191,25 @@ function AvatarGenerator({
               />
               <Button
                 variant="outline"
-                onClick={() => update({ seed: randomSeed(), selections: {} })}
+                onClick={() => update({ seed: randomSeed(), silhouette: undefined, tone: undefined, hue: undefined })}
                 aria-label={l10n.shuffleSeed}
               >
                 <RefreshIcon data-icon="inline-start" />
                 {l10n.shuffle}
               </Button>
             </div>
-            <p className="text-ui-sm text-pretty text-muted-foreground">
-              {l10n.theSameSeedAlwaysDrawsTheSameAvatar}
-            </p>
+            <p className="text-ui-sm text-pretty text-muted-foreground">{l10n.theSameSeedAlwaysDrawsTheSameAvatar}</p>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <span id={`${seedId}-gender`} className="text-ui font-medium">
-              {l10n.gender}
+            <span id={`${seedId}-backdrop`} className="text-ui font-medium">
+              {l10n.backdrop}
             </span>
-            <Tabs value={state.gender} onValueChange={(value) => setGender(value as AvatarGender)}>
-              <TabsList aria-labelledby={`${seedId}-gender`} className="w-full">
-                {GENDERS.map((g) => (
-                  <TabsTab key={g.value} value={g.value} className="flex-1">
-                    {g.label}
+            <Tabs value={state.background} onValueChange={(value) => update({ background: value as AvatarBackdrop })}>
+              <TabsList aria-labelledby={`${seedId}-backdrop`} className="w-full">
+                {backdrops.map((item) => (
+                  <TabsTab key={item.value} value={item.value} className="flex-1">
+                    {item.label}
                   </TabsTab>
                 ))}
               </TabsList>
@@ -253,43 +217,92 @@ function AvatarGenerator({
           </div>
 
           <div className="grid gap-x-2 gap-y-2 @2xs/avatar-generator-controls:grid-cols-2 @2xs/avatar-generator-controls:gap-y-3">
-            {PICKERS.map(({ slot, label }) => {
-              const parts = getAvatarParts(slot, state.gender, l10n)
-              const items = (() => {
-                if (slot === "glasses")
-                  return [
-                    { value: NO_ITEM, label: l10n.none },
-                    { value: FROM_SEED, label: l10n.random },
-                    ...parts.filter((part) => part.name !== NO_ITEM).map((part) => ({ value: part.name, label: part.label })),
-                  ]
-                const seedPart = parts.find((part) => part.name === resolved[slot])
-                return [
-                  { value: FROM_SEED, label: l10n.seedPart(seedPart?.label ?? l10n.none) },
-                  ...parts.map((part) => ({ value: part.name, label: part.label })),
-                ]
-              })()
-              const value = slot === "glasses" ? glassesValue : (state.selections[slot] ?? FROM_SEED)
-              return (
-                <div
-                  key={slot}
-                  className="grid min-w-0 grid-cols-[4rem_minmax(0,1fr)] items-center gap-2 @2xs/avatar-generator-controls:flex @2xs/avatar-generator-controls:flex-col @2xs/avatar-generator-controls:items-stretch @2xs/avatar-generator-controls:gap-1.5"
+            <div className="grid min-w-0 grid-cols-[4rem_minmax(0,1fr)] items-center gap-2 @2xs/avatar-generator-controls:flex @2xs/avatar-generator-controls:flex-col @2xs/avatar-generator-controls:items-stretch @2xs/avatar-generator-controls:gap-1.5">
+              <span className="text-ui-sm text-muted-foreground">{l10n.silhouette}</span>
+              <Select
+                items={silhouetteItems}
+                value={state.silhouette ?? FROM_SEED}
+                onValueChange={(value) => update({ silhouette: value === FROM_SEED ? undefined : (value as AvatarSilhouette) })}
+              >
+                <SelectTrigger size="sm" aria-label={l10n.silhouette} className="min-w-0">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {silhouetteItems.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="grid min-w-0 grid-cols-[4rem_minmax(0,1fr)] items-center gap-2 @2xs/avatar-generator-controls:flex @2xs/avatar-generator-controls:flex-col @2xs/avatar-generator-controls:items-stretch @2xs/avatar-generator-controls:gap-1.5">
+              <span className="text-ui-sm text-muted-foreground">{l10n.expression}</span>
+              <Select
+                items={expressions}
+                value={state.expression}
+                onValueChange={(value) => update({ expression: value as AvatarExpression })}
+              >
+                <SelectTrigger size="sm" aria-label={l10n.expression} className="min-w-0">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {expressions.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="grid min-w-0 grid-cols-[4rem_minmax(0,1fr)] items-center gap-2 @2xs/avatar-generator-controls:flex @2xs/avatar-generator-controls:flex-col @2xs/avatar-generator-controls:items-stretch @2xs/avatar-generator-controls:gap-1.5">
+              <span className="text-ui-sm text-muted-foreground">{l10n.tone}</span>
+              <Select
+                items={toneItems}
+                value={state.tone ?? FROM_SEED}
+                onValueChange={(value) => update({ tone: value === FROM_SEED ? undefined : (value as AvatarTone) })}
+              >
+                <SelectTrigger size="sm" aria-label={l10n.tone} className="min-w-0">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {toneItems.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="grid min-w-0 grid-cols-[4rem_minmax(0,1fr)] items-center gap-2 @2xs/avatar-generator-controls:flex @2xs/avatar-generator-controls:flex-col @2xs/avatar-generator-controls:items-stretch @2xs/avatar-generator-controls:gap-1.5">
+              <span className="text-ui-sm text-muted-foreground">{l10n.hue}</span>
+              <div className="flex h-7 min-w-0 items-center gap-2">
+                <Slider
+                  size="sm"
+                  min={0}
+                  max={360}
+                  step={1}
+                  value={state.hue ?? resolved.hue}
+                  onValueChange={(value) => update({ hue: Array.isArray(value) ? value[0] : value })}
+                  aria-label={l10n.hue}
+                  className="min-w-0 flex-1"
+                />
+                <span className="w-8 shrink-0 text-end text-ui-xs text-muted-foreground tabular-nums">{resolved.hue}°</span>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-xs"
+                  disabled={state.hue === undefined}
+                  onClick={() => update({ hue: undefined })}
+                  aria-label={l10n.reset}
                 >
-                  <span className="text-ui-sm text-muted-foreground">{label}</span>
-                  <Select items={items} value={value} onValueChange={(v) => setPart(slot, String(v))}>
-                    <SelectTrigger size="sm" aria-label={label} className="min-w-0">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {items.map((item) => (
-                        <SelectItem key={item.value} value={item.value}>
-                          {item.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )
-            })}
+                  <RefreshIcon />
+                </Button>
+              </div>
+            </div>
           </div>
 
           <div className="mt-auto flex flex-wrap justify-end gap-2 pt-1">

@@ -103,7 +103,7 @@ function titleOf(c: Conversation) {
 /* ───────────────────────── Small parts ───────────────────────── */
 
 function Avatar({ person, className }: { person: Person; className?: string }) {
-  return <GeneratedAvatarImage seed={person.id} gender={person.gender} className={className} />
+  return <GeneratedAvatarImage seed={person.id} className={className} />
 }
 
 function Hash() {

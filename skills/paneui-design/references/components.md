@@ -37,9 +37,8 @@
 
 ## People and things
 
-- People and workspaces are avatars (`Avatar`, image or initials, or `GeneratedAvatar` in the one
-  illustrated style), round for people, `shape="rounded"` for workspaces and teams. Never a generic icon
-  in an avatar slot.
+- People and workspaces are avatars (`Avatar`, image or initials, or `GeneratedAvatar` in the deterministic geometric
+  style), round for people, `shape="rounded"` for workspaces and teams. Never a generic icon in an avatar slot.
 - Other products' logos come from `BrandIcon` (see `icons.md`).
 
 ## Not in the library

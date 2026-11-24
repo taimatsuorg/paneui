@@ -6,7 +6,7 @@ import { DataTable } from "@paneui/ui/components/data-table"
 import { AgentActivity } from "@paneui/ui/components/agent-activity"
 import { FileDiff } from "@paneui/ui/components/file-diff"
 import { TabStrip, TabStripItem } from "@paneui/ui/components/tab-strip"
-import { getAvatarParts } from "@paneui/ui/components/generated-avatar"
+import { getAvatarBackdrops } from "@paneui/ui/components/generated-avatar"
 import { getDefaultSlashItems } from "@paneui/ui/blocks/notion-editor/slash-command"
 import { getBlockTypes, getTextColors } from "@paneui/ui/blocks/notion-editor/block-types"
 
@@ -27,7 +27,7 @@ for (const [locale, expected] of [
   assert.equal(getDefaultSlashItems(labels)[0].title, expected.block)
   assert.equal(getBlockTypes(labels)[0].label, expected.block)
   assert.equal(getTextColors(labels)[1].label, expected.gray)
-  assert.equal(getAvatarParts("glasses", "any", labels)[0].label, expected.none)
+  assert.equal(getAvatarBackdrops(labels)[0].label, expected.none)
 }
 assert.equal(renderToString(<LocaleText label="close" />), "Close")
 assert.equal(renderToString(<LocaleProvider locale="zh-CN" labels={{ close: "自定义" }}><LocaleProvider labels={{ back: "上一步" }}><LocaleText label="close" /></LocaleProvider></LocaleProvider>), "自定义")
