@@ -5,8 +5,9 @@
 @source "../components";
 
 /*
- * Studio parts for the site's own pages. A tile is a lifted warm white block (var(--card)) with no
- * border or shadow on the Warm Stone canvas. A tile label is a small muted caption. The lamp is a plain status dot.
+ * Studio parts for the site's own pages. A tile is a subtle shell-tinted container (var(--shell))
+ * with a translucent hairline ring over the clean page canvas. A tile label is a small muted caption.
+ * The lamp is a plain status dot.
  */
 @utility tile {
   position: relative;
@@ -18,7 +19,8 @@
   border-radius: var(--radius-3xl);
   --frame-inner-1: max(calc(var(--frame-r) - var(--frame-p) - var(--frame-b)), 0px);
   --frame-inner-2: initial;
-  background-color: var(--card);
+  background-color: var(--shell);
+  box-shadow: var(--shadow-border);
 }
 
 @utility tile-label {

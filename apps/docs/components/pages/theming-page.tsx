@@ -266,7 +266,7 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
           <T
             en={
               <>
-                The accent is ten role variables per mode, blue by default: <Code>primary</Code> and its{" "}
+                The accent is ten role variables per mode, neutral by default: <Code>primary</Code> and its{" "}
                 <Code>-hover</Code>, <Code>-active</Code>, <Code>-foreground</Code>, <Code>-subtle</Code>,{" "}
                 <Code>-subtle-hover</Code>, <Code>-border</Code> and <Code>-text</Code> variants, plus <Code>ring</Code> and{" "}
                 <Code>selection</Code>. Every preset meets the same contrast: 4.5:1 for the label on the solid and for{" "}
@@ -275,7 +275,7 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
             }
             zh={
               <>
-                主题色在每种模式下是十个角色变量，默认为蓝色：<Code>primary</Code> 及其 <Code>-hover</Code>、<Code>-active</Code>、{" "}
+                主题色在每种模式下是十个角色变量，默认为中性色：<Code>primary</Code> 及其 <Code>-hover</Code>、<Code>-active</Code>、{" "}
                 <Code>-foreground</Code>、<Code>-subtle</Code>、<Code>-subtle-hover</Code>、<Code>-border</Code> 和 <Code>-text</Code> 变体，再加{" "}
                 <Code>ring</Code> 和 <Code>selection</Code>。每个预设都满足相同的对比度：实色上的文字和 <Code>primary-text</Code> 达到 4.5:1，ring 达到 3:1。
                 表面、文字和图表保持一致。请在主题之后安装一个预设。

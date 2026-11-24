@@ -6,25 +6,25 @@ an `@theme inline` mapping.
 
 ## Colour roles
 
-Neutrals are warm espresso ink (`oklch(20% 0.01 65)`) in light mode and warm linen ivory (`oklch(94.5% 0.008 82)`) in dark mode, so text, fills and borders read on any Warm Stone surface; surfaces are opaque. Accent and status colours are OKLCH, chosen by contrast: every pair below is checked by `node tooling/scripts/theme-contrast.mjs` in all styles (`default`, `studio`, `paper`), both modes and every accent.
+Neutrals use an achromatic grey scale (`oklch(26.9% 0 0)` ink on `#fff` in light mode; `oklch(97% 0 0)` ink on `oklch(20.15% 0 0)` in dark mode) paired with translucent black/white borders and fills for crisp separation and visual depth; surfaces are opaque. Accent, status, tag and chart roles are OKLCH, verified in every pair by `node tooling/scripts/theme-contrast.mjs` across all styles (`default`, `studio`, `paper`), both modes and every accent.
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `background` | `oklch(96.5% 0.007 82)` | `oklch(17.5% 0.007 70)` | Warm Stone page |
-| `card` | `oklch(99.2% 0.004 85)` | `oklch(22% 0.008 70)` | warm white / lifted cards, tables, tiles, raised controls |
-| `popover` | `oklch(99.6% 0.002 85)` | `oklch(25.5% 0.008 70)` | menus, popovers, dialogs (raised surfaces step lighter in both modes) |
-| `shell` | `oklch(93.5% 0.009 80)` | `oklch(14% 0.007 70)` | app chrome behind an inset panel |
-| `surface-sunken` / `surface-standout` | warm ink 6% / `oklch(22% 0.01 65)` | black 32% / `oklch(94.5% 0.008 82)` | wells, inverted callouts |
-| `foreground` | `oklch(20% 0.01 65)` (~16.4:1) | `oklch(94.5% 0.008 82)` (~16.1:1) | text |
-| `muted-foreground` | ink 68% (~6.0:1) | ink 68% (~7.8:1) | secondary text, nav icons; ≥ 4.5:1 |
-| `fg-tertiary` / `fg-disabled` | ≥ 3.2:1 / exempt | ≥ 3.2:1 / exempt | meta and placeholders (≥ 3:1), disabled text |
-| `fill-hover` / `fill-active` / `fill-strong` | ink 6.5% / 11% / 16% | ink 7.5% / 12% / 17% | **translucent** fills: hover and filled controls, pressed / open / selected, pressed on hover |
+| `background` | `oklch(100% 0 0)` | `oklch(20.15% 0 0)` | page |
+| `card` | `oklch(100% 0 0)` | `oklch(22.19% 0 0)` | cards, tables, raised controls |
+| `popover` | `oklch(100% 0 0)` | `oklch(22.19% 0 0)` | menus, popovers, dialogs |
+| `shell` | `oklch(98.5% 0 0)` | `oklch(17.94% 0 0)` | sidebar chrome, app shell and tile wells |
+| `surface-sunken` / `surface-standout` | black 4% / `oklch(26.9% 0 0)` | black 28% / `oklch(97% 0 0)` | wells, inverted callouts |
+| `foreground` | `oklch(26.9% 0 0)` (~15.1:1) | `oklch(97% 0 0)` (~16.6:1) | text |
+| `muted-foreground` | `oklch(51.6% 0 0)` (~5.6:1) | `oklch(64.87% 0 0)` (~5.6:1) | secondary text, nav icons; ≥ 4.5:1 across all surfaces and active fills |
+| `fg-tertiary` / `fg-disabled` | ≥ 3.1:1 / exempt | ≥ 3.1:1 / exempt | meta and placeholders (≥ 3:1), disabled text |
+| `fill-hover` / `fill-active` / `fill-strong` | black 4% / 7% / 12% | white 4% / 7% / 12% | **translucent** fills: hover and filled controls, pressed / open / selected, pressed on hover |
 | `secondary`, `muted` / `accent` | = `fill-hover` / = `fill-active` | same | the shadcn names of the fills |
-| `border` / `border-subtle` / `border-strong` / `input` | ink 13% / 7% / 24% / 16% | ink 12% / 7% / 22% / 15% | dividers, cards, outline buttons, fields; subtle for separators; strong for hover and emphasis |
-| `border-control` | ≥ 3.15:1 | ≥ 3.15:1 | an edge that must be found (high-contrast fields, checkbox edges) |
-| `destructive` / `success` / `warning` / `info` | solids | luminous solids + dark ink label | each has `-hover`, `-foreground` (≥ 4.5:1 on the solid), `-subtle`, `-border` and `-text` (≥ 4.5:1 on the page and the subtle fill). Light `warning` takes dark ink text; `info` is a fixed blue |
+| `border` / `border-subtle` / `border-strong` / `input` | black 8% / 6% / 16% / 10% | white 6% / 4% / 14% / 8% | translucent hairlines for dividers, cards, outline buttons and fields |
+| `border-control` | ≥ 3.1:1 | ≥ 3.1:1 | an edge that must be found (high-contrast fields, checkbox edges) |
+| `destructive` / `success` / `warning` / `info` | solids | luminous solids | each has `-hover`, `-foreground` (≥ 4.6:1 on the solid), `-subtle`, `-border` and dedicated `-text` roles (≥ 4.5:1 on surfaces and subtle washes) |
 | `tag-<colour>-text` / `-bg` / `-fill` | | | default, gray, brown, orange, yellow, green, blue, purple, pink, red: label text, highlight and pill; text ≥ 4.5:1 on all three |
-| `code` | `oklch(94.2% 0.007 82)` | `oklch(20% 0.007 70)` | code block background |
+| `code` | `oklch(100% 0 0)` | `oklch(22.19% 0 0)` | code block surface |
 | `chart-1` … `chart-8` | see `charts.md` | | data series, ≥ 3:1 on the page |
 
 - Washes: `bg-success-subtle inset-ring inset-ring-success-border` (badges, chips, alerts). Opacity
@@ -40,12 +40,12 @@ Neutrals are warm espresso ink (`oklch(20% 0.01 65)`) in light mode and warm lin
 Ten roles carry the accent: `primary` (solid), `primary-hover`, `primary-active`, `primary-foreground`
 (≥ 4.5:1 on all three), `primary-subtle`, `primary-subtle-hover`, `primary-border`, `primary-text` (links,
 active items, accent icons; ≥ 4.5:1 on the page and the subtle fill), `ring` (≥ 3:1, used at `/50`) and
-`selection` (`::selection`). The default is Warm Stone Blue: `oklch(52% 0.145 250)` in light mode (white label)
-and `oklch(72% 0.125 245)` in dark mode (dark ink label).
+`selection` (`::selection`). The default is **neutral** on `:root` and `.dark` (`oklch(26.9% 0 0)` with
+`oklch(98.5% 0 0)` label in light mode; `oklch(97% 0 0)` with `oklch(26.9% 0 0)` label in dark mode; focus
+ring `oklch(65% 0 0)` / `oklch(55.6% 0 0)`).
 
-Presets (neutral, green, orange, rose, violet) are `html[data-accent="…"]` blocks that swap the ten; neutral
-is the inverted espresso/ivory solid; coloured solids take white text in light mode and dark ink text in
-dark mode. Each ships as a
+Presets (blue, green, orange, rose, violet) are `html[data-accent="…"]` blocks that swap the ten;
+coloured solids take white text in light mode and dark neutral ink in dark mode. Each ships as a
 `theme-<name>` registry item. Filled controls hover to `bg-primary-hover`; text on any solid is its
 `*-foreground`. Charts and tags never follow the accent.
 

@@ -349,3 +349,37 @@ are used; syntax scopes map to this project's theme tokens.
 
 Shiki remains a fallback for unsupported languages, under the MIT licence:
 https://github.com/shikijs/shiki/blob/main/LICENSE.
+
+## coss.com/ui (`@coss/style`, default theme colour & elevation parameters)
+
+The default theme in `packages/tokens/styles/globals.css` (and its `theme` and `theme-*` registry
+items) adopts design parameters from the styling system of coss.com/ui (`@coss/style`,
+https://coss.com/ui/docs/styling, repository https://github.com/cosscom/coss, component library
+package https://github.com/cosscom/ui): the white / neutral-800 light palette and neutral-950/white
+mixed dark surfaces, translucent black/white fills and borders, neutral-800/neutral-100 primary
+polarity, Tailwind v4 red/emerald/amber/blue status and chart colour anchors, and crisp translucent
+border + bottom-shadow layering. Values are re-expressed as concrete OKLCH tokens inside this
+project's semantic schema with contrast adjustments for WCAG AA compliance across all styles and
+accents; no stylesheet files were copied verbatim.
+
+MIT License
+
+Copyright (c) 2025 coss.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

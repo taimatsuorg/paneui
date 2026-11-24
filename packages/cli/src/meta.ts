@@ -28,5 +28,5 @@ export const SHADCN_ENV = "PANEUI_SHADCN"
 /** Records what this CLI installed, so `update` can reinstall it. Written next to components.json. */
 export const LOCKFILE = "paneui.json"
 
-export const DEFAULT_ACCENT = "blue"
+export const DEFAULT_ACCENT = "neutral"
 export const DEFAULT_ICONS = "icons"

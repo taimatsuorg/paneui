@@ -8,28 +8,28 @@
   ],
   "cssVars": {
     "light": {
-      "primary": "oklch(52% 0.145 250)",
-      "primary-hover": "oklch(48.5% 0.138 250)",
-      "primary-active": "oklch(45% 0.1283 250)",
+      "primary": "oklch(57% 0.214 259.81)",
+      "primary-hover": "oklch(53.5% 0.214 259.81)",
+      "primary-active": "oklch(50% 0.2033 259.81)",
       "primary-foreground": "oklch(100% 0 0)",
-      "primary-subtle": "oklch(52% 0.145 250 / 0.1)",
-      "primary-subtle-hover": "oklch(52% 0.145 250 / 0.16)",
-      "primary-border": "oklch(52% 0.145 250 / 0.32)",
-      "primary-text": "oklch(50.5% 0.1305 250)",
-      "ring": "oklch(52% 0.145 250)",
-      "selection": "oklch(52% 0.145 250 / 0.22)"
+      "primary-subtle": "oklch(57% 0.214 259.81 / 0.1)",
+      "primary-subtle-hover": "oklch(57% 0.214 259.81 / 0.16)",
+      "primary-border": "oklch(57% 0.214 259.81 / 0.32)",
+      "primary-text": "oklch(53.5% 0.1926 259.81)",
+      "ring": "oklch(57% 0.214 259.81)",
+      "selection": "oklch(57% 0.214 259.81 / 0.22)"
     },
     "dark": {
-      "primary": "oklch(72% 0.125 245)",
-      "primary-hover": "oklch(75.5% 0.125 245)",
-      "primary-active": "oklch(79% 0.1142 245)",
-      "primary-foreground": "oklch(20% 0.02 245)",
-      "primary-subtle": "oklch(72% 0.125 245 / 0.16)",
-      "primary-subtle-hover": "oklch(72% 0.125 245 / 0.24)",
-      "primary-border": "oklch(72% 0.125 245 / 0.42)",
-      "primary-text": "oklch(72% 0.1187 245)",
-      "ring": "oklch(72% 0.125 245)",
-      "selection": "oklch(72% 0.125 245 / 0.4)"
+      "primary": "oklch(70.7% 0.156 254.62)",
+      "primary-hover": "oklch(74.2% 0.1355 254.62)",
+      "primary-active": "oklch(77.7% 0.1156 254.62)",
+      "primary-foreground": "oklch(14.5% 0 0)",
+      "primary-subtle": "oklch(70.7% 0.156 254.62 / 0.16)",
+      "primary-subtle-hover": "oklch(70.7% 0.156 254.62 / 0.24)",
+      "primary-border": "oklch(70.7% 0.156 254.62 / 0.42)",
+      "primary-text": "oklch(70.7% 0.1482 254.62)",
+      "ring": "oklch(70.7% 0.156 254.62)",
+      "selection": "oklch(70.7% 0.156 254.62 / 0.4)"
     }
   },
   "meta": {

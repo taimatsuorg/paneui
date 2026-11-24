@@ -6,26 +6,26 @@ import { docNav, highlightAll, siteNavGroups } from "@/lib/build"
 const CSS_EXAMPLE = `:root {
   --radius: 0.5rem;
   --radius-max: 1rem;             /* no token goes past 16px */
-  --background: oklch(96.5% 0.007 82);
-  --foreground: oklch(20% 0.01 65);            /* 16.4:1 */
-  --muted-foreground: oklch(20% 0.01 65 / 0.68); /* 6.0:1 */
-  --fill-hover: oklch(20% 0.01 65 / 0.065);    /* secondary and muted read it */
-  --primary: oklch(52% 0.145 250);             /* white label 5.5:1 */
-  --primary-text: oklch(50.5% 0.1305 250);     /* links, 5.3:1 */
-  --ring: oklch(52% 0.145 250);
-  --border: oklch(20% 0.01 65 / 0.13);
-  --border-control: oklch(20% 0.01 65 / 0.48); /* 3.2:1 */
-  --shadow-lg: 0 0 0 1px oklch(20% 0.01 65 / 0.11), 0 4px 12px -3px oklch(20% 0.01 65 / 0.12), …;
+  --background: oklch(100% 0 0);
+  --foreground: oklch(26.9% 0 0);        /* 15.1:1 */
+  --muted-foreground: oklch(51.6% 0 0);  /* 5.6:1 */
+  --fill-hover: oklch(0% 0 0 / 0.04);    /* secondary and muted read it */
+  --primary: oklch(26.9% 0 0);           /* light label 14.5:1 */
+  --primary-text: oklch(26.9% 0 0);      /* links, 15.1:1 */
+  --ring: oklch(65% 0 0);
+  --border: oklch(0% 0 0 / 0.08);
+  --border-control: oklch(0% 0 0 / 0.43); /* 3.1:1 */
+  --shadow-lg: 0 0 0 1px oklch(0% 0 0 / 0.08), 0 1px 0 oklch(0% 0 0 / 0.04), …;
   /* … */
 }
 
 .dark {
-  --background: oklch(17.5% 0.007 70);
-  --card: oklch(22% 0.008 70);
-  --popover: oklch(25.5% 0.008 70);
-  --foreground: oklch(94.5% 0.008 82);
-  --primary-text: oklch(72% 0.1187 245);
-  --border: oklch(94.5% 0.008 82 / 0.12);
+  --background: oklch(20.15% 0 0);
+  --card: oklch(22.19% 0 0);
+  --popover: oklch(22.19% 0 0);
+  --foreground: oklch(97% 0 0);
+  --primary-text: oklch(97% 0 0);
+  --border: oklch(100% 0 0 / 0.06);
   /* … */
 }
 
@@ -46,20 +46,20 @@ document.documentElement.style.colorScheme = dark ? "dark" : "light"`
 
 const ACCENT_RUNTIME = `/* Switch at runtime by setting data-accent on <html>: one block per mode swaps the ten roles */
 html[data-accent="violet"] {
-  --primary: oklch(53% 0.165 286);
-  --primary-hover: oklch(49.5% 0.165 286);
-  --primary-active: oklch(46% 0.165 286);
+  --primary: oklch(55.8% 0.288 302.32);
+  --primary-hover: oklch(52.3% 0.2763 302.32);
+  --primary-active: oklch(48.8% 0.258 302.32);
   --primary-foreground: oklch(100% 0 0);
-  --primary-subtle: oklch(53% 0.165 286 / 0.1);
-  --primary-subtle-hover: oklch(53% 0.165 286 / 0.16);
-  --primary-border: oklch(53% 0.165 286 / 0.32);
-  --primary-text: oklch(51.5% 0.1485 286);
-  --ring: oklch(53% 0.165 286);
-  --selection: oklch(53% 0.165 286 / 0.22);
+  --primary-subtle: oklch(55.8% 0.288 302.32 / 0.1);
+  --primary-subtle-hover: oklch(55.8% 0.288 302.32 / 0.16);
+  --primary-border: oklch(55.8% 0.288 302.32 / 0.32);
+  --primary-text: oklch(55.5% 0.2592 302.32);
+  --ring: oklch(55.8% 0.288 302.32);
+  --selection: oklch(55.8% 0.288 302.32 / 0.22);
 }
 html[data-accent="violet"].dark {
-  --primary-text: oklch(73% 0.1283 286);
-  --selection: oklch(73% 0.135 286 / 0.4);
+  --primary-text: oklch(71.4% 0.1794 305.5);
+  --selection: oklch(71.4% 0.1889 305.5 / 0.4);
   /* … */
 }`
 

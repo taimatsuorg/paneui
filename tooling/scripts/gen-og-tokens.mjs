@@ -22,7 +22,7 @@ const TARGET = path.join(root, "packages/ui/src/components/og-image.tsx")
 const START = "/* og-image-tokens:start"
 const END = "/* og-image-tokens:end */"
 
-const ACCENTS = ["blue", "neutral", "green", "orange", "rose", "violet"]
+const ACCENTS = ["neutral", "blue", "green", "orange", "rose", "violet"]
 const ROLES = {
   background: "background",
   card: "card",
@@ -73,8 +73,8 @@ function resolve(accent, mode) {
   const scope = {
     ...rootVars,
     ...(mode === "dark" ? darkVars : {}),
-    ...(accent === "blue" ? {} : vars(`html[data-accent="${accent}"]`)),
-    ...(accent !== "blue" && mode === "dark" ? vars(`html[data-accent="${accent}"].dark`) : {}),
+    ...(accent === "neutral" ? {} : vars(`html[data-accent="${accent}"]`)),
+    ...(accent !== "neutral" && mode === "dark" ? vars(`html[data-accent="${accent}"].dark`) : {}),
   }
   const get = (name, seen = 0) => {
     const v = scope[name]

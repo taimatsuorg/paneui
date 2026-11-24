@@ -52,20 +52,20 @@ const jiti = createJiti(import.meta.url, { fsCache: false })
 const { deriveAccent } = await jiti.import(path.join(root, "apps/docs/components/docs/accent-color.ts"))
 const CUSTOM = { "custom #e11d48": "#e11d48", "custom #eab308": "#eab308", "custom #14b8a6": "#14b8a6", "custom #7c3aed": "#7c3aed", "custom #0ea5e9": "#0ea5e9" }
 
-const PRESETS = ["blue", "neutral", "green", "orange", "rose", "violet"]
+const PRESETS = ["neutral", "blue", "green", "orange", "rose", "violet"]
 function vars(style, accent, mode) {
   const dark = mode === "dark"
   const v = { ...pick(globals, ":root"), ...(dark ? pick(globals, ".dark") : {}) }
   if (style === "studio") {
     Object.assign(v, pick(studio, 'html[data-style="studio"]'), dark ? pick(studio, 'html[data-style="studio"].dark') : {})
   }
-  if (accent !== "blue" && PRESETS.includes(accent)) Object.assign(v, pick(accents, `html[data-accent="${accent}"]`), dark ? pick(accents, `html[data-accent="${accent}"].dark`) : {})
+  if (accent !== "neutral" && PRESETS.includes(accent)) Object.assign(v, pick(accents, `html[data-accent="${accent}"]`), dark ? pick(accents, `html[data-accent="${accent}"].dark`) : {})
   if (style === "paper") {
     Object.assign(v, pick(paper, 'html[data-style="paper"]'), dark ? pick(paper, 'html[data-style="paper"].dark') : {})
     if (PRESETS.includes(accent)) {
-      const sel = accent === "blue" ? 'html[data-style="paper"]:not([data-accent])' : `html[data-style="paper"][data-accent="${accent}"]`
+      const sel = `html[data-style="paper"][data-accent="${accent}"]`
       Object.assign(v, pick(paper, sel))
-      if (dark) Object.assign(v, pick(paper, accent === "blue" ? 'html[data-style="paper"].dark:not([data-accent])' : `html[data-style="paper"][data-accent="${accent}"].dark`))
+      if (dark) Object.assign(v, pick(paper, `html[data-style="paper"][data-accent="${accent}"].dark`))
     }
   }
   if (!PRESETS.includes(accent)) Object.assign(v, deriveAccent(CUSTOM[accent])[mode])
@@ -174,8 +174,8 @@ if (missing.length) {
 }
 for (const style of ["default", "studio", "paper"]) {
   md.push(`## ${style === "studio" ? "Studio style (the docs site)" : style === "paper" ? "Paper style" : "Default style"}`, "")
-  md.push("### Neutral, status and tag roles (accent blue)", "", "| Foreground | Background | Min | Light | Dark |", "|---|---|---|---|---|")
-  const base = rows.filter((r) => r.style === style && r.accent === "blue" && !ACCENT_ROLES.test(r.fg))
+  md.push("### Neutral, status and tag roles (accent neutral)", "", "| Foreground | Background | Min | Light | Dark |", "|---|---|---|---|---|")
+  const base = rows.filter((r) => r.style === style && r.accent === "neutral" && !ACCENT_ROLES.test(r.fg))
   const keyed = new Map()
   for (const r of base) {
     const k = `${r.fg}|${r.bg}|${r.min}`

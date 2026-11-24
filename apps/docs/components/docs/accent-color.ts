@@ -7,7 +7,7 @@
  * `--primary-active`, `--primary-foreground` (label on the solid, 4.5:1 on all three), `--primary-subtle`
  * and `--primary-subtle-hover` (tinted fills), `--primary-border`, `--primary-text` (links and accent
  * text, 4.5:1 on the page and the subtle fill), `--ring` (focus, 3:1) and `--selection`. Presets and a
- * picked colour follow the same contrast rules. Blue is the base (no `data-accent`).
+ * picked colour follow the same contrast rules. Neutral is the base (no `data-accent`).
  */
 
 import { PRESET_ROLES } from "./accent-presets.generated"
@@ -30,17 +30,17 @@ export type AccentTheme = { light: AccentVars; dark: AccentVars }
 export type PresetAccent = "blue" | "neutral" | "green" | "orange" | "rose" | "violet"
 
 /** The default accent on first visit. */
-export const DEFAULT_ACCENT: PresetAccent = "blue"
+export const DEFAULT_ACCENT: PresetAccent = "neutral"
 /** The accent whose roles sit on :root and .dark (no `data-accent` attribute). */
-export const BASE_ACCENT: PresetAccent = "blue"
+export const BASE_ACCENT: PresetAccent = "neutral"
 
 /** Resolved roles of each preset, mirroring packages/tokens/styles/globals.css. */
 export const PRESET_THEMES: Record<PresetAccent, AccentTheme> = PRESET_ROLES
 
 /** Display names for the presets, in display order. */
 export const PRESET_LABELS: Record<PresetAccent, string> = {
-  blue: "Blue",
   neutral: "Neutral",
+  blue: "Blue",
   green: "Green",
   orange: "Orange",
   rose: "Rose",
@@ -143,18 +143,12 @@ const fmt = (c: Oklch) => {
 }
 
 const WHITE: Oklch = { l: 1, c: 0, h: 0 }
-/** The pages an accent must read on in each mode: Warm Stone, Paper and white surfaces. */
+/** The pages an accent must read on in each mode: default neutral surfaces and Paper surfaces. */
 const PAGES: Record<"light" | "dark", Oklch[]> = {
-  light: [
-    { l: 0.965, c: 0.007, h: 82 },
-    { l: 0.992, c: 0.004, h: 85 },
-    WHITE,
-    { l: 0.99, c: 0.002, h: 234.82 },
-  ],
+  light: [WHITE, { l: 0.985, c: 0, h: 0 }, { l: 0.99, c: 0.002, h: 234.82 }],
   dark: [
-    { l: 0.175, c: 0.007, h: 70 },
-    { l: 0.22, c: 0.008, h: 70 },
-    { l: 0.255, c: 0.008, h: 70 },
+    { l: 0.2015, c: 0, h: 0 },
+    { l: 0.2219, c: 0, h: 0 },
     { l: 0.195, c: 0.004, h: 289.15 },
     { l: 0.255, c: 0.004, h: 289.15 },
   ],

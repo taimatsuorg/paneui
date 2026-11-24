@@ -31,7 +31,7 @@ export function parseCustomAccent(raw: string | null): CustomAccent | null {
   }
 }
 
-/** The stored accent; "custom" falls back to the default (blue) when its colours are missing or malformed. */
+/** The stored accent; "custom" falls back to the default (neutral) when its colours are missing or malformed. */
 export function readAccentState(): AccentState {
   let accent: string | null = null
   let custom: CustomAccent | null = null

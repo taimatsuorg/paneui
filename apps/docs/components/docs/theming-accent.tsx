@@ -30,7 +30,7 @@ import { setAccent, setCustomAccent, useAccentState } from "./accent-store"
 
 const PRESETS = Object.keys(PRESET_THEMES) as PresetAccent[]
 /** Each mode's page colour, so translucent roles read as they do there. Mirrors --background. */
-const PAGE = { light: "oklch(96.5% 0.007 82)", dark: "oklch(17.5% 0.007 70)" } as const
+const PAGE = { light: "oklch(100% 0 0)", dark: "oklch(20.15% 0 0)" } as const
 /** Short role name under the strip: `primary-subtle-hover` → `subtle-hover`, `primary` → `solid`. */
 const roleLabel = (k: string) => (k === "ring" ? "ring" : k.replace("primary-", "").replace("primary", "solid"))
 const CHARTS = ["bg-chart-1", "bg-chart-2", "bg-chart-3", "bg-chart-4", "bg-chart-5", "bg-chart-6", "bg-chart-7", "bg-chart-8"]

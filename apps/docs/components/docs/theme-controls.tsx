@@ -41,7 +41,7 @@ function applyInstant(dark: boolean) {
   requestAnimationFrame(() => requestAnimationFrame(() => mute.remove()))
 }
 
-/** Menu swatches: each preset's light primary (neutral follows the current foreground); blue is the default. Values from accent-color.ts. */
+/** Menu swatches: each preset's light primary (neutral follows the current foreground); neutral is the default. Values from accent-color.ts. */
 const accentOptions: { accent: PresetAccent; label: string; swatch: string }[] = (Object.keys(PRESET_LABELS) as PresetAccent[]).map(
   (a) => ({ accent: a, label: PRESET_LABELS[a], swatch: a === "neutral" ? "var(--foreground)" : PRESET_THEMES[a].light.primary })
 )

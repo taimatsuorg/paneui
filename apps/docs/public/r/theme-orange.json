@@ -8,28 +8,28 @@
   ],
   "cssVars": {
     "light": {
-      "primary": "oklch(57% 0.175 40)",
-      "primary-hover": "oklch(53.5% 0.1687 40)",
-      "primary-active": "oklch(50% 0.1579 40)",
+      "primary": "oklch(58% 0.1787 41.12)",
+      "primary-hover": "oklch(54.5% 0.1681 41.12)",
+      "primary-active": "oklch(51% 0.1574 41.12)",
       "primary-foreground": "oklch(100% 0 0)",
-      "primary-subtle": "oklch(57% 0.175 40 / 0.1)",
-      "primary-subtle-hover": "oklch(57% 0.175 40 / 0.16)",
-      "primary-border": "oklch(57% 0.175 40 / 0.32)",
-      "primary-text": "oklch(52% 0.1575 40)",
-      "ring": "oklch(57% 0.175 40)",
-      "selection": "oklch(57% 0.175 40 / 0.22)"
+      "primary-subtle": "oklch(58% 0.1787 41.12 / 0.1)",
+      "primary-subtle-hover": "oklch(58% 0.1787 41.12 / 0.16)",
+      "primary-border": "oklch(58% 0.1787 41.12 / 0.32)",
+      "primary-text": "oklch(54.5% 0.1608 41.12)",
+      "ring": "oklch(58% 0.1787 41.12)",
+      "selection": "oklch(58% 0.1787 41.12 / 0.22)"
     },
     "dark": {
-      "primary": "oklch(75% 0.145 45)",
-      "primary-hover": "oklch(78.5% 0.1334 45)",
-      "primary-active": "oklch(82% 0.1081 45)",
-      "primary-foreground": "oklch(20% 0.02 45)",
-      "primary-subtle": "oklch(75% 0.145 45 / 0.16)",
-      "primary-subtle-hover": "oklch(75% 0.145 45 / 0.24)",
-      "primary-border": "oklch(75% 0.145 45 / 0.42)",
-      "primary-text": "oklch(75% 0.1377 45)",
-      "ring": "oklch(75% 0.145 45)",
-      "selection": "oklch(75% 0.145 45 / 0.4)"
+      "primary": "oklch(75% 0.1753 55.93)",
+      "primary-hover": "oklch(78.5% 0.1461 55.93)",
+      "primary-active": "oklch(82% 0.1187 55.93)",
+      "primary-foreground": "oklch(14.5% 0 0)",
+      "primary-subtle": "oklch(75% 0.1753 55.93 / 0.16)",
+      "primary-subtle-hover": "oklch(75% 0.1753 55.93 / 0.24)",
+      "primary-border": "oklch(75% 0.1753 55.93 / 0.42)",
+      "primary-text": "oklch(75% 0.1666 55.93)",
+      "ring": "oklch(75% 0.1753 55.93)",
+      "selection": "oklch(75% 0.1753 55.93 / 0.4)"
     }
   },
   "meta": {

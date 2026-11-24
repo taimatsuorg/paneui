@@ -11,7 +11,7 @@ import { cn } from "@paneui/ui/lib/utils"
 /*
  * Accent colour picker for an app's appearance settings. Switches the
  * ten accent roles (`--primary` … `--selection`) the theme defines, by setting
- * `data-accent` on <html> (blue, the default, has no attribute), and remembers
+ * `data-accent` on <html> (neutral, the default, has no attribute), and remembers
  * the pick in localStorage["accent"].
  *
  * The preset roles ship inside this file (the same values as the
@@ -22,13 +22,13 @@ import { cn } from "@paneui/ui/lib/utils"
  *   const [accent, setAccent] = useAccent()       ← your own control
  */
 
-const ACCENTS = ["blue", "neutral", "green", "orange", "rose", "violet"] as const
+const ACCENTS = ["neutral", "blue", "green", "orange", "rose", "violet"] as const
 type Accent = (typeof ACCENTS)[number]
 
 function getAccentLabels(l10n: LocaleLabels = localeLabels.en): Record<Accent, string> {
   return ({
-  blue: l10n.blue,
   neutral: l10n.neutral,
+  blue: l10n.blue,
   green: l10n.green,
   orange: l10n.orange,
   rose: l10n.rose,
@@ -40,18 +40,18 @@ const ACCENT_LABELS = getAccentLabels()
 
 /** Each preset's light-mode primary (neutral follows the foreground). */
 const SWATCH: Record<Accent, string> = {
-  blue: "oklch(52% 0.145 250)",
   neutral: "var(--foreground)",
-  green: "oklch(52% 0.1221 158)",
-  orange: "oklch(57% 0.175 40)",
-  rose: "oklch(56% 0.19 3)",
-  violet: "oklch(53% 0.165 286)",
+  blue: "oklch(57% 0.214 259.81)",
+  green: "oklch(54.5% 0.1191 162.48)",
+  orange: "oklch(58% 0.1787 41.12)",
+  rose: "oklch(58.6% 0.2352 17.59)",
+  violet: "oklch(55.8% 0.288 302.32)",
 }
 
 /** The label colour on each swatch (the preset's light-mode primary-foreground). */
 const SWATCH_FG: Record<Accent, string> = {
-  blue: "oklch(100% 0 0)",
   neutral: "var(--background)",
+  blue: "oklch(100% 0 0)",
   green: "oklch(100% 0 0)",
   orange: "oklch(100% 0 0)",
   rose: "oklch(100% 0 0)",
@@ -62,7 +62,7 @@ const STORAGE_KEY = "accent"
 const STYLE_ID = "qy-accent-presets"
 /** Same-tab broadcast so every picker (and the PaneUI docs header) stays in step. */
 const ACCENT_CHANGE_EVENT = "qy-accent-change"
-const PRESETS_CSS = `html[data-accent="neutral"] { --primary: oklch(20% 0.01 65); --primary-hover: oklch(27% 0.01 65); --primary-active: oklch(33% 0.01 65); --primary-foreground: oklch(98% 0.004 85); --primary-subtle: oklch(20% 0.01 65 / 0.07); --primary-subtle-hover: oklch(20% 0.01 65 / 0.11); --primary-border: oklch(20% 0.01 65 / 0.2); --primary-text: oklch(20% 0.01 65); --ring: oklch(20% 0.01 65 / 0.49); --selection: oklch(20% 0.01 65 / 0.18); } html[data-accent="neutral"].dark { --primary: oklch(94.5% 0.008 82); --primary-hover: oklch(88% 0.008 82); --primary-active: oklch(82% 0.008 82); --primary-foreground: oklch(17.5% 0.007 70); --primary-subtle: oklch(94.5% 0.008 82 / 0.08); --primary-subtle-hover: oklch(94.5% 0.008 82 / 0.12); --primary-border: oklch(94.5% 0.008 82 / 0.2); --primary-text: oklch(94.5% 0.008 82); --ring: oklch(94.5% 0.008 82 / 0.38); --selection: oklch(94.5% 0.008 82 / 0.26); } html[data-accent="green"] { --primary: oklch(52% 0.1221 158); --primary-hover: oklch(48.5% 0.114 158); --primary-active: oklch(45% 0.1059 158); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(52% 0.1221 158 / 0.1); --primary-subtle-hover: oklch(52% 0.1221 158 / 0.16); --primary-border: oklch(52% 0.1221 158 / 0.32); --primary-text: oklch(49% 0.1099 158); --ring: oklch(52% 0.1221 158); --selection: oklch(52% 0.1221 158 / 0.22); } html[data-accent="green"].dark { --primary: oklch(73% 0.115 158); --primary-hover: oklch(76.5% 0.115 158); --primary-active: oklch(80% 0.115 158); --primary-foreground: oklch(20% 0.02 158); --primary-subtle: oklch(73% 0.115 158 / 0.16); --primary-subtle-hover: oklch(73% 0.115 158 / 0.24); --primary-border: oklch(73% 0.115 158 / 0.42); --primary-text: oklch(73% 0.1092 158); --ring: oklch(73% 0.115 158); --selection: oklch(73% 0.115 158 / 0.4); } html[data-accent="orange"] { --primary: oklch(57% 0.175 40); --primary-hover: oklch(53.5% 0.1687 40); --primary-active: oklch(50% 0.1579 40); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(57% 0.175 40 / 0.1); --primary-subtle-hover: oklch(57% 0.175 40 / 0.16); --primary-border: oklch(57% 0.175 40 / 0.32); --primary-text: oklch(52% 0.1575 40); --ring: oklch(57% 0.175 40); --selection: oklch(57% 0.175 40 / 0.22); } html[data-accent="orange"].dark { --primary: oklch(75% 0.145 45); --primary-hover: oklch(78.5% 0.1334 45); --primary-active: oklch(82% 0.1081 45); --primary-foreground: oklch(20% 0.02 45); --primary-subtle: oklch(75% 0.145 45 / 0.16); --primary-subtle-hover: oklch(75% 0.145 45 / 0.24); --primary-border: oklch(75% 0.145 45 / 0.42); --primary-text: oklch(75% 0.1377 45); --ring: oklch(75% 0.145 45); --selection: oklch(75% 0.145 45 / 0.4); } html[data-accent="rose"] { --primary: oklch(56% 0.19 3); --primary-hover: oklch(52.5% 0.19 3); --primary-active: oklch(49% 0.19 3); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(56% 0.19 3 / 0.1); --primary-subtle-hover: oklch(56% 0.19 3 / 0.16); --primary-border: oklch(56% 0.19 3 / 0.32); --primary-text: oklch(52.5% 0.171 3); --ring: oklch(56% 0.19 3); --selection: oklch(56% 0.19 3 / 0.22); } html[data-accent="rose"].dark { --primary: oklch(73% 0.145 3); --primary-hover: oklch(76.5% 0.145 3); --primary-active: oklch(80% 0.1221 3); --primary-foreground: oklch(20% 0.02 3); --primary-subtle: oklch(73% 0.145 3 / 0.16); --primary-subtle-hover: oklch(73% 0.145 3 / 0.24); --primary-border: oklch(73% 0.145 3 / 0.42); --primary-text: oklch(73% 0.1377 3); --ring: oklch(73% 0.145 3); --selection: oklch(73% 0.145 3 / 0.4); } html[data-accent="violet"] { --primary: oklch(53% 0.165 286); --primary-hover: oklch(49.5% 0.165 286); --primary-active: oklch(46% 0.165 286); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(53% 0.165 286 / 0.1); --primary-subtle-hover: oklch(53% 0.165 286 / 0.16); --primary-border: oklch(53% 0.165 286 / 0.32); --primary-text: oklch(51.5% 0.1485 286); --ring: oklch(53% 0.165 286); --selection: oklch(53% 0.165 286 / 0.22); } html[data-accent="violet"].dark { --primary: oklch(73% 0.135 286); --primary-hover: oklch(76.5% 0.126 286); --primary-active: oklch(80% 0.1057 286); --primary-foreground: oklch(20% 0.02 286); --primary-subtle: oklch(73% 0.135 286 / 0.16); --primary-subtle-hover: oklch(73% 0.135 286 / 0.24); --primary-border: oklch(73% 0.135 286 / 0.42); --primary-text: oklch(73% 0.1283 286); --ring: oklch(73% 0.135 286); --selection: oklch(73% 0.135 286 / 0.4); }`
+const PRESETS_CSS = `html[data-accent="blue"] { --primary: oklch(57% 0.214 259.81); --primary-hover: oklch(53.5% 0.214 259.81); --primary-active: oklch(50% 0.2033 259.81); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(57% 0.214 259.81 / 0.1); --primary-subtle-hover: oklch(57% 0.214 259.81 / 0.16); --primary-border: oklch(57% 0.214 259.81 / 0.32); --primary-text: oklch(53.5% 0.1926 259.81); --ring: oklch(57% 0.214 259.81); --selection: oklch(57% 0.214 259.81 / 0.22); } html[data-accent="blue"].dark { --primary: oklch(70.7% 0.156 254.62); --primary-hover: oklch(74.2% 0.1355 254.62); --primary-active: oklch(77.7% 0.1156 254.62); --primary-foreground: oklch(14.5% 0 0); --primary-subtle: oklch(70.7% 0.156 254.62 / 0.16); --primary-subtle-hover: oklch(70.7% 0.156 254.62 / 0.24); --primary-border: oklch(70.7% 0.156 254.62 / 0.42); --primary-text: oklch(70.7% 0.1482 254.62); --ring: oklch(70.7% 0.156 254.62); --selection: oklch(70.7% 0.156 254.62 / 0.4); } html[data-accent="green"] { --primary: oklch(54.5% 0.1191 162.48); --primary-hover: oklch(51% 0.1115 162.48); --primary-active: oklch(47.5% 0.1039 162.48); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(54.5% 0.1191 162.48 / 0.1); --primary-subtle-hover: oklch(54.5% 0.1191 162.48 / 0.16); --primary-border: oklch(54.5% 0.1191 162.48 / 0.32); --primary-text: oklch(51.5% 0.1072 162.48); --ring: oklch(54.5% 0.1191 162.48); --selection: oklch(54.5% 0.1191 162.48 / 0.22); } html[data-accent="green"].dark { --primary: oklch(76.5% 0.165 163.22); --primary-hover: oklch(80% 0.165 163.22); --primary-active: oklch(83.5% 0.165 163.22); --primary-foreground: oklch(14.5% 0 0); --primary-subtle: oklch(76.5% 0.165 163.22 / 0.16); --primary-subtle-hover: oklch(76.5% 0.165 163.22 / 0.24); --primary-border: oklch(76.5% 0.165 163.22 / 0.42); --primary-text: oklch(76.5% 0.1568 163.22); --ring: oklch(76.5% 0.165 163.22); --selection: oklch(76.5% 0.165 163.22 / 0.4); } html[data-accent="orange"] { --primary: oklch(58% 0.1787 41.12); --primary-hover: oklch(54.5% 0.1681 41.12); --primary-active: oklch(51% 0.1574 41.12); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(58% 0.1787 41.12 / 0.1); --primary-subtle-hover: oklch(58% 0.1787 41.12 / 0.16); --primary-border: oklch(58% 0.1787 41.12 / 0.32); --primary-text: oklch(54.5% 0.1608 41.12); --ring: oklch(58% 0.1787 41.12); --selection: oklch(58% 0.1787 41.12 / 0.22); } html[data-accent="orange"].dark { --primary: oklch(75% 0.1753 55.93); --primary-hover: oklch(78.5% 0.1461 55.93); --primary-active: oklch(82% 0.1187 55.93); --primary-foreground: oklch(14.5% 0 0); --primary-subtle: oklch(75% 0.1753 55.93 / 0.16); --primary-subtle-hover: oklch(75% 0.1753 55.93 / 0.24); --primary-border: oklch(75% 0.1753 55.93 / 0.42); --primary-text: oklch(75% 0.1666 55.93); --ring: oklch(75% 0.1753 55.93); --selection: oklch(75% 0.1753 55.93 / 0.4); } html[data-accent="rose"] { --primary: oklch(58.6% 0.2352 17.59); --primary-hover: oklch(55.1% 0.2212 17.59); --primary-active: oklch(51.6% 0.2073 17.59); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(58.6% 0.2352 17.59 / 0.1); --primary-subtle-hover: oklch(58.6% 0.2352 17.59 / 0.16); --primary-border: oklch(58.6% 0.2352 17.59 / 0.32); --primary-text: oklch(54.5% 0.2117 17.59); --ring: oklch(58.6% 0.2352 17.59); --selection: oklch(58.6% 0.2352 17.59 / 0.22); } html[data-accent="rose"].dark { --primary: oklch(71.2% 0.1844 13.43); --primary-hover: oklch(74.7% 0.1557 13.43); --primary-active: oklch(78.2% 0.1292 13.43); --primary-foreground: oklch(14.5% 0 0); --primary-subtle: oklch(71.2% 0.1844 13.43 / 0.16); --primary-subtle-hover: oklch(71.2% 0.1844 13.43 / 0.24); --primary-border: oklch(71.2% 0.1844 13.43 / 0.42); --primary-text: oklch(71.2% 0.1752 13.43); --ring: oklch(71.2% 0.1844 13.43); --selection: oklch(71.2% 0.1844 13.43 / 0.4); } html[data-accent="violet"] { --primary: oklch(55.8% 0.288 302.32); --primary-hover: oklch(52.3% 0.2763 302.32); --primary-active: oklch(48.8% 0.258 302.32); --primary-foreground: oklch(100% 0 0); --primary-subtle: oklch(55.8% 0.288 302.32 / 0.1); --primary-subtle-hover: oklch(55.8% 0.288 302.32 / 0.16); --primary-border: oklch(55.8% 0.288 302.32 / 0.32); --primary-text: oklch(55.5% 0.2592 302.32); --ring: oklch(55.8% 0.288 302.32); --selection: oklch(55.8% 0.288 302.32 / 0.22); } html[data-accent="violet"].dark { --primary: oklch(71.4% 0.1889 305.5); --primary-hover: oklch(74.9% 0.1633 305.5); --primary-active: oklch(78.4% 0.1384 305.5); --primary-foreground: oklch(14.5% 0 0); --primary-subtle: oklch(71.4% 0.1889 305.5 / 0.16); --primary-subtle-hover: oklch(71.4% 0.1889 305.5 / 0.24); --primary-border: oklch(71.4% 0.1889 305.5 / 0.42); --primary-text: oklch(71.4% 0.1794 305.5); --ring: oklch(71.4% 0.1889 305.5); --selection: oklch(71.4% 0.1889 305.5 / 0.4); }`
 
 const isAccent = (v: unknown): v is Accent => typeof v === "string" && (ACCENTS as readonly string[]).includes(v)
 
@@ -83,13 +83,13 @@ function readAccent(): Accent {
   } catch {
     // storage can be unavailable (private mode, sandboxed iframes)
   }
-  return "blue"
+  return "neutral"
 }
 
 function applyAccent(accent: Accent) {
   ensurePresets()
   const root = document.documentElement
-  if (accent === "blue") root.removeAttribute("data-accent")
+  if (accent === "neutral") root.removeAttribute("data-accent")
   else root.setAttribute("data-accent", accent)
   try {
     localStorage.setItem(STORAGE_KEY, accent)
@@ -101,12 +101,12 @@ function applyAccent(accent: Accent) {
 
 /** Current accent and a setter. Re-applies the stored accent on mount. */
 function useAccent(): [Accent, (accent: Accent) => void] {
-  const [accent, setState] = React.useState<Accent>("blue")
+  const [accent, setState] = React.useState<Accent>("neutral")
   React.useEffect(() => {
     ensurePresets()
     const sync = () => setState(readAccent())
     const stored = readAccent()
-    if (stored !== "blue" && !document.documentElement.hasAttribute("data-accent")) {
+    if (stored !== "neutral" && !document.documentElement.hasAttribute("data-accent")) {
       document.documentElement.setAttribute("data-accent", stored)
     }
     sync()
@@ -125,12 +125,12 @@ function useAccent(): [Accent, (accent: Accent) => void] {
   return [accent, set]
 }
 
-const ACCENT_SCRIPT = `(function(){try{var a=localStorage.getItem("${STORAGE_KEY}");if(a&&a!=="blue"&&${JSON.stringify(ACCENTS)}.indexOf(a)>-1)document.documentElement.setAttribute("data-accent",a)}catch(e){}})()`
+const ACCENT_SCRIPT = `(function(){try{var a=localStorage.getItem("${STORAGE_KEY}");if(a&&a!=="neutral"&&${JSON.stringify(ACCENTS)}.indexOf(a)>-1)document.documentElement.setAttribute("data-accent",a)}catch(e){}})()`
 
 /**
  * The preset roles as a <style> plus a tiny pre-paint script that applies the stored
  * accent before first paint. Render once near the top of your root layout's <body>
- * (or <head>) so a reload never flashes the default blue.
+ * (or <head>) so a reload never flashes the default neutral.
  */
 function AccentPresets() {
   return (
