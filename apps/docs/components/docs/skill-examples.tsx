@@ -1,5 +1,5 @@
 import type * as React from "react"
-import { siGithub, siVercel } from "simple-icons"
+import { GitHubDark, GitHubLight, VercelDark, VercelLight } from "@ridemountainpig/svgl-react"
 
 import {
   CalendarDaysIcon,
@@ -33,7 +33,7 @@ import { SKILL_CODE } from "./skill-example-code"
 
 /*
  * Recommended / Avoid pairs for /docs/skill, keyed by the rule title's slug in
- * skills/paneui-design/SKILL.md. Pairs shown as code come from skill-example-code.ts, which has no
+ * .agents/skills/paneui-design/SKILL.md. Pairs shown as code come from skill-example-code.ts, which has no
  * React, so the page frontmatter (src/pages/docs/skill.astro) can highlight them at build time.
  * "Avoid" previews break the rules on purpose, with inline styles where a class would be the very
  * thing the rule bans; the design check allow-lists this file.
@@ -380,10 +380,10 @@ export const SKILL_EXAMPLES: Record<string, SkillExample> = {
     good: (
       <Row>
         <Button variant="outline">
-          <BrandIcon icon={siGithub} />
+          <BrandIcon icon={{ light: GitHubLight, dark: GitHubDark }} color="current" />
           Continue with GitHub
         </Button>
-        <BrandIcon icon={siVercel} color="brand" size={20} title="Vercel" />
+        <BrandIcon icon={{ light: VercelLight, dark: VercelDark }} color="brand" size={20} title="Vercel" />
       </Row>
     ),
     bad: (
@@ -578,7 +578,7 @@ function Lede({ title, text }: { title: string; text: string }) {
 /** Slug of a rule title, the key into SKILL_EXAMPLES. */
 /**
  * Rules whose Recommended / Avoid pair is the one the skill ships in
- * skills/paneui-design/examples/<dir>/{good,bad}.tsx (shown as code; the design check's
+ * .agents/skills/paneui-design/examples/<dir>/{good,bad}.tsx (shown as code; the design check's
  * --self-test keeps them honest). Defined in skill-example-code.ts so the page frontmatter can
  * read it without loading React.
  */

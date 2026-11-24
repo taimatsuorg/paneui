@@ -55,6 +55,6 @@ export function siteNavGroups(): NavGroup[] {
 /** Previous / next and last-updated date for a docs page; `sources` are repo-relative paths whose git date counts. */
 export function docNav(href: string, sources: string[]): DocNav {
   const { prev, next } = getPrevNext(href)
-  const updated = lastUpdated(sources.map((s) => (s.startsWith("apps/") || s.startsWith("skills/") || s.startsWith("packages/") ? s : `apps/docs/${s}`)))
+  const updated = lastUpdated(sources.map((s) => (s.startsWith("apps/") || s.startsWith(".agents/") || s.startsWith("packages/") ? s : `apps/docs/${s}`)))
   return { prev, next, updated: updated?.toISOString() }
 }

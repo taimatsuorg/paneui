@@ -22,6 +22,7 @@ test("all registry sources exist and have portable published paths", () => {
 test("workspace imports become registry aliases without changing item identifiers", () => {
   assert.equal(publishPath("packages/ui/src/blocks/notion-editor/mdx.ts"), "registry/web/blocks/notion-editor/mdx.ts")
   assert.equal(publishPath("packages/ui/src/icons/index.tsx"), "components/icons.tsx")
+  assert.equal(publishPath(".agents/skills/paneui-design/SKILL.md"), "skills/paneui-design/SKILL.md")
   assert.equal(publishSource('import { Button } from "@paneui/ui/components/button"'), 'import { Button } from "@/registry/web/ui/button"')
   assert.equal(publishSource('import { XIcon } from "@paneui/ui/icons"'), 'import { XIcon } from "@/components/icons"')
   assert.ok(manifest.items.some((item) => item.name === "button"))

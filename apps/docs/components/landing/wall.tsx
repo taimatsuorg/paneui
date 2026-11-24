@@ -2,10 +2,9 @@
 
 import * as React from "react"
 
-import { siClaude, siGooglegemini } from "simple-icons"
+import { ClaudeAI, Gemini, OpenAIDark, OpenAILight } from "@ridemountainpig/svgl-react"
 
 import { CalendarDaysIcon, FileIcon, InboxIcon, SettingsIcon, TerminalSquareIcon, UserIcon } from "@paneui/ui/icons"
-import { markOpenai } from "@paneui/ui/lib/brand-marks"
 import { AgentProgress } from "@paneui/ui/components/agent-progress"
 import { BarList } from "@paneui/ui/components/bar-list"
 import { BrandIcon } from "@paneui/ui/components/brand-icon"
@@ -30,9 +29,9 @@ import { Checklist, Composer, Messages, Usage } from "./pieces"
 import { useStill } from "./reveal"
 
 const MODELS = [
-  { id: "sol", name: "GPT-6.1 Sol", provider: "OpenAI", icon: <BrandIcon icon={markOpenai} color="brand" /> },
-  { id: "sonnet", name: "Sonnet 5.5", provider: "Anthropic", icon: <BrandIcon icon={siClaude} color="brand" /> },
-  { id: "gemini", name: "Gemini 4 Pro", provider: "Google", icon: <BrandIcon icon={siGooglegemini} color="brand" /> },
+  { id: "sol", name: "GPT-6.1 Sol", provider: "OpenAI", icon: <BrandIcon icon={{ light: OpenAILight, dark: OpenAIDark }} color="brand" /> },
+  { id: "sonnet", name: "Sonnet 5.5", provider: "Anthropic", icon: <BrandIcon icon={ClaudeAI} color="brand" /> },
+  { id: "gemini", name: "Gemini 4 Pro", provider: "Google", icon: <BrandIcon icon={Gemini} color="brand" /> },
 ]
 
 function AgentCard() {

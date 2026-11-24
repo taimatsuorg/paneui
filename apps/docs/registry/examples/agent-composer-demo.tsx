@@ -2,10 +2,9 @@
 
 import * as React from "react"
 
-import { siClaude } from "simple-icons"
+import { ClaudeAI, OpenAIDark, OpenAILight } from "@ridemountainpig/svgl-react"
 
 import { GitPullRequestIcon } from "@paneui/ui/icons"
-import { markOpenai } from "@paneui/ui/lib/brand-marks"
 import { AgentComposer, AgentComposerBanner } from "@paneui/ui/blocks/agent-composer/agent-composer"
 import { BrandIcon } from "@paneui/ui/components/brand-icon"
 import { EffortPicker, ModelPicker, ModePicker } from "@paneui/ui/components/model-picker"
@@ -55,8 +54,8 @@ export default function AgentComposerDemo() {
         toolbarEnd={
           <>
             <ModelPicker value={model} onValueChange={setModel} align="end" models={[
-                { id: "sol", name: "GPT-6.1 Sol", icon: <BrandIcon icon={markOpenai} color="brand" /> },
-                { id: "sonnet", name: "Sonnet 5.5", icon: <BrandIcon icon={siClaude} color="brand" /> },
+                { id: "sol", name: "GPT-6.1 Sol", icon: <BrandIcon icon={{ light: OpenAILight, dark: OpenAIDark }} color="brand" /> },
+                { id: "sonnet", name: "Sonnet 5.5", icon: <BrandIcon icon={ClaudeAI} color="brand" /> },
               ]} />
             <EffortPicker value={effort} onValueChange={setEffort} align="end" />
           </>

@@ -87,6 +87,7 @@ import d_media_bar from "./media-bar"
 import d_menu from "./menu"
 import d_menu_list from "./menu-list"
 import d_menubar from "./menubar"
+import d_mermaid from "./mermaid"
 import d_message from "./message"
 import d_message_bubble from "./message-bubble"
 import d_message_scroller from "./message-scroller"
@@ -264,6 +265,7 @@ export const docsContent: Record<string, ComponentDoc> = {
   "menu": d_menu,
   "menu-list": d_menu_list,
   "menubar": d_menubar,
+  "mermaid": d_mermaid,
   "message": d_message,
   "message-bubble": d_message_bubble,
   "message-scroller": d_message_scroller,

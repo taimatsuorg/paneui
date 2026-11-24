@@ -1,21 +1,32 @@
 "use client"
 
 import * as React from "react"
-import { siClaude, siDeepseek, siGooglegemini, siMeta, siMistralai, siQwen } from "simple-icons"
+import {
+  ClaudeAI,
+  DeepSeek,
+  Gemini,
+  Meta,
+  MistralAI,
+  OpenAIDark,
+  OpenAILight,
+  QwenDark,
+  QwenLight,
+  XAIDark,
+  XAILight,
+} from "@ridemountainpig/svgl-react"
 
-import { markOpenai, markXai } from "@paneui/ui/lib/brand-marks"
-import { BrandIcon, type BrandIconData } from "@paneui/ui/components/brand-icon"
+import { BrandIcon, type BrandIconSource } from "@paneui/ui/components/brand-icon"
 import { ModelPicker, type ModelOption } from "@paneui/ui/components/model-picker"
 
-const PROVIDERS: [string, BrandIconData][] = [
-  ["Anthropic", siClaude],
-  ["DeepSeek", siDeepseek],
-  ["Google", siGooglegemini],
-  ["Meta", siMeta],
-  ["Mistral", siMistralai],
-  ["OpenAI", markOpenai],
-  ["Qwen", siQwen],
-  ["xAI", markXai],
+const PROVIDERS: [string, BrandIconSource][] = [
+  ["Anthropic", ClaudeAI],
+  ["DeepSeek", DeepSeek],
+  ["Google", Gemini],
+  ["Meta", Meta],
+  ["Mistral", MistralAI],
+  ["OpenAI", { light: OpenAILight, dark: OpenAIDark }],
+  ["Qwen", { light: QwenLight, dark: QwenDark }],
+  ["xAI", { light: XAILight, dark: XAIDark }],
 ]
 const SIZES = ["Mini", "Small", "Medium", "Large", "Max", "Turbo", "Vision", "Coder"]
 

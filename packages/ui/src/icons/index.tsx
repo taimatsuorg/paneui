@@ -10,7 +10,7 @@
  *
  * The other style with the same exports: packages/ui/src/icons/emoji (full-colour objects).
  *
- * Usage system (full version in notes/icon-usage.md):
+ * Usage system (full version in .agents/skills/paneui-design/references/icons.md):
  * - Nav / sidebar / palette icons: 16px, muted; active = foreground; bare.
  * - Title / header / card icons sit in an IconChip (@paneui/icon-chip).
  * - Inline icons inherit size and colour from their button, badge or text.

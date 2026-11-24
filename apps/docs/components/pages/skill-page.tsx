@@ -15,7 +15,7 @@ import { StaticCode } from "@/components/site/static-code"
 import { SiteRoot, type SiteProps } from "@/components/site/site-root"
 import type { DocNav } from "@/lib/doc-types"
 
-/** One rule from skills/paneui-design/SKILL.md, parsed at build time. */
+/** One rule from .agents/skills/paneui-design/SKILL.md, parsed at build time. */
 export type SkillRule = { n: number; title: string; why: string; id: string }
 
 /**

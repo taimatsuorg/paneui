@@ -52,7 +52,7 @@ function Brand() {
  * Docs chrome: one white surface split by hairlines. The header's brand column is exactly the
  * sidebar's width and starts on the sidebar's content edge; the header tabs share the sidebar's
  * active treatment (a 2px indicator line, on the bottom edge here and the guide line there).
- * Notes: notes/docs-shell.md.
+ * Notes: apps/docs/README.md.
  */
 export function SiteShell({ groups, children }: { groups: NavGroup[]; children: React.ReactNode }) {
   const t = useT()

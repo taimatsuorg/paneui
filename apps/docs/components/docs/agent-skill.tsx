@@ -14,7 +14,7 @@ import { Collapsible, CollapsiblePanel, CollapsibleTrigger } from "@paneui/ui/co
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? ""
 /**
  * Install command, copy/download and a collapsible preview of one of the repo's agent
- * skills. `SKILL.md` is served by app/skills/<name>/SKILL.md/route.ts from skills/<name>/SKILL.md;
+ * skills. `SKILL.md` is served by src/pages/skills/<name>/SKILL.md.ts from .agents/skills/<name>/SKILL.md;
  * `html` is the same text highlighted at build time.
  */
 export function AgentSkill({ name, skill, html }: { name: string; skill: string; html: string }) {

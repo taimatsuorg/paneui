@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
-import { siGithub, siGoogle } from "simple-icons"
+import { GitHubDark, GitHubLight, Google } from "@ridemountainpig/svgl-react"
 
 import { ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, InboxIcon, WarningIcon } from "@paneui/ui/icons"
 import { OTPInput, type OTPStatus } from "@paneui/ui/blocks/otp-input/otp-input"
@@ -95,11 +95,11 @@ function OAuthButtons({ onSelect }: { onSelect: () => void }) {
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <Button variant="outline" size="lg" className="w-full" onClick={onSelect}>
-          <BrandIcon icon={siGithub} data-icon="inline-start" />
+          <BrandIcon icon={{ light: GitHubLight, dark: GitHubDark }} color="current" data-icon="inline-start" />
           GitHub
         </Button>
         <Button variant="outline" size="lg" className="w-full" onClick={onSelect}>
-          <BrandIcon icon={siGoogle} color="brand" data-icon="inline-start" />
+          <BrandIcon icon={Google} color="brand" data-icon="inline-start" />
           Google
         </Button>
       </div>

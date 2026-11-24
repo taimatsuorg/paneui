@@ -1,18 +1,17 @@
 "use client"
 
 import * as React from "react"
-import { siClaude, siGooglegemini } from "simple-icons"
+import { ClaudeAI, Gemini, OpenAIDark, OpenAILight } from "@ridemountainpig/svgl-react"
 
 import { ShieldIcon } from "@paneui/ui/icons"
-import { markOpenai } from "@paneui/ui/lib/brand-marks"
 import { BrandIcon } from "@paneui/ui/components/brand-icon"
 import { EffortPicker, ModelPicker, ModePicker } from "@paneui/ui/components/model-picker"
 
 const MODELS = [
-  { id: "gpt-6.1-sol", name: "GPT-6.1 Sol", provider: "OpenAI", icon: <BrandIcon icon={markOpenai} color="brand" /> },
-  { id: "gpt-6.1-mini", name: "GPT-6.1 Mini", provider: "OpenAI", icon: <BrandIcon icon={markOpenai} color="brand" /> },
-  { id: "sonnet-5.5", name: "Sonnet 5.5", provider: "Anthropic", icon: <BrandIcon icon={siClaude} color="brand" /> },
-  { id: "gemini-4-pro", name: "Gemini 4 Pro", provider: "Google", icon: <BrandIcon icon={siGooglegemini} color="brand" /> },
+  { id: "gpt-6.1-sol", name: "GPT-6.1 Sol", provider: "OpenAI", icon: <BrandIcon icon={{ light: OpenAILight, dark: OpenAIDark }} color="brand" /> },
+  { id: "gpt-6.1-mini", name: "GPT-6.1 Mini", provider: "OpenAI", icon: <BrandIcon icon={{ light: OpenAILight, dark: OpenAIDark }} color="brand" /> },
+  { id: "sonnet-5.5", name: "Sonnet 5.5", provider: "Anthropic", icon: <BrandIcon icon={ClaudeAI} color="brand" /> },
+  { id: "gemini-4-pro", name: "Gemini 4 Pro", provider: "Google", icon: <BrandIcon icon={Gemini} color="brand" /> },
 ]
 
 const MODES = [

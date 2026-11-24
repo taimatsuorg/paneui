@@ -1,18 +1,17 @@
 "use client"
 
 import * as React from "react"
-import { siClaude, siDeepseek, siGooglegemini } from "simple-icons"
+import { ClaudeAI, DeepSeek, Gemini, OpenAIDark, OpenAILight } from "@ridemountainpig/svgl-react"
 
-import { markOpenai } from "@paneui/ui/lib/brand-marks"
 import { BrandIcon } from "@paneui/ui/components/brand-icon"
 import { ThinkingModelPicker, type ModelOption } from "@paneui/ui/components/model-picker"
 
 const MODELS: ModelOption[] = [
-  { id: "openai/large-5", name: "OpenAI Large 5", provider: "OpenAI", icon: <BrandIcon icon={markOpenai} color="brand" /> },
-  { id: "openai/mini-5", name: "OpenAI Mini 5", provider: "OpenAI", icon: <BrandIcon icon={markOpenai} color="brand" />, reasoning: false },
-  { id: "anthropic/large-4", name: "Anthropic Large 4", provider: "Anthropic", icon: <BrandIcon icon={siClaude} color="brand" /> },
-  { id: "google/pro-3", name: "Google Pro 3", provider: "Google", icon: <BrandIcon icon={siGooglegemini} color="brand" /> },
-  { id: "deepseek/coder-4", name: "DeepSeek Coder 4", provider: "DeepSeek", icon: <BrandIcon icon={siDeepseek} color="brand" /> },
+  { id: "openai/large-5", name: "OpenAI Large 5", provider: "OpenAI", icon: <BrandIcon icon={{ light: OpenAILight, dark: OpenAIDark }} color="brand" /> },
+  { id: "openai/mini-5", name: "OpenAI Mini 5", provider: "OpenAI", icon: <BrandIcon icon={{ light: OpenAILight, dark: OpenAIDark }} color="brand" />, reasoning: false },
+  { id: "anthropic/large-4", name: "Anthropic Large 4", provider: "Anthropic", icon: <BrandIcon icon={ClaudeAI} color="brand" /> },
+  { id: "google/pro-3", name: "Google Pro 3", provider: "Google", icon: <BrandIcon icon={Gemini} color="brand" /> },
+  { id: "deepseek/coder-4", name: "DeepSeek Coder 4", provider: "DeepSeek", icon: <BrandIcon icon={DeepSeek} color="brand" /> },
 ]
 
 const LEVELS = [

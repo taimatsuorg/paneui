@@ -7,7 +7,8 @@ rail shell layout, control densities) is adapted from the design tokens and UI c
 Synara, https://github.com/Emanuele-web04/synara (`apps/web/src/index.css`,
 `apps/web/src/components/ui/*`, `apps/web/src/lib/appTypography.ts`). Values were re-expressed
 as this project's own tokens and Tailwind classes; no source files were copied verbatim. Since
-2026-10-16 the font, colour, radius and shadow values come from the foundation reference below.
+2026-10-16 the radius scale and font-weight ramp use the foundation parameters below, while colour
+tokens, surfaces and shadows follow the coss.com/ui reference.
 
 MIT License
 
@@ -32,48 +33,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-## Foundation reference (colour roles, radius, shadow and type parameters, since 2026-10-16)
+## Foundation reference (radius and type-weight parameters, since 2026-10-16)
 
-The default foundation in `app/globals.css` (and the `theme`, `theme-<accent>`, `theme-radius-*`
-and `fonts` registry items) re-expresses design parameters published at
-https://design.interfere.com (Colors, Radius, Shadows and Fonts pages, read 2026-10-16): the role
-mapping of surfaces, text, fills, borders and the brand/positive/warning/danger colours onto
-12-step scale steps, the page/shell/container/modal surface values, the 2–24px radius scale, the
-four shadow strings (border, default, large, extra large) and the 400/450/500/600/700 weight
-scale. Values were mapped onto this project's own shadcn token names; no stylesheet, script or
-font file was copied. The reference's commercial typefaces are not used: this project
-substitutes the open-licence fonts listed below. No licence is published for the reference
-site; this notice records provenance only.
-
-## Radix Colors (colour scales)
-
-The gray, blue, green, orange, tomato, crimson, violet, pink, amber and cyan scales (and the
-black/white alpha scales), in sRGB hex and display-p3, whose steps the theme colours, accent
-presets and chart palette (`chart-1`…`chart-8`) use, are from Radix Colors,
-https://github.com/radix-ui/colors. Only the individual step values are
-used, written directly into the theme tokens.
-
-MIT License
-
-Copyright (c) 2022 WorkOS
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+The default foundation in `app/globals.css` (and the `theme-radius-*` registry items) keeps
+two parameter scales derived from https://design.interfere.com (Radius and Fonts pages, read
+2026-10-16): the `2–24px` radius scale and the `400/450/500/600/700` font-weight ramp. Colour
+roles, surface tokens and shadows previously derived from that reference and Radix Colors have been
+replaced by the `coss.com/ui` parameters below. The reference's commercial typefaces are not used:
+this project substitutes the open-licence fonts listed below. No licence is published for the
+reference site; this notice records provenance only.
 
 ## Fonts (Noto Sans, Noto Sans SC, JetBrains Mono, Newsreader, Noto Serif SC, Source Serif 4)
 
@@ -234,28 +202,50 @@ MIT; Copyright (c) 2018 Suren Atoyan), which loads `monaco-editor` (https://gith
 MIT; Copyright (c) 2016 - present Microsoft Corporation) from the jsDelivr CDN at runtime. No code from
 either is vendored in this repository.
 
-## Simple Icons (runtime dependency of `brand-icon` and the templates)
+## SVGL and @ridemountainpig/svgl-react (brand logos)
 
-`brand-icon` renders logo paths from the `simple-icons` npm package
-(https://github.com/simple-icons/simple-icons, https://simpleicons.org), installed as a dependency
-and imported one icon at a time; no icon data is copied into this repository. The package is
-released under CC0 1.0 Universal (public domain dedication):
-https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md. Some individual icons carry
-their own licence in the package's data file (`simple-icons/data/simple-icons.json`).
+`brand-icon`, its docs examples and the templates import brand logo React components from
+`@ridemountainpig/svgl-react` (https://github.com/ridemountainpig/svgl-react), which packages SVGs
+from the SVGL directory (https://svgl.app, https://github.com/pheralb/svgl). Only named imports are
+used; SVG sources are not copied into this repository. Both projects are licensed under the MIT
+License.
+
+SVGL — MIT License
+
+Copyright (c) 2022 Pablo Hdez
+
+@ridemountainpig/svgl-react — MIT License
+
+Copyright (c) 2025 Yen Cheng Lin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 **Trademarks.** The brand names and logos shown by `brand-icon`, its examples and the templates
-(GitHub, GitLab, Google, Linear, Jira, Notion, Figma, Sentry, Vercel, Stripe, Discord, Zapier,
-Claude, Gemini and others) are trademarks of their respective owners. CC0 covers the drawings in the
-package, not the marks: it grants no trademark rights and implies no endorsement or affiliation.
-Follow each brand's own guidelines (the package links them in its data) when you use a logo or its
-colour. Brands whose owners asked the package to remove their marks or have not given permission
-(for example Microsoft and its products, Amazon/AWS, OpenAI, Salesforce/Slack, Adobe, Oracle, IBM,
-Twilio, Yahoo) are not in the package; the templates show a neutral icon from this library's set
-in their place and do not redraw those marks.
+(OpenAI, Anthropic, Claude, Google, Gemini, GitHub, GitLab, Vercel, Apple, Microsoft, AWS, Linear,
+Atlassian, Notion, Figma, Slack, Discord, Sentry, Stripe and others) are trademarks of their
+respective owners. The MIT licences cover the open-source libraries and SVG React bindings, not the
+underlying trademarks: they grant no trademark rights and imply no endorsement or affiliation.
+Follow each brand owner's guidelines when using a logo.
 
 ## make-interfaces-feel-better (interface-polish guidance for the design skill, since 2026-10-17)
 
-Parts of `skills/paneui-design` (rules 33–40, `references/polish.md`, the polish checks in
+Parts of `.agents/skills/paneui-design` (rules 33–40, `references/polish.md`, the polish checks in
 `scripts/check.mjs`, `scripts/polish-probe.js` and `examples/`) restate interface-polish guidance from
 the agent skill at https://github.com/jakubkrehel/make-interfaces-feel-better (commit 35545ea): icon-swap
 values, image outlines, optical button padding, hit-area extension, exit and motion restraint, compositing
@@ -284,40 +274,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-## Lobe Icons (vendor marks in `lib/brand-marks.ts`)
-
-`lib/brand-marks.ts` (shipped with `brand-icon`) inlines two SVG paths, the OpenAI and xAI marks,
-from the `@lobehub/icons-static-svg` npm package, version 1.95.1
-(https://github.com/lobehub/lobe-icons, `icons/openai.svg` and `icons/xai.svg`), because the
-`simple-icons` package does not carry those brands. Only the path data was copied; the package is
-not a dependency.
-
-MIT License
-
-Copyright (c) 2023 LobeHub
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-**Trademarks.** OpenAI and xAI and their logos are trademarks of their owners. The MIT licence covers
-the drawings as published in the package, not the marks: it grants no trademark rights and implies no
-endorsement or affiliation. Follow each owner's brand guidelines when you use a logo.
 
 ## Traditional Chinese colour anchors
 
@@ -352,6 +308,40 @@ accents; no stylesheet files were copied verbatim.
 MIT License
 
 Copyright (c) 2025 coss.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+## beautiful-mermaid (Mermaid diagrams)
+
+`registry/base-nova/ui/mermaid.tsx` (and the `mermaid` registry item) renders Mermaid diagrams
+with `beautiful-mermaid` (https://github.com/lukilabs/beautiful-mermaid), installed from npm as a
+runtime dependency alongside its transitive dependencies (`elkjs`, `entities`) and not vendored or
+modified. The component loads the package on demand, strips external font `@import` directives,
+scopes SVG `<style>` rules and `<defs>` marker ids per instance, and wraps the output in `Diagram`.
+Its ASCII rendering engine is derived from `mermaid-ascii`
+(https://github.com/AlexanderGrooff/mermaid-ascii) by Alexander Grooff. It is credited here and on
+the Mermaid docs page.
+
+MIT License
+
+Copyright (c) 2026 Craft Docs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -2,23 +2,25 @@
 
 import * as React from "react"
 import {
-  siDiscord,
-  siFigma,
-  siGithub,
-  siGitlab,
-  siGoogledrive,
-  siJira,
-  siLinear,
-  siNotion,
-  siSentry,
-  siStripe,
-  siVercel,
-  siZapier,
-} from "simple-icons"
+  Atlassian,
+  Discord,
+  Figma,
+  GitHubDark,
+  GitHubLight,
+  GitLab,
+  GoogleDrive,
+  Linear,
+  Notion,
+  Sentry,
+  Slack,
+  Stripe,
+  VercelDark,
+  VercelLight,
+} from "@ridemountainpig/svgl-react"
 
 import { SearchIcon } from "@paneui/ui/icons"
 import { Badge } from "@paneui/ui/components/badge"
-import { BrandIcon, type BrandIconData } from "@paneui/ui/components/brand-icon"
+import { BrandIcon, type BrandIconSource } from "@paneui/ui/components/brand-icon"
 import { Button } from "@paneui/ui/components/button"
 import { EmptyState, EmptyStateActions, EmptyStateDescription, EmptyStateTitle } from "@paneui/ui/components/empty-state"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@paneui/ui/components/input-group"
@@ -38,21 +40,21 @@ import {
 import { useToast } from "@paneui/ui/components/toast"
 
 type Kind = "code" | "alerts" | "docs" | "billing"
-type Integration = { id: string; icon: BrandIconData; kind: Kind; description: string }
+type Integration = { id: string; name: string; icon: BrandIconSource; kind: Kind; description: string }
 
 const INTEGRATIONS: Integration[] = [
-  { id: "github", icon: siGithub, kind: "code", description: "Open pull requests from agent runs and post checks." },
-  { id: "gitlab", icon: siGitlab, kind: "code", description: "Mirror runs to merge requests and pipelines." },
-  { id: "vercel", icon: siVercel, kind: "code", description: "Run agents against every preview deployment." },
-  { id: "linear", icon: siLinear, kind: "docs", description: "Turn issues into tasks and close them when runs land." },
-  { id: "jira", icon: siJira, kind: "docs", description: "Sync task status with your boards." },
-  { id: "notion", icon: siNotion, kind: "docs", description: "Publish run summaries to a database." },
-  { id: "figma", icon: siFigma, kind: "docs", description: "Attach frames to tasks as context." },
-  { id: "google-drive", icon: siGoogledrive, kind: "docs", description: "Read specs and briefs from shared folders." },
-  { id: "sentry", icon: siSentry, kind: "alerts", description: "Send new errors to triage automatically." },
-  { id: "discord", icon: siDiscord, kind: "alerts", description: "Post run results to a channel." },
-  { id: "zapier", icon: siZapier, kind: "alerts", description: "Trigger runs from any app you already use." },
-  { id: "stripe", icon: siStripe, kind: "billing", description: "Pass usage to invoices for your own customers." },
+  { id: "github", name: "GitHub", icon: { light: GitHubLight, dark: GitHubDark }, kind: "code", description: "Open pull requests from agent runs and post checks." },
+  { id: "gitlab", name: "GitLab", icon: GitLab, kind: "code", description: "Mirror runs to merge requests and pipelines." },
+  { id: "vercel", name: "Vercel", icon: { light: VercelLight, dark: VercelDark }, kind: "code", description: "Run agents against every preview deployment." },
+  { id: "linear", name: "Linear", icon: Linear, kind: "docs", description: "Turn issues into tasks and close them when runs land." },
+  { id: "atlassian", name: "Atlassian", icon: Atlassian, kind: "docs", description: "Sync task status with your boards." },
+  { id: "notion", name: "Notion", icon: Notion, kind: "docs", description: "Publish run summaries to a database." },
+  { id: "figma", name: "Figma", icon: Figma, kind: "docs", description: "Attach frames to tasks as context." },
+  { id: "google-drive", name: "Google Drive", icon: GoogleDrive, kind: "docs", description: "Read specs and briefs from shared folders." },
+  { id: "sentry", name: "Sentry", icon: Sentry, kind: "alerts", description: "Send new errors to triage automatically." },
+  { id: "discord", name: "Discord", icon: Discord, kind: "alerts", description: "Post run results to a channel." },
+  { id: "slack", name: "Slack", icon: Slack, kind: "alerts", description: "Trigger runs and status updates from workspace channels." },
+  { id: "stripe", name: "Stripe", icon: Stripe, kind: "billing", description: "Pass usage to invoices for your own customers." },
 ]
 
 const KINDS: { value: "all" | Kind; label: string }[] = [
@@ -74,7 +76,7 @@ export function IntegrationsSettings() {
   const [query, setQuery] = React.useState("")
   const q = query.trim().toLowerCase()
   const shown = INTEGRATIONS.filter(
-    (i) => (kind === "all" || i.kind === kind) && (!q || i.icon.title.toLowerCase().includes(q) || i.description.toLowerCase().includes(q))
+    (i) => (kind === "all" || i.kind === kind) && (!q || i.name.toLowerCase().includes(q) || i.description.toLowerCase().includes(q))
   )
   const on = shown.filter((i) => connected.has(i.id))
   const off = shown.filter((i) => !connected.has(i.id))
@@ -87,7 +89,7 @@ export function IntegrationsSettings() {
       else next.add(i.id)
       return next
     })
-    toast.add(was ? { title: `${i.icon.title} disconnected` } : { title: `${i.icon.title} connected`, type: "success" })
+    toast.add(was ? { title: `${i.name} disconnected` } : { title: `${i.name} connected`, type: "success" })
   }
 
   const list = (items: Integration[]) => (
@@ -97,14 +99,14 @@ export function IntegrationsSettings() {
         return (
           <SettingsRow key={i.id} className="flex-nowrap">
             <span aria-hidden className="grid size-5 shrink-0 place-items-center">
-              <BrandIcon icon={i.icon} color="brand" />
+              <BrandIcon icon={i.icon} name={i.name} color="brand" />
             </span>
             <SettingsRowText className="flex-1">
-              <SettingsRowTitle>{i.icon.title}</SettingsRowTitle>
+              <SettingsRowTitle>{i.name}</SettingsRowTitle>
               <SettingsRowDescription className="text-pretty">{i.description}</SettingsRowDescription>
             </SettingsRowText>
             <SettingsRowControl>
-              <Button size="sm" variant={isOn ? "ghost" : "outline"} onClick={() => toggle(i)} aria-label={`${isOn ? "Disconnect" : "Connect"} ${i.icon.title}`}>
+              <Button size="sm" variant={isOn ? "ghost" : "outline"} onClick={() => toggle(i)} aria-label={`${isOn ? "Disconnect" : "Connect"} ${i.name}`}>
                 {isOn ? "Disconnect" : "Connect"}
               </Button>
             </SettingsRowControl>

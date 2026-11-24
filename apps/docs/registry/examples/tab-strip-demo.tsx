@@ -2,10 +2,9 @@
 
 import * as React from "react"
 
-import { siClaude } from "simple-icons"
+import { ClaudeAI, OpenAIDark, OpenAILight } from "@ridemountainpig/svgl-react"
 
 import { PlusIcon } from "@paneui/ui/icons"
-import { markOpenai } from "@paneui/ui/lib/brand-marks"
 import { BrandIcon } from "@paneui/ui/components/brand-icon"
 import { Button } from "@paneui/ui/components/button"
 import { TabStrip, TabStripItem } from "@paneui/ui/components/tab-strip"
@@ -49,7 +48,7 @@ export default function TabStripDemo() {
         }
       >
         {tabs.map((t) => (
-          <TabStripItem key={t.id} value={t.id} icon={<BrandIcon icon={t.provider === "codex" ? markOpenai : siClaude} />} className="w-40">
+          <TabStripItem key={t.id} value={t.id} icon={<BrandIcon icon={t.provider === "codex" ? { light: OpenAILight, dark: OpenAIDark } : ClaudeAI} color="current" />} className="w-40">
             {t.title}
           </TabStripItem>
         ))}

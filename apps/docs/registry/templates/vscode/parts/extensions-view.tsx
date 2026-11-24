@@ -1,7 +1,14 @@
 "use client"
 
 import * as React from "react"
-import { siCss, siGit, siJson, siMarkdown, siTypescript } from "simple-icons"
+import {
+  CSS,
+  Git,
+  JSON,
+  MarkdownDark,
+  MarkdownLight,
+  TypeScript,
+} from "@ridemountainpig/svgl-react"
 
 import { TerminalSquareIcon } from "@paneui/ui/icons"
 import { BrandIcon } from "@paneui/ui/components/brand-icon"
@@ -14,11 +21,11 @@ import { SectionLabel, SidebarHeader } from "./sidebar-header"
 type Extension = { id: string; name: string; summary: string; icon: React.ReactNode }
 
 const BUILT_IN: Extension[] = [
-  { id: "ts", name: "TypeScript and JavaScript", summary: "Types, completions and errors as you type", icon: <BrandIcon icon={siTypescript} color="brand" /> },
-  { id: "json", name: "JSON", summary: "Validation and formatting for config files", icon: <BrandIcon icon={siJson} /> },
-  { id: "css", name: "CSS", summary: "Completions and color previews", icon: <BrandIcon icon={siCss} color="brand" /> },
-  { id: "md", name: "Markdown", summary: "Headings, lists and code fences", icon: <BrandIcon icon={siMarkdown} /> },
-  { id: "git", name: "Source control", summary: "Changes, discard and commit", icon: <BrandIcon icon={siGit} color="brand" /> },
+  { id: "ts", name: "TypeScript and JavaScript", summary: "Types, completions and errors as you type", icon: <BrandIcon icon={TypeScript} color="brand" /> },
+  { id: "json", name: "JSON", summary: "Validation and formatting for config files", icon: <BrandIcon icon={JSON} color="brand" /> },
+  { id: "css", name: "CSS", summary: "Completions and color previews", icon: <BrandIcon icon={CSS} color="brand" /> },
+  { id: "md", name: "Markdown", summary: "Headings, lists and code fences", icon: <BrandIcon icon={{ light: MarkdownLight, dark: MarkdownDark }} color="current" /> },
+  { id: "git", name: "Source control", summary: "Changes, discard and commit", icon: <BrandIcon icon={Git} color="brand" /> },
   { id: "shell", name: "Terminal", summary: "A shell on the workspace files", icon: <TerminalSquareIcon /> },
 ]
 

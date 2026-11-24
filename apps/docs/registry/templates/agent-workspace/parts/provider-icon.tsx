@@ -1,16 +1,15 @@
-import { siClaude, siGooglegemini } from "simple-icons"
+import { ClaudeAI, Gemini, OpenAIDark, OpenAILight } from "@ridemountainpig/svgl-react"
 
 import { BotIcon } from "@paneui/ui/icons"
-import { markOpenai } from "@paneui/ui/lib/brand-marks"
 import { cn } from "@paneui/ui/lib/utils"
-import { BrandIcon, type BrandIconData } from "@paneui/ui/components/brand-icon"
+import { BrandIcon, type BrandIconSource } from "@paneui/ui/components/brand-icon"
 
 import type { AgentProvider } from "./agents"
 
-const MARKS: Partial<Record<AgentProvider, BrandIconData>> = {
-  codex: markOpenai,
-  claude: siClaude,
-  gemini: siGooglegemini,
+const MARKS: Partial<Record<AgentProvider, BrandIconSource>> = {
+  codex: { light: OpenAILight, dark: OpenAIDark },
+  claude: ClaudeAI,
+  gemini: Gemini,
 }
 
 /** Mark for an agent provider: the vendor's logo, or a neutral glyph for custom agents. */

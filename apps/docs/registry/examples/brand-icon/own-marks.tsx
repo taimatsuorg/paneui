@@ -1,23 +1,28 @@
-import { ApertureIcon } from "@paneui/ui/icons"
-import { BrandIcon, type BrandIconData } from "@paneui/ui/components/brand-icon"
-import { IconChip } from "@paneui/ui/components/icon-chip"
+import type * as React from "react"
+import { AnthropicDark, AnthropicLight } from "@ridemountainpig/svgl-react"
 
-/** Your own 24×24 mark, for a brand the package does not carry. */
-const acme: BrandIconData = {
-  title: "Acme",
-  hex: "6E56CF",
-  path: "M12 2 22 20H2L12 2Zm0 5.2L6.4 17h11.2L12 7.2Z",
+import { BrandIcon } from "@paneui/ui/components/brand-icon"
+
+function AcmeMark(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2" />
+      <path d="M8.5 15.5 12 8.5l3.5 7M9.7 13h4.6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
 }
 
-export default function BrandIconOwnMarks() {
+export default function BrandIconOwnMarksExample() {
   return (
-    <div className="flex items-center gap-3">
-      <IconChip>
-        <BrandIcon icon={acme} color="brand" />
-      </IconChip>
-      <IconChip>
-        <ApertureIcon />
-      </IconChip>
+    <div className="flex items-center gap-5">
+      <div className="flex items-center gap-2 rounded-md border bg-card px-3 py-1.5">
+        <BrandIcon icon={AcmeMark} color="current" size={18} />
+        <span className="text-ui font-medium">Acme</span>
+      </div>
+      <div className="flex items-center gap-2 rounded-md border bg-card px-3 py-1.5">
+        <BrandIcon icon={{ light: AnthropicLight, dark: AnthropicDark }} size={18} />
+        <span className="text-ui font-medium">Anthropic</span>
+      </div>
     </div>
   )
 }

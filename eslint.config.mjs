@@ -247,7 +247,7 @@ const designSystemRules = [
               allow: ["layout", "size-*", "text-color", "opacity", "motion"],
               message:
                 '"{{className}}": icons take size, layout, and a token text color only (16px text-muted-foreground in nav, text-foreground when active). ' +
-                "Title/card icons go inside <IconChip>. See notes/icon-usage.md.",
+                "Title/card icons go inside <IconChip>. See .agents/skills/paneui-design/references/icons.md.",
             },
             { pattern: re(TEXT_COMPONENTS), allow: ["layout", "typography", "text-color"] },
             {
@@ -272,7 +272,7 @@ const designSystemRules = [
 // Only unprefixed literal classes are read (cn("…") / template strings included,
 // conditional branches too); anything computed is left to the runtime audit.
 // ───────────────────────────────────────────────────────────────────────────
-// Default-theme px (--radius 0.5rem); keep in step with skills/paneui-design/scripts/check.mjs.
+// Default-theme px (--radius 0.5rem); keep in step with .agents/skills/paneui-design/scripts/check.mjs.
 const RADIUS_PX = { none: 0, xs: 2, "2xs": 2, sm: 4, md: 6, lg: 8, xl: 10, "2xl": 12, "3xl": 16, "4xl": 16, "5xl": 16, shell: 12 };
 const SPACING_PX = (n) => (/^\d+(\.\d+)?$/.test(n) ? parseFloat(n) * 4 : null);
 
@@ -358,12 +358,10 @@ const eslintConfig = [
       "apps/native/.expo/**",
       // Build output of the workspace packages.
       "packages/*/dist/**",
-      // Vendored agent skills (installed via skills-lock.json), not our code.
+      // Agent skills (default + vendored) and their good/bad snippets, excluded from app lint.
       ".agents/**",
       ".claude/**",
       "agent/**",
-      // The design skill's good/bad snippets, written against a consumer project's paths.
-      "skills/*/examples/**",
     ],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),

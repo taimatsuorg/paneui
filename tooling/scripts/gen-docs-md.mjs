@@ -358,7 +358,7 @@ for (const g of GUIDES) {
   if (g.href === "/docs/skill") {
     // The page renders the skill's rules with live examples; the skill file itself is the readable form.
     const h1 = textOf(find(article, (n) => n.tag === "h1") ?? { children: [] }).trim()
-    const skill = read("skills/paneui-design/SKILL.md").replace(/^---[\s\S]*?---\n+/, "")
+    const skill = read(".agents/skills/paneui-design/SKILL.md").replace(/^---[\s\S]*?---\n+/, "")
     md = [`# ${h1}`, "", `Page: ${base}${g.href}/`, "", fence(`npx shadcn@latest add @${ns}/design-skill`, "bash"), "", skill.replace(/^# .*\n+/, "")].join("\n")
   } else {
     const fixed = blocks(article)

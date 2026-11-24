@@ -146,6 +146,8 @@ type DiagramProps = Omit<React.ComponentProps<"figure">, "children"> & {
   colors?: readonly string[]
   /** Opens full screen with pan and zoom on click. */
   expandable?: boolean
+  /** Extra dependency value that re-runs `render` when options outside `source` change. */
+  renderKey?: string | number
   /** Accessible name of the figure and the full-screen view. */
   label?: string
   /** Largest zoom in the full-screen view. */
@@ -162,6 +164,7 @@ function Diagram({
   caption,
   colors = DIAGRAM_COLORS,
   expandable = true,
+  renderKey,
   label,
   maxZoom = 6,
   className,
@@ -202,7 +205,7 @@ function Diagram({
     return () => {
       alive = false
     }
-  }, [source, theme, drawn])
+  }, [source, theme, drawn, renderKey])
 
   const status = drawn ? "ready" : !render ? "error" : state.status
   const art = drawn ? children : state.status === "ready" ? <div className="contents" dangerouslySetInnerHTML={{ __html: state.svg }} /> : null

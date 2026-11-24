@@ -181,6 +181,7 @@ import BottomStackDemo from "@/registry/examples/bottom-stack-demo"
 import ConsentBannerDemo from "@/registry/examples/consent-banner-demo"
 import MediaBarDemo from "@/registry/examples/media-bar-demo"
 import DiagramDemo from "@/registry/examples/diagram-demo"
+import MermaidDemo from "@/registry/examples/mermaid-demo"
 import LocaleSwitcherDemo from "@/registry/examples/locale-switcher-demo"
 import VersionSwitcherDemo from "@/registry/examples/version-switcher-demo"
 import EndpointDemo from "@/registry/examples/endpoint-demo"
@@ -391,6 +392,7 @@ export const demos: Record<string, React.ComponentType> = {
   "consent-banner": ConsentBannerDemo,
   "media-bar": MediaBarDemo,
   "diagram": DiagramDemo,
+  "mermaid": MermaidDemo,
   "locale-switcher": LocaleSwitcherDemo,
   "version-switcher": VersionSwitcherDemo,
   "endpoint": EndpointDemo,

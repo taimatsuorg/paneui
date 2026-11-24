@@ -1560,7 +1560,7 @@
       "title": "Brand Icon",
       "description": "Shows brand logos.",
       "dependencies": [
-        "simple-icons"
+        "@ridemountainpig/svgl-react"
       ],
       "registryDependencies": [
         "https://paneui.dev/r/theme.json"
@@ -1569,10 +1569,6 @@
         {
           "path": "registry/web/ui/brand-icon.tsx",
           "type": "registry:ui"
-        },
-        {
-          "path": "lib/brand-marks.ts",
-          "type": "registry:lib"
         }
       ],
       "meta": {
@@ -1790,7 +1786,7 @@
       "description": "Pages for a product website and dashboard.",
       "dependencies": [
         "motion",
-        "simple-icons"
+        "@ridemountainpig/svgl-react"
       ],
       "registryDependencies": [
         "https://paneui.dev/r/theme.json",
@@ -2048,7 +2044,7 @@
       "dependencies": [
         "@monaco-editor/react",
         "motion",
-        "simple-icons"
+        "@ridemountainpig/svgl-react"
       ],
       "registryDependencies": [
         "https://paneui.dev/r/theme.json",
@@ -2177,7 +2173,7 @@
         "@agentclientprotocol/sdk",
         "ws",
         "motion",
-        "simple-icons"
+        "@ridemountainpig/svgl-react"
       ],
       "registryDependencies": [
         "https://paneui.dev/r/theme.json",
@@ -2394,7 +2390,7 @@
       "title": "Docs Site",
       "description": "Documentation site layout with search, navigation and a page outline.",
       "dependencies": [
-        "simple-icons"
+        "@ridemountainpig/svgl-react"
       ],
       "registryDependencies": [
         "https://paneui.dev/r/theme.json",
@@ -3590,6 +3586,29 @@
       "files": [
         {
           "path": "registry/web/ui/diagram.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Display"
+      }
+    },
+    {
+      "name": "mermaid",
+      "type": "registry:ui",
+      "title": "Mermaid",
+      "description": "Renders Mermaid diagrams as themed SVGs or text, with full-screen zoom.",
+      "dependencies": [
+        "beautiful-mermaid@^1.1.3"
+      ],
+      "registryDependencies": [
+        "https://paneui.dev/r/theme.json",
+        "https://paneui.dev/r/diagram.json",
+        "https://paneui.dev/r/locale-provider.json"
+      ],
+      "files": [
+        {
+          "path": "registry/web/ui/mermaid.tsx",
           "type": "registry:ui"
         }
       ],

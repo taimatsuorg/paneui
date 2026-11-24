@@ -14,7 +14,7 @@
  *   slot, ancestorSlot, selector (substring of the reported selector), control (true for buttons,
  *   inputs, tabs, icon chips, badges, kbd), minInset (every flagged corner is inset ≥ this many px),
  *   level ("must" | "should"), reason }.
- *   Always give a reason; see notes/radius-audit.md for the triage behind each entry.
+ *   Always give a reason inline; see tooling/README.md and .agents/skills/paneui-design/references/foundations.md.
  */
 const MAIN = "main [role='tabpanel']"
 

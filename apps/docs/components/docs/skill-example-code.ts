@@ -9,7 +9,7 @@ export type SkillCodeExample = { lang: string; good: string; bad: string }
 
 /**
  * Rules whose Recommended / Avoid pair is the one the skill ships in
- * skills/paneui-design/examples/<dir>/{good,bad}.tsx (shown as code; the design check's
+ * .agents/skills/paneui-design/examples/<dir>/{good,bad}.tsx (shown as code; the design check's
  * --self-test keeps them honest).
  */
 export const SKILL_EXAMPLE_FILES: Record<string, string> = {

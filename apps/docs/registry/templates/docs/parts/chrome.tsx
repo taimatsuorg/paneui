@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { siGithub } from "simple-icons"
+import { GitHubDark, GitHubLight } from "@ridemountainpig/svgl-react"
 
 import { MenuIcon, SearchIcon } from "@paneui/ui/icons"
 import { cn } from "@paneui/ui/lib/utils"
@@ -62,7 +62,7 @@ export function HeaderActions({ compactSearch }: { compactSearch?: boolean }) {
     <div className="-me-1.5 ms-auto flex items-center gap-1.5">
       <SearchButton compact={compactSearch} />
       <Button variant="ghost" size="icon-sm" nativeButton={false} render={<a href="#" />} aria-label="GitHub">
-        <BrandIcon icon={siGithub} />
+        <BrandIcon icon={{ light: GitHubLight, dark: GitHubDark }} color="current" />
       </Button>
       <ThemeToggle variant="ghost" modes="tri" />
     </div>

@@ -4,9 +4,9 @@ import { useT } from "@/lib/site-locale"
 import { siteCopy } from "@/lib/site-copy"
 
 import * as React from "react"
-import { siClaude } from "simple-icons"
+import { ClaudeAI, OpenAIDark, OpenAILight } from "@ridemountainpig/svgl-react"
 
-import { ChatIcon, CheckIcon, ChevronDownIcon, CopyIcon, ExternalLinkIcon, FileIcon, LinkIcon } from "@paneui/ui/icons"
+import { CheckIcon, ChevronDownIcon, CopyIcon, ExternalLinkIcon, FileIcon, LinkIcon } from "@paneui/ui/icons"
 import { ActionSwapBlurIcon } from "@paneui/ui/components/action-swap-blur"
 import { BrandIcon } from "@paneui/ui/components/brand-icon"
 import { Button } from "@paneui/ui/components/button"
@@ -114,13 +114,12 @@ export function PageActions({
           <MenuSeparator />
           <MenuGroup>
             <MenuItem onClick={() => openChat("https://chatgpt.com/?hints=search&q=")}>
-              {/* The brand icon package leaves this mark out, so it gets a neutral chat glyph. */}
-              <ChatIcon />
+              <BrandIcon icon={{ light: OpenAILight, dark: OpenAIDark }} color="current" />
               {label("Open in ChatGPT")}
               <ExternalLinkIcon className="ms-auto rtl:-scale-x-100" />
             </MenuItem>
             <MenuItem onClick={() => openChat("https://claude.ai/new?q=")}>
-              <BrandIcon icon={siClaude} />
+              <BrandIcon icon={ClaudeAI} color="current" />
               {label("Open in Claude")}
               <ExternalLinkIcon className="ms-auto rtl:-scale-x-100" />
             </MenuItem>

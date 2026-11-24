@@ -1,91 +1,95 @@
-import * as React from "react"
+import type * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@paneui/ui/lib/utils"
 
-/*
- * A third-party logo from the brand icon package, drawn on the same grid and sizes as the
- * icon set. Import each icon on its own so the bundle only carries the logos you use:
- *
- *   import { siGithub } from "simple-icons"
- *   <BrandIcon icon={siGithub} />
- *   <BrandIcon icon={siGithub} color="brand" title="GitHub" />
- *
- * Any `{ title, path, hex }` with a 24×24 path works, so in-house marks for brands the
- * package leaves out fit the same API.
- */
+type BrandSvgComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>
 
-type BrandIconData = {
-  /** Brand name; the accessible name when `title` is not given. */
-  title: string
-  /** SVG path data on a 24×24 grid. */
-  path: string
-  /** Brand colour, six hex digits without `#`. */
-  hex?: string
-  /** Fill rule of the path; marks drawn with cut-outs need `evenodd`. */
-  fillRule?: "nonzero" | "evenodd"
+type BrandIconPair = {
+  light: BrandSvgComponent
+  dark: BrandSvgComponent
 }
 
-type BrandIconProps = Omit<React.ComponentProps<"svg">, "children" | "color"> & {
-  icon: BrandIconData
-  /** Pixel size, like the icon set. Buttons and menus size their icons themselves. */
-  size?: number
-  /** `current` (default) follows the text colour; `brand` paints the brand's own colour. */
-  color?: "current" | "brand"
-  /**
-   * Accessible name. Leave it out when a visible label sits next to the logo (the logo is
-   * then hidden from assistive tech); pass it for a logo that stands alone.
-   */
-  title?: string
-  /** Shrinks the mark to the icon set's optical size (default). Turn off for edge-to-edge logos. */
-  inset?: boolean
+type BrandIconSource = BrandSvgComponent | BrandIconPair
+
+const brandIconVariants = cva("shrink-0", {
+  variants: {
+    color: {
+      brand: "",
+      current:
+        "fill-current [&_[fill]:not([fill='none'])]:fill-current [&_[stroke]:not([stroke='none'])]:stroke-current",
+    },
+  },
+  defaultVariants: {
+    color: "brand",
+  },
+})
+
+type BrandIconProps = Omit<React.SVGProps<SVGSVGElement>, "children" | "color"> &
+  VariantProps<typeof brandIconVariants> & {
+    icon: BrandIconSource
+    size?: number
+    title?: string
+    name?: string
+    "data-brand"?: string
+  }
+
+function isBrandIconPair(source: BrandIconSource): source is BrandIconPair {
+  return typeof source === "object" && source !== null && "light" in source && "dark" in source
 }
 
-/** WCAG relative luminance of a six-digit hex colour. */
-function luminance(hex: string) {
-  const n = parseInt(hex, 16)
-  const c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => {
-    const s = v / 255
-    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4
-  })
-  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+function BrandIcon({
+  icon,
+  size = 18,
+  color = "brand",
+  title,
+  name,
+  className,
+  role,
+  "aria-label": ariaLabel,
+  "aria-hidden": ariaHidden,
+  "data-brand": dataBrand,
+  ...props
+}: BrandIconProps) {
+  const accessibleLabel = ariaLabel ?? title
+  const sharedProps: React.SVGProps<SVGSVGElement> & Record<string, unknown> = {
+    ...props,
+    width: size,
+    height: size,
+    "data-slot": "brand-icon",
+    "data-brand": dataBrand ?? name,
+    ...(accessibleLabel
+      ? {
+          role: role ?? "img",
+          "aria-label": accessibleLabel,
+        }
+      : {
+          "aria-hidden": ariaHidden ?? true,
+        }),
+  }
+
+  const variantClass = brandIconVariants({ color })
+
+  if (isBrandIconPair(icon)) {
+    const Light = icon.light
+    const Dark = icon.dark
+    return (
+      <>
+        <Light {...sharedProps} className={cn(variantClass, "dark:hidden", className)} />
+        <Dark {...sharedProps} className={cn(variantClass, "hidden dark:block", className)} />
+      </>
+    )
+  }
+
+  const Icon = icon
+  return <Icon {...sharedProps} className={cn(variantClass, className)} />
 }
 
-/**
- * Brand colours that disappear on one of the themes: near-black marks switch to the
- * foreground in dark mode, near-white marks switch to it in light mode.
- */
-function brandTone(hex: string | undefined) {
-  if (!hex || !/^[0-9a-f]{6}$/i.test(hex)) return "text-current"
-  const l = luminance(hex)
-  if (l < 0.02) return "text-(--brand) dark:text-foreground"
-  if (l > 0.85) return "text-foreground dark:text-(--brand)"
-  return "text-(--brand)"
+export {
+  BrandIcon,
+  brandIconVariants,
+  type BrandIconPair,
+  type BrandIconProps,
+  type BrandIconSource,
+  type BrandSvgComponent,
 }
-
-function BrandIcon({ icon, size = 18, color = "current", title, inset = true, className, style, ...props }: BrandIconProps) {
-  const id = React.useId()
-  const brand = color === "brand"
-  return (
-    <svg
-      data-slot="brand-icon"
-      data-brand={icon.title}
-      width={size}
-      height={size}
-      // 24px marks fill their box edge to edge; the icon set keeps a 2px margin on the same grid
-      viewBox={inset ? "-2 -2 28 28" : "0 0 24 24"}
-      fill="currentColor"
-      role={title ? "img" : undefined}
-      aria-hidden={title ? undefined : true}
-      className={cn("shrink-0", brand && brandTone(icon.hex), className)}
-      style={brand && icon.hex ? ({ "--brand": `#${icon.hex}`, ...style } as React.CSSProperties) : style}
-      {...props}
-      aria-labelledby={props["aria-labelledby"] ?? (title ? id : undefined)}
-    >
-      {title && <title id={id}>{title}</title>}
-      <path d={icon.path} fillRule={icon.fillRule} clipRule={icon.fillRule} />
-    </svg>
-  )
-}
-
-export { BrandIcon }
-export type { BrandIconData, BrandIconProps }

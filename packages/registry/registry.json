@@ -1036,402 +1036,402 @@
       "description": "Design rules and checks for coding agents.",
       "files": [
         {
-          "path": "skills/paneui-design/SKILL.md",
+          "path": ".agents/skills/paneui-design/SKILL.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/SKILL.md"
         },
         {
-          "path": "skills/paneui-design/references/charts.md",
+          "path": ".agents/skills/paneui-design/references/charts.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/charts.md"
         },
         {
-          "path": "skills/paneui-design/references/components.md",
+          "path": ".agents/skills/paneui-design/references/components.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/components.md"
         },
         {
-          "path": "skills/paneui-design/references/copy.md",
+          "path": ".agents/skills/paneui-design/references/copy.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/copy.md"
         },
         {
-          "path": "skills/paneui-design/references/foundations.md",
+          "path": ".agents/skills/paneui-design/references/foundations.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/foundations.md"
         },
         {
-          "path": "skills/paneui-design/references/icons.md",
+          "path": ".agents/skills/paneui-design/references/icons.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/icons.md"
         },
         {
-          "path": "skills/paneui-design/references/layout.md",
+          "path": ".agents/skills/paneui-design/references/layout.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/layout.md"
         },
         {
-          "path": "skills/paneui-design/references/motion-a11y.md",
+          "path": ".agents/skills/paneui-design/references/motion-a11y.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/motion-a11y.md"
         },
         {
-          "path": "skills/paneui-design/references/polish.md",
+          "path": ".agents/skills/paneui-design/references/polish.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/polish.md"
         },
         {
-          "path": "skills/paneui-design/references/registry.md",
+          "path": ".agents/skills/paneui-design/references/registry.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/registry.md"
         },
         {
-          "path": "skills/paneui-design/scripts/check.mjs",
+          "path": ".agents/skills/paneui-design/scripts/check.mjs",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/scripts/check.mjs"
         },
         {
-          "path": "skills/paneui-design/scripts/polish-probe.js",
+          "path": ".agents/skills/paneui-design/scripts/polish-probe.js",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/scripts/polish-probe.js"
         },
         {
-          "path": "skills/paneui-design/scripts/radius-probe.js",
+          "path": ".agents/skills/paneui-design/scripts/radius-probe.js",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/scripts/radius-probe.js"
         },
         {
-          "path": "skills/paneui-design/examples/border-and-shadow/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/border-and-shadow/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/border-and-shadow/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/border-and-shadow/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/border-and-shadow/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/border-and-shadow/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/exit-subtle/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/exit-subtle/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/exit-subtle/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/exit-subtle/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/exit-subtle/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/exit-subtle/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/font-smoothing/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/font-smoothing/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/font-smoothing/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/font-smoothing/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/font-smoothing/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/font-smoothing/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/hit-area/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/hit-area/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/hit-area/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/hit-area/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/hit-area/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/hit-area/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-button-label/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-button-label/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-button-label/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-button-label/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-button-label/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-button-label/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-color/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-color/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-color/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-color/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-color/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-color/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-rtl/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-rtl/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-rtl/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-rtl/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-rtl/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-rtl/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-size/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-size/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-size/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-size/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-size/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-size/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-stroke/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-stroke/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-stroke/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-stroke/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-stroke/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-stroke/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-weight/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-weight/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-weight/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-weight/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-weight/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-weight/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/nav-active-icon/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/nav-active-icon/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/nav-active-icon/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/nav-active-icon/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/nav-active-icon/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/nav-active-icon/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/text-align-logical/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/text-align-logical/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/text-align-logical/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/text-align-logical/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/text-align-logical/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/text-align-logical/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-swap/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-swap/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-swap/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/icon-swap/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/icon-swap/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/icon-swap/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/keyframes-on-state/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/keyframes-on-state/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/keyframes-on-state/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/keyframes-on-state/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/keyframes-on-state/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/keyframes-on-state/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/media-outline/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/media-outline/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/media-outline/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/media-outline/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/media-outline/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/media-outline/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/motion-restraint/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/motion-restraint/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/motion-restraint/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/motion-restraint/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/motion-restraint/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/motion-restraint/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/optical-icon-padding/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/optical-icon-padding/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/optical-icon-padding/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/optical-icon-padding/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/optical-icon-padding/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/optical-icon-padding/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/presence-initial/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/presence-initial/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/presence-initial/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/presence-initial/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/presence-initial/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/presence-initial/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/press-scale-floor/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/press-scale-floor/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/press-scale-floor/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/press-scale-floor/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/press-scale-floor/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/press-scale-floor/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/spring-bounce/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/spring-bounce/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/spring-bounce/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/spring-bounce/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/spring-bounce/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/spring-bounce/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/spring-damping/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/spring-damping/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/spring-damping/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/spring-damping/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/spring-damping/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/spring-damping/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/tabular-nums/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/tabular-nums/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/tabular-nums/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/tabular-nums/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/tabular-nums/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/tabular-nums/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/text-wrap/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/text-wrap/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/text-wrap/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/text-wrap/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/text-wrap/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/text-wrap/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/will-change/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/will-change/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/will-change/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/will-change/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/will-change/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/will-change/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/viewport-zoom/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/viewport-zoom/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/viewport-zoom/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/viewport-zoom/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/viewport-zoom/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/viewport-zoom/good.tsx"
         },
         {
-          "path": "skills/paneui-design/references/platforms.md",
+          "path": ".agents/skills/paneui-design/references/platforms.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/platforms.md"
         },
         {
-          "path": "skills/paneui-design/references/web.md",
+          "path": ".agents/skills/paneui-design/references/web.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/web.md"
         },
         {
-          "path": "skills/paneui-design/references/native.md",
+          "path": ".agents/skills/paneui-design/references/native.md",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/references/native.md"
         },
         {
-          "path": "skills/paneui-design/scripts/native-checks.mjs",
+          "path": ".agents/skills/paneui-design/scripts/native-checks.mjs",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/scripts/native-checks.mjs"
         },
         {
-          "path": "skills/paneui-design/examples/native-colors/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/native-colors/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/native-colors/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/native-colors/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/native-colors/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/native-colors/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/native-touch-target/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/native-touch-target/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/native-touch-target/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/native-touch-target/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/native-touch-target/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/native-touch-target/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/native-font-scaling/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/native-font-scaling/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/native-font-scaling/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/native-font-scaling/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/native-font-scaling/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/native-font-scaling/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/native-accessibility/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/native-accessibility/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/native-accessibility/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/native-accessibility/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/native-accessibility/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/native-accessibility/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/native-radius/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/native-radius/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/native-radius/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/native-radius/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/native-radius/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/native-radius/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/platform-boundary/good.tsx",
+          "path": ".agents/skills/paneui-design/examples/platform-boundary/good.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/platform-boundary/good.tsx"
         },
         {
-          "path": "skills/paneui-design/examples/platform-boundary/bad.tsx",
+          "path": ".agents/skills/paneui-design/examples/platform-boundary/bad.tsx",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/examples/platform-boundary/bad.tsx"
         },
         {
-          "path": "skills/paneui-design/scripts/native-checks.test.mjs",
+          "path": ".agents/skills/paneui-design/scripts/native-checks.test.mjs",
           "type": "registry:file",
           "target": "~/.agents/skills/paneui-design/scripts/native-checks.test.mjs"
         }
@@ -1560,7 +1560,7 @@
       "title": "Brand Icon",
       "description": "Shows brand logos.",
       "dependencies": [
-        "simple-icons"
+        "@ridemountainpig/svgl-react"
       ],
       "registryDependencies": [
         "@paneui/theme"
@@ -1569,10 +1569,6 @@
         {
           "path": "packages/ui/src/components/brand-icon.tsx",
           "type": "registry:ui"
-        },
-        {
-          "path": "packages/ui/src/lib/brand-marks.ts",
-          "type": "registry:lib"
         }
       ],
       "meta": {
@@ -1790,7 +1786,7 @@
       "description": "Pages for a product website and dashboard.",
       "dependencies": [
         "motion",
-        "simple-icons"
+        "@ridemountainpig/svgl-react"
       ],
       "registryDependencies": [
         "@paneui/theme",
@@ -2048,7 +2044,7 @@
       "dependencies": [
         "@monaco-editor/react",
         "motion",
-        "simple-icons"
+        "@ridemountainpig/svgl-react"
       ],
       "registryDependencies": [
         "@paneui/theme",
@@ -2177,7 +2173,7 @@
         "@agentclientprotocol/sdk",
         "ws",
         "motion",
-        "simple-icons"
+        "@ridemountainpig/svgl-react"
       ],
       "registryDependencies": [
         "@paneui/theme",
@@ -2394,7 +2390,7 @@
       "title": "Docs Site",
       "description": "Documentation site layout with search, navigation and a page outline.",
       "dependencies": [
-        "simple-icons"
+        "@ridemountainpig/svgl-react"
       ],
       "registryDependencies": [
         "@paneui/theme",
@@ -3590,6 +3586,29 @@
       "files": [
         {
           "path": "packages/ui/src/components/diagram.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "category": "Display"
+      }
+    },
+    {
+      "name": "mermaid",
+      "type": "registry:ui",
+      "title": "Mermaid",
+      "description": "Renders Mermaid diagrams as themed SVGs or text, with full-screen zoom.",
+      "dependencies": [
+        "beautiful-mermaid@^1.1.3"
+      ],
+      "registryDependencies": [
+        "@paneui/theme",
+        "@paneui/diagram",
+        "@paneui/locale-provider"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/mermaid.tsx",
           "type": "registry:ui"
         }
       ],

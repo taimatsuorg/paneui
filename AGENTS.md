@@ -1,151 +1,62 @@
-# PaneUI — agent guide
+# PaneUI — start here
+<!-- repo-governance: v3 -->
 
-A shadcn registry (`@paneui/*`, style `base-nova`, headless primitives from `@base-ui/react`,
-Tailwind v4, motion/react) plus its Next.js docs site. These rules keep every coding agent on one
-style. **The design rules live in one place: the `paneui-design` skill (`skills/paneui-design/SKILL.md`
-and its `references/`).** Read it before any UI work; this file only adds what is specific to this repo.
-`pnpm lint` (`@shadcn/lint` + `paneui/concentric-radius`, in `eslint.config.mjs`) and `pnpm design:check`
-(the skill's `scripts/check.mjs`, configured by `paneui-design.config.json`) enforce most rules.
+React component registry (`@paneui/*`), Astro documentation site, Native showcase, and `@taimatsu/paneui` CLI in a pnpm workspace. Agents write, review, and verify here; design rules live in [`.agents/skills/paneui-design/SKILL.md`](.agents/skills/paneui-design/SKILL.md) (read before any UI change), and the owner guards the decisions below.
 
-**After making changes, run `pnpm lint`, `pnpm exec tsc --noEmit -p .` and `pnpm design:check` and fix all errors.**
-After changing radii or padding on nested surfaces, also run `pnpm audit:radius` against a fresh static export.
+## Align before you work
 
-## Repo layout
+Open with three lines: what the user gets, the smallest change that delivers it, and what will show it worked.
 
-A pnpm workspace. Applications live in `apps/`; shared source and distribution packages live in
-`packages/`. The root owns workspace commands and tooling, not application code.
+- Anything a run can answer, answer by running it; only product and preference calls go to the user.
+- Name choices that belong to the user with your default beside each.
+- Reversible, inside one module: restate, then go.
+- Irreversible, public, cross-module, releasing, or new surface: restate and wait.
 
-- `apps/docs/` — Next.js Web documentation, examples and templates. Cloudflare builds from the repository
-  root with `pnpm build:cloudflare` and publishes `apps/docs/out/`, including the Native browser
-  showcase at `/native/`.
-- `apps/native/` — independent Native component showcase. `pnpm native` runs the device app;
-  `pnpm native:web` previews it in a browser, and `pnpm native:build` exports `apps/native/dist/`. The combined Pages build exports Native with
-  `NATIVE_BASE_PATH=/native` and merges it into `apps/docs/out/native/`; do not add a global SPA fallback.
-- `packages/ui/` — Web components, blocks, icons and browser utilities. Import `@paneui/ui/components/<name>`.
-- `packages/ui-native/` — Native components. It shares tokens with Web and has its own platform interaction.
-- `packages/tokens/` — generated theme styles and portable TypeScript design values. `pnpm tokens:gen`
-  regenerates Native colours from the same registry theme; never edit the generated colour file.
-- `packages/core/` — platform-independent types, hooks and state. No DOM, device or application imports.
-- `packages/registry/` — the registry manifest and publication adapters. The manifest references the
-  actual workspace source; publication rewrites workspace imports into installable aliases. Public
-  item names and `/r/<name>.json` URLs stay stable. `pnpm registry:test` verifies portability.
-- `tooling/` — repository generators, checks, fixtures and shared TypeScript configuration.
-- `packages/cli/` — the `paneui` CLI (npm name and bin in its `package.json`; the docs read the name from there).
-  `pnpm cli:build`, `pnpm cli:test` (node:test against a mock registry). Released by pushing a `cli-v<version>` tag
-  (`.github/workflows/release-cli.yml`, npm trusted publishing, package `@taimatsu/paneui`). Excluded from the root `tsc`; it has its own tsconfig.
-- `apps/desktop/` — the Electron shell. **Not** a workspace member: its own `pnpm-workspace.yaml` and lockfile, so root
-  installs and CI never fetch Electron or build node-pty. Install it with `pnpm install` inside `apps/desktop/`.
-- `skills/` — our skills (design, copy density, icons). `.agents/skills/` holds the vendored third-party skills
-  (`skills-lock.json`); `.claude/skills/` only symlinks to them.
-- `CLAUDE.md` imports this file; edit this one.
+## The smallest complete change
 
-## Where things live
+Take the first option that works: does it need to exist → is it already here → does the platform give it → is it an installed dependency → one line → the minimum. Never cut validation at trust boundaries, accessibility, contrast gates, or error handling that prevents data loss. Non-trivial fixes leave one targeted test or checker rule. A known limit gets `shortcut: <limit>, <when to upgrade>`. End reports with anything skipped and the risk.
 
-| Path | What | Lint audience |
+## Modules
+
+Each module owns its docs and index; this table only points to them (two hops to source).
+
+| Module | What it owns | Docs |
 | --- | --- | --- |
-| `packages/ui/src/components/*.tsx` | Components (`registry:ui`) | library |
-| `packages/ui/src/blocks/<name>/` | Composed blocks (`registry:block`) | library |
-| `packages/ui/src/icons/index.tsx` | Default icon set (`@paneui/icons`) | library |
-| `packages/ui/src/icons/emoji/icons.tsx` | Emoji icon set (`@paneui/icons-emoji`), hand-drawn, same exports as the rounded set |
-| `apps/docs/registry/examples/<name>-demo.tsx` | One demo per item | consumer |
-| `apps/docs/registry/templates/**`, `apps/docs/src/pages/**`, `apps/docs/components/pages/**` | Page templates, docs site routes (Astro pages + one React island each) | consumer |
-| `apps/docs/components/docs/**` | Docs shell (nav, gallery, install command) | consumer |
-| `packages/tokens/styles/globals.css` | The theme: every token below | — |
-| `packages/tokens/styles/theme-paper.css` | The opt-in Paper style (`data-style="paper"`), the `theme-paper` item; written by `tooling/scripts/gen-paper.py`. See `notes/paper-style.md` | — |
-| `packages/tokens/styles/fonts.css` | Self-hosted font imports (`@paneui/fonts`); the theme works without it | — |
-| `apps/docs/components/docs/accent-presets.generated.ts` | Accent preset roles for the docs, GENERATED by `tooling/scripts/gen-theme.py` (with the token blocks of `globals.css`, `theme-accents.css`, the accent picker's preset CSS and the `theme` / `theme-<accent>` registry items) | — |
-| `skills/paneui-design/` | The design skill: rules (`SKILL.md`), `references/*.md`, `scripts/check.mjs` (`pnpm design:check`; `--self-test` runs the examples), `scripts/radius-probe.js`, `scripts/polish-probe.js`, `examples/<rule>/{good,bad}.tsx` (consumer paths; excluded from tsc and eslint, rules 33–40 show them on `/docs/skill`); served at `/docs/skill`, shipped as the `design-skill` registry item (add new skill files to its `files`) | — |
-| `skills/copy-density/`, `skills/paneui-icons/` | Standalone copy and icon-drawing skills (the design skill folds in the copy rules and links the icon skill) | — |
-| `paneui-design.config.json` | Design check settings for this repo: allow-list (each with a reason), ignored paths, hashed names that must not appear in prose | — |
-| `notes/icon-usage.md` | Icon usage system | — |
-| `notes/native-style.md` | Native desktop style reference (structure and density that still apply) | — |
-| `notes/foundation-v2.md` | The 2026-10-16 foundation: colour roles, radius scale, shadows, fonts, and what changed in components | — |
-| `notes/radius-audit.md` | Nested-radius audit triage (open findings by owner) | — |
-| `notes/docs-shell.md` | Docs header, sidebar and preview frame decisions | — |
-| `apps/docs/registry/templates/*/parts/code.ts` | Pre-highlighted code samples for `<CodeBlock html>` in templates, GENERATED by `pnpm templates:code` (`tooling/scripts/gen-template-code.mjs` holds the samples). Static code in templates uses `CodeBlock`/`CodeGroup`; `AgentCodeBlock` only where an agent streams or opens files | consumer |
-| `tooling/scripts/audit-radius.mjs` (+ `.config.mjs`) | `pnpm audit:radius`: browser audit of nested radii | — |
-| `packages/cli/src/` | The `paneui` CLI: `add`/`update` run the shadcn CLI (`$PANEUI_SHADCN` overrides it), `paneui.json` records installs, `detect.ts` finds unrecorded items. When registry item names or theme presets change, check `classify` in `context.ts` and the tests | — |
-| `THIRD_PARTY_NOTICES.md` | Licence notices for the style and colour references, the diff renderer and the avatar art; the **only** place third-party names and provenance appear | — |
+| `apps/docs` | Astro docs site, studio component pages, examples, templates, `/docs/*.md` | [`apps/docs/README.md`](apps/docs/README.md) |
+| `apps/native` | Independent React Native showcase (`/native/`) | [`apps/native/README.md`](apps/native/README.md) |
+| `apps/desktop` | Electron shell wrapping the `vscode` template (separate install) | [`apps/desktop/README.md`](apps/desktop/README.md) |
+| `packages/ui` | Web components, blocks, rounded/emoji icons, utilities | [`packages/ui/README.md`](packages/ui/README.md) |
+| `packages/ui-native` | React Native UI components | [`packages/ui-native/README.md`](packages/ui-native/README.md) |
+| `packages/tokens` | Generated CSS themes (`globals.css`, Paper, Studio) and Native colour roles | [`packages/tokens/README.md`](packages/tokens/README.md) |
+| `packages/core` | Platform-independent types and state (zero DOM/Native imports) | [`packages/core/README.md`](packages/core/README.md) |
+| `packages/registry` | `registry.json` manifest, import rewriting, `@paneui/upgrade-check` | [`packages/registry/README.md`](packages/registry/README.md) |
+| `packages/cli` | `@taimatsu/paneui` npm CLI (`init`, `add`, `update`, `theme`) | [`packages/cli/README.md`](packages/cli/README.md) |
+| `tooling` | Theme/docs/registry generators, contrast & radius probes, OG renderer | [`tooling/README.md`](tooling/README.md) |
+| `.agents/skills` | Default skills (`paneui-design`, `paneui-icons`, `copy-density`) + shadcn skills | [`.agents/skills/paneui-design/SKILL.md`](.agents/skills/paneui-design/SKILL.md) |
 
-Import library code as `@paneui/ui/components/<file>` or `@paneui/ui/blocks/<name>/<file>`.
-**Library** files own their appearance (no `no-restyle`; arbitrary values only warn).
-**Consumer** files compose the library: tokens only, `className` on a component for
-layout, plus the per-family contracts (Card parts take spacing, titles take
-typography, Buttons take margins and `w-full`). If lint says a component "owns" a
-style, use a variant/size or style a plain wrapper `<div>`; add a variant to the
-component only if the design really needs a new treatment.
+## Commands
 
+| What | Command |
+| --- | --- |
+| Install | `pnpm install` (desktop shell separately: `pnpm --dir apps/desktop install`) |
+| Design check & self-test | `pnpm design:check && pnpm design:test` |
+| Tests & contrast | `pnpm registry:test && pnpm cli:test && pnpm test:locales && pnpm test:labels && pnpm test:pages && pnpm test:highlight && pnpm tokens:contrast` |
+| Typecheck | `pnpm typecheck` (`@paneui/docs` has 19 pre-existing `next`/`next/og` template errors; see [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md)) |
+| Lint | `pnpm exec eslint <changed-files>` (repo-wide `pnpm lint` fails on pre-existing `.astro/*` and `icons/*`) |
+| Generate | `pnpm tokens:gen`, `pnpm docs:gen`, `pnpm registry:build` |
+| Build & Markdown audit | `pnpm build && pnpm docs:md:audit` (`pnpm build:cloudflare` merges `/native/`) |
 
-## Design rules: the `paneui-design` skill
+## Documents
 
-Single source for colour, accent, elevation, radius and concentric nesting, type, density, spacing,
-layout, components, icons and brand marks, charts, motion, focus, dark mode, copy density and wording.
-`SKILL.md` has the numbered rules; the exact values are in `references/` (foundations, components,
-layout, copy, icons, charts, motion-a11y, registry). `/docs/skill` renders the same rules with live
-Recommended / Avoid examples (`apps/docs/components/docs/skill-examples.tsx`, keyed by rule title); add an example
-there when you add a rule. Change a rule in the skill first, then the code.
+| When | Read |
+| --- | --- |
+| Starting a change | [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) — branches (`dev`), commits, verification |
+| Before merging | [`docs/REVIEW.md`](docs/REVIEW.md) — checkable review criteria |
+| Settled choices | [`docs/DECISIONS.md`](docs/DECISIONS.md) — append-only, never reverse without owner |
+| Past failures | [`docs/POSTMORTEMS.md`](docs/POSTMORTEMS.md) — search by module or symptom |
+| Third-party attribution | [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) — sole place third-party provenance appears |
 
-Repo-only details the skill doesn't carry:
+## Needs the owner
 
-- **Theme generation**: `pnpm tokens:gen` runs `tooling/scripts/gen-theme.py` (default style: the colour mappings in
-  `@theme inline`, the `:root` / `.dark` token blocks and the `html[data-accent]` presets of
-  `packages/tokens/styles/globals.css`, between `gen-theme` markers, plus `theme-accents.css`,
-  `accent-presets.generated.ts`, the accent picker's preset CSS and the `theme` / `theme-<accent>` registry items),
-  then `gen-paper.py` (Paper) and `gen-native-tokens.mjs`. Both Python generators derive accent, status and tag roles
-  from contrast targets in `tooling/scripts/theme_roles.py`. Change values there, never in the generated files, and
-  run `node tooling/scripts/theme-contrast.mjs` (every text pair 4.5:1, controls 3:1, both styles, every accent and
-  sample custom accents, light and dark; exits 1 on a failure). New tokens: add them to the generator with a dark
-  value and an `@theme inline` mapping in a separate reviewed change.
-- **Icon styles**: two hand-drawn files with the same exports: `packages/ui/src/icons/index.tsx` (rounded,
-  default) and `packages/ui/src/icons/emoji/icons.tsx` (emoji, registry item `icons-emoji`). A new icon goes
-  in both (`skills/paneui-icons`). Check them with `tooling/scripts/icon-sheet.tsx [--emoji | --compare]`.
-- **Text sizes and tailwind-merge**: `packages/ui/src/lib/utils.ts` (`@paneui/utils`) teaches tailwind-merge the `text-ui*`
-  sizes; it does not know the `frame-*` utilities.
-- **Notes**: `notes/foundation-v2.md` (why the values are what they are), `notes/paper-style.md` (the Paper style), `notes/radius-audit.md` (audit
-  triage), `notes/docs-shell.md` (docs chrome), `notes/icon-usage.md`, `notes/native-style.md`.
-- **Review skills**: the `better-*` skills in `.agents/skills/` (`better-interface` for a full review,
-  `interface-review` for a diff, `better-ui`, `better-typography`, `better-layout`, `better-colors`,
-  `better-accessibility`, `better-writing`). Where they and the design skill differ, the design skill wins.
-
-Native checks use `platforms.native` globs and Native imports; `platforms.shared` marks core source.
-Keep Web and Native platform references in the design skill in sync with their implementations.
-`pnpm design:test` validates the checker examples; `pnpm test:pages` validates export composition.
-
-## Adding a registry item
-
-1. Component: `packages/ui/src/components/<name>.tsx` (or `blocks/<name>/…`). Export named
-   parts, `data-slot` on each, variants with `cva`, forward `className` through `cn`.
-2. Example: `apps/docs/registry/examples/<name>-demo.tsx` (default export), written as
-   a consumer: it must pass consumer lint.
-3. `packages/registry/registry.json`: add the item (`name`, `type`, `title`, `description`,
-   `dependencies`, `registryDependencies` such as `@paneui/theme` / `@paneui/icons` /
-   `@paneui/icon-chip`, `files`, and `meta.category`, one of `Foundations, Forms,
-   Overlays, Display, Navigation, Text, Motion, Data, Agents, Charts, Blocks`
-   (see `ORDER` in `lib/docs.ts`)).
-4. `apps/docs/components/docs/demos.tsx`: import the demo and add `"<name>": <Name>Demo`.
-5. `pnpm lint`, `pnpm exec tsc --noEmit -p .`, `pnpm design:check`, then `pnpm registry:build` to regenerate `apps/docs/public/r/`.
-
-## Lint exceptions
-
-Fix the code first. If a rule is wrong for a legitimate case, use one
-`// eslint-disable-next-line shadcn/<rule> -- <reason>` (JSX: `{/* … */}`) on that
-line only, with a reason. List them with `rg "eslint-disable.*shadcn/"`; each is a design decision to review.
-
-## Component docs pages
-Every registry:ui item has `apps/docs/content/docs/<name>.ts` (type `ComponentDoc` in lib/doc-types.ts: usage, composition, examples, notes, api) and examples in `apps/docs/registry/examples/<name>/<id>.tsx`. After adding or renaming one run `pnpm docs:gen` (regenerates apps/docs/content/docs/index.generated.ts and apps/docs/components/docs/examples.generated.tsx; commit both). API tables list only props the library adds or changes; the rest is `extends` with a link to the primitive's docs. Examples render client-only. Each docs page gets a Markdown copy (`apps/docs/out/docs/<name>.md`) from `pnpm docs:md` (`tooling/scripts/gen-docs-md.mjs`) after `next build`. Guide pages are converted from their HTML, steered by markup hooks: `data-md-skip` (or `data-md="skip"`) leaves page chrome, interactive previews and phone-only duplicates out; `data-md-text="…"` writes a short fallback instead of a widget; `data-md-only` (with `hidden`) is written only to the Markdown; `data-md-after=":"` separates a label from its description; `data-md="links"` turns link tiles into `- [title](url): description` (title from `data-md-title`, description from `data-md-desc`). After `docs:md`, run `node tooling/scripts/audit-docs-md.mjs` (glued words and numbers, empty links, repeated lines, UI chrome, fragments, empty table columns); it must report 0.
-
-The docs site is built from the library: shell header tabs (`NavigationMenuLink variant="tab"`), sidebar (`SidebarNav`), outline (`Outline` / `OutlinePopover`), page header (`PageHeader size="lg"`), pager and tiles (`Card interactive render`), tables (`SimpleTable`). Use library components in `apps/docs/components/pages/` and `apps/docs/components/docs/` too; add a variant or an item when one is missing.
-
-
-## Wording: no third-party names or provenance
-
-Rule 30 of the design skill (`references/copy.md` › Wording). Code comments, UI copy, demo data and docs
-prose never name the projects, products or libraries this library was modelled on or is built with, and
-never use provenance phrasing. Allowed because they are needed to work: imports and package specifiers,
-`package.json` / `packages/registry/registry.json` dependencies and the chips generated from them, identifiers and public API
-names, the shadcn CLI commands, the Agent Client Protocol and the agent presets it launches, and the stack
-users must have (React, Next.js, Tailwind CSS 4). Licence attribution lives only in `THIRD_PARTY_NOTICES.md`
-(keep it and `LICENSE`; add a notice there when you adopt values or code from another project).
-`pnpm design:check` (`forbidden-names`) scans comments, JSX text, prose strings, markdown and registry
-descriptions against the hashed list in `paneui-design.config.json`; add a name with
-`node skills/paneui-design/scripts/check.mjs --hash "name"`.
+- `.github/workflows/*`, `packages/cli/package.json` releases (`cli-v*` tags), direct `main` changes, and `THIRD_PARTY_NOTICES.md` licence removals.
+- Anything under "Stop and ask" in [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md).

@@ -1,4 +1,4 @@
-/* eslint-disable shadcn/no-raw-colors -- illustrative sunset artwork, not UI chrome (see notes/icon-usage.md, "Not icons") */
+/* eslint-disable shadcn/no-raw-colors -- illustrative sunset artwork, not UI chrome (see .agents/skills/paneui-design/references/icons.md) */
 "use client"
 
 import * as React from "react"

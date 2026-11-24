@@ -12,11 +12,11 @@ node .agents/skills/paneui-design/scripts/check.mjs app components --strict
 node .agents/skills/paneui-design/scripts/check.mjs --list`
 
 /**
- * Rules straight from skills/paneui-design/SKILL.md: "### N. Title" and the sentence under it.
+ * Rules straight from .agents/skills/paneui-design/SKILL.md: "### N. Title" and the sentence under it.
  * Every rule needs an example, either as short code (SKILL_CODE) or as the good/bad pair the skill
  * ships in examples/<dir>/ (SKILL_EXAMPLE_FILES); a gap is reported in the build log.
  */
-const skill = fs.readFileSync(repoPath("skills/paneui-design/SKILL.md"), "utf8")
+const skill = fs.readFileSync(repoPath(".agents/skills/paneui-design/SKILL.md"), "utf8")
 const body = skill.slice(skill.indexOf("\n## Rules"), skill.indexOf("\n## References"))
 const rules: SkillRule[] = []
 for (const block of body.split(/\n### /).slice(1)) {
@@ -39,7 +39,7 @@ for (const [id, example] of Object.entries(SKILL_CODE)) {
   }
 }
 for (const [id, dir] of Object.entries(SKILL_EXAMPLE_FILES)) {
-  const read = (kind: string) => fs.readFileSync(repoPath("skills/paneui-design/examples", dir, `${kind}.tsx`), "utf8").trim()
+  const read = (kind: string) => fs.readFileSync(repoPath(".agents/skills/paneui-design/examples", dir, `${kind}.tsx`), "utf8").trim()
   code[id] = {
     lang: "tsx",
     good: await highlight(read("good"), "tsx"),
@@ -48,7 +48,7 @@ for (const [id, dir] of Object.entries(SKILL_EXAMPLE_FILES)) {
 }
 
 const data: SkillData = {
-  nav: docNav("/docs/skill", ["components/pages/skill-page.tsx", "components/docs/skill-example-code.ts", "skills/paneui-design", "components/docs/skill-examples.tsx"]),
+  nav: docNav("/docs/skill", ["components/pages/skill-page.tsx", "components/docs/skill-example-code.ts", ".agents/skills/paneui-design", "components/docs/skill-examples.tsx"]),
   skill,
   skillHtml: await highlight(skill, "markdown"),
   rules,

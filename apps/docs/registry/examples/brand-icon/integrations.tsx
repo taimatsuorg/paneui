@@ -1,39 +1,78 @@
 "use client"
 
 import * as React from "react"
-import { siGithub, siLinear, siNotion, siSentry } from "simple-icons"
+import { GitHubDark, GitHubLight, Linear, Notion, Slack } from "@ridemountainpig/svgl-react"
 
-import { BrandIcon } from "@paneui/ui/components/brand-icon"
-import { IconChip } from "@paneui/ui/components/icon-chip"
+import { BrandIcon, type BrandIconSource } from "@paneui/ui/components/brand-icon"
 import { Switch } from "@paneui/ui/components/switch"
 
-const APPS = [
-  { icon: siGithub, detail: "Open pull requests from agent runs" },
-  { icon: siLinear, detail: "Turn issues into tasks" },
-  { icon: siSentry, detail: "Send new errors to triage" },
-  { icon: siNotion, detail: "Publish run summaries" },
+const INTEGRATIONS: ReadonlyArray<{
+  id: string
+  name: string
+  detail: string
+  icon: BrandIconSource
+  defaultEnabled: boolean
+}> = [
+  {
+    id: "github",
+    name: "GitHub",
+    detail: "Pull requests and commit checks",
+    icon: { light: GitHubLight, dark: GitHubDark },
+    defaultEnabled: true,
+  },
+  {
+    id: "linear",
+    name: "Linear",
+    detail: "Link commits to active issues",
+    icon: Linear,
+    defaultEnabled: true,
+  },
+  {
+    id: "slack",
+    name: "Slack",
+    detail: "Post deploy status to channels",
+    icon: Slack,
+    defaultEnabled: false,
+  },
+  {
+    id: "notion",
+    name: "Notion",
+    detail: "Sync project notes and specs",
+    icon: Notion,
+    defaultEnabled: false,
+  },
 ]
 
-export default function BrandIconIntegrations() {
-  const [on, setOn] = React.useState<Record<string, boolean>>({ GitHub: true, Linear: true })
+export default function BrandIconIntegrationsExample() {
+  const [enabled, setEnabled] = React.useState<Record<string, boolean>>(() =>
+    Object.fromEntries(INTEGRATIONS.map((item) => [item.id, item.defaultEnabled]))
+  )
+
   return (
-    <ul className="flex w-full max-w-md flex-col divide-y divide-border rounded-xl bg-card shadow-raised">
-      {APPS.map(({ icon, detail }) => (
-        <li key={icon.slug} className="flex items-center gap-3 px-4 py-3">
-          <IconChip>
-            <BrandIcon icon={icon} color="brand" />
-          </IconChip>
-          <div className="flex min-w-0 flex-1 flex-col">
-            <span className="text-ui font-medium">{icon.title}</span>
-            <span className="truncate text-ui-sm text-muted-foreground">{detail}</span>
+    <div className="flex w-full max-w-md flex-col divide-y rounded-lg border bg-card">
+      {INTEGRATIONS.map((item) => (
+        <div key={item.id} className="flex items-center justify-between gap-3 px-3.5 py-2.5">
+          <div className="flex items-center gap-3">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-md border bg-background">
+              <BrandIcon icon={item.icon} name={item.name} size={18} />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-ui font-medium">{item.name}</span>
+              <span className="text-ui-xs text-muted-foreground">{item.detail}</span>
+            </div>
           </div>
           <Switch
-            checked={!!on[icon.title]}
-            onCheckedChange={(v) => setOn((s) => ({ ...s, [icon.title]: v }))}
-            aria-label={`Connect ${icon.title}`}
+            checked={enabled[item.id]}
+            aria-label={`Toggle ${item.name}`}
+            onCheckedChange={(next) =>
+              setEnabled((prev) => ({
+                ...prev,
+                [item.id]: next,
+              }))
+            }
           />
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   )
 }

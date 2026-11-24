@@ -46,6 +46,10 @@ export default {
       title: "resolveThemeColors",
       body: { en: "`resolveThemeColors(names, { element, background })` reads each token through the cascade (so accent presets and scoped themes apply), paints it over the background on a 1×1 canvas to flatten alpha, and returns `#rrggbb`. Names can be `primary`, `--primary` or any CSS colour. It returns an empty record on the server; call it again when the theme changes.", zh: "`resolveThemeColors(names, { element, background })` 通过层叠读取每个令牌（因此强调色预设和局部主题都会生效），在 1×1 画布上叠加到背景色以消除透明度，并返回 `#rrggbb`。名称可写作 `primary`、`--primary` 或任意 CSS 颜色。在服务端返回空对象；主题变化后需重新调用。" },
     },
+    {
+      title: "Mermaid",
+      body: { en: "Use [Mermaid](/docs/mermaid) when you want built-in Mermaid flowchart, sequence, state, class, ER or XY chart rendering inside this frame.", zh: "需要内置 Mermaid 流程图、时序图、状态图、类图、ER 图或 XY 图表渲染时，请直接使用 [Mermaid](/docs/mermaid) 组件。" },
+    },
   ],
   api: [
     {
@@ -58,6 +62,7 @@ export default {
         { name: "caption", type: "ReactNode", description: { en: "Shown under the diagram and in full screen.", zh: "显示在示意图下方及全屏视图中。" } },
         { name: "colors", type: "string[]", default: "DIAGRAM_COLORS", description: { en: "Tokens resolved to hex for the renderer.", zh: "为渲染器转换为十六进制的令牌。" } },
         { name: "expandable", type: "boolean", default: "true", description: { en: "Opens full screen on click.", zh: "点击后全屏打开。" } },
+        { name: "renderKey", type: "string | number", description: { en: "Extra dependency value that re-runs `render` when options outside `source` change.", zh: "额外依赖值，用于在 `source` 之外的配置变化时重新触发 `render`。" } },
         { name: "label", type: "string", default: `"Diagram"`, description: { en: "Accessible name of the figure and the full-screen view.", zh: "示意图与全屏视图的无障碍名称。" } },
         { name: "maxZoom", type: "number", default: "6", description: { en: "Largest zoom in full screen.", zh: "全屏时的最大缩放倍数。" } },
       ],

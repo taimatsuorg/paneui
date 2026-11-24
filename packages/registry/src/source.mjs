@@ -10,6 +10,7 @@ export function publishPath(file) {
     .replace(/^packages\/tokens\/styles\//, "app/")
     .replace(/^packages\/registry\/files\//, "registry/web/")
     .replace(/^apps\/docs\/registry\//, "registry/web/")
+    .replace(/^\.agents\/skills\//, "skills/")
 }
 
 /** Workspace package names must never become dependencies of installed source. */

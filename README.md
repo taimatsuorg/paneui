@@ -41,33 +41,34 @@ pnpm dlx shadcn@latest init -d -n my-app https://paneui.dev/r/saas.json
 
 ```bash
 pnpm install
-pnpm lint
-pnpm exec tsc --noEmit -p .
+pnpm typecheck
 pnpm design:check
-pnpm docs:gen
+pnpm design:test
+pnpm registry:test
 pnpm cli:test
+pnpm docs:gen
 ```
 
 Applications live in `apps/`; shared source and distribution packages live in `packages/`.
 Web and Native have independent showcases.
 The desktop app installs separately in `apps/desktop`.
 
-Read [AGENTS.md](AGENTS.md) for design rules and contribution checks.
+Read [AGENTS.md](AGENTS.md) and [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) before making changes.
 
 ## Workspace
 
 | Path | Responsibility |
 | --- | --- |
-| `apps/docs` | Web docs, live examples and templates |
-| `apps/native` | Independent Native component showcase for devices and browsers |
-| `apps/desktop` | Desktop shell with its own install |
-| `packages/ui` | Web component source |
-| `packages/ui-native` | Native component source |
-| `packages/tokens` | Shared design values and theme styles |
-| `packages/core` | Platform-independent React state and hooks |
-| `packages/registry` | Registry metadata and source publication |
-| `packages/cli` | Component installer |
-| `tooling` | Generators, checks and shared configuration |
+| `apps/docs` | Web docs, live examples and templates ([docs](apps/docs/README.md)) |
+| `apps/native` | Independent Native component showcase for devices and browsers ([docs](apps/native/README.md)) |
+| `apps/desktop` | Desktop shell with its own install ([docs](apps/desktop/README.md)) |
+| `packages/ui` | Web component source ([docs](packages/ui/README.md)) |
+| `packages/ui-native` | Native component source ([docs](packages/ui-native/README.md)) |
+| `packages/tokens` | Shared design values and theme styles ([docs](packages/tokens/README.md)) |
+| `packages/core` | Platform-independent React state and hooks ([docs](packages/core/README.md)) |
+| `packages/registry` | Registry metadata and source publication ([docs](packages/registry/README.md)) |
+| `packages/cli` | Component installer ([docs](packages/cli/README.md)) |
+| `tooling` | Generators, checks and shared configuration ([docs](tooling/README.md)) |
 
 ```bash
 pnpm dev              # Web docs
@@ -105,32 +106,21 @@ Set it up once in the Cloudflare dashboard:
 
    | Variable | Value |
    | --- | --- |
-   | `NODE_VERSION` | `22.23.2` |
+   | `NODE_VERSION` | `24` (matches `.node-version`) |
    | `PNPM_VERSION` | `12.9.1` (match `packageManager` in `package.json`) |
    | `SITE_URL` | `https://paneui.dev` (your production domain) |
-   | `NEXT_TELEMETRY_DISABLED` | `1` |
 
 4. Save and deploy. The build generates registry files, exports the site to
    `apps/docs/out/`, generates and audits the Markdown docs, then exports the Native
    showcase with a `/native` asset prefix into `apps/docs/out/native/`. Pushes to `main` update
    production; enable preview branches to deploy other branches automatically.
-5. After the first successful deployment, add `paneui.dev` under the project's
-   **Custom domains** and follow the DNS instructions. In the Git repository's
-   **Settings > Pages**, disable the old publishing source. Replace the old
-   Pages DNS records when switching the domain, then delete the unused
-   `gh-pages` branch after confirming the new site works.
 
 One project publishes the complete `apps/docs/out` directory. Do not set the
 root directory to either application folder. `/native/` is a separate exported
 application; ordinary links switch between its runtime and the Web docs. No
 global SPA rewrite is added, so missing Web routes retain the Web 404 page.
 
-Deployment is managed by the dashboard's Git integration. No deployment workflow
-or Cloudflare API secrets are needed in the Git repository. If you already
-created a Direct Upload project, create a new Git-connected Pages project for
-this setup.
-
-To build and preview the exported site locally (Node.js 22 required):
+To build and preview the exported site locally:
 
 ```bash
 pnpm build:cloudflare

@@ -283,6 +283,9 @@ importers:
       '@react-email/render':
         specifier: ^2.1.0
         version: 2.1.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@ridemountainpig/svgl-react':
+        specifier: ^1.0.19
+        version: 1.0.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.3.5(@types/node@20.19.9)(jiti@2.5.1)(terser@5.51.2)(yaml@2.9.1))
@@ -346,6 +349,9 @@ importers:
       astro:
         specifier: ^7.4.2
         version: 7.4.2(@types/node@20.19.9)(jiti@2.5.1)(terser@5.51.2)(yaml@2.9.1)
+      beautiful-mermaid:
+        specifier: ^1.1.3
+        version: 1.1.3
       blobatar:
         specifier: ^2.7.0
         version: 2.7.0(react@19.1.0)
@@ -385,9 +391,6 @@ importers:
       shadcn:
         specifier: ^4.21.4
         version: 4.21.4(supports-color@7.2.0)
-      simple-icons:
-        specifier: ^16.35.0
-        version: 16.35.0
       tw-animate-css:
         specifier: ^1.3.6
         version: 1.3.6
@@ -537,6 +540,9 @@ importers:
       '@react-email/render':
         specifier: ^2.1.0
         version: 2.1.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@ridemountainpig/svgl-react':
+        specifier: ^1.0.19
+        version: 1.0.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@tanstack/react-virtual':
         specifier: ^3.14.15
         version: 3.14.15(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -594,6 +600,9 @@ importers:
       '@xterm/xterm':
         specifier: ^6.0.0
         version: 6.0.0
+      beautiful-mermaid:
+        specifier: ^1.1.3
+        version: 1.1.3
       blobatar:
         specifier: ^2.7.0
         version: 2.7.0(react@19.1.0)
@@ -630,9 +639,6 @@ importers:
       shiki:
         specifier: ^3.23.0
         version: 3.23.0
-      simple-icons:
-        specifier: ^16.35.0
-        version: 16.35.0
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -2600,6 +2606,12 @@ packages:
       '@types/react':
         optional: true
 
+  '@ridemountainpig/svgl-react@1.0.19':
+    resolution: {integrity: sha512-Q1pGltuxZFbgEjYJ2GMK3/nwFCMscO7IwgoX2INV+jMXlH003LhzlN79g2fR+tPuzaZuumc580B97uC+CByv7A==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0
+
   '@rolldown/binding-android-arm-eabi@1.2.15':
     resolution: {integrity: sha512-aLcgK9gIJ3YRvrrtfSBbRa27F5WrpiTaPulnFpsHPxpUHgFlSgnU4854MHwoRGEBhfRJDWCS2WQ7lIjskE9Olw==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -3732,6 +3744,9 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  beautiful-mermaid@1.1.3:
+    resolution: {integrity: sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==}
+
   big-integer@1.6.52:
     resolution: {integrity: sha512-QxD8cf2eVqJOOz63z6JIN9BzvVs/dlySa5HGSBH5xtR8dPteIRQnBxxKqkNTiT6jbDTF6jAfrd4oMcND9RGbQg==}
     engines: {node: '>=0.6'}
@@ -4255,6 +4270,9 @@ packages:
   electron-to-chromium@1.5.452:
     resolution: {integrity: sha512-cVvk1YBSj6571VmV6hdJTqj94Y79xSu8cj6Y9t6ae4Y4431z8/7EJFvu3rVp90xhfuv9BpPKUmaLfTo4+FOGBg==}
 
+  elkjs@0.11.1:
+    resolution: {integrity: sha512-zxxR9k+rx5ktMwT/FwyLdPCrq7xN6e4VGGHH8hA01vVYKjTFik7nHOxBnAYtrgYUB1RpAiLvA1/U2YraWxyKKg==}
+
   emoji-regex@10.5.0:
     resolution: {integrity: sha512-lb49vf1Xzfx080OKA0o6l8DQQpV+6Vg95zyCJX9VB/BqKYlhG7N4wgROUUHRA+ZPUefLnteQOad7z1kT2bV7bg==}
 
@@ -4282,6 +4300,10 @@ packages:
 
   entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
+    engines: {node: '>=0.12'}
+
+  entities@7.0.1:
+    resolution: {integrity: sha512-TWrgLOFUQTH994YUyl1yT4uyavY5nNB5muff+RtWaqNVCAK408b5ZnnbNAUEWLTCpum9w6arT70i1XdQ4UeOPA==}
     engines: {node: '>=0.12'}
 
   env-paths@2.2.1:
@@ -6840,10 +6862,6 @@ packages:
   signal-exit@4.1.0:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
-
-  simple-icons@16.35.0:
-    resolution: {integrity: sha512-TCfl/2+GTrx0nCo4pEWGvxhOb8c6NsqOU1OpwjtF4lwJAthB8IYVD0fuIMjLMg6JFuG1YBO0t1iETQqJLqkoJA==}
-    engines: {node: '>=0.12.18'}
 
   simple-plist@1.3.1:
     resolution: {integrity: sha512-iMSw5i0XseMnrhtIzRb7XpQEXepa9xhWxGUojHBL43SIpQuDQkh3Wpy67ZbDzZVr6EKxvwVChnVpdl8hEVLDiw==}
@@ -9609,6 +9627,11 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.3.0
 
+  '@ridemountainpig/svgl-react@1.0.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+
   '@rolldown/binding-android-arm-eabi@1.2.15':
     optional: true
 
@@ -10817,6 +10840,11 @@ snapshots:
 
   baseline-browser-mapping@2.11.28: {}
 
+  beautiful-mermaid@1.1.3:
+    dependencies:
+      elkjs: 0.11.1
+      entities: 7.0.1
+
   big-integer@1.6.52: {}
 
   blobatar@2.7.0(react@19.1.0):
@@ -11300,6 +11328,8 @@ snapshots:
 
   electron-to-chromium@1.5.452: {}
 
+  elkjs@0.11.1: {}
+
   emoji-regex@10.5.0: {}
 
   emoji-regex@8.0.0: {}
@@ -11321,6 +11351,8 @@ snapshots:
       tapable: 2.3.3
 
   entities@4.5.0: {}
+
+  entities@7.0.1: {}
 
   env-paths@2.2.1: {}
 
@@ -14621,8 +14653,6 @@ snapshots:
   signal-exit@3.0.7: {}
 
   signal-exit@4.1.0: {}
-
-  simple-icons@16.35.0: {}
 
   simple-plist@1.3.1:
     dependencies:

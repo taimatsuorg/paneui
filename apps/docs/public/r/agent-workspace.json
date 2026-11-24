@@ -7,7 +7,7 @@
     "@agentclientprotocol/sdk",
     "ws",
     "motion",
-    "simple-icons"
+    "@ridemountainpig/svgl-react"
   ],
   "registryDependencies": [
     "https://paneui.dev/r/theme.json",
@@ -123,7 +123,7 @@
     },
     {
       "path": "registry/web/templates/agent-workspace/parts/provider-icon.tsx",
-      "content": "import { siClaude, siGooglegemini } from \"simple-icons\"\n\nimport { BotIcon } from \"@/components/icons\"\nimport { markOpenai } from \"@/lib/brand-marks\"\nimport { cn } from \"@/lib/utils\"\nimport { BrandIcon, type BrandIconData } from \"@/registry/web/ui/brand-icon\"\n\nimport type { AgentProvider } from \"./agents\"\n\nconst MARKS: Partial<Record<AgentProvider, BrandIconData>> = {\n  codex: markOpenai,\n  claude: siClaude,\n  gemini: siGooglegemini,\n}\n\n/** Mark for an agent provider: the vendor's logo, or a neutral glyph for custom agents. */\nexport function ProviderIcon({ provider, className }: { provider: string | undefined; className?: string }) {\n  const mark = MARKS[(provider ?? \"custom\") as AgentProvider]\n  if (mark) return <BrandIcon icon={mark} color=\"brand\" className={className} />\n  return <BotIcon className={cn(\"text-muted-foreground\", className)} />\n}\n\n/** Guesses the vendor from a model id or name when the agent sends no group. */\nexport function modelProvider(model: string): AgentProvider | undefined {\n  const m = model.toLowerCase()\n  if (/^(gpt|o\\d|codex)/.test(m)) return \"codex\"\n  if (/(claude|sonnet|opus|haiku)/.test(m)) return \"claude\"\n  if (m.includes(\"gemini\")) return \"gemini\"\n  return undefined\n}\n",
+      "content": "import { ClaudeAI, Gemini, OpenAIDark, OpenAILight } from \"@ridemountainpig/svgl-react\"\n\nimport { BotIcon } from \"@/components/icons\"\nimport { cn } from \"@/lib/utils\"\nimport { BrandIcon, type BrandIconSource } from \"@/registry/web/ui/brand-icon\"\n\nimport type { AgentProvider } from \"./agents\"\n\nconst MARKS: Partial<Record<AgentProvider, BrandIconSource>> = {\n  codex: { light: OpenAILight, dark: OpenAIDark },\n  claude: ClaudeAI,\n  gemini: Gemini,\n}\n\n/** Mark for an agent provider: the vendor's logo, or a neutral glyph for custom agents. */\nexport function ProviderIcon({ provider, className }: { provider: string | undefined; className?: string }) {\n  const mark = MARKS[(provider ?? \"custom\") as AgentProvider]\n  if (mark) return <BrandIcon icon={mark} color=\"brand\" className={className} />\n  return <BotIcon className={cn(\"text-muted-foreground\", className)} />\n}\n\n/** Guesses the vendor from a model id or name when the agent sends no group. */\nexport function modelProvider(model: string): AgentProvider | undefined {\n  const m = model.toLowerCase()\n  if (/^(gpt|o\\d|codex)/.test(m)) return \"codex\"\n  if (/(claude|sonnet|opus|haiku)/.test(m)) return \"claude\"\n  if (m.includes(\"gemini\")) return \"gemini\"\n  return undefined\n}\n",
       "type": "registry:component",
       "target": "components/agent-workspace/parts/provider-icon.tsx"
     },

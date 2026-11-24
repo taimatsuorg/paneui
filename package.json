@@ -18,7 +18,7 @@
     "templates:shots": "node tooling/scripts/template-shots.mjs",
     "templates:code": "node --experimental-strip-types tooling/scripts/gen-template-code.mjs",
     "audit:radius": "node tooling/scripts/audit-radius.mjs",
-    "design:check": "node skills/paneui-design/scripts/check.mjs apps/docs packages/ui/src packages/core/src packages/tokens/src packages/ui-native/src apps/native skills packages/registry/registry.json",
+    "design:check": "node .agents/skills/paneui-design/scripts/check.mjs apps/docs packages/ui/src packages/core/src packages/tokens/src packages/ui-native/src apps/native .agents/skills/paneui-design .agents/skills/paneui-icons .agents/skills/copy-density packages/registry/registry.json",
     "test:locales": "node tooling/scripts/run-tsx.mjs tooling/scripts/test-locales.tsx",
     "test:labels": "node tooling/scripts/run-tsx.mjs tooling/scripts/test-default-labels.tsx",
     "cli:build": "pnpm --filter @taimatsu/paneui build",
@@ -32,7 +32,7 @@
     "native:smoke": "node tooling/scripts/native-docs-smoke.mjs",
     "native:build": "pnpm tokens:gen && pnpm --filter @paneui/native-showcase build:web",
     "test:pages": "node --test tooling/scripts/pages-output.test.mjs",
-    "design:test": "node skills/paneui-design/scripts/check.mjs --self-test && node --test skills/paneui-design/scripts/native-checks.test.mjs",
+    "design:test": "node .agents/skills/paneui-design/scripts/check.mjs --self-test && node --test .agents/skills/paneui-design/scripts/native-checks.test.mjs",
     "test:highlight": "node --experimental-strip-types --test tooling/scripts/highlight.test.mjs"
   },
   "devDependencies": {

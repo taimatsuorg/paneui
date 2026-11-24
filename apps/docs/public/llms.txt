@@ -104,6 +104,7 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 - [Image Zoom](https://paneui.dev/docs/image-zoom.md): Opens an image full size to zoom and pan. JSON: https://paneui.dev/r/image-zoom.json
 - [Kbd](https://paneui.dev/docs/kbd.md): Shows a keyboard key or shortcut. JSON: https://paneui.dev/r/kbd.json
 - [Loader](https://paneui.dev/docs/loader.md): Shows that something is loading. JSON: https://paneui.dev/r/loader.json
+- [Mermaid](https://paneui.dev/docs/mermaid.md): Renders Mermaid diagrams as themed SVGs or text, with full-screen zoom. JSON: https://paneui.dev/r/mermaid.json
 - [OG Image](https://paneui.dev/docs/og-image.md): Creates page share images. JSON: https://paneui.dev/r/og-image.json
 - [Page Header](https://paneui.dev/docs/page-header.md): Title, context and actions at the top of an app page. JSON: https://paneui.dev/r/page-header.json
 - [Progress](https://paneui.dev/docs/progress.md): Shows how far a task has come. JSON: https://paneui.dev/r/progress.json

@@ -1,55 +1,131 @@
 import type { ComponentDoc } from "@/lib/doc-types"
 
 export default {
-  summary: {"en": "Shows brand logos.", "zh": "显示品牌标志。"},
+  summary: {
+    en: "Renders product and service logos with light and dark theme support.",
+    zh: "渲染支持明暗主题切换的产品与服务品牌标识。",
+  },
   usage: {
-    imports: `import { siGithub } from "simple-icons"
-
-import { BrandIcon } from "@/components/ui/brand-icon"`,
-    code: `<BrandIcon icon={siGithub} />`,
+    imports: `import { GitHubDark, GitHubLight } from "@ridemountainpig/svgl-react"\nimport { BrandIcon } from "@/components/ui/brand-icon"`,
+    code: `<BrandIcon icon={{ light: GitHubLight, dark: GitHubDark }} title="GitHub" />`,
   },
   examples: [
-    { id: "colors", title: { en: "Colors", zh: "颜色" },  },
-    { id: "sizes", title: { en: "Sizes", zh: "尺寸" } },
-    { id: "sign-in", title: { en: "Sign-in Buttons", zh: "登录按钮" } },
-    { id: "integrations", title: { en: "Integrations", zh: "集成" } },
-    { id: "own-marks", title: { en: "Your Own Marks", zh: "自定义标志" }, description: { en: "Use for a brand the package leaves out, or for your own product.", zh: "适用于自己的产品或图标集中没有的品牌。" } },
+    {
+      id: "colors",
+      title: { en: "Color modes", zh: "色彩模式" },
+      description: {
+        en: "Use the default brand palette in lists and cards, or switch to the current text color in controls and toolbars.",
+        zh: "在列表与卡片中默认展示品牌原色，在控件与工具栏中可切换为跟随文字色。",
+      },
+    },
+    {
+      id: "sizes",
+      title: { en: "Sizes", zh: "尺寸" },
+      description: {
+        en: "Pass a pixel size or scale through CSS size utilities.",
+        zh: "通过像素值或 CSS 尺寸类名调整图标大小。",
+      },
+    },
+    {
+      id: "sign-in",
+      title: { en: "Sign-in providers", zh: "登录方式按钮" },
+      description: {
+        en: "Pair full-color marks or monochrome icons with outlined action buttons.",
+        zh: "将品牌原色标识或单色标识放进登录按钮的左侧图标位。",
+      },
+    },
+    {
+      id: "integrations",
+      title: { en: "Integrations list", zh: "集成列表" },
+      description: {
+        en: "Place 18px brand marks inside rounded tiles beside short descriptions.",
+        zh: "在集成设置项的圆角图标位中展示 18px 品牌标识。",
+      },
+    },
+    {
+      id: "own-marks",
+      title: { en: "Custom and paired marks", zh: "自定义与明暗配对标识" },
+      description: {
+        en: "Pass a theme pair object from SVGL or a local React SVG component.",
+        zh: "既可传入 SVGL 提供的明暗配对对象，也可传入本地自定义 React SVG 组件。",
+      },
+    },
   ],
   notes: [
     {
-      title: "Bundle size",
-      body: { en: "Import each logo by name (`import { siGithub } from \"simple-icons\"`). The package is marked side-effect free, so only the logos you import reach the bundle. Avoid `import * as icons` and slug lookups in app code: the full set is several megabytes.", zh: "按名称导入每个 logo（`import { siGithub } from \"simple-icons\"`）。该包标记为无副作用，因此只有你导入的 logo 会进入打包。避免在应用代码中使用 `import * as icons` 和 slug 查找：完整集合有数兆字节。" },
+      title: "Credits",
+      body: {
+        en: "Brand logos are imported via [`@ridemountainpig/svgl-react`](https://www.npmjs.com/package/@ridemountainpig/svgl-react) (MIT License), built on the [SVGL](https://svgl.app) directory ([pheralb/svgl](https://github.com/pheralb/svgl), MIT License). Trademarks remain the property of their respective owners; full licence details live in `THIRD_PARTY_NOTICES.md`.",
+        zh: "品牌标识通过基于 [SVGL](https://svgl.app) 图标库（[pheralb/svgl](https://github.com/pheralb/svgl)，MIT 许可证）构建的 [`@ridemountainpig/svgl-react`](https://www.npmjs.com/package/@ridemountainpig/svgl-react)（MIT 许可证）按需引入。各品牌商标归其各自所有者所有，完整许可说明见 `THIRD_PARTY_NOTICES.md`。",
+      },
     },
     {
-      title: "Brands that are not in the package",
-      body: { en: "Brands whose owners asked for removal or never gave permission are not in the package: Microsoft and its products (Teams, Outlook, Azure, VS Code, LinkedIn, Xbox), Amazon and AWS, OpenAI, Salesforce and Slack, Adobe, Oracle and Java, IBM, Twilio and Yahoo, among others. Use the brand's own asset under its guidelines, or a neutral glyph from the icon set (the templates use one for the Codex agent). A few ship with this item in `@paneui/ui/lib/brand-marks`, in the same shape; every other mark comes from the package.", zh: "所有者要求移除或从未给予许可的品牌不在包中：Microsoft 及其产品（Teams、Outlook、Azure、VS Code、LinkedIn、Xbox）、Amazon 和 AWS、OpenAI、Salesforce 和 Slack、Adobe、Oracle 和 Java、IBM、Twilio 和 Yahoo 等。根据品牌指南使用品牌自己的资产，或使用图标集中的中性字形（模板为 Codex 代理使用了一个）。其中少数随本组件提供在 `@paneui/ui/lib/brand-marks` 中，结构相同；其余标志都来自图标包。" },
+      title: "Named imports only",
+      body: {
+        en: "Import individual components by name from `@ridemountainpig/svgl-react`. Never use namespace imports (`import *`) because the package exports hundreds of SVGs.",
+        zh: "始终按名称从 `@ridemountainpig/svgl-react` 导入所需图标，切勿使用通配符导入（`import *`）。",
+      },
     },
     {
-      title: "Dark marks",
-      body: { en: "With `color=\"brand\"`, near-black logos (GitHub, Vercel, X) switch to the foreground colour in dark mode and near-white ones do the same in light mode, so no logo disappears on either theme.", zh: "使用 `color=\"brand\"` 时，近黑色 logo（GitHub、Vercel、X）在深色模式下切换到前景色，近白色 logo 在浅色模式下同样如此，因此没有 logo 在任一主题下消失。" },
-    },
-    {
-      title: "Trademarks",
-      body: { en: "The logos belong to their owners. Showing one says which service a feature connects to; it does not imply endorsement. Check each brand's guidelines before using its colour or mark more prominently.", zh: "logo 属于其所有者。显示一个表示某功能连接到哪个服务；并不暗示认可。在使用其颜色或更显眼地使用其标志之前，请查看每个品牌的指南。" },
-    },
-    {
-      title: "Accessibility",
-      body: { en: "Without `title` the logo is hidden from assistive tech, which is right when a visible name sits next to it. Pass `title` for a logo that stands alone.", zh: "没有 `title` 时，logo 对辅助技术隐藏，当旁边有可见名称时这是正确的。对于单独存在的 logo，请传递 `title`。" },
+      title: "Light and dark pairs",
+      body: {
+        en: "Logos that ship separate Light and Dark exports accept a `{ light, dark }` object and toggle visibility via `dark:hidden` and `dark:block`.",
+        zh: "对分别提供 `Light` 与 `Dark` 导出的品牌，直接传入 `{ light, dark }` 对象即可自动随明暗主题切换显示。",
+      },
     },
   ],
   api: [
     {
       name: "BrandIcon",
-      description: { en: "One brand logo on the icon set's grid.", zh: "图标集网格上的一个品牌 logo。" },
-      extends: "svg",
+      description: {
+        en: "Renders a named SVGL component, a light/dark pair, or a local React SVG component.",
+        zh: "渲染单个 SVGL 组件、明暗配对对象或本地 React SVG 组件。",
+      },
       props: [
-        { name: "icon", type: "{ title: string; path: string; hex?: string }", required: true, description: { en: "An icon object from the package, or your own 24×24 mark in the same shape.", zh: "包中的图标对象，或你自己的相同形状的 24×24 标志。" } },
-        { name: "color", type: `"current" | "brand"`, default: `"current"`, description: { en: "Follow the text colour, or paint the brand's colour.", zh: "跟随文本颜色，或绘制品牌颜色。" } },
-        { name: "size", type: "number", default: "18", description: { en: "Pixel size. Buttons, menus and icon chips size their icons themselves.", zh: "像素尺寸。按钮、菜单和图标胶囊会自行设置图标尺寸。" } },
-        { name: "title", type: "string", description: { en: "Accessible name for a logo without a visible label.", zh: "没有可见标签的 logo 的可访问名称。" } },
-        { name: "inset", type: "boolean", default: "true", description: { en: "Keep the icon set's 2px margin so logos sit at the same optical size as icons.", zh: "保留图标集的 2px 边距，以便 logo 与图标的光学尺寸相同。" } },
+        {
+          name: "icon",
+          type: "BrandIconSource",
+          required: true,
+          description: {
+            en: "An SVG component `(props) => JSX.Element` or a `{ light, dark }` pair.",
+            zh: "单个 SVG 组件或 `{ light, dark }` 明暗主题配对对象。",
+          },
+        },
+        {
+          name: "color",
+          type: `"brand" | "current"`,
+          default: `"brand"`,
+          description: {
+            en: "`brand` keeps native SVGL colours; `current` overrides SVG fills and strokes with `currentColor`.",
+            zh: "`brand` 保留 SVGL 原始配色；`current` 将填充与描边替换为 `currentColor`。",
+          },
+        },
+        {
+          name: "size",
+          type: "number",
+          default: "18",
+          description: {
+            en: "Width and height attributes applied to the SVG in pixels.",
+            zh: "应用到 SVG 元素的宽高像素值。",
+          },
+        },
+        {
+          name: "title",
+          type: "string",
+          description: {
+            en: "Accessible label exposed with `role=\"img\"`; omit when decorative next to visible text.",
+            zh: "搭配 `role=\"img\"` 使用的无障碍标签；若紧邻文字说明可省略以隐藏于读屏器。",
+          },
+        },
+        {
+          name: "name",
+          type: "string",
+          description: {
+            en: "Optional brand identifier reflected onto the `data-brand` attribute.",
+            zh: "可选的品牌标识名，将同步设置到 `data-brand` 属性。",
+          },
+        },
       ],
-      dataAttributes: [{ name: "data-brand", description: { en: "The brand's name, for styling or tests.", zh: "品牌名称，用于样式或测试。" } }],
     },
   ],
 } satisfies ComponentDoc
