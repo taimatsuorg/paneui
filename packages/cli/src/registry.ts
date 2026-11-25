@@ -135,12 +135,11 @@ export class Registry {
   }
 }
 
-/** Accent presets are `theme-<colour>`; radius presets are `theme-radius-<size>`. */
+/** Accent presets are `theme-<colour>`. */
 export function themePresets(index: RegistryIndex) {
   const themes = index.items.filter((i) => i.type === "registry:theme" && i.name.startsWith("theme-"))
   return {
-    accents: themes.filter((i) => !i.name.startsWith("theme-radius-")).map((i) => i.name.slice("theme-".length)),
-    radii: themes.filter((i) => i.name.startsWith("theme-radius-")).map((i) => i.name.slice("theme-radius-".length)),
+    accents: themes.map((i) => i.name.slice("theme-".length)),
   }
 }
 

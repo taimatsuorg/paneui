@@ -28,7 +28,7 @@ export async function add(inputs: string[], opts: AddOptions) {
   const groups = { main: [] as string[], presets: [] as string[], icons: [] as string[] }
   for (const name of ours) {
     const kind = classify(index!, name)
-    if (kind === "accent" || kind === "radius") groups.presets.push(name)
+    if (kind === "accent") groups.presets.push(name)
     else if (kind === "icons") groups.icons.push(name)
     else groups.main.push(name)
   }
@@ -54,8 +54,7 @@ export async function add(inputs: string[], opts: AddOptions) {
   const next = emptyLock(registry, lock)
   next.items = [...next.items, ...groups.main]
   for (const name of groups.presets) {
-    const kind = classify(index!, name)
-    next.theme = { ...next.theme, [kind]: kind === "accent" ? name.slice("theme-".length) : name.slice("theme-radius-".length) }
+    next.theme = { ...next.theme, accent: name.slice("theme-".length) }
   }
   const icon = groups.icons.at(-1)
   if (icon) next.icons = icon === DEFAULT_ICONS ? undefined : icon

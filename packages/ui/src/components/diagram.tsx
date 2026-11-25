@@ -113,13 +113,13 @@ const DIAGRAM_COLORS = [
 
 function subscribeTheme(onChange: () => void) {
   const observer = new MutationObserver(onChange)
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "style", "data-accent", "data-style"] })
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "style", "data-accent"] })
   return () => observer.disconnect()
 }
 
 function themeSnapshot() {
   const root = document.documentElement
-  return [root.className, root.getAttribute("style"), root.getAttribute("data-accent"), root.getAttribute("data-style")].join("|")
+  return [root.className, root.getAttribute("style"), root.getAttribute("data-accent")].join("|")
 }
 
 /* ───────────────────────── Diagram ───────────────────────── */

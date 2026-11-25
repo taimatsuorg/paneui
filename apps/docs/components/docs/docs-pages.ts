@@ -49,6 +49,6 @@ export const GUIDE_PAGES = [
 /** The components overview (all live previews, by category). */
 export const COMPONENTS_HREF = "/docs/components"
 export const COMPONENTS_TITLE = "Components"
-/** The theme builder: a page of its own, linked from the header. */
-export const THEMES_HREF = "/themes"
+/** Public searchable icon catalog hosted independently on the Worker domain, linked from the header. */
+export const ICONS_HREF = "https://icons.paneui.dev"
 export const TEMPLATES_HREF = "/docs/templates"

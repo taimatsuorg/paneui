@@ -15,12 +15,13 @@ import {
   MonitorIcon,
   NavigationIcon,
   ServerIcon,
-  PaletteIcon,
   SettingsIcon,
   ShapesIcon,
   SparklesIcon,
   TerminalSquareIcon,
 } from "@paneui/ui/icons"
+
+import { ICONS_HREF } from "./docs-pages"
 
 type IconComponent = React.ComponentType<{ className?: string; size?: number }>
 
@@ -52,7 +53,7 @@ export const guideIcons: Record<string, IconComponent> = {
   "/docs": HomeIcon,
   "/docs/installation": TerminalSquareIcon,
   "/docs/theming": SettingsIcon,
-  "/themes": PaletteIcon,
+  [ICONS_HREF]: ShapesIcon,
   "/docs/cli": FolderIcon,
   "/docs/changelog": BookmarkIcon,
 }

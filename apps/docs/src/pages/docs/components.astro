@@ -7,13 +7,10 @@ import ComponentsGalleryPage, {
 import { siteNavGroups } from "@/lib/build"
 import { getGroups, getItems, getPageItems } from "@/lib/docs"
 
-/** Documented and installable, but not shown as gallery cards. */
-const notInGallery = new Set(["theme-paper"])
-
 const groups: GalleryGroup[] = getGroups()
   .map((g) => ({
     category: g.category,
-    items: g.items.filter((i) => !notInGallery.has(i.name)).map(({ name, title }) => ({ name, title })),
+    items: g.items.map(({ name, title }) => ({ name, title })),
   }))
   .filter((g) => g.items.length > 0)
 

@@ -23,11 +23,12 @@ Each module owns its docs and index; this table only points to them (two hops to
 | Module | What it owns | Docs |
 | --- | --- | --- |
 | `apps/docs` | Astro docs site, studio component pages, examples, templates, `/docs/*.md` | [`apps/docs/README.md`](apps/docs/README.md) |
+| `apps/icons-worker` | Standalone public `/icons` Web UI (`icons.paneui.dev`) + Cloudflare Worker & D1 MCP API | [`apps/icons-worker/README.md`](apps/icons-worker/README.md) |
 | `apps/native` | Independent React Native showcase (`/native/`) | [`apps/native/README.md`](apps/native/README.md) |
 | `apps/desktop` | Electron shell wrapping the `vscode` template (separate install) | [`apps/desktop/README.md`](apps/desktop/README.md) |
 | `packages/ui` | Web components, blocks, rounded/emoji icons, utilities | [`packages/ui/README.md`](packages/ui/README.md) |
 | `packages/ui-native` | React Native UI components | [`packages/ui-native/README.md`](packages/ui-native/README.md) |
-| `packages/tokens` | Generated CSS themes (`globals.css`, Paper, Studio) and Native colour roles | [`packages/tokens/README.md`](packages/tokens/README.md) |
+| `packages/tokens` | Generated CSS themes (`globals.css`, `theme-accents.css`) and Native colour roles | [`packages/tokens/README.md`](packages/tokens/README.md) |
 | `packages/core` | Platform-independent types and state (zero DOM/Native imports) | [`packages/core/README.md`](packages/core/README.md) |
 | `packages/registry` | `registry.json` manifest, import rewriting, `@paneui/upgrade-check` | [`packages/registry/README.md`](packages/registry/README.md) |
 | `packages/cli` | `@taimatsu/paneui` npm CLI (`init`, `add`, `update`, `theme`) | [`packages/cli/README.md`](packages/cli/README.md) |

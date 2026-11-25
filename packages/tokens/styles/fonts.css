@@ -1,6 +1,6 @@
 /*
- * Self-hosted fonts for the theme's --font-mono and --font-serif stacks, plus the title serif the
- * Paper style puts in --font-heading (--font-sans uses the system UI stack).
+ * Self-hosted fonts for the theme's --font-mono and --font-serif stacks
+ * (--font-sans uses the system UI stack).
  * Each face is split by unicode-range, so a page only downloads the glyph sets it uses
  * (CJK glyphs load in small chunks, only for the characters on the page).
  * Import once in the root layout. Without it the theme falls back to system fonts.

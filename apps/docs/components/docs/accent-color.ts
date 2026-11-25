@@ -143,14 +143,13 @@ const fmt = (c: Oklch) => {
 }
 
 const WHITE: Oklch = { l: 1, c: 0, h: 0 }
-/** The pages an accent must read on in each mode: default neutral surfaces and Paper surfaces. */
+/** The pages an accent must read on in each mode: background, card, popover. */
 const PAGES: Record<"light" | "dark", Oklch[]> = {
-  light: [WHITE, { l: 0.985, c: 0, h: 0 }, { l: 0.99, c: 0.002, h: 234.82 }],
+  light: [WHITE, { l: 0.988, c: 0, h: 0 }, { l: 0.972, c: 0.002, h: 286 }],
   dark: [
-    { l: 0.2015, c: 0, h: 0 },
-    { l: 0.2219, c: 0, h: 0 },
-    { l: 0.195, c: 0.004, h: 289.15 },
-    { l: 0.255, c: 0.004, h: 289.15 },
+    { l: 0.13, c: 0.002, h: 286 },
+    { l: 0.20, c: 0.003, h: 286 },
+    { l: 0.22, c: 0.003, h: 286 },
   ],
 }
 

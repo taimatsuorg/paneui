@@ -3,8 +3,6 @@
 @import "tw-animate-css";
 @import "./typeset.css";
 @import "./theme-accents.css";
-@import "./theme-paper.css";
-@import "./theme-studio.css";
 
 /* The desktop example has its own install; never scan it for classes. */
 @source not "../apps";
@@ -12,13 +10,13 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Visual direction: pure neutral surfaces (#fff in light mode, oklch(20.15% 0 0) in dark mode),
+ * Visual direction: pure neutral surfaces (#fff in light mode, oklch(13% 0.002 286) in dark mode),
  * translucent black/white borders and fills, a neutral primary accent read through ten roles,
- * bottom-weighted shadow depth and a 0.5rem radius with multiplier steps.
+ * bottom-weighted shadow depth and a fixed xl (0.875rem) radius with multiplier steps capped at 1rem (16px).
  * The role of each token is in the comments below.
  */
 @theme inline {
-  /* gen-theme:inline:start (tooling/scripts/gen-theme.py; do not edit) */
+  /* gen-theme:inline:start (tooling/scripts/gen-theme.mjs; do not edit) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -134,7 +132,7 @@
   --font-serif:
     "Newsreader Variable", "Newsreader", "Noto Serif SC Variable", "Noto Serif SC", ui-serif, Georgia, "Songti SC",
     "SimSun", serif;
-  /* Titles (card, dialog, page): the UI face by default; a style such as Paper points --heading-font at a serif. */
+  /* Titles (card, dialog, page): the UI face by default. */
   --font-heading:
     var(
       --heading-font,
@@ -143,9 +141,9 @@
   --font-heading--font-feature-settings: var(--heading-font-features, normal);
 
   /*
-   * Every radius is a multiple of --radius (0.5rem): xs 2, sm 4, md 6, lg 8, xl 10, 2xl 12, 3xl 16px, and none goes
+   * Every radius is a multiple of --radius (0.875rem, xl): xs 3.5, sm 7, md 10.5, lg 14, xl–3xl 16px, and none goes
    * past --radius-max (16px): larger corners read as pills on controls and break nested parts. 4xl and 5xl stay as
-   * names for old code and sit at the cap from the default radius up.
+   * names for old code and sit at the cap.
    */
   --radius-2xs: min(calc(var(--radius) * 0.25), var(--radius-max));
   --radius-xs: min(calc(var(--radius) * 0.25), var(--radius-max));
@@ -160,8 +158,7 @@
   --radius-shell: min(calc(var(--radius) * 1.5), var(--radius-max));
   /*
    * Controls (buttons, toggles, tabs, switches, badges and segmented wells): rounded-lg by default (rounded-sm at
-   * xs), following --radius under the cap. A style sets --control-radius (and --control-radius-sm) to override them,
-   * e.g. 9999px for pills at any height.
+   * xs), following --radius under the cap.
    */
   --radius-control: var(--control-radius, min(var(--radius), var(--radius-max)));
   --radius-control-sm: var(--control-radius-sm, min(calc(var(--radius) * 0.5), var(--radius-max)));
@@ -204,48 +201,48 @@
   --font-weight-bold: 700;
 }
 
-/* gen-theme:tokens:start (tooling/scripts/gen-theme.py; do not edit) */
+/* gen-theme:tokens:start (tooling/scripts/gen-theme.mjs; do not edit) */
 :root {
-  --radius: 0.5rem;
-  /* The largest radius any token reaches, whatever --radius is (the Customize slider stops at 1rem). */
+  --radius: 0.875rem;
+  /* The largest radius any token reaches (16px cap). */
   --radius-max: 1rem;
 
-  /* Surfaces: pure neutral page, container (card) and modal (popover), opaque. */
-  --background: oklch(100% 0 0);
+  /* Surfaces: off-white light and deep dark canvas, elevated container (card) and modal (popover), opaque. */
+  --background: oklch(98.8% 0 0);
   --card: oklch(100% 0 0);
   --popover: oklch(100% 0 0);
   /* Sunken wells, and the inverted standout surface (neutral callouts, toasts). */
-  --surface-sunken: oklch(0% 0 0 / 0.04);
-  --surface-standout: oklch(26.9% 0 0);
-  --standout-foreground: oklch(98.5% 0 0);
+  --surface-sunken: oklch(0% 0 0 / 0.045);
+  --surface-standout: oklch(18% 0.003 286);
+  --standout-foreground: oklch(98.8% 0 0);
   /* Text: primary, secondary (≥ 4.5:1), tertiary (≥ 3:1, meta and placeholders) and disabled. */
-  --foreground: oklch(26.9% 0 0);
-  --card-foreground: oklch(26.9% 0 0);
-  --popover-foreground: oklch(26.9% 0 0);
-  --muted-foreground: oklch(51.6% 0 0);
-  --fg-tertiary: oklch(0% 0 0 / 0.43);
-  --fg-disabled: oklch(0% 0 0 / 0.292);
+  --foreground: oklch(18% 0.003 286);
+  --card-foreground: oklch(18% 0.003 286);
+  --popover-foreground: oklch(18% 0.003 286);
+  --muted-foreground: oklch(50% 0.006 286);
+  --fg-tertiary: oklch(18% 0.003 286 / 0.46);
+  --fg-disabled: oklch(18% 0.003 286 / 0.313);
   /* Accent: solid, hover, active and its label (≥ 4.5:1), subtle fills, border, text (links, active items: ≥ 4.5:1 on the page and the subtle fill), focus ring (≥ 3:1) and text selection. Presets swap these ten. */
-  --primary: oklch(26.9% 0 0);
-  --primary-hover: oklch(32% 0 0);
-  --primary-active: oklch(37% 0 0);
-  --primary-foreground: oklch(98.5% 0 0);
-  --primary-subtle: oklch(0% 0 0 / 0.04);
-  --primary-subtle-hover: oklch(0% 0 0 / 0.07);
-  --primary-border: oklch(0% 0 0 / 0.14);
-  --primary-text: oklch(26.9% 0 0);
-  --ring: oklch(65% 0 0);
-  --selection: oklch(0% 0 0 / 0.14);
+  --primary: oklch(18% 0.003 286);
+  --primary-hover: oklch(25% 0.003 286);
+  --primary-active: oklch(32% 0.003 286);
+  --primary-foreground: oklch(98.8% 0 0);
+  --primary-subtle: oklch(18% 0.003 286 / 0.05);
+  --primary-subtle-hover: oklch(18% 0.003 286 / 0.09);
+  --primary-border: oklch(18% 0.003 286 / 0.16);
+  --primary-text: oklch(18% 0.003 286);
+  --ring: oklch(65% 0.005 286);
+  --selection: oklch(18% 0.003 286 / 0.16);
   /* Fills, translucent ink: hover (a filled control at rest, hovered rows), active (pressed, open, selected), strong (pressed on hover). Never surfaces. */
-  --fill-hover: oklch(0% 0 0 / 0.04);
-  --fill-active: oklch(0% 0 0 / 0.07);
-  --fill-strong: oklch(0% 0 0 / 0.12);
+  --fill-hover: oklch(18% 0.003 286 / 0.05);
+  --fill-active: oklch(18% 0.003 286 / 0.09);
+  --fill-strong: oklch(18% 0.003 286 / 0.14);
   /* The shadcn fill names read the fills above. */
   --secondary: var(--fill-hover);
-  --secondary-foreground: oklch(26.9% 0 0);
+  --secondary-foreground: oklch(18% 0.003 286);
   --muted: var(--fill-hover);
   --accent: var(--fill-active);
-  --accent-foreground: oklch(26.9% 0 0);
+  --accent-foreground: oklch(18% 0.003 286);
   /* Status: solid, hover, label on the solid (≥ 4.5:1), subtle fill, border and text (≥ 4.5:1 on the page and the subtle fill). */
   --destructive: oklch(59% 0.237 25.33);
   --destructive-hover: oklch(55.5% 0.2257 25.33);
@@ -265,18 +262,18 @@
   --warning-subtle: oklch(76.9% 0.1668 70.08 / 0.1);
   --warning-border: oklch(76.9% 0.1668 70.08 / 0.3);
   --warning-text: oklch(55.5% 0.1495 49);
-  --info: oklch(57% 0.214 259.81);
-  --info-hover: oklch(53.5% 0.214 259.81);
+  --info: oklch(57% 0.214 259.82);
+  --info-hover: oklch(53.5% 0.214 259.82);
   --info-foreground: oklch(100% 0 0);
-  --info-subtle: oklch(57% 0.214 259.81 / 0.1);
-  --info-border: oklch(57% 0.214 259.81 / 0.3);
+  --info-subtle: oklch(57% 0.214 259.82 / 0.1);
+  --info-border: oklch(57% 0.214 259.82 / 0.3);
   --info-text: oklch(48.8% 0.243 264.38);
   /* Borders: translucent hairlines for dividers, cards, outline buttons, focusable edges and field rings. */
-  --border: oklch(0% 0 0 / 0.08);
-  --border-subtle: oklch(0% 0 0 / 0.06);
-  --border-strong: oklch(0% 0 0 / 0.16);
-  --border-control: oklch(0% 0 0 / 0.43);
-  --input: oklch(0% 0 0 / 0.1);
+  --border: oklch(18% 0.003 286 / 0.1);
+  --border-subtle: oklch(18% 0.003 286 / 0.06);
+  --border-strong: oklch(18% 0.003 286 / 0.18);
+  --border-control: oklch(18% 0.003 286 / 0.46);
+  --input: oklch(18% 0.003 286 / 0.12);
   /* Charts: chart-1…8, each ≥ 3:1 on the page and card. Never follow the accent. */
   --chart-1: oklch(64.6% 0.1988 41.12);
   --chart-2: oklch(60% 0.1062 184.7);
@@ -288,15 +285,15 @@
   --chart-8: oklch(55.6% 0 0);
   /* Code well; scrollbar thumb at rest and hovered. */
   --code: oklch(100% 0 0);
-  --scrollbar: oklch(0% 0 0 / 0.16);
-  --scrollbar-hover: oklch(0% 0 0 / 0.28);
+  --scrollbar: oklch(18% 0.003 286 / 0.16);
+  --scrollbar-hover: oklch(18% 0.003 286 / 0.28);
   /* Shell band (sidebar chrome, rail, tile wells) and its hairline border. */
-  --shell: oklch(98.5% 0 0);
-  --shell-border: oklch(0% 0 0 / 0.06);
+  --shell: oklch(97.2% 0.002 286);
+  --shell-border: oklch(18% 0.003 286 / 0.08);
   /* Tags and highlights: per colour, text, a highlight background and a pill fill; text is ≥ 4.5:1 on all three. They never follow the accent. */
-  --tag-default-text: oklch(26.9% 0 0);
+  --tag-default-text: oklch(18% 0.003 286);
   --tag-default-bg: transparent;
-  --tag-default-fill: oklch(0% 0 0 / 0.06);
+  --tag-default-fill: oklch(18% 0.003 286 / 0.06);
   --tag-gray-text: oklch(48.5% 0 0);
   --tag-gray-bg: oklch(96.5% 0 0);
   --tag-gray-fill: oklch(93% 0 0);
@@ -324,15 +321,15 @@
   --tag-red-text: oklch(48.5% 0.17 25);
   --tag-red-bg: oklch(96.5% 0.0173 25);
   --tag-red-fill: oklch(93% 0.0355 25);
-  /* Shadow scale: translucent border ring plus subtle bottom drop depth. */
-  --shadow-border: 0 0 0 1px oklch(0% 0 0 / 0.08);
-  --shadow-default: 0 0 0 1px oklch(0% 0 0 / 0.08), 0 1px 0 oklch(0% 0 0 / 0.04), 0 1px 2px oklch(0% 0 0 / 0.05);
-  --shadow-lg: 0 0 0 1px oklch(0% 0 0 / 0.08), 0 1px 0 oklch(0% 0 0 / 0.04), 0 10px 15px -3px oklch(0% 0 0 / 0.05), 0 4px 6px -4px oklch(0% 0 0 / 0.05);
-  --shadow-xl: 0 0 0 1px oklch(0% 0 0 / 0.08), 0 1px 0 oklch(0% 0 0 / 0.04), 0 20px 25px -5px oklch(0% 0 0 / 0.08), 0 8px 10px -6px oklch(0% 0 0 / 0.06);
+  /* Shadow scale: inset hairline ring plus subtle bottom drop depth. */
+  --shadow-border: inset 0 0 0 1px oklch(0% 0 0 / 0.08);
+  --shadow-default: inset 0 0 0 1px oklch(0% 0 0 / 0.08), 0 1px 0 oklch(0% 0 0 / 0.04), 0 1px 2px oklch(0% 0 0 / 0.05);
+  --shadow-lg: inset 0 0 0 1px oklch(0% 0 0 / 0.08), 0 1px 0 oklch(0% 0 0 / 0.04), 0 10px 15px -3px oklch(0% 0 0 / 0.05), 0 4px 6px -4px oklch(0% 0 0 / 0.05);
+  --shadow-xl: inset 0 0 0 1px oklch(0% 0 0 / 0.08), 0 1px 0 oklch(0% 0 0 / 0.04), 0 20px 25px -5px oklch(0% 0 0 / 0.08), 0 8px 10px -6px oklch(0% 0 0 / 0.06);
   /* Named elevation (components use these), restated in .dark so they resolve per mode. */
   --skeuo-raised: var(--shadow-default);
-  --skeuo-raised-hover: 0 0 0 1px oklch(0% 0 0 / 0.14), 0 1px 0 oklch(0% 0 0 / 0.05), 0 2px 4px oklch(0% 0 0 / 0.06);
-  --skeuo-pressed: inset 0 1px 2px oklch(0% 0 0 / 0.1), 0 0 0 1px oklch(0% 0 0 / 0.12);
+  --skeuo-raised-hover: inset 0 0 0 1px oklch(0% 0 0 / 0.14), 0 1px 0 oklch(0% 0 0 / 0.05), 0 2px 4px oklch(0% 0 0 / 0.06);
+  --skeuo-pressed: inset 0 1px 2px oklch(0% 0 0 / 0.1), inset 0 0 0 1px oklch(0% 0 0 / 0.12);
   --skeuo-primary: 0 1px 0 oklch(0% 0 0 / 0.08), 0 1px 2px oklch(0% 0 0 / 0.08);
   --skeuo-well: inset 0 0 0 1px var(--input);
   --skeuo-surface: var(--shadow-lg);
@@ -340,42 +337,42 @@
 }
 
 .dark {
-  /* Surfaces: pure neutral page, container (card) and modal (popover), opaque. */
-  --background: oklch(20.15% 0 0);
-  --card: oklch(22.19% 0 0);
-  --popover: oklch(22.19% 0 0);
+  /* Surfaces: off-white light and deep dark canvas, elevated container (card) and modal (popover), opaque. */
+  --background: oklch(13% 0.002 286);
+  --card: oklch(20% 0.003 286);
+  --popover: oklch(22% 0.003 286);
   /* Sunken wells, and the inverted standout surface (neutral callouts, toasts). */
-  --surface-sunken: oklch(0% 0 0 / 0.28);
-  --surface-standout: oklch(97% 0 0);
-  --standout-foreground: oklch(26.9% 0 0);
+  --surface-sunken: oklch(0% 0 0 / 0.36);
+  --surface-standout: oklch(96% 0.002 286);
+  --standout-foreground: oklch(18% 0.003 286);
   /* Text: primary, secondary (≥ 4.5:1), tertiary (≥ 3:1, meta and placeholders) and disabled. */
-  --foreground: oklch(97% 0 0);
-  --card-foreground: oklch(97% 0 0);
-  --popover-foreground: oklch(97% 0 0);
-  --muted-foreground: oklch(64.87% 0 0);
-  --fg-tertiary: oklch(100% 0 0 / 0.34);
-  --fg-disabled: oklch(100% 0 0 / 0.231);
+  --foreground: oklch(96% 0.002 286);
+  --card-foreground: oklch(96% 0.002 286);
+  --popover-foreground: oklch(96% 0.002 286);
+  --muted-foreground: oklch(70% 0.006 286);
+  --fg-tertiary: oklch(96% 0.002 286 / 0.38);
+  --fg-disabled: oklch(96% 0.002 286 / 0.258);
   /* Accent: solid, hover, active and its label (≥ 4.5:1), subtle fills, border, text (links, active items: ≥ 4.5:1 on the page and the subtle fill), focus ring (≥ 3:1) and text selection. Presets swap these ten. */
-  --primary: oklch(97% 0 0);
-  --primary-hover: oklch(91% 0 0);
-  --primary-active: oklch(85% 0 0);
-  --primary-foreground: oklch(26.9% 0 0);
-  --primary-subtle: oklch(100% 0 0 / 0.06);
-  --primary-subtle-hover: oklch(100% 0 0 / 0.1);
-  --primary-border: oklch(100% 0 0 / 0.16);
-  --primary-text: oklch(97% 0 0);
-  --ring: oklch(55.6% 0 0);
-  --selection: oklch(100% 0 0 / 0.22);
+  --primary: oklch(96% 0.002 286);
+  --primary-hover: oklch(90% 0.002 286);
+  --primary-active: oklch(84% 0.002 286);
+  --primary-foreground: oklch(18% 0.003 286);
+  --primary-subtle: oklch(96% 0.002 286 / 0.07);
+  --primary-subtle-hover: oklch(96% 0.002 286 / 0.12);
+  --primary-border: oklch(96% 0.002 286 / 0.18);
+  --primary-text: oklch(96% 0.002 286);
+  --ring: oklch(58% 0.005 286);
+  --selection: oklch(96% 0.002 286 / 0.24);
   /* Fills, translucent ink: hover (a filled control at rest, hovered rows), active (pressed, open, selected), strong (pressed on hover). Never surfaces. */
-  --fill-hover: oklch(100% 0 0 / 0.04);
-  --fill-active: oklch(100% 0 0 / 0.07);
-  --fill-strong: oklch(100% 0 0 / 0.12);
+  --fill-hover: oklch(96% 0.002 286 / 0.07);
+  --fill-active: oklch(96% 0.002 286 / 0.12);
+  --fill-strong: oklch(96% 0.002 286 / 0.18);
   /* The shadcn fill names read the fills above. */
   --secondary: var(--fill-hover);
-  --secondary-foreground: oklch(97% 0 0);
+  --secondary-foreground: oklch(96% 0.002 286);
   --muted: var(--fill-hover);
   --accent: var(--fill-active);
-  --accent-foreground: oklch(97% 0 0);
+  --accent-foreground: oklch(96% 0.002 286);
   /* Status: solid, hover, label on the solid (≥ 4.5:1), subtle fill, border and text (≥ 4.5:1 on the page and the subtle fill). */
   --destructive: oklch(65.51% 0.2212 23.35);
   --destructive-hover: oklch(69.01% 0.1996 23.35);
@@ -395,20 +392,20 @@
   --warning-subtle: oklch(76.9% 0.1668 70.08 / 0.16);
   --warning-border: oklch(76.9% 0.1668 70.08 / 0.4);
   --warning-text: oklch(82.8% 0.17 84.43);
-  --info: oklch(62.3% 0.2039 259.81);
-  --info-hover: oklch(65.8% 0.1825 259.81);
+  --info: oklch(62.3% 0.2039 259.82);
+  --info-hover: oklch(65.8% 0.1825 259.82);
   --info-foreground: oklch(14.5% 0 0);
-  --info-subtle: oklch(62.3% 0.2039 259.81 / 0.16);
-  --info-border: oklch(62.3% 0.2039 259.81 / 0.4);
+  --info-subtle: oklch(62.3% 0.2039 259.82 / 0.16);
+  --info-border: oklch(62.3% 0.2039 259.82 / 0.4);
   --info-text: oklch(70.7% 0.156 254.62);
   /* Borders: translucent hairlines for dividers, cards, outline buttons, focusable edges and field rings. */
-  --border: oklch(100% 0 0 / 0.06);
-  --border-subtle: oklch(100% 0 0 / 0.04);
-  --border-strong: oklch(100% 0 0 / 0.14);
-  --border-control: oklch(100% 0 0 / 0.34);
-  --input: oklch(100% 0 0 / 0.08);
+  --border: oklch(96% 0.002 286 / 0.1);
+  --border-subtle: oklch(96% 0.002 286 / 0.06);
+  --border-strong: oklch(96% 0.002 286 / 0.18);
+  --border-control: oklch(96% 0.002 286 / 0.38);
+  --input: oklch(96% 0.002 286 / 0.12);
   /* Charts: chart-1…8, each ≥ 3:1 on the page and card. Never follow the accent. */
-  --chart-1: oklch(62.3% 0.2039 259.81);
+  --chart-1: oklch(62.3% 0.2039 259.82);
   --chart-2: oklch(69.6% 0.1518 162.48);
   --chart-3: oklch(76.9% 0.1668 70.08);
   --chart-4: oklch(62.7% 0.25 303.9);
@@ -417,16 +414,16 @@
   --chart-7: oklch(70.5% 0.1936 47.6);
   --chart-8: oklch(70.8% 0 0);
   /* Code well; scrollbar thumb at rest and hovered. */
-  --code: oklch(22.19% 0 0);
-  --scrollbar: oklch(100% 0 0 / 0.16);
-  --scrollbar-hover: oklch(100% 0 0 / 0.28);
+  --code: oklch(18% 0.003 286);
+  --scrollbar: oklch(96% 0.002 286 / 0.16);
+  --scrollbar-hover: oklch(96% 0.002 286 / 0.28);
   /* Shell band (sidebar chrome, rail, tile wells) and its hairline border. */
-  --shell: oklch(17.94% 0 0);
-  --shell-border: oklch(100% 0 0 / 0.05);
+  --shell: oklch(16.5% 0.002 286);
+  --shell-border: oklch(96% 0.002 286 / 0.08);
   /* Tags and highlights: per colour, text, a highlight background and a pill fill; text is ≥ 4.5:1 on all three. They never follow the accent. */
-  --tag-default-text: oklch(97% 0 0);
+  --tag-default-text: oklch(96% 0.002 286);
   --tag-default-bg: transparent;
-  --tag-default-fill: oklch(100% 0 0 / 0.08);
+  --tag-default-fill: oklch(96% 0.002 286 / 0.08);
   --tag-gray-text: oklch(77% 0 0);
   --tag-gray-bg: oklch(27% 0 0);
   --tag-gray-fill: oklch(36% 0 0);
@@ -454,15 +451,15 @@
   --tag-red-text: oklch(77% 0.1357 25);
   --tag-red-bg: oklch(27% 0.03 25);
   --tag-red-fill: oklch(36% 0.085 25);
-  /* Shadow scale: translucent border ring plus subtle bottom drop depth. */
-  --shadow-border: 0 0 0 1px oklch(100% 0 0 / 0.08);
-  --shadow-default: 0 0 0 1px oklch(100% 0 0 / 0.08) inset, 0 1px 2px oklch(0% 0 0 / 0.28);
-  --shadow-lg: 0 0 0 1px oklch(100% 0 0 / 0.1), 0 10px 15px -3px oklch(0% 0 0 / 0.4), 0 4px 6px -4px oklch(0% 0 0 / 0.3);
-  --shadow-xl: 0 0 0 1px oklch(100% 0 0 / 0.1) inset, 0 20px 25px -5px oklch(0% 0 0 / 0.5), 0 8px 10px -6px oklch(0% 0 0 / 0.35);
+  /* Shadow scale: inset hairline ring plus subtle bottom drop depth and crisp top highlight. */
+  --shadow-border: inset 0 0 0 1px oklch(100% 0 0 / 0.1);
+  --shadow-default: inset 0 0.5px 0 oklch(100% 0 0 / 0.1), inset 0 0 0 1px oklch(100% 0 0 / 0.08), 0 1px 2px oklch(0% 0 0 / 0.28);
+  --shadow-lg: inset 0 0.5px 0 oklch(100% 0 0 / 0.1), inset 0 0 0 1px oklch(100% 0 0 / 0.1), 0 10px 15px -3px oklch(0% 0 0 / 0.45), 0 4px 6px -4px oklch(0% 0 0 / 0.35);
+  --shadow-xl: inset 0 0.5px 0 oklch(100% 0 0 / 0.1), inset 0 0 0 1px oklch(100% 0 0 / 0.1), 0 20px 25px -5px oklch(0% 0 0 / 0.55), 0 8px 10px -6px oklch(0% 0 0 / 0.4);
   /* Named elevation (components use these), restated in .dark so they resolve per mode. */
   --skeuo-raised: var(--shadow-default);
-  --skeuo-raised-hover: 0 0 0 1px oklch(100% 0 0 / 0.14) inset, 0 1px 3px oklch(0% 0 0 / 0.34);
-  --skeuo-pressed: inset 0 1px 2px oklch(0% 0 0 / 0.45), 0 0 0 1px oklch(100% 0 0 / 0.08);
+  --skeuo-raised-hover: inset 0 0.5px 0 oklch(100% 0 0 / 0.14), inset 0 0 0 1px oklch(100% 0 0 / 0.14), 0 1px 3px oklch(0% 0 0 / 0.34);
+  --skeuo-pressed: inset 0 1px 2px oklch(0% 0 0 / 0.45), inset 0 0 0 1px oklch(100% 0 0 / 0.1);
   --skeuo-primary: 0 0 0 0 transparent;
   --skeuo-well: inset 0 0 0 1px var(--input);
   --skeuo-surface: var(--shadow-lg);
@@ -470,25 +467,7 @@
 }
 /* gen-theme:tokens:end */
 
-/*
- * Radius presets: `data-radius` on <html> swaps the one base value every radius token multiplies
- * (default, no attribute, is 0.5rem). A custom value is set inline as `--radius` on <html> (0 to 1rem); every
- * token stops at --radius-max (16px), so a larger value only makes controls rounder up to that cap.
- */
-html[data-radius="none"] {
-  --radius: 0rem;
-}
-html[data-radius="sm"] {
-  --radius: 0.25rem;
-}
-html[data-radius="lg"] {
-  --radius: 0.6875rem;
-}
-html[data-radius="xl"] {
-  --radius: 0.875rem;
-}
-
-/* gen-theme:accents:start (tooling/scripts/gen-theme.py; do not edit) */
+/* gen-theme:accents:start (tooling/scripts/gen-theme.mjs; do not edit) */
 /*
  * Accent presets: `data-accent` on <html> swaps the ten accent roles (default, no attribute, is neutral).
  * Every preset meets the same contrast floor: label on the solid, hover and active ≥ 4.5:1, primary-text ≥ 4.5:1 on
@@ -497,16 +476,16 @@ html[data-radius="xl"] {
  * registry items theme-<name> ship the same values.
  */
 html[data-accent="blue"] {
-  --primary: oklch(57% 0.214 259.81);
-  --primary-hover: oklch(53.5% 0.214 259.81);
-  --primary-active: oklch(50% 0.2033 259.81);
+  --primary: oklch(57% 0.214 259.82);
+  --primary-hover: oklch(53.5% 0.214 259.82);
+  --primary-active: oklch(50% 0.2033 259.82);
   --primary-foreground: oklch(100% 0 0);
-  --primary-subtle: oklch(57% 0.214 259.81 / 0.1);
-  --primary-subtle-hover: oklch(57% 0.214 259.81 / 0.16);
-  --primary-border: oklch(57% 0.214 259.81 / 0.32);
-  --primary-text: oklch(53.5% 0.1926 259.81);
-  --ring: oklch(57% 0.214 259.81);
-  --selection: oklch(57% 0.214 259.81 / 0.22);
+  --primary-subtle: oklch(57% 0.214 259.82 / 0.1);
+  --primary-subtle-hover: oklch(57% 0.214 259.82 / 0.16);
+  --primary-border: oklch(57% 0.214 259.82 / 0.32);
+  --primary-text: oklch(53% 0.1926 259.82);
+  --ring: oklch(57% 0.214 259.82);
+  --selection: oklch(57% 0.214 259.82 / 0.22);
 }
 html[data-accent="blue"].dark {
   --primary: oklch(70.7% 0.156 254.62);
@@ -528,7 +507,7 @@ html[data-accent="green"] {
   --primary-subtle: oklch(54.5% 0.1191 162.48 / 0.1);
   --primary-subtle-hover: oklch(54.5% 0.1191 162.48 / 0.16);
   --primary-border: oklch(54.5% 0.1191 162.48 / 0.32);
-  --primary-text: oklch(51.5% 0.1072 162.48);
+  --primary-text: oklch(51% 0.1072 162.48);
   --ring: oklch(54.5% 0.1191 162.48);
   --selection: oklch(54.5% 0.1191 162.48 / 0.22);
 }
@@ -552,7 +531,7 @@ html[data-accent="orange"] {
   --primary-subtle: oklch(58% 0.1787 41.12 / 0.1);
   --primary-subtle-hover: oklch(58% 0.1787 41.12 / 0.16);
   --primary-border: oklch(58% 0.1787 41.12 / 0.32);
-  --primary-text: oklch(54.5% 0.1608 41.12);
+  --primary-text: oklch(53.5% 0.1608 41.12);
   --ring: oklch(58% 0.1787 41.12);
   --selection: oklch(58% 0.1787 41.12 / 0.22);
 }
@@ -576,7 +555,7 @@ html[data-accent="rose"] {
   --primary-subtle: oklch(58.6% 0.2352 17.59 / 0.1);
   --primary-subtle-hover: oklch(58.6% 0.2352 17.59 / 0.16);
   --primary-border: oklch(58.6% 0.2352 17.59 / 0.32);
-  --primary-text: oklch(54.5% 0.2117 17.59);
+  --primary-text: oklch(54% 0.2117 17.59);
   --ring: oklch(58.6% 0.2352 17.59);
   --selection: oklch(58.6% 0.2352 17.59 / 0.22);
 }
@@ -600,7 +579,7 @@ html[data-accent="violet"] {
   --primary-subtle: oklch(55.8% 0.288 302.32 / 0.1);
   --primary-subtle-hover: oklch(55.8% 0.288 302.32 / 0.16);
   --primary-border: oklch(55.8% 0.288 302.32 / 0.32);
-  --primary-text: oklch(55.5% 0.2592 302.32);
+  --primary-text: oklch(54.5% 0.2592 302.32);
   --ring: oklch(55.8% 0.288 302.32);
   --selection: oklch(55.8% 0.288 302.32 / 0.22);
 }

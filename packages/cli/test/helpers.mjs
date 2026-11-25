@@ -44,15 +44,13 @@ export const ITEMS = [
     type: "registry:theme",
     title: "Theme",
     description: "Design tokens every component reads.",
-    cssVars: { light: { primary: "#0090ff", "primary-subtle": "#008ff519", radius: "0.5rem" }, dark: { primary: "#0090ff" } },
-    meta: { category: "Foundations", version: "2.3" },
+    cssVars: { light: { primary: "#0090ff", "primary-subtle": "#008ff519", radius: "0.875rem" }, dark: { primary: "#0090ff" } },
+    meta: { category: "Foundations", version: "2.8" },
   },
   { name: "theme-blue", type: "registry:theme", title: "Theme: Blue", description: "Blue accent.", cssVars: { light: { primary: "#0090ff" } }, registryDependencies: ["@paneui/theme"], meta: { category: "Foundations", hidden: true } },
   { name: "theme-violet", type: "registry:theme", title: "Theme: Violet", description: "Violet accent.", cssVars: { light: { primary: "#6e56cf" } }, registryDependencies: ["@paneui/theme"], meta: { category: "Foundations", hidden: true } },
-  { name: "theme-radius-default", type: "registry:theme", title: "Radius default", description: "Default radius.", cssVars: { light: { radius: "0.5rem" } }, meta: { category: "Foundations", hidden: true } },
-  { name: "theme-radius-lg", type: "registry:theme", title: "Radius lg", description: "Large radius.", cssVars: { light: { radius: "0.625rem" } }, meta: { category: "Foundations", hidden: true } },
   { name: "icons", type: "registry:component", title: "Icons", description: "Icon set.", files: [{ path: "components/icons.tsx", type: "registry:component", target: "components/icons.tsx", content: "export const A = 1\nexport const B = 2\n// rounded\n" }], meta: { category: "Foundations" } },
-  { name: "icons-emoji", type: "registry:component", title: "Icons emoji", description: "Emoji icon set.", files: [{ path: "registry/web/icons/emoji/icons.tsx", type: "registry:component", target: "components/icons.tsx", content: "export const A = 1\nexport const B = 2\n// outline\n// thin strokes\n" }], meta: { category: "Foundations", hidden: true } },
+  { name: "icons-custom", type: "registry:component", title: "Icons custom", description: "Custom icon set.", files: [{ path: "registry/web/icons/custom/icons.tsx", type: "registry:component", target: "components/icons.tsx", content: "export const A = 1\nexport const B = 2\n// outline\n// thin strokes\n" }], meta: { category: "Foundations", hidden: true } },
   { name: "button", type: "registry:ui", title: "Button", description: "Triggers an action or submits a form.", dependencies: ["class-variance-authority"], registryDependencies: ["@paneui/theme"], files: [{ path: "registry/web/ui/button.tsx", type: "registry:ui", content: button }], meta: { category: "Forms" } },
   { name: "card", type: "registry:ui", title: "Card", description: "Groups related content on a surface.", registryDependencies: ["@paneui/theme"], files: [{ path: "registry/web/ui/card.tsx", type: "registry:ui", content: card }], meta: { category: "Display" } },
   { name: "donut-chart", type: "registry:ui", title: "Donut Chart", description: "Shows how parts make up a whole as a ring.", files: [{ path: "registry/web/ui/donut-chart.tsx", type: "registry:ui", content: "export function DonutChart() { return null }\n" }], meta: { category: "Charts" } },
@@ -91,7 +89,7 @@ export function makeProject({ components = {}, files = {} } = {}) {
   }
   write(dir, "components.json", JSON.stringify(json, null, 2))
   write(dir, "tsconfig.json", `{\n  // comments are allowed\n  "compilerOptions": { "paths": { "@/*": ["./*"] }, },\n}\n`)
-  write(dir, "app/globals.css", ":root {\n  --primary: #0090ff;\n  --primary-subtle: #008ff519;\n  --radius: 0.5rem;\n}\n")
+  write(dir, "app/globals.css", ":root {\n  --primary: #0090ff;\n  --primary-subtle: #008ff519;\n  --radius: 0.875rem;\n}\n")
   for (const [p, content] of Object.entries(files)) write(dir, p, content)
   return dir
 }

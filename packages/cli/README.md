@@ -15,13 +15,13 @@ Requires Node.js 18.17 or later and a project the shadcn CLI supports (React, Ta
 
 | Command | What it does |
 | --- | --- |
-| `init` | Runs `shadcn init` if there is no `components.json`, registers `@paneui`, installs the theme. `--no-theme`, `--accent <name>`, `--radius <size>`; arguments after `--` go to `shadcn init`. |
+| `init` | Runs `shadcn init` if there is no `components.json`, registers `@paneui`, installs the theme. `--no-theme`, `--accent <name>`; arguments after `--` go to `shadcn init`. |
 | `add <items...>` | Runs `shadcn add` for the items and records them in `paneui.json`. Accepts `button`, `@paneui/button` or an item URL. `--overwrite`, `--yes`, `--path`, `--dry-run`. |
 | `search [query]` | Matches name, title, description and category. `--category`, `--type`, `--all` (hidden presets), `--limit`, `--json`. |
 | `list` | Every item, same options as `search`. |
 | `info <item>` | Dependencies, files and where they install, and the install commands. `--json`. |
-| `update` | Reinstalls the theme, then every recorded or detected item with `--overwrite`, then your accent, radius and icon style. `--dry-run` shows changed files and the commands; `--theme-only`; `--yes`; `--templates`; `--no-detect`. |
-| `theme [accent]` | Reinstalls the theme with an accent and `--radius <size>`. `--list` shows the choices. |
+| `update` | Reinstalls the theme, then every recorded or detected item with `--overwrite`, then your accent and icon style. `--dry-run` shows changed files and the commands; `--theme-only`; `--yes`; `--templates`; `--no-detect`. |
+| `theme [accent]` | Reinstalls the theme with an accent. `--list` shows the choices. |
 
 Every command takes `--cwd <dir>` and `--registry <url>`.
 
@@ -36,13 +36,13 @@ New writes always use `paneui.json`:
 {
   "items": ["button", "card"],
   "theme": { "accent": "violet" },
-  "icons": "icons-emoji"
+  "icons": "icons-custom"
 }
 ```
 
 Without it, `update` looks for each registry item's files where the shadcn CLI would have written them
 (using your `components.json` aliases and `tsconfig.json` paths) and counts an item as installed when
-the local files share at least half their lines with the registry version. The accent, radius and icon
+the local files share at least half their lines with the registry version. The accent and icon
 style are read from your stylesheet and `components/icons.tsx`. Page templates are left out unless you
 pass `--templates`, because reinstalling one replaces its routes.
 

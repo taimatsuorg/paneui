@@ -17,7 +17,7 @@ export interface Lockfile {
   registry?: string
   /** Items added by name (top level only; their dependencies come back with them). */
   items: string[]
-  theme?: { accent?: string; radius?: string }
+  theme?: { accent?: string }
   /** Icon style item when it is not the default set. */
   icons?: string
 }
@@ -119,7 +119,7 @@ export class Project {
       $comment: `Written by \`${CLI_NAME} add\`; \`${CLI_NAME} update\` reinstalls these.`,
       registry: lock.registry,
       items: [...new Set(lock.items)].sort(),
-      ...(lock.theme && (lock.theme.accent || lock.theme.radius) ? { theme: lock.theme } : {}),
+      ...(lock.theme?.accent ? { theme: { accent: lock.theme.accent } } : {}),
       ...(lock.icons ? { icons: lock.icons } : {}),
     }
     writeFileSync(this.lockfilePath, JSON.stringify(out, null, 2) + "\n")

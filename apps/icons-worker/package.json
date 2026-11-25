@@ -1,0 +1,15 @@
+{
+  "name": "@paneui/icons-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-cf.mjs",
+    "deploy": "node scripts/build-cf.mjs && cf deploy --prebuilt",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --experimental-strip-types --test test/worker.test.mjs",
+    "seed:remote": "node scripts/seed-d1.mjs",
+    "db:migrate:local": "cf d1 migrations apply paneui-icons --local --dir ./migrations",
+    "db:migrate:remote": "cf d1 migrations apply e10f6316-80d7-49f1-9973-aaacf9463aa6 --dir ./migrations"
+  }
+}

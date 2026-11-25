@@ -62,14 +62,16 @@ function SimpleTable({ className, containerClassName, cellMinWidth = "auto", var
     <div
       data-slot="simple-table-container"
       data-cell-min-width={cellMinWidth}
-      className={cn("overflow-x-auto rounded-xl shadow-raised", variant === "sheet" ? "bg-background" : "bg-card", cellMinWidths[cellMinWidth], containerClassName)}
+      className={cn("frame-xl frame-border overflow-hidden p-px shadow-raised", variant === "sheet" ? "bg-background" : "bg-card", cellMinWidths[cellMinWidth], containerClassName)}
     >
-      <table
-        data-slot="simple-table"
-        data-variant={variant}
-        className={cn("w-full text-start text-sm", tableVariants[variant], className)}
-        {...props}
-      />
+      <div className="overflow-x-auto rounded-inner">
+        <table
+          data-slot="simple-table"
+          data-variant={variant}
+          className={cn("w-full text-start text-sm", tableVariants[variant], className)}
+          {...props}
+        />
+      </div>
     </div>
   )
 }

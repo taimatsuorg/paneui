@@ -25,7 +25,7 @@
     "cli:test": "pnpm --filter @taimatsu/paneui test",
     "typecheck": "pnpm -r --if-present typecheck",
     "registry:test": "pnpm --filter @paneui/registry test",
-    "tokens:gen": "python3 tooling/scripts/gen-theme.py && python3 tooling/scripts/gen-paper.py && python3 tooling/scripts/gen-studio.py && node tooling/scripts/gen-native-tokens.mjs",
+    "tokens:gen": "node tooling/scripts/gen-theme.mjs && node tooling/scripts/gen-native-tokens.mjs",
     "tokens:contrast": "node tooling/scripts/theme-contrast.mjs",
     "native": "pnpm --filter @paneui/native-showcase start",
     "native:web": "pnpm --filter @paneui/native-showcase web",
@@ -33,7 +33,9 @@
     "native:build": "pnpm tokens:gen && pnpm --filter @paneui/native-showcase build:web",
     "test:pages": "node --test tooling/scripts/pages-output.test.mjs",
     "design:test": "node .agents/skills/paneui-design/scripts/check.mjs --self-test && node --test .agents/skills/paneui-design/scripts/native-checks.test.mjs",
-    "test:highlight": "node --experimental-strip-types --test tooling/scripts/highlight.test.mjs"
+    "test:highlight": "node --experimental-strip-types --test tooling/scripts/highlight.test.mjs",
+    "icons:catalog": "node tooling/scripts/gen-icons-catalog.mjs",
+    "icons:worker:test": "node --experimental-strip-types --test apps/icons-worker/test/worker.test.mjs"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",

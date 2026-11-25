@@ -527,15 +527,6 @@ html[lang] textarea {
   min-width: 180px;
 }
 
-.native-docs[data-style="paper"] main h1,
-.native-docs[data-style="paper"] main h2,
-.native-docs[data-style="paper"] main h3 {
-  font-family: var(--font-heading);
-}
-.native-docs[data-style="paper"] button,
-.native-docs[data-style="paper"] select {
-  border-radius: var(--radius-control);
-}
 @media (max-width: 639px) {
   .header-actions .repo-link { display: none; }
   .header-actions { gap: 0; }

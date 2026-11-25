@@ -1,0 +1,14 @@
+@import "../../../packages/tokens/styles/globals.css";
+
+@source "../../../packages/ui/src";
+@source ".";
+
+html {
+  font-size: 106.25%;
+}
+
+@media (min-width: 640px) {
+  html {
+    font-size: 112.5%;
+  }
+}

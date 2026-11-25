@@ -188,8 +188,8 @@ export default function CliPage({ site, data }: { site: SiteProps; data: CliData
     { usage: "add <items...>", what: <T en={<>Adds items and records them in <Code>paneui.json</Code>.</>} zh={<>添加条目并记录在 <Code>paneui.json</Code> 中。</>} /> },
     { usage: "search [query]", what: <T en={<>Finds items by name, title, description or category. <Code>list</Code> shows them all.</>} zh={<>按名称、标题、描述或分类查找条目。<Code>list</Code> 会显示全部。</>} /> },
     { usage: "info <item>", what: <T en="Lists an item's dependencies and files, and where the files go." zh="列出条目的依赖和文件，以及文件的写入位置。" /> },
-    { usage: "update", what: <T en="Reinstalls the theme and every installed item, then your accent, radius and icon style." zh="重新安装主题和所有已安装条目，然后是主题色、圆角和图标风格。" /> },
-    { usage: "theme [accent]", what: <T en={<>Reinstalls the theme with an accent and <Code>--radius</Code>. <Code>--list</Code> shows the choices.</>} zh={<>用主题色和 <Code>--radius</Code> 重新安装主题。<Code>--list</Code> 显示可选值。</>} /> },
+    { usage: "update", what: <T en="Reinstalls the theme and every installed item, then your accent preset." zh="重新安装主题和所有已安装条目，然后是主题色预设。" /> },
+    { usage: "theme [accent]", what: <T en={<>Reinstalls the theme with an accent. <Code>--list</Code> shows the choices.</>} zh={<>用主题色重新安装主题。<Code>--list</Code> 显示可选值。</>} /> },
   ]
   const toc: TocEntry[] = [
     { id: "templates", title: "Templates in one command" },
@@ -206,7 +206,6 @@ export default function CliPage({ site, data }: { site: SiteProps; data: CliData
     { id: "upgrading", title: "Upgrading after a theme change" },
     { id: "migrations", title: "Migrations", depth: 2 },
     { id: "cli-limits", title: "What the CLI merges", depth: 2 },
-    { id: "icon-style", title: "Switch the icon style" },
     { id: "item-types", title: "Item types" },
   ]
   return (
@@ -459,8 +458,8 @@ export default function CliPage({ site, data }: { site: SiteProps; data: CliData
           <GuideStep n={2} id="upgrade-presets" title={<T en="Reinstall your presets" zh="重新安装预设" />}>
             <p className="text-muted-foreground">
               <T
-                en="If you use accent or radius presets, reinstall them so they apply on top of the new theme."
-                zh="如果你使用主题色或圆角预设，重新安装它们，让它们应用在新主题之上。"
+                en="If you use an accent preset, reinstall it so it applies on top of the new theme."
+                zh="如果你使用了主题色预设，重新安装它，让它应用在新主题之上。"
               />
             </p>
           </GuideStep>
@@ -556,27 +555,6 @@ export default function CliPage({ site, data }: { site: SiteProps; data: CliData
             </li>
           </ul>
         </div>
-      </section>
-
-      <section className="flex flex-col gap-4">
-        <GuideH2 id="icon-style">Switch the icon style</GuideH2>
-        <p className="text-muted-foreground">
-          <T
-            en="The icon set comes in two styles with the same exports, and both install to the same file. Replace it to switch the icons in every component."
-            zh="图标集有两种风格，导出相同，且都安装到同一个文件。替换它即可切换所有组件中的图标。"
-          />
-        </p>
-        <InstallCommand args={`add ${templateUrl("icons-emoji")} --overwrite`} />
-        <p className="text-muted-foreground">
-          <T en="To go back to the default rounded set, run this." zh="要回到默认的圆角图标集，请运行这条命令。" />
-        </p>
-        <InstallCommand args={`add ${templateUrl("icons")} --overwrite`} />
-        <p className="text-muted-foreground">
-          <T
-            en={<>When you later add an item that uses icons, the CLI asks before overwriting <Code>components/icons.tsx</Code>. Answer no to keep your style. A non-interactive run stops at that question. If you add with <Code>--overwrite</Code>, the rounded set comes back, so run your style&apos;s command again. Compare the styles on{" "}<TextLink href="/docs/icons#icon-styles">Icons</TextLink>.</>}
-            zh={<>之后添加使用图标的条目时，CLI 会在覆盖 <Code>components/icons.tsx</Code> 前询问。回答否以保留你的风格。非交互运行会停在这个问题。如果使用 <Code>--overwrite</Code> 添加，圆角图标集会回来，因此请再次运行你的风格对应命令。在<TextLink href="/docs/icons#icon-styles">图标</TextLink>页面比较各风格。</>}
-          />
-        </p>
       </section>
 
       <section className="flex flex-col gap-4">

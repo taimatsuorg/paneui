@@ -59,7 +59,7 @@ function SettingsGroup({
       data-tone={tone}
       className={cn(
         "flex flex-col overflow-hidden rounded-xl bg-card text-ui text-card-foreground shadow-raised",
-        tone === "destructive" && "ring-1 ring-destructive/30",
+        tone === "destructive" && "inset-ring inset-ring-destructive/30",
         className
       )}
       {...props}

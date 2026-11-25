@@ -326,9 +326,9 @@ export function WallGrid({ columns: count = 4, className }: { columns?: 3 | 4; c
 }
 
 /**
- * The component wall, the page's stage: the heading on the left and the accent and radius controls
- * at the far end of the same row, then the everyday components on one tile. Changing either
- * control repaints every bay at once. WallGrid (the blocks) stays for the Customize preview.
+ * The component wall, the page's stage: the heading on the left and the accent controls
+ * at the far end of the same row, then the everyday components on one tile. Changing the
+ * accent repaints every bay at once.
  */
 export function Wall({ footer }: { footer?: React.ReactNode }) {
   const t = useT()
@@ -341,8 +341,8 @@ export function Wall({ footer }: { footer?: React.ReactNode }) {
           </h2>
           <p className="max-w-xl text-base text-pretty text-muted-foreground sm:text-lg">
             {t({
-              en: "Press anything. Then change the accent or the corners: every part reads the same tokens.",
-              zh: "随便点点看。再换个主题色或圆角：所有组件读取同一套变量。",
+              en: "Press anything. Then change the accent: every part reads the same tokens.",
+              zh: "随便点点看。再换个主题色：所有组件读取同一套变量。",
             })}
           </p>
         </div>

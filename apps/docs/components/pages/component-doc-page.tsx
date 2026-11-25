@@ -8,8 +8,6 @@ import Link from "next/link"
 import { ArrowRightIcon } from "@paneui/ui/icons"
 import { cn } from "@paneui/ui/lib/utils"
 import { categorySlug } from "@/components/docs/category-icons"
-import { IconGrid } from "@/components/docs/icon-grid"
-import { AgentSkill } from "@/components/docs/agent-skill"
 import { Inline } from "@/components/docs/doc-inline"
 import { DocHeading } from "@/components/docs/doc-heading"
 import { DocFooter, DocHeader, DocLayout, markdownPath } from "@/components/docs/doc-layout"
@@ -78,10 +76,6 @@ export type ComponentDocData = {
   variants: VariantData[]
   /** The demo shown in the page's first preview tab. */
   demo: { html: string; filename: string; language: string }
-  /** Site origin as the build sees it (SITE_URL), for the icon-style install commands. */
-  siteUrl: string
-  /** The `paneui-icons` skill text and its highlighted Markdown (icons page only). */
-  iconSkill?: { text: string; html: string }
 }
 
 /** The preview route of a template example: `/templates/docs/` for the classic layout, `/templates/docs/flux/` for the others. */
@@ -219,8 +213,6 @@ function Install({ item }: { item: DocItemData; files?: DocFileData[] }) {
   return <InstallCommand args={`add @${REGISTRY_NAME}/${item.name}`} />
 }
 
-const muted = "rounded-md bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground"
-
 /** The API row: the primitive it builds on, then each part with its props and data attributes. */
 function ApiBody({ doc, parts }: { doc?: ComponentDoc; parts: PartDoc[] }) {
   return (
@@ -316,88 +308,6 @@ function itemRows({
   return { lead, tail }
 }
 
-/** Icons page rows: switching the icon style, and drawing new icons with the skill. */
-function iconRows(siteUrl: string, iconSkill?: { text: string; html: string }): StudioCodeRow[] {
-  return [
-    {
-      id: "icon-styles",
-      title: "Icon styles",
-      body: (
-        <div className="flex flex-col gap-3 px-1.5 pb-1">
-          <p className="max-w-2xl text-ui text-pretty text-muted-foreground">
-            <T
-              en={
-                <>
-                  The default set is rounded: outline glyphs on a 24×24 grid with 1.75px round strokes and soft
-                  corners. The same names and props also ship in an emoji style: full-colour glossy objects, with
-                  arrows and text tools kept as heavier glyphs in the text colour. Both styles install to{" "}
-                  <code className={muted}>components/icons.tsx</code>, so one command switches every component in
-                  your project. Preview them with the style toggle on the grid.
-                </>
-              }
-              zh={
-                <>
-                  默认图标集是圆角风格：在 24×24 网格上绘制轮廓，1.75px 圆头描边，转角柔和。相同的名称和属性也提供 emoji 拟物风格：彩色光泽的小物件，箭头和文字工具保留为跟随文字颜色的加粗字形。两种风格都安装到{" "}
-                  <code className={muted}>components/icons.tsx</code>，因此一条命令即可切换项目中所有组件。可用图标网格上的风格切换器预览。
-                </>
-              }
-            />
-          </p>
-          <InstallCommand args={`add ${siteUrl}/r/icons-emoji.json --overwrite`} />
-          <p className="text-ui text-muted-foreground"><T en="Back to rounded:" zh="返回圆角风格：" /></p>
-          <InstallCommand args={`add ${siteUrl}/r/icons.json --overwrite`} />
-          <p className="max-w-2xl text-ui text-pretty text-muted-foreground">
-            <T
-              en={
-                <>
-                  Components list the icon set as a dependency, so adding one later asks whether to overwrite{" "}
-                  <code className={muted}>components/icons.tsx</code>. Answer no (the default) to keep your style. If you
-                  add components with <code className={muted}>--overwrite</code>, the rounded set comes back: run your
-                  style&apos;s command again afterwards.
-                </>
-              }
-              zh={
-                <>
-                  组件会把图标集列为依赖，因此之后再添加组件时会询问是否覆盖{" "}
-                  <code className={muted}>components/icons.tsx</code>。选择否（默认值）即可保留你的风格。如果使用{" "}
-                  <code className={muted}>--overwrite</code> 添加组件，圆角图标集会被恢复：之后请再次运行你所选风格的命令。
-                </>
-              }
-            />
-          </p>
-        </div>
-      ),
-    },
-    {
-      id: "make-your-own-icons",
-      title: "Make your own icons",
-      body: (
-        <div className="flex flex-col gap-3 px-1.5 pb-1">
-          <p className="max-w-2xl text-ui text-pretty text-muted-foreground">
-            <T
-              en={
-                <>
-                  Need a glyph the set doesn&apos;t have? Install the <code className={muted}>paneui-icons</code> agent
-                  skill and ask your coding agent for it. The skill carries the drawing rules for every style (grids,
-                  primitives, corner radii), reference icons, a preview script to check the result at small sizes, and
-                  how to add it to your <code className={muted}>components/icons.tsx</code>.
-                </>
-              }
-              zh={
-                <>
-                  需要图标集中没有的字形？安装 <code className={muted}>paneui-icons</code> 智能体技能，然后向你的编程智能体索取。该技能包含适用于所有风格的绘制规则（网格、基础图形、圆角半径）、参考图标、用于检查小尺寸效果的预览脚本，以及如何把它加入{" "}
-                  <code className={muted}>components/icons.tsx</code>。
-                </>
-              }
-            />
-          </p>
-          <AgentSkill name="paneui-icons" skill={iconSkill?.text ?? ""} html={iconSkill?.html ?? ""} />
-        </div>
-      ),
-    },
-  ]
-}
-
 const pagerLink = (p?: { href: string; title: string }) => (p ? { href: p.href, title: p.title } : undefined)
 
 export default function ComponentDocPage({ site, data }: { site: SiteProps; data: ComponentDocData }) {
@@ -435,7 +345,7 @@ function ComponentPage({ data, pm }: { data: ComponentDocData; pm: ReturnType<ty
         description: ex.description ? <Inline text={ex.description} /> : undefined,
       })),
       lead: host.lead,
-      tail: name === "icons" ? [...host.tail, ...iconRows(data.siteUrl, data.iconSkill)] : host.tail,
+      tail: host.tail,
     },
     ...data.variants.map((v) => {
       const rows = itemRows({
@@ -475,8 +385,6 @@ function ComponentPage({ data, pm }: { data: ComponentDocData; pm: ReturnType<ty
       markdownPath={markdownPath(`/docs/${name}`)}
       pagePath={`/docs/${name}/`}
       groups={groups}
-      stage={name === "icons" ? <IconGrid /> : undefined}
-      stageHint={name === "icons" ? <T en="Click an icon to copy its JSX." zh="点击图标复制其 JSX。" /> : undefined}
       prev={pagerLink(data.nav.prev)}
       next={pagerLink(data.nav.next)}
     />

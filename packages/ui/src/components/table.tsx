@@ -734,6 +734,7 @@ function Table<T>({
       viewportRef={scrollRef}
       // The vertical track runs below the sticky header.
       scrollbarMargin={{ top: headerHeight }}
+      viewportClassName="rounded-inner"
       viewportProps={{
         role,
         "aria-label": ariaLabel,
@@ -745,7 +746,7 @@ function Table<T>({
       }}
       data-variant={variant}
       // The sheet's rows sit on the page colour (white in light mode in every style); the header band is that colour under a light muted fill.
-      className={cn("w-full rounded-xl text-ui text-card-foreground shadow-raised", sheet ? "bg-background" : "bg-card", className)}
+      className={cn("frame-xl frame-border w-full p-px text-ui text-card-foreground shadow-raised", sheet ? "bg-background" : "bg-card", className)}
       style={{ height }}
     >
       <div className="relative min-w-full" style={{ width: contentWidth }}>

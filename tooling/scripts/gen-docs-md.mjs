@@ -344,7 +344,7 @@ function annotateLanguages(node, lang = "") {
 
 const GUIDES = [
   { href: "/docs", file: "docs/index.html", md: "docs/index.md" },
-  ...["installation", "theming", "colors", "cli", "skill", "changelog"].map((s) => ({ href: `/docs/${s}`, file: `docs/${s}/index.html`, md: `docs/${s}.md` })),
+  ...["installation", "theming", "cli", "skill", "changelog"].map((s) => ({ href: `/docs/${s}`, file: `docs/${s}/index.html`, md: `docs/${s}.md` })),
 ]
 
 for (const g of GUIDES) {

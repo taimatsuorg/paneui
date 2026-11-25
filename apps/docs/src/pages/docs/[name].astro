@@ -86,8 +86,6 @@ const variants: VariantData[] = await Promise.all(
   })
 )
 
-const iconSkillSource = name === "icons" ? read(".agents/skills/paneui-icons/SKILL.md") : undefined
-
 const data: ComponentDocData = {
   item: {
     name: item.name,
@@ -110,9 +108,6 @@ const data: ComponentDocData = {
   variants,
   demo: { html: await highlight(usageSource, demoLanguage), filename: `${name}-demo.tsx`, language: demoLanguage },
   siteUrl: SITE_URL,
-  iconSkill: iconSkillSource
-    ? { text: iconSkillSource, html: await highlight(iconSkillSource, "markdown") }
-    : undefined,
 }
 const site = { pathname: Astro.url.pathname, groups: siteNavGroups() }
 ---

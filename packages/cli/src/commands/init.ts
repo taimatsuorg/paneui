@@ -9,7 +9,6 @@ export interface InitOptions extends CommonOptions {
   yes?: boolean
   theme?: boolean
   accent?: string
-  radius?: string
   /** Extra arguments for `shadcn init` (after `--`). */
   passthrough?: string[]
 }

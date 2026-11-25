@@ -96,37 +96,19 @@ export const guides: Guide[] = [
         code: 'import { View } from "react-native"\nimport { Text, useTheme } from "@paneui/ui-native"\nimport { spacing } from "@paneui/tokens"\n\nexport function Screen() {\n  const { colors } = useTheme()\n  return (\n    <View style={{ backgroundColor: colors.background, padding: spacing.xl }}>\n      <Text>Your workspace</Text>\n    </View>\n  )\n}',
       },
       {
-        id: "style",
-        title: ["Style", "样式"],
-        body: [
-          'Pass style="paper" to opt in, or use "default" to keep the original appearance. The switch saves your choice in this browser and applies it to previews.',
-          '传入 style="paper" 启用纸张样式，或使用 "default" 保留原有外观。此开关会在当前浏览器保存选择，并应用到预览。',
-        ],
-        code: '<ThemeProvider style="paper">\n  <Text variant="heading">Your workspace</Text>\n  <Button>Continue</Button>\n</ThemeProvider>',
-      },
-      {
-        id: "heading-font",
-        title: ["Heading font", "标题字体"],
-        body: [
-          "The browser export loads the heading font locally. Devices use a system serif until you load a font and pass its registered name as headingFont. Keep the fallback while loading or if loading fails. Body text keeps its usual font.",
-          "网页导出会加载本地标题字体。设备默认使用系统衬线字体；加载字体后，将注册名称传给 headingFont。加载期间或失败时保留回退字体。正文仍使用原有字体。",
-        ],
-        code: 'import { useFonts } from "expo-font"\nimport { ThemeProvider } from "@paneui/ui-native"\n\nexport function AppTheme({ children }) {\n  const [loaded] = useFonts({\n    PaperHeading: require("./assets/heading-semibold.ttf"),\n  })\n  return (\n    <ThemeProvider style="paper" headingFont={loaded ? "PaperHeading" : undefined}>\n      {children}\n    </ThemeProvider>\n  )\n}',
-      },
-      {
         id: "tokens",
         title: ["Design tokens", "设计令牌"],
         body: [
-          "Use semantic roles such as background, foreground, primary and border. Read style-aware radius, controlRadius, headingFont and shadows from useTheme. Spacing and typography come from the token package. Keep generated colours in sync with the shared theme.",
-          "使用 background、foreground、primary、border 等语义角色。通过 useTheme 读取跟随样式的 radius、controlRadius、headingFont 和 shadows。间距与文字规格来自令牌包。生成的颜色应与共享主题保持同步。",
+          "Use semantic roles such as background, foreground, primary and border. Read radius, controlRadius, headingFont and shadows from useTheme. Spacing and typography come from the token package. Keep generated colours in sync with the shared theme.",
+          "使用 background、foreground、primary、border 等语义角色。通过 useTheme 读取 radius、controlRadius、headingFont 和 shadows。间距与文字规格来自令牌包。生成的颜色应与共享主题保持同步。",
         ],
       },
       {
         id: "accent",
         title: ["Accent colour", "强调色"],
         body: [
-          "Primary roles carry the accent on actions and selected controls. Native currently ships the shared default accent. Paper uses its own muted accent values. ThemeProvider accepts mode and style; it does not expose an accent override.",
-          "primary 角色为操作及选中的控件提供强调色。原生组件目前使用共享的默认强调色。纸张样式使用自己的柔和强调色。ThemeProvider 支持 mode 和 style，尚不提供强调色覆盖接口。",
+          "Primary roles carry the accent on actions and selected controls. Native currently ships the shared default accent. ThemeProvider accepts mode and headingFont; it does not expose an accent override.",
+          "primary 角色为操作及选中的控件提供强调色。原生组件目前使用共享的默认强调色。ThemeProvider 支持 mode 和 headingFont，尚不提供强调色覆盖接口。",
         ],
       },
     ],

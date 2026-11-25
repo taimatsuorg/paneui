@@ -68,28 +68,23 @@ utility (0.5px hairline, `rounded-shell`, 3px gap).
 
 ## Radius
 
-`--radius` is 0.5rem. Tokens are multiples of it, clamped at `--radius-max` (1rem):
+`--radius` is `0.875rem` (`xl`). Tokens are multiples of it, clamped at `--radius-max` (1rem, 16px):
 
-| Token | × | Default | Use |
+| Token | × | Size | Use |
 | --- | --- | --- | --- |
-| `rounded-xs` (`2xs`) | 0.25 | 2px | carets, tiny marks |
-| `rounded-sm` | 0.5 | 4px | xs buttons, checkboxes |
-| `rounded-md` | 0.75 | 6px | tab indicators in a `p-0.5` list |
-| `rounded-lg` | 1 | 8px | buttons, inputs, triggers, tab lists, menu and select rows |
-| `rounded-xl` | 1.25 | 10px | cards, tables, code blocks |
-| `rounded-2xl` | 1.5 | 12px | menus and popups (`p-1`, rows 12 − 4 = 8px), two-layer inset cards |
+| `rounded-xs` (`2xs`) | 0.25 | 3.5px | carets, tiny marks |
+| `rounded-sm` | 0.5 | 7px | xs buttons, checkboxes |
+| `rounded-md` | 0.75 | 10.5px | tab indicators in a `p-0.5` list |
+| `rounded-lg` | 1 | 14px | buttons, inputs, triggers, tab lists, menu and select rows |
+| `rounded-xl` | 1.25 | 16px | cards, tables, code blocks (capped at `--radius-max`) |
+| `rounded-2xl` | 1.5 | 16px | menus and popups (`p-1`, rows 16 − 4 = 12px via `rounded-inner`), two-layer inset cards |
 | `rounded-3xl` | 2 | 16px | containers holding controls 8px in (prompt bars, composers, rails), dialogs |
-| `rounded-shell` | 1.5 | 12px | the rail's inset panel |
+| `rounded-shell` | 1.5 | 16px | the rail's inset panel |
 | `rounded-4xl`, `rounded-5xl` | | 16px | old names at the cap; don't use |
 
-Presets: none 0, sm 0.25rem, default 0.5rem, lg 0.6875rem, xl 0.875rem (controls 0, 4, 8, 11, 14px: even steps, and
-XL stays short of a pill on a 32px button); a custom value goes up to 1rem.
-`html[data-radius="…"]` or an inline `--radius` on `<html>` switches them.
-
 Buttons, toggles, tab lists and segmented wells read `rounded-control` (`rounded-control-sm` at xs, and
-`frame-control` / `frame-control-sm` on wells). It equals `rounded-lg` / `rounded-sm` unless a style sets
-`--control-radius`; Paper sets it past the cap, so controls become pills and their children stay
-concentric through `rounded-inner`. New controls use these tokens, never a literal radius.
+`frame-control` / `frame-control-sm` on wells), equal to `rounded-lg` / `rounded-sm`. New controls use
+these tokens, never a literal radius.
 
 ### Concentric nesting
 
@@ -123,9 +118,8 @@ System UI stack for UI text (no webfont download); JetBrains Mono → system mon
 terminals; Newsreader → Noto Serif SC only in the reading preset. Letter spacing normal. Code and reading
 faces are self-hosted through the `fonts` item; the theme falls back to system fonts without it.
 
-Titles (card, dialog, sheet, empty state, page header, settings section) also take `font-heading`. It
-is the UI face by default; the Paper style points it at Source Serif 4 → Noto Serif SC. Body text never
-uses it.
+Titles (card, dialog, sheet, empty state, page header, settings section) also take `font-heading`, which
+uses the system UI face (`--font-heading`). Body text never uses it.
 
 | Size | px | Use |
 | --- | --- | --- |

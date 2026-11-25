@@ -41,7 +41,7 @@ function summarize(changes: ItemChange[]) {
 
 /**
  * Reinstalls everything this project got from the registry: the theme, then the recorded and
- * detected items with --overwrite, then the accent and radius presets and the icon style, so a
+ * detected items with --overwrite, then the accent preset and the icon style, so a
  * dependency on the defaults cannot undo them.
  */
 export async function update(opts: UpdateOptions) {
@@ -61,12 +61,8 @@ export async function update(opts: UpdateOptions) {
   const skippedTemplates = opts.themeOnly || opts.templates ? [] : tpl
 
   const accent = lock?.theme?.accent ?? found?.accent
-  const radius = lock?.theme?.radius ?? found?.radius
   const icons = opts.themeOnly ? undefined : (lock?.icons ?? found?.icons)
-  const presets = [
-    ...(accent && accent !== DEFAULT_ACCENT ? [`theme-${accent}`] : []),
-    ...(radius && radius !== "default" ? [`theme-radius-${radius}`] : []),
-  ].filter((n) => known.has(n))
+  const presets = (accent && accent !== DEFAULT_ACCENT ? [`theme-${accent}`] : []).filter((n) => known.has(n))
 
   const detectedOnly = [...(found?.items ?? []), ...(found?.templates ?? [])].filter((n) => !recorded.includes(n))
   log.step(`Registry ${registry.base}`)
@@ -107,7 +103,7 @@ export async function update(opts: UpdateOptions) {
 
   const next = emptyLock(registry, lock)
   if (!opts.themeOnly) next.items = [...recorded, ...items.filter((n) => n !== "theme")]
-  next.theme = { accent: accent && accent !== DEFAULT_ACCENT ? accent : undefined, radius: radius && radius !== "default" ? radius : undefined }
+  next.theme = { accent: accent && accent !== DEFAULT_ACCENT ? accent : undefined }
   if (!opts.themeOnly) next.icons = icons
   project.writeLockfile(next)
   log.ok(`Updated ${opts.themeOnly ? "the theme" : `the theme and ${items.length} items`}`)

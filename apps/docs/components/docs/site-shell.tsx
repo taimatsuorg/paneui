@@ -19,8 +19,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@paneui/ui/components/t
 
 import { categoryIcons, ComponentsIcon, guideIcons } from "./category-icons"
 import { DocsNav, normalizePath, sectionOf, type DocsSection, type NavGroup } from "./docs-nav"
-import { COMPONENTS_HREF, TEMPLATES_HREF, THEMES_HREF, GUIDE_PAGES } from "./docs-pages"
+import { COMPONENTS_HREF, TEMPLATES_HREF, ICONS_HREF, GUIDE_PAGES } from "./docs-pages"
 import { LanguageToggle } from "./language-toggle"
+import { AccentControl } from "./theme-controls"
 import { THEME_KEY } from "./theme-script"
 import { ThemeSync } from "./theme-sync"
 
@@ -87,12 +88,12 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
         onSelect: go(COMPONENTS_HREF),
       },
       {
-        id: THEMES_HREF,
-        label: label("Customize"),
+        id: ICONS_HREF,
+        label: label("Icons"),
         group: label("Getting started"),
-        icon: guideIcons[THEMES_HREF],
-        keywords: ["customize", "theme", "builder", "radius", "accent", "color", "colour", "oklch", "hue", "chroma", "css variables"],
-        onSelect: go(THEMES_HREF),
+        icon: guideIcons[ICONS_HREF],
+        keywords: ["icons", "svg", "glyphs", "mcp", "copy", "search", "library"],
+        onSelect: go(ICONS_HREF),
       },
       ...groups.flatMap((g) =>
         g.items.map((i) => ({
@@ -112,12 +113,10 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
   const headerLinks: { id: DocsSection; label: string; href: string }[] = [
     { id: "docs", label: "Docs", href: "/docs" },
     { id: "components", label: "Components", href: COMPONENTS_HREF },
+    { id: "icons", label: "Icons", href: ICONS_HREF },
     { id: "templates", label: "Templates", href: TEMPLATES_HREF },
-    { id: "themes", label: "Customize", href: THEMES_HREF },
   ]
-  // The theme builder brings its own control column, so it gets the header without the sidebar.
-  const bare = section === "themes"
-  // The gallery is a full-width grid with its own category row, so it drops the sidebar too.
+  // The gallery is a full-width grid with its own category row, so it drops the sidebar.
   const gallery = pathname === COMPONENTS_HREF
   const openSearch = React.useCallback(() => {
     setDrawerOpen(false)
@@ -127,7 +126,7 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
   return (
     <LocaleProvider locale={locale}>
       <div data-slot="docs-shell" className="min-h-svh bg-background text-foreground">
-        {/* A theme, accent or radius picked in another tab applies here too (the header only follows theme and accent). */}
+        {/* A theme or accent picked in another tab applies here too. */}
         <ThemeSync />
         <header className="sticky top-0 z-40 flex h-12 items-center gap-2 border-b border-border bg-background px-3 lg:px-4">
           <Button variant="ghost" size="icon-sm" aria-label={label("Open navigation")} onClick={() => setDrawerOpen(true)} className="lg:hidden">
@@ -174,13 +173,14 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
               </TooltipTrigger>
               <TooltipContent side="bottom">GitHub</TooltipContent>
             </Tooltip>
+            <AccentControl />
             <LanguageToggle />
             <ThemeSwitch storageKey={THEME_KEY} className="ms-1" />
           </div>
         </header>
 
         <div className="flex">
-          {!bare && !gallery && (
+          {!gallery && (
           <aside
             // Fills the viewport under the header and sticks while the page scrolls.
             style={{ "--docs-aside-h": "calc(100svh - 3rem)" } as React.CSSProperties}
@@ -191,13 +191,9 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
           )}
 
           <main className="min-w-0 flex-1">
-            {bare ? (
-              children
-            ) : (
-              <div className="px-5 py-8 sm:px-8 lg:px-10 lg:py-10">
-                <div className={gallery ? "mx-auto w-full max-w-(--breakpoint-2xl)" : "mx-auto w-full max-w-6xl"}>{children}</div>
-              </div>
-            )}
+            <div className="px-5 py-8 sm:px-8 lg:px-10 lg:py-10">
+              <div className={gallery ? "mx-auto w-full max-w-(--breakpoint-2xl)" : "mx-auto w-full max-w-6xl"}>{children}</div>
+            </div>
           </main>
         </div>
 

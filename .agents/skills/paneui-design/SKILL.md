@@ -105,7 +105,7 @@ status. Never `primary` in a chart. Legend and tooltip swatches are round dots.
 
 ### 6. Keep nested radii concentric
 
-A child corner that doesn't follow its container's curve reads as a mistake at every radius preset.
+A child corner that doesn't follow its container's curve reads as a mistake against `--radius`.
 
 Inner radius = outer radius − padding. Put `frame-{token} frame-p-{n}` on the container and
 `rounded-inner` on the child; a padded child that holds more rows takes `frame-inner`, never
@@ -115,13 +115,14 @@ Inner radius = outer radius − padding. Put `frame-{token} frame-p-{n}` on the 
 
 Past 16px containers turn into blobs and nested parts can't stay concentric.
 
-Use `rounded-sm` … `rounded-3xl`; every token clamps at `--radius-max`. Never `rounded-4xl`/`5xl` in new
+Use `rounded-sm` … `rounded-3xl`; the default `--radius` is `0.875rem` (`xl`), and every token clamps
+at `--radius-max` (`1rem`, 16px). Never `rounded-4xl`/`5xl` in new
 code or an arbitrary radius above 1rem. `rounded-full` only for round things: avatars, dots, switches,
 slider thumbs, badges and tags, icon-only circular buttons, progress bars.
 
 ### 8. Derive every radius from the base radius
 
-Presets and the radius slider rescale `--radius` and the tokens built on it, never literal pixel radii.
+Tokens built on `--radius` keep one cohesive scale, never literal pixel radii.
 
 Use a token, or `rounded-[calc(var(--radius)*k)]` (clamped with `min(…, var(--radius-max))` above 2×).
 Only 1–2px caret radii, `rounded-full` and `rounded-[inherit]` stay literal.

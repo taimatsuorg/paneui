@@ -5,11 +5,11 @@ import type * as React from "react"
 import { DEFAULT_ACCENT, PRESET_THEMES, type PresetAccent } from "@/components/docs/accent-color"
 import { Code, GuideH2, GuidePage, TextLink } from "@/components/docs/guide-page"
 import { InstallCommand } from "@/components/docs/install-command"
+import { ThemingAccent } from "@/components/docs/theming-accent"
 import { ThemingSystem } from "@/components/docs/theming-system"
 import { REGISTRY_NAME } from "@/lib/site-constants"
 import { StaticCode } from "@/components/site/static-code"
 import { SiteRoot, type SiteProps } from "@/components/site/site-root"
-import { Inline } from "@/components/docs/doc-inline"
 import { T, type Localized } from "@/lib/site-locale"
 import type { DocNav } from "@/lib/doc-types"
 import { Badge } from "@paneui/ui/components/badge"
@@ -90,12 +90,12 @@ const TYPE: { cls: string; size: string; use: Prose }[] = [
 ]
 
 const RADII: { cls: string; corner: string; px: string; use: Prose }[] = [
-  { cls: "rounded-xs", corner: "rounded-tl-xs", px: "2px", use: { en: "Search highlights, favicons and tiny segments.", zh: "搜索高亮、网站图标和极小的分段。" } },
-  { cls: "rounded-sm", corner: "rounded-tl-sm", px: "4px", use: { en: "Checkboxes, extra-small buttons, keys and small chips.", zh: "复选框、超小按钮、按键和小标签。" } },
-  { cls: "rounded-md", corner: "rounded-tl-md", px: "6px", use: { en: "Tab indicators inside a p-0.5 list.", zh: "p-0.5 列表中的标签页指示器。" } },
-  { cls: "rounded-lg", corner: "rounded-tl-lg", px: "8px", use: { en: "Controls and menu rows.", zh: "控件和菜单行。" } },
-  { cls: "rounded-xl", corner: "rounded-tl-xl", px: "10px", use: { en: "Cards, tables and code blocks.", zh: "卡片、表格和代码块。" } },
-  { cls: "rounded-2xl", corner: "rounded-tl-2xl", px: "12px", use: { en: "Menus and popups, two-layer inset cards.", zh: "菜单和弹出层，以及双层内嵌卡片。" } },
+  { cls: "rounded-xs", corner: "rounded-tl-xs", px: "3.5px", use: { en: "Search highlights, favicons and tiny segments.", zh: "搜索高亮、网站图标和极小的分段。" } },
+  { cls: "rounded-sm", corner: "rounded-tl-sm", px: "7px", use: { en: "Checkboxes, extra-small buttons, keys and small chips.", zh: "复选框、超小按钮、按键和小标签。" } },
+  { cls: "rounded-md", corner: "rounded-tl-md", px: "10.5px", use: { en: "Tab indicators inside a p-0.5 list.", zh: "p-0.5 列表中的标签页指示器。" } },
+  { cls: "rounded-lg", corner: "rounded-tl-lg", px: "14px", use: { en: "Controls and menu rows.", zh: "控件和菜单行。" } },
+  { cls: "rounded-xl", corner: "rounded-tl-xl", px: "16px", use: { en: "Cards, tables and code blocks (capped at --radius-max).", zh: "卡片、表格和代码块（停在 --radius-max 上限）。" } },
+  { cls: "rounded-2xl", corner: "rounded-tl-2xl", px: "16px", use: { en: "Menus and popups, two-layer inset cards (capped at --radius-max).", zh: "菜单和弹出层，以及双层内嵌卡片（停在 --radius-max 上限）。" } },
   { cls: "rounded-3xl", corner: "rounded-tl-3xl", px: "16px", use: { en: "Dialogs, drawers and big panels.", zh: "对话框、抽屉和大面板。" } },
   { cls: "rounded-4xl", corner: "rounded-tl-4xl", px: "16px", use: { en: "Kept for older code; sits at the 16px cap.", zh: "为旧代码保留；停在 16px 上限。" } },
   { cls: "rounded-5xl", corner: "rounded-tl-5xl", px: "16px", use: { en: "Kept for older code; sits at the 16px cap.", zh: "为旧代码保留；停在 16px 上限。" } },
@@ -134,7 +134,6 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
     { id: "colors", title: "Colors" },
     { id: "dark-mode", title: "Dark mode" },
     { id: "accent-presets", title: "Accent presets" },
-    { id: "styles", title: "Styles" },
     { id: "typography", title: "Typography" },
     { id: "fonts", title: "Fonts" },
     { id: "radius", title: "Radius" },
@@ -177,15 +176,13 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
             en={
               <>
                 Colours are named by role, and each surface has a matching <Code>-foreground</Code> token for text on it. Use
-                tokens in components, never palette colours (<Code>bg-zinc-100</Code>) or hex values. Every token&apos;s light and
-                dark value is on <TextLink href="/themes">Customize</TextLink>.
+                tokens in components, never palette colours (<Code>bg-zinc-100</Code>) or hex values.
               </>
             }
             zh={
               <>
                 颜色按角色命名，每种表面都有一个配套的 <Code>-foreground</Code> 变量用于其上的文字。组件里请使用变量，不要使用调色板颜色（{" "}
-                <Code>bg-zinc-100</Code>）或十六进制值。每个变量的浅色与深色值见{" "}
-                <TextLink href="/themes">自定义</TextLink>。
+                <Code>bg-zinc-100</Code>）或十六进制值。
               </>
             }
           />
@@ -208,8 +205,8 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
             }
           />
         </p>
-        {/* Swatches of the main roles; the Markdown copy points at the full list instead. */}
-        <ul data-md-text="Every role, with its light and dark value, is listed on Customize." className="flex flex-wrap gap-2">
+        {/* Swatches of the main roles. */}
+        <ul data-md-text="Main semantic roles in light and dark modes." className="flex flex-wrap gap-2">
           {SWATCHES.map((s) => (
             <li key={s.token}>
               <Badge variant="outline">
@@ -324,33 +321,12 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
         </p>
         <p className="text-muted-foreground">
           <T
-            en={
-              <>
-                For a brand colour, use the picker on <TextLink href="/themes">Customize</TextLink> to derive the ten
-                roles and copy them.
-              </>
-            }
-            zh={
-              <>
-                要使用品牌色，请用 <TextLink href="/themes">自定义</TextLink> 中的选择器推导出这十个角色并复制。
-              </>
-            }
+            en="Switch preset accents directly from the site header, or pick a preset or custom brand colour below to copy its ten role overrides."
+            zh="你可以直接在页面顶栏切换预设主题色，或在下方选择预设或自定义品牌色并复制这十个角色变量。"
           />
         </p>
+        <ThemingAccent />
         <StaticCode html={data.code.accentRuntime} filename="globals.css" language="css" />
-      </section>
-
-      <section className="flex flex-col gap-4">
-        <GuideH2 id="styles">Styles</GuideH2>
-        <p className="text-muted-foreground">
-          <Inline
-            text={{
-              en: "Paper gives pale surfaces, serif titles and pill controls. Install it, import `theme-paper.css` after the theme and set `data-style=\"paper\"` on `<html>`.",
-              zh: "Paper 提供浅色纸面、衬线标题与胶囊形控件。安装后在主题之后导入 `theme-paper.css`，并在 `<html>` 上设置 `data-style=\"paper\"`。",
-            }}
-          />
-        </p>
-        <InstallCommand args={`add @${REGISTRY_NAME}/theme-paper`} />
       </section>
 
       <section className="flex flex-col gap-4">
@@ -442,20 +418,19 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
           <T
             en={
               <>
-                Every step is a multiple of <Code>--radius</Code>, so change the base and the whole scale follows. No step goes
-                past <Code>--radius-max</Code> (16px): larger corners turn controls into pills and push nested parts apart. Keep nested
+                Every step is a multiple of <Code>--radius</Code> (fixed at <Code>0.875rem</Code>, <Code>xl</Code>), and stops
+                at <Code>--radius-max</Code> (16px): larger corners turn controls into pills and push nested parts apart. Keep nested
                 corners concentric, with the inner radius equal to the outer radius minus the padding between them. That is why{" "}
-                <Code>p-1</Code> menus (<Code>rounded-2xl</Code>) hold <Code>rounded-lg</Code> rows. Use <Code>rounded-full</Code>{" "}
-                only for shapes that are actually round. Sizes below are at the default <Code>0.5rem</Code>; try other
-                values on <TextLink href="/themes">Customize</TextLink>.
+                <Code>p-1</Code> menus (<Code>rounded-2xl</Code>, 16px) use <Code>rounded-inner</Code> (12px) on rows. Use <Code>rounded-full</Code>{" "}
+                only for shapes that are actually round.
               </>
             }
             zh={
               <>
-                每一级都是 <Code>--radius</Code> 的倍数，因此改动基准值，整个色阶都会跟随。没有一级会超过 <Code>--radius-max</Code>（16px）：
+                每一级都是 <Code>--radius</Code>（固定为 <Code>0.875rem</Code>，即 <Code>xl</Code>）的倍数，并上限于 <Code>--radius-max</Code>（16px）：
                 更大的圆角会把控件变成胶囊形，并把嵌套的部分推开。嵌套圆角要保持同心，内圆角等于外圆角减去两者之间的内边距。这也是{" "}
-                <Code>p-1</Code> 菜单（<Code>rounded-2xl</Code>）里放 <Code>rounded-lg</Code> 行的原因。<Code>rounded-full</Code>{" "}
-                只用于真正圆形的形状。下表尺寸基于默认的 <Code>0.5rem</Code>；可在 <TextLink href="/themes">自定义</TextLink> 中试用其他值。
+                <Code>p-1</Code> 菜单（<Code>rounded-2xl</Code>，16px）中的行使用 <Code>rounded-inner</Code>（12px）的原因。<Code>rounded-full</Code>{" "}
+                只用于真正圆形的形状。
               </>
             }
           />

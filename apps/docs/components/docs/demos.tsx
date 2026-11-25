@@ -8,7 +8,6 @@ import ChatDemo from "@/registry/examples/chat-demo"
 import DialogDemo from "@/registry/examples/dialog-demo"
 import IconChipDemo from "@/registry/examples/icon-chip-demo"
 import BrandIconDemo from "@/registry/examples/brand-icon-demo"
-import IconsDemo from "@/registry/examples/icons-demo"
 import InputDemo from "@/registry/examples/input-demo"
 import LabelDemo from "@/registry/examples/label-demo"
 import MenuDemo from "@/registry/examples/menu-demo"
@@ -29,7 +28,6 @@ import TerminalDemo from "@/registry/examples/terminal-demo"
 import ScrollAreaDemo from "@/registry/examples/scroll-area-demo"
 import TypesetDemo from "@/registry/examples/typeset-demo"
 import ThemeAccentsDemo from "@/registry/examples/theme-accents-demo"
-import ThemePaperDemo from "@/registry/examples/theme-paper-demo"
 import CodeBlockDemo from "@/registry/examples/code-block-demo"
 import CommandCopyDemo from "@/registry/examples/command-copy-demo"
 import WindowFrameDemo from "@/registry/examples/window-frame-demo"
@@ -244,12 +242,10 @@ export const demos: Record<string, React.ComponentType> = {
   theme: ThemeDemo,
   typeset: TypesetDemo,
   "theme-accents": ThemeAccentsDemo,
-  "theme-paper": ThemePaperDemo,
   "scroll-area": ScrollAreaDemo,
   "app-shell": AppShellDemo,
   "window-frame": WindowFrameDemo,
   "overflow-hint": OverflowHintDemo,
-  icons: IconsDemo,
   "icon-chip": IconChipDemo,
   "brand-icon": BrandIconDemo,
   button: ButtonDemo,

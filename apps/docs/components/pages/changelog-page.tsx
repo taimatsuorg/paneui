@@ -26,7 +26,7 @@ const ENTRIES: Entry[] = [
         <Code>fill-active</Code> and <Code>fill-strong</Code> (<Code>secondary</Code>, <Code>muted</Code> and{" "}
         <Code>accent</Code> now read them); <Code>border-control</Code> at 3:1; <Code>selection</Code>; and ten{" "}
         <Code>tag-*</Code> colours with text, highlight and pill. Components use the <Code>-text</Code> roles for
-        coloured text. Every value is on <TextLink href="/themes">Customize</TextLink>.
+        coloured text. Every value is in <TextLink href="/docs/theming">Theming</TextLink>.
       </>,
       <>
         Reinstall <Code>theme</Code> and any <Code>theme-&lt;accent&gt;</Code> preset. Replace <Code>text-primary</Code> and{" "}
@@ -41,7 +41,7 @@ const ENTRIES: Entry[] = [
     tag: "Breaking",
     changes: [
       <>
-        <TextLink href="/docs/icons">Icons</TextLink> come in two styles: rounded and the new emoji style (
+        <TextLink href="https://icons.paneui.dev">Icons</TextLink> come in two styles: rounded and the new emoji style (
         <Code>icons-emoji</Code>), full-colour objects with the same names. The puffy and outline styles are removed.
       </>,
       <>
@@ -177,7 +177,7 @@ const ENTRIES: Entry[] = [
       </>,
       <>
         The shadow swatches on <TextLink href="/docs/theme">Theme</TextLink> and the accent role strip on{" "}
-        <TextLink href="/themes">Customize</TextLink> keep every label whole and centred on a phone.
+        <TextLink href="/docs/theming">Theming</TextLink> keep every label whole and centred on a phone.
       </>,
     ],
   },
@@ -554,8 +554,8 @@ const ENTRIES: Entry[] = [
     tag: "Theme",
     changes: [
       <>
-        Theme 2.2: no radius token goes past 16px, and the custom radius on{" "}
-        <TextLink href="/themes">Customize</TextLink> goes up to 1rem. Above that, controls turned into pills
+        Theme 2.2: no radius token goes past 16px, and the custom radius on Customize
+        goes up to 1rem. Above that, controls turned into pills
         and nested parts drifted off their containers. <Code>rounded-4xl</Code> and <Code>rounded-5xl</Code> stay as names
         at the cap.
       </>,
@@ -647,8 +647,8 @@ const ENTRIES: Entry[] = [
         <Code>-hover</Code>, <Code>-subtle</Code> and <Code>-border</Code> variants.
       </>,
       <>
-        The accent is eight role variables instead of a ramp. Presets and custom colours on{" "}
-        <TextLink href="/themes">Customize</TextLink> swap all eight; a custom colour saved before today resets to blue.
+        The accent is eight role variables instead of a ramp. Presets and custom colours on Customize
+        swap all eight; a custom colour saved before today resets to blue.
       </>,
       <>
         <Code>--radius</Code> is now 0.5rem, so controls are 8px, cards 10px and dialogs 16px. New{" "}
@@ -695,8 +695,8 @@ const ENTRIES: Entry[] = [
     tag: "Components",
     changes: [
       <>
-        Every radius follows <Code>--radius</Code>. Pick a preset or a custom value on{" "}
-        <TextLink href="/themes">Customize</TextLink>, copy the CSS, or install a <Code>theme-radius-*</Code> item.
+        Every radius follows <Code>--radius</Code>. Pick a preset or a custom value on Customize,
+        copy the CSS, or install a <Code>theme-radius-*</Code> item.
         Nested frames stay concentric at every value.
       </>,
       <>
@@ -862,8 +862,8 @@ const ENTRIES: Entry[] = [
         with filled shapes drawn as 1.6px round outlines and tiny dots kept solid. It installs to{" "}
         <Code>packages/ui/src/icons/index.tsx</Code> like the puffy set, so <Code>add …/r/icons-outline.json --overwrite</Code>{" "}
         switches every component and <Code>add …/r/icons.json --overwrite</Code> switches back. See{" "}
-        <TextLink href="/docs/icons#icon-styles">Icons</TextLink> and{" "}
-        <TextLink href="/docs/cli#icon-style">CLI &amp; registry</TextLink>.
+        <TextLink href="https://icons.paneui.dev">Icons</TextLink> and{" "}
+        <TextLink href="/docs/cli">CLI &amp; registry</TextLink>.
       </>,
       <>
         The Icons page has a Puffy / Outline toggle that previews the whole grid in either style.

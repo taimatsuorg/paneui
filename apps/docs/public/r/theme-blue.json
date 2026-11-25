@@ -8,16 +8,16 @@
   ],
   "cssVars": {
     "light": {
-      "primary": "oklch(57% 0.214 259.81)",
-      "primary-hover": "oklch(53.5% 0.214 259.81)",
-      "primary-active": "oklch(50% 0.2033 259.81)",
+      "primary": "oklch(57% 0.214 259.82)",
+      "primary-hover": "oklch(53.5% 0.214 259.82)",
+      "primary-active": "oklch(50% 0.2033 259.82)",
       "primary-foreground": "oklch(100% 0 0)",
-      "primary-subtle": "oklch(57% 0.214 259.81 / 0.1)",
-      "primary-subtle-hover": "oklch(57% 0.214 259.81 / 0.16)",
-      "primary-border": "oklch(57% 0.214 259.81 / 0.32)",
-      "primary-text": "oklch(53.5% 0.1926 259.81)",
-      "ring": "oklch(57% 0.214 259.81)",
-      "selection": "oklch(57% 0.214 259.81 / 0.22)"
+      "primary-subtle": "oklch(57% 0.214 259.82 / 0.1)",
+      "primary-subtle-hover": "oklch(57% 0.214 259.82 / 0.16)",
+      "primary-border": "oklch(57% 0.214 259.82 / 0.32)",
+      "primary-text": "oklch(53% 0.1926 259.82)",
+      "ring": "oklch(57% 0.214 259.82)",
+      "selection": "oklch(57% 0.214 259.82 / 0.22)"
     },
     "dark": {
       "primary": "oklch(70.7% 0.156 254.62)",

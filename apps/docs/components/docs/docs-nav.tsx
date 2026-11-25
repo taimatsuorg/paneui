@@ -16,7 +16,7 @@ import {
   SidebarNavSection,
 } from "@paneui/ui/components/sidebar-nav"
 
-import { COMPONENTS_HREF, COMPONENTS_TITLE, GUIDE_PAGES, TEMPLATES_HREF, THEMES_HREF } from "./docs-pages"
+import { COMPONENTS_HREF, COMPONENTS_TITLE, GUIDE_PAGES, TEMPLATES_HREF } from "./docs-pages"
 import { isNew } from "./whats-new"
 
 export type NavGroup = { category: string; items: { name: string; title: string; description: Localized }[] }
@@ -27,11 +27,10 @@ export function normalizePath(pathname: string | null) {
   return pathname.replace(/\/+$/, "")
 }
 
-export type DocsSection = "docs" | "components" | "templates" | "themes"
+export type DocsSection = "docs" | "components" | "icons" | "templates"
 
 /** The header section a path belongs to. */
 export function sectionOf(pathname: string, groups: NavGroup[]): DocsSection {
-  if (pathname === THEMES_HREF) return "themes"
   if (GUIDE_PAGES.some((g) => g.href === pathname)) return "docs"
   if (pathname === TEMPLATES_HREF || groups.some((g) => g.category === "Templates" && g.items.some((i) => pathname === `/docs/${i.name}`))) return "templates"
   return "components"

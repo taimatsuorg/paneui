@@ -1,7 +1,6 @@
 {
   "$comment": "Design check settings for this repo (.agents/skills/paneui-design/scripts/check.mjs). nameHashes: words that must not appear in prose, stored hashed so this file doesn't name them; add one with --hash \"word\".",
   "ignore": [
-    "packages/ui/src/icons/emoji/**",
     "tooling/scripts/fixtures/**",
     "**/parts/code.ts"
   ],

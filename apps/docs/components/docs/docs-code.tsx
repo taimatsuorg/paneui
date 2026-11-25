@@ -6,8 +6,8 @@ import { CodeBlock, type CodeBlockProps } from "@paneui/ui/components/code-block
 
 /*
  * Static code on the docs site: highlighted while the page is built, rendered by
- * CodeBlock, so nothing is tokenized in the browser. Live code (the Customize
- * panels) uses LiveCodeBlock instead.
+ * CodeBlock, so nothing is tokenized in the browser. Live code (the interactive
+ * accent CSS output) uses LiveCodeBlock instead.
  */
 
 const EXT: Record<string, string> = { mjs: "javascript", cjs: "javascript", md: "markdown", sh: "bash", yml: "yaml" }

@@ -42,26 +42,6 @@ export const DOC_SUMMARIES: Record<string, Localized> = {
     "en": "Accent preset that sets the primary colour to violet.",
     "zh": "将主题色设为紫色。"
   },
-  "theme-radius-none": {
-    "en": "Radius preset with square corners everywhere.",
-    "zh": "使用直角。"
-  },
-  "theme-radius-sm": {
-    "en": "Radius preset with tighter corners everywhere.",
-    "zh": "使用较小圆角。"
-  },
-  "theme-radius-default": {
-    "en": "Radius preset that restores the default corner rounding.",
-    "zh": "恢复默认圆角。"
-  },
-  "theme-radius-lg": {
-    "en": "Radius preset with rounder corners everywhere.",
-    "zh": "使用较大圆角。"
-  },
-  "theme-radius-xl": {
-    "en": "Radius preset with the roundest corners everywhere.",
-    "zh": "使用最大圆角。"
-  },
   "fonts": {
     "en": "Fonts for interfaces, code and reading.",
     "zh": "为界面、代码和正文提供字体。"
@@ -78,24 +58,6 @@ export const DOC_SUMMARIES: Record<string, Localized> = {
     "en": "Switches the accent colour at runtime with one attribute.",
     "zh": "在运行时切换主题色。"
   },
-  "theme-paper": {
-    "en": "Opt-in style with warm paper, serif titles and pill controls.",
-    "zh": "可选的纸张风格：暖色纸面、衬线标题与胶囊控件。"
-  },
-  "theme-radii": {
-    "en": "Switches corner rounding at runtime with one attribute.",
-    "zh": "在运行时切换圆角。"
-  },
-  "icons": {
-    "en": "Rounded outline icon set used across the library.",
-    "zh": "为界面提供统一的圆角图标。"
-  },  "icons-emoji": {
-    "en": "Full-colour glossy icons with the same names.",
-    "zh": "同名的彩色拟物图标。"
-  },
-
-
-
   "icon-chip": {
     "en": "Frames an icon so card and section headers match.",
     "zh": "为标题图标提供统一的底框。"

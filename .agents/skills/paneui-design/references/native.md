@@ -14,12 +14,9 @@ Use the shared spacing and radius scales. Radius stays at or below 16px; round a
 and circular controls use the circle treatment supplied by their component.
 Use platform-supported elevation recipes rather than copying CSS shadow strings.
 
-ThemeProvider accepts `style="paper"` as an opt-in. Read `radius`, `controlRadius`,
-`headingFont` and `shadows` from `useTheme` for style-aware surfaces. Paper values are
-generated from the shared stylesheet. Controls use the capped control radius; inner
-segments subtract the well padding. Titles use the heading face, while body text stays
-on the UI face. Devices fall back to a system serif; pass a registered `headingFont`
-after loading a bundled font. The default style retains the existing values.
+Read `radius`, `controlRadius`, `headingFont`, and `shadows` from `useTheme`. Controls use
+`controlRadius` (`14px`); larger containers clamp at the `16px` cap; inner segments subtract
+the well padding. Titles use `headingFont` when provided, falling back to the UI face.
 
 ## Density and text
 

@@ -69,7 +69,7 @@ export type TabsListProps = ViewProps & {
 }
 
 export function TabsList({ children, style, ...props }: TabsListProps) {
-  const { colors, scheme, shadows, radius, controlRadius, style: themeStyle } = useTheme()
+  const { colors, scheme, shadows, radius, controlRadius } = useTheme()
   const { value, measurements } = useTabsContext()
   const reduced = useReducedMotion()
   const translateX = React.useRef(new Animated.Value(0)).current
@@ -99,7 +99,7 @@ export function TabsList({ children, style, ...props }: TabsListProps) {
           bottom: spacing.xs,
           left: 0,
           width,
-          borderRadius: themeStyle === "paper" ? controlRadius - spacing.xs : radius.md,
+          borderRadius: radius.md,
           backgroundColor: colors.card,
           shadowColor: scheme === "dark" ? colors.background : colors.foreground,
           shadowOffset: { width: 0, height: 1 },
@@ -121,7 +121,7 @@ export type TabsTriggerProps = Omit<PressableProps, "children"> & {
 }
 
 export function TabsTrigger({ value, children, disabled = false, style, onPress, onFocus, onBlur, onLayout, accessibilityState, ...props }: TabsTriggerProps) {
-  const { colors, radius, controlRadius, style: themeStyle } = useTheme()
+  const { colors, radius } = useTheme()
   const { value: active, setValue, register } = useTabsContext()
   const [focused, setFocused] = React.useState(false)
   const selected = active === value
@@ -154,7 +154,7 @@ export function TabsTrigger({ value, children, disabled = false, style, onPress,
           minHeight: nativeControl.sm,
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: themeStyle === "paper" ? controlRadius - spacing.xs : radius.md,
+          borderRadius: radius.md,
           borderWidth: 2,
           borderColor: focused ? colors.ring : "transparent",
           opacity: disabled ? 0.64 : 1,

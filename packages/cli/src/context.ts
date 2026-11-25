@@ -33,13 +33,12 @@ export function assertKnown(index: RegistryIndex, names: string[]) {
   throw new CliError(`Not in the registry: ${lines.join("; ")}`)
 }
 
-export type ItemKind = "item" | "accent" | "radius" | "icons" | "theme"
+export type ItemKind = "item" | "accent" | "icons" | "theme"
 
 /** Theme presets and icon styles are recorded separately so `update` can re-apply them last. */
 export function classify(index: RegistryIndex, name: string): ItemKind {
   if (name === "theme") return "theme"
-  const { accents, radii } = themePresets(index)
-  if (name.startsWith("theme-radius-") && radii.includes(name.slice("theme-radius-".length))) return "radius"
+  const { accents } = themePresets(index)
   if (name.startsWith("theme-") && accents.includes(name.slice("theme-".length))) return "accent"
   if (iconStyles(index).includes(name)) return "icons"
   return "item"

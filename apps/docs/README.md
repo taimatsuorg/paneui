@@ -20,7 +20,7 @@ Static documentation site, live component studio, Markdown documentation generat
 
 - **Library-built shell**: site chrome composes `@paneui/ui` components directly (`NavigationMenuLink` tabs in `site-shell.tsx`, `SidebarNav` in `docs-nav.tsx`, `Outline` / `OutlinePopover` in `doc-toc.tsx`, `PageHeader`, interactive `Card` tiles, and `SimpleTable`).
 - **Component studio**: component pages split into a stage panel (Preview/Code and viewport width switches plus page actions) and a sticky rail with variant/example selectors. Legacy hash anchors (`#variant-*`, `#example-*`, `#api-*`, `#note-*`) resolve directly to the selected state.
-- **Preview theme sync**: `theme-sync.tsx` mirrors `dark`, `data-accent`, custom accent CSS, `data-style`, and `--radius` from `<html>` into preview and template iframes and across open tabs.
+- **Preview theme sync**: `theme-sync.tsx` mirrors `dark`, `data-accent`, and custom accent CSS from `<html>` into preview and template iframes and across open tabs.
 
 ## Authoring component docs
 

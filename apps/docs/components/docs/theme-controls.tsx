@@ -51,8 +51,8 @@ const isChoice = (v: unknown, hasCustom: boolean): v is AccentChoice =>
 
 /**
  * Accent picker: swaps `data-accent` on <html> (presets live in packages/tokens/styles/globals.css; a custom colour
- * picked on the Colors page rides in its own <style>), persists localStorage["accent"] for the
- * pre-paint script and syncs other tabs and the Colors page.
+ * picked on the Theming page rides in its own <style>), persists localStorage["accent"] for the
+ * pre-paint script and syncs other tabs and the Theming page.
  */
 export function AccentControl() {
   const t = useT()

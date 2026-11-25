@@ -78,6 +78,11 @@ type HeatCalendarProps = Omit<React.ComponentProps<"div">, "children"> & {
   cellSize?: number
   gap?: number
   label?: string
+  showWeekdays?: boolean
+  monthPosition?: "top" | "bottom" | "none"
+  fit?: boolean
+  highlightToday?: boolean
+  completeWeek?: boolean
   selection?: HeatCalendarSelection | null
   defaultSelection?: HeatCalendarSelection | null
   onSelectionChange?: (selection: HeatCalendarSelection | null) => void
@@ -85,11 +90,13 @@ type HeatCalendarProps = Omit<React.ComponentProps<"div">, "children"> & {
   children?: React.ReactNode
 }
 
-const LEVEL_ALPHA = [0, 28, 50, 74, 100] as const
+const EMPTY_COLOR = "color-mix(in oklch, var(--foreground) 6.5%, transparent)"
+const LEVEL_ALPHA = [0, 22, 42, 66, 92] as const
 
 type Ctx = {
   days: HeatCalendarDay[]
   byDate: Map<string, HeatCalendarDay>
+  endDateIso: string
   weeks: number
   weekStartsOn: 0 | 1
   unit: string
@@ -97,6 +104,11 @@ type Ctx = {
   cellSize: number
   gap: number
   label: string
+  showWeekdays: boolean
+  monthPosition: "top" | "bottom" | "none"
+  fit: boolean
+  highlightToday: boolean
+  completeWeek: boolean
   total: number
   max: number
   selection: HeatCalendarSelection | null
@@ -139,11 +151,16 @@ function HeatCalendar({
   weeks = 26,
   weekStartsOn = 0,
   unit: unitProp,
-  color = "var(--chart-4, var(--success))",
+  color = "var(--success)",
   maxCount,
   cellSize = 12,
   gap = 3,
   label: labelProp,
+  showWeekdays = true,
+  monthPosition = "top",
+  fit = false,
+  highlightToday = false,
+  completeWeek = false,
   selection: selectionProp,
   defaultSelection = null,
   onSelectionChange,
@@ -214,13 +231,18 @@ function HeatCalendar({
   const [viewportW, setViewportW] = React.useState(0)
 
   const levelColor = React.useCallback(
-    (level: number) => (level <= 0 ? "var(--muted)" : chartAlpha(color, LEVEL_ALPHA[clamp(level, 0, 4)])),
+    (level: number) => (level <= 0 ? EMPTY_COLOR : chartAlpha(color, LEVEL_ALPHA[clamp(level, 0, 4)])),
     [color]
   )
+
+  const endDateIso = React.useMemo(() => isoDay(end), [end])
+  const labelW = showWeekdays ? 30 : 0
+  const monthH = monthPosition === "none" ? 0 : monthPosition === "bottom" ? 22 : 18
 
   const value: Ctx = {
     days,
     byDate,
+    endDateIso,
     weeks,
     weekStartsOn,
     unit,
@@ -228,6 +250,11 @@ function HeatCalendar({
     cellSize,
     gap,
     label,
+    showWeekdays,
+    monthPosition,
+    fit,
+    highlightToday,
+    completeWeek,
     total,
     max,
     selection,
@@ -236,7 +263,7 @@ function HeatCalendar({
     hot,
     setHot,
     levelColor,
-    geo: { labelW: 30, monthH: 18, pitch: cellSize + gap, scrollLeft, setScrollLeft, viewportW, setViewportW },
+    geo: { labelW, monthH, pitch: cellSize + gap, scrollLeft, setScrollLeft, viewportW, setViewportW },
   }
 
   return (
@@ -265,11 +292,17 @@ function HeatCalendarGrid({ className, children }: { className?: string; childre
   const {
     days,
     byDate,
+    endDateIso,
     weeks,
     cellSize,
     gap,
     label,
     unit,
+    showWeekdays,
+    monthPosition,
+    fit,
+    highlightToday,
+    completeWeek,
     selection,
     setSelection,
     inSelection,
@@ -306,13 +339,16 @@ function HeatCalendarGrid({ className, children }: { className?: string; childre
   const months = React.useMemo(() => {
     const out: { week: number; label: string }[] = []
     let prev = -1
+    let prevLabelWeek = -10
     for (let w = 0; w < weeks; w++) {
       const first = days[w * 7]
       const m = new Date(first.time).getUTCMonth()
       if (m !== prev) {
-        // skip a label squeezed into the first column when the month starts mid-week
-        if (!(w === 0 && new Date(days[6].time).getUTCMonth() !== m))
+        // skip a label squeezed into the first column when the month starts mid-week or colliding with previous label
+        if (!(w === 0 && new Date(days[6].time).getUTCMonth() !== m) && w - prevLabelWeek >= 2) {
           out.push({ week: w, label: fmtMonth.format(first.time) })
+          prevLabelWeek = w
+        }
         prev = m
       }
     }
@@ -355,6 +391,11 @@ function HeatCalendarGrid({ className, children }: { className?: string; childre
   const { setViewportW } = geo
   React.useEffect(() => setViewportW(outerSize.width), [outerSize.width, setViewportW])
 
+  const effectiveCell =
+    fit && geo.viewportW > 0 ? Math.max(8, (geo.viewportW - geo.labelW - (weeks - 1) * gap) / weeks) : cellSize
+  const effectivePitch = effectiveCell + gap
+  const topOffset = monthPosition === "top" ? geo.monthH : 0
+
   return (
     <div
       ref={outer}
@@ -365,46 +406,95 @@ function HeatCalendarGrid({ className, children }: { className?: string; childre
       <div
         ref={scroller}
         onScroll={(e) => geo.setScrollLeft(e.currentTarget.scrollLeft)}
-        className="overflow-x-auto overscroll-x-contain pb-1 [scrollbar-width:thin]"
+        className={cn(fit ? "overflow-visible" : "overflow-x-auto overscroll-x-contain pb-1 [scrollbar-width:thin]")}
       >
-        <div className="relative w-max" style={{ paddingLeft: geo.labelW, paddingTop: geo.monthH }}>
+        <div
+          className={cn("relative", fit ? "w-full" : "w-max")}
+          style={{
+            paddingLeft: geo.labelW,
+            paddingTop: monthPosition === "top" ? geo.monthH : 0,
+            paddingBottom: monthPosition === "bottom" ? geo.monthH + 4 : 0,
+          }}
+        >
           {/* month labels */}
-          {months.map((m) => (
-            <span
-              key={`${m.week}-${m.label}`}
-              aria-hidden
-              className="absolute top-0 text-ui-2xs text-muted-foreground"
-              style={{ left: geo.labelW + m.week * geo.pitch }}
-            >
-              {m.label}
-            </span>
-          ))}
+          {monthPosition !== "none" &&
+            months.map((m) => (
+              <span
+                key={`${m.week}-${m.label}`}
+                aria-hidden
+                className={cn(
+                  "absolute text-muted-foreground",
+                  monthPosition === "bottom" ? "bottom-0 text-ui-xs" : "top-0 text-ui-2xs",
+                )}
+                style={{
+                  left: fit
+                    ? `calc(${geo.labelW}px + ${m.week} * ((100% - ${geo.labelW}px + ${gap}px) / ${weeks}))`
+                    : geo.labelW + m.week * geo.pitch,
+                }}
+              >
+                {m.label}
+              </span>
+            ))}
           {/* weekday labels */}
-          {[1, 3, 5].map((d) => (
-            <span
-              key={d}
-              aria-hidden
-              className="absolute left-0 text-ui-2xs leading-none text-muted-foreground"
-              style={{ top: geo.monthH + d * geo.pitch + (cellSize - 10) / 2 }}
-            >
-              {fmtWeekday.format(days[d]?.time ?? 0)}
-            </span>
-          ))}
+          {showWeekdays &&
+            [1, 3, 5].map((d) => (
+              <span
+                key={d}
+                aria-hidden
+                className="absolute left-0 text-ui-2xs leading-none text-muted-foreground"
+                style={{ top: topOffset + d * effectivePitch + (effectiveCell - 10) / 2 }}
+              >
+                {fmtWeekday.format(days[d]?.time ?? 0)}
+              </span>
+            ))}
 
           <div
             role="grid"
             aria-label={labels.calendarRangeHint(label)}
             aria-multiselectable
             className="grid touch-pan-x select-none"
-            style={{ gridTemplateColumns: `repeat(${weeks}, ${cellSize}px)`, gap }}
+            style={{
+              gridTemplateColumns: fit ? `repeat(${weeks}, minmax(0, 1fr))` : `repeat(${weeks}, ${cellSize}px)`,
+              gap,
+            }}
           >
             {rows.map((d) => (
               <div role="row" key={d} className="contents">
                 {Array.from({ length: weeks }, (_, w) => {
                   const day = days[w * 7 + d]
-                  if (day.future) return <div role="gridcell" key={day.date} aria-disabled style={{ width: cellSize, height: cellSize }} />
+                  if (day.future) {
+                    return completeWeek ? (
+                      <div
+                        role="gridcell"
+                        key={day.date}
+                        aria-disabled
+                        className={cn("rounded-xs opacity-45", fit && "aspect-square w-full")}
+                        style={
+                          fit
+                            ? { background: EMPTY_COLOR }
+                            : { width: cellSize, height: cellSize, background: EMPTY_COLOR }
+                        }
+                      />
+                    ) : (
+                      <div
+                        role="gridcell"
+                        key={day.date}
+                        aria-disabled
+                        className={fit ? "aspect-square w-full" : undefined}
+                        style={fit ? undefined : { width: cellSize, height: cellSize }}
+                      />
+                    )
+                  }
                   const selected = inSelection(day.date)
                   const isHot = hot?.date === day.date
+                  const isToday = highlightToday && day.date === endDateIso
+                  const ring = selected
+                    ? `0 0 0 1.5px ${color}`
+                    : isToday
+                      ? `inset 0 0 0 1.5px ${chartAlpha(color, 85)}`
+                      : isHot
+                        ? `inset 0 0 0 1px ${chartAlpha(color, 55)}`
+                        : undefined
                   return (
                     <motion.div
                       key={day.date}
@@ -419,7 +509,7 @@ function HeatCalendarGrid({ className, children }: { className?: string; childre
                       data-level={day.level}
                       data-selected={selected || undefined}
                       initial={reduce ? false : { opacity: 0, scale: 0.6 }}
-                      animate={{ opacity: selection && !selected ? 0.45 : 1, scale: isHot ? 1.25 : 1 }}
+                      animate={{ opacity: selection && !selected ? 0.45 : 1, scale: isHot ? 1.1 : 1 }}
                       transition={
                         reduce
                           ? { duration: 0 }
@@ -457,13 +547,12 @@ function HeatCalendarGrid({ className, children }: { className?: string; childre
                       onKeyDown={(e) => onKeyDown(e, day)}
                       className={cn(
                         "relative cursor-pointer rounded-xs outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                        day.level === 0 && "shadow-well"
+                        fit && "aspect-square w-full",
                       )}
                       style={{
-                        width: cellSize,
-                        height: cellSize,
+                        ...(fit ? {} : { width: cellSize, height: cellSize }),
                         background: levelColor(day.level),
-                        boxShadow: selected ? `0 0 0 1.5px ${color}` : undefined,
+                        boxShadow: ring,
                         zIndex: isHot ? 2 : undefined,
                       }}
                     />
@@ -492,16 +581,20 @@ function HeatCalendarTooltip({
   children?: (day: HeatCalendarDay) => React.ReactNode
 }) {
   const { labels } = useLocale()
-  const { hot, unit, levelColor, cellSize, geo, weeks, max } = useHeatCalendar()
-  const x = hot ? geo.labelW + hot.week * geo.pitch + cellSize / 2 - geo.scrollLeft : 0
-  const y = hot ? geo.monthH + hot.day * geo.pitch : 0
-  const width = geo.viewportW || geo.labelW + weeks * geo.pitch
+  const { hot, unit, levelColor, cellSize, gap, fit, monthPosition, geo, weeks, max } = useHeatCalendar()
+  const effectiveCell =
+    fit && geo.viewportW > 0 ? Math.max(8, (geo.viewportW - geo.labelW - (weeks - 1) * gap) / weeks) : cellSize
+  const effectivePitch = effectiveCell + gap
+  const topOffset = monthPosition === "top" ? geo.monthH : 0
+  const x = hot ? geo.labelW + hot.week * effectivePitch + effectiveCell / 2 - (fit ? 0 : geo.scrollLeft) : 0
+  const y = hot ? topOffset + hot.day * effectivePitch : 0
+  const width = geo.viewportW || geo.labelW + weeks * effectivePitch
   return (
     <ChartTooltip
       open={!!hot}
       x={x}
       y={y}
-      bounds={{ width, height: geo.monthH + 7 * geo.pitch }}
+      bounds={{ width, height: topOffset + 7 * effectivePitch }}
       side="top"
       offset={8}
       avoidCollisions={false}
@@ -545,7 +638,7 @@ function HeatCalendarLegend({ className, ...props }: React.ComponentProps<"div">
       {[0, 1, 2, 3, 4].map((l) => (
         <span
           key={l}
-          className={cn("size-2.5 rounded-2xs", l === 0 && "shadow-well")}
+          className="size-2.5 rounded-2xs"
           style={{ background: levelColor(l) }}
         />
       ))}

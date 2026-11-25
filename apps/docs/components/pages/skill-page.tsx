@@ -59,7 +59,7 @@ const RULE_ZH: Record<number, { title: string; why: string }> = {
   },
   6: {
     title: "嵌套圆角保持同心",
-    why: "子元素的圆角不跟随容器的曲线时，在任何圆角预设下都像是错误。",
+    why: "子元素的圆角不跟随容器的曲线时，基于 `--radius` 就会显得不协调。",
   },
   7: {
     title: "圆角不超过 16px",
@@ -67,7 +67,7 @@ const RULE_ZH: Record<number, { title: string; why: string }> = {
   },
   8: {
     title: "所有圆角都从基础圆角推导",
-    why: "预设和圆角滑块会缩放 `--radius` 及基于它的变量，而不是写死的像素圆角。",
+    why: "基于 `--radius`（默认固定为 `0.875rem` / `xl`）推导的变量让圆角保持统一，而不是写死的像素圆角。",
   },
   9: {
     title: "使用界面文字层级",

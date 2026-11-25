@@ -6,8 +6,8 @@ Generators, contrast verification, browser audits, and tests under `tooling/scri
 
 | Script | Invoked via | Purpose |
 | --- | --- | --- |
-| `gen-theme.py`, `gen-paper.py`, `gen-studio.py`, `gen-native-tokens.mjs`, `theme_roles.py`, `theme_color.py` | `pnpm tokens:gen` | Generate CSS themes (`globals.css`, `theme-paper.css`, `theme-studio.css`, `theme-accents.css`), `accent-presets.generated.ts`, and `packages/tokens/src/colors.generated.ts` |
-| `theme-contrast.mjs`, `paper-contrast.mjs` | `pnpm tokens:contrast` | Verify 4.5:1 text and 3:1 control contrast across all styles, accents, and modes |
+| `gen-theme.mjs`, `gen-native-tokens.mjs`, `theme-roles.mjs`, `theme-color.mjs` | `pnpm tokens:gen` | Generate CSS themes (`globals.css`, `theme-accents.css`), `accent-presets.generated.ts`, and `packages/tokens/src/colors.generated.ts` |
+| `theme-contrast.mjs` | `pnpm tokens:contrast` | Verify 4.5:1 text and 3:1 control contrast across all accents and modes |
 | `gen-og-tokens.mjs`, `registry-postbuild.mjs` | `pnpm registry:build` | Rewrite built registry JSON dependency URLs, strip repo lint suppressions, write `llms.txt` |
 | `gen-docs.mjs` | `pnpm docs:gen` | Generate `apps/docs/content/docs/index.generated.ts` and `examples.generated.tsx` |
 | `gen-docs-md.mjs`, `audit-docs-md.mjs` | `pnpm build`, `pnpm docs:md:audit` | Emit `apps/docs/out/docs/*.md` and check formatting, glued words, empty links, and table columns |

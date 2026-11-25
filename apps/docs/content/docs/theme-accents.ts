@@ -23,10 +23,6 @@ export default {
       title: "Switching",
       body: { en: "Set or remove the attribute with `document.documentElement.dataset.accent = \"rose\"`. To keep a pick across visits, store it and set the attribute in a pre-paint script, as the theme toggle does for `.dark`. For a ready-made control, see [Accent Picker](/docs/accent-picker).", zh: "使用 `document.documentElement.dataset.accent = \"rose\"` 设置或移除该属性。要在多次访问间保留选择，请存储它并在预绘制脚本中设置属性，就像主题切换对 `.dark` 所做的那样。如需现成控件，请参阅 [Accent Picker](/docs/accent-picker)。" },
     },
-    {
-      title: "Radius presets",
-      body: { en: "`theme-radii` is the same idea for corners: `@import \"./theme-radii.css\"` and set `data-radius=\"none\" | \"sm\" | \"lg\" | \"xl\"` on `<html>` (no attribute or `default` is the theme radius). Install it from `/r/theme-radii.json`.", zh: "`theme-radii` 对圆角是同样的思路：`@import \"./theme-radii.css\"` 并在 `<html>` 上设置 `data-radius=\"none\" | \"sm\" | \"lg\" | \"xl\"`（无属性或 `default` 是主题圆角）。从 `/r/theme-radii.json` 安装它。" },
-    },
   ],
   api: [],
 } satisfies ComponentDoc

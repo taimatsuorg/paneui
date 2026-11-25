@@ -7,6 +7,7 @@ import { Button } from "@paneui/ui/components/button"
 import { ThemeSwitch } from "@paneui/ui/components/theme-toggle"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@paneui/ui/components/tooltip"
 import { LanguageToggle } from "@/components/docs/language-toggle"
+import { AccentControl } from "@/components/docs/theme-controls"
 import { THEME_KEY } from "@/components/docs/theme-script"
 import { useT, type Localized } from "@/lib/site-locale"
 
@@ -43,9 +44,6 @@ export function LandingHeader() {
           <Link href="/docs/templates" className={navLink}>
             {t({ en: "Templates", zh: "模板" })}
           </Link>
-          <Link href="/themes" className={navLink}>
-            {t({ en: "Customize", zh: "自定义" })}
-          </Link>
         </nav>
         <div className="ms-auto flex items-center gap-1">
           <Tooltip>
@@ -64,6 +62,7 @@ export function LandingHeader() {
             </TooltipTrigger>
             <TooltipContent side="bottom">GitHub</TooltipContent>
           </Tooltip>
+          <AccentControl />
           <LanguageToggle />
           <ThemeSwitch storageKey={THEME_KEY} className="mx-1" />
           <Button variant="secondary" size="sm" nativeButton={false} render={<Link href="/docs" />} className="max-sm:hidden">
@@ -79,7 +78,6 @@ const LINKS: { label: Localized; href: string; external?: boolean }[] = [
   { label: { en: "Docs", zh: "文档" }, href: "/docs" },
   { label: { en: "Components", zh: "组件" }, href: "/docs/components" },
   { label: { en: "Templates", zh: "模板" }, href: "/docs/templates" },
-  { label: { en: "Customize", zh: "自定义" }, href: "/themes" },
   { label: "GitHub", href: GITHUB_URL, external: true },
 ]
 

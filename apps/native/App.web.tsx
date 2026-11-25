@@ -1,7 +1,7 @@
 import * as React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider, useTheme } from "@paneui/ui-native";
-import { type ThemeStyle, type ColorScheme } from "@paneui/tokens";
+import { type ColorScheme } from "@paneui/tokens";
 import { categories, components } from "./docs/registry";
 import { guides } from "./docs/guides";
 import { sources } from "./docs/sources.generated";
@@ -158,15 +158,13 @@ function Docs({
   setLanguage,
   mode,
   setMode,
-  setStyle,
 }: {
   language: Language;
   setLanguage: (v: Language) => void;
   mode: Mode;
   setMode: (v: Mode) => void;
-  setStyle: (v: ThemeStyle) => void;
 }) {
-  const { colors, scheme, style, radius, controlRadius, headingFont } = useTheme();
+  const { colors, scheme, radius, controlRadius, headingFont } = useTheme();
   const [route, setRoute] = React.useState(currentRoute);
   const [menu, setMenu] = React.useState(false);
   const dialog = React.useRef<HTMLDialogElement>(null);
@@ -275,15 +273,6 @@ function Docs({
       ))}
     </nav>
   );
-  const styleControl = (id: string) => (
-    <label className="theme-label" htmlFor={id}>
-      <span className={id === "header-style" ? "sr-only" : undefined}>{t("Style", "样式")}</span>
-      <select id={id} value={style} onChange={(event) => setStyle(event.target.value as ThemeStyle)}>
-        <option value="default">{t("Default", "默认")}</option>
-        <option value="paper">{t("Paper", "纸张")}</option>
-      </select>
-    </label>
-  );
   const vars = {
     "--font-heading": headingFont ?? "inherit",
     "--radius-control": `${controlRadius}px`,
@@ -302,7 +291,7 @@ function Docs({
   } as React.CSSProperties;
   return (
     <ExampleLanguage.Provider value={language}>
-      <div className="native-docs" data-style={style} style={vars}>
+      <div className="native-docs" style={vars}>
         <a className="skip-link" href="#main">
           {t("Skip to content", "跳至内容")}
         </a>
@@ -338,7 +327,6 @@ function Docs({
             </a>
           </nav>
           <div className="header-actions">
-            {styleControl("header-style")}
             <button
               aria-label={t("Switch to Chinese", "切换到英文")}
               onClick={() => setLanguage(zh ? "en" : "zh")}
@@ -414,7 +402,6 @@ function Docs({
                   </a>
                 </h2>
                 <p>{section.body[index]}</p>
-                {route === "theming" && section.id === "style" && styleControl("page-style")}
                 {section.code && (
                   <pre>
                     <code>{section.code}</code>
@@ -628,27 +615,22 @@ export default function App() {
   const [mode, setMode] = React.useState<Mode>(() =>
     saved("native-docs-theme", ["light", "dark", "system"], "system"),
   );
-  const [style, setStyle] = React.useState<ThemeStyle>(() =>
-    saved("native-docs-style", ["default", "paper"], "default"),
-  );
   React.useEffect(() => {
     try {
-      localStorage.setItem("native-docs-style", style);
       localStorage.setItem("native-docs-language", language);
       localStorage.setItem("native-docs-theme", mode);
     } catch {
       /* Preferences still work when storage is unavailable. */
     }
-  }, [language, mode, style]);
+  }, [language, mode]);
   return (
     <SafeAreaProvider>
-      <ThemeProvider mode={mode === "system" ? undefined : mode} style={style}>
+      <ThemeProvider mode={mode === "system" ? undefined : mode}>
         <Docs
           language={language}
           setLanguage={setLanguage}
           mode={mode}
           setMode={setMode}
-          setStyle={setStyle}
         />
       </ThemeProvider>
     </SafeAreaProvider>

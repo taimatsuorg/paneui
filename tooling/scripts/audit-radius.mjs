@@ -16,7 +16,6 @@
  * Usage
  *   pnpm audit:radius                      # light theme, docs index pages + the components gallery
  *   pnpm audit:radius -- --dark            # dark theme
- *   pnpm audit:radius -- --style paper     # under a style (data-style on <html>)
  *   pnpm audit:radius -- --pages menu,card # only these docs pages ("components" for the gallery)
  *   pnpm audit:radius -- --all             # every page under out/docs (blocks too)
  *   pnpm audit:radius -- --no-actions      # skip the hover/click steps from the config
@@ -59,9 +58,9 @@ const opt = (n, d) => {
 }
 const BASE = (process.env.BASE_URL || opt("--base", "http://localhost:3123")).replace(/\/$/, "")
 const THEME = flag("--dark") ? "dark" : "light"
-// --radius <none|sm|lg|xl|custom:REM>: audit under a radius preset or a custom value (stored the way the Customize page stores it)
+// --radius <none|sm|lg|xl|custom:REM>: audit under an explicit radius override
 const RADIUS = opt("--radius", "")
-// --style <paper>: audit under a style, stored the way the docs style switch stores it
+// --style <name>: optional html data-style attribute to test
 const STYLE = opt("--style", "")
 const OUT = path.resolve(ROOT, opt("--out", "node_modules/.cache/radius-audit"))
 const CONCURRENCY = Number(opt("--concurrency", "3"))

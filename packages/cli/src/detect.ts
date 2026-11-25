@@ -132,7 +132,6 @@ export interface Detected {
   templates: string[]
   theme: boolean
   accent?: string
-  radius?: string
   icons?: string
 }
 
@@ -184,7 +183,7 @@ export async function detect(project: Project, registry: Registry, index: Regist
       // no theme item in this registry
     }
     if (result.theme) {
-      const { accents, radii } = themePresets(index)
+      const { accents } = themePresets(index)
       const matches = async (name: string) => {
         try {
           const vars = Object.entries((await registry.item(name)).cssVars?.light ?? {})
@@ -194,7 +193,6 @@ export async function detect(project: Project, registry: Registry, index: Regist
         }
       }
       for (const a of accents) if (a !== DEFAULT_ACCENT && (await matches(`theme-${a}`))) result.accent = a
-      for (const r of radii) if (r !== "default" && (await matches(`theme-radius-${r}`))) result.radius = r
     }
   }
 

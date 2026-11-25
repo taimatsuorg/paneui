@@ -22,11 +22,9 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 
 - [Brand Icon](https://paneui.dev/docs/brand-icon.md): Shows brand logos. JSON: https://paneui.dev/r/brand-icon.json
 - [Icon Chip](https://paneui.dev/docs/icon-chip.md): Frames an icon so card and section headers match. JSON: https://paneui.dev/r/icon-chip.json
-- [Icons](https://paneui.dev/docs/icons.md): Rounded outline icon set used across the library. JSON: https://paneui.dev/r/icons.json
 - [Locale Provider](https://paneui.dev/docs/locale-provider.md): Sets the language of every built-in label. JSON: https://paneui.dev/r/locale-provider.json
 - [Theme](https://paneui.dev/docs/theme.md): Shared design tokens for every component. JSON: https://paneui.dev/r/theme.json
 - [Theme Accents](https://paneui.dev/docs/theme-accents.md): Switches the accent colour at runtime with one attribute. JSON: https://paneui.dev/r/theme-accents.json
-- [Theme Paper](https://paneui.dev/docs/theme-paper.md): Gives pages a paper surface and serif titles. JSON: https://paneui.dev/r/theme-paper.json
 - [Typeset](https://paneui.dev/docs/typeset.md): Styles long-form text in docs, articles and chat messages. JSON: https://paneui.dev/r/typeset.json
 
 ## Forms

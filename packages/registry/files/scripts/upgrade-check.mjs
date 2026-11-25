@@ -96,12 +96,12 @@ function checkCss(file, fix) {
   }
 
   const radius = css.match(/:root\s*\{[^}]*?--radius:\s*([^;]+);/)
-  if (radius && radius[1].trim() === "0.625rem")
-    note("info", file, "--radius is 0.625rem, the default before 2026-10-16 (now 0.5rem)",
-      "Keep it if you like the rounder corners (it is the lg preset), or reinstall the theme for 0.5rem.")
+  if (radius && (radius[1].trim() === "0.5rem" || radius[1].trim() === "0.625rem"))
+    note("info", file, `--radius is ${radius[1].trim()}, an earlier default (now 0.875rem)`,
+      "Keep it if you prefer tighter corners, or reinstall the theme for 0.875rem.")
 
   if (/--primary-subtle\s*:/.test(css) && !/--radius-max\s*:/.test(css))
-    note("info", file, "radius tokens without the 16px cap (--radius-max, theme 2.2): a --radius above 0.5rem grows cards and menus past 16px",
+    note("info", file, "radius tokens without the 16px cap (--radius-max, theme 2.2): corners above 0.5rem grow cards and menus past 16px",
       "Reinstall the theme to clamp every radius token at --radius-max.")
   const base = radius ?? css.match(/--radius:\s*([\d.]+)rem/)
   if (base && Number.parseFloat(base[1]) > 1)

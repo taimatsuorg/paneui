@@ -1,0 +1,31 @@
+{
+  "$schema": "https://developers.cloudflare.com/workers/wrangler/config-schema.json",
+  "name": "paneui-icons-mcp",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-11-01",
+  "routes": [
+    {
+      "pattern": "icons.paneui.dev",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": ".cloudflare/output/v1/workers/default/assets",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/mcp", "/health"]
+  },
+  "vars": {
+    "ALLOWED_ORIGINS": "*",
+    "SITE_URL": "https://paneui.dev"
+  },
+  "d1_databases": [
+    {
+      "binding": "ICONS_DB",
+      "database_name": "paneui-icons",
+      "database_id": "e10f6316-80d7-49f1-9973-aaacf9463aa6",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

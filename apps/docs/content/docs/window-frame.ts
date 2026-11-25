@@ -23,7 +23,7 @@ export default {
     { id: "no-controls", title: { en: "Without controls", zh: "无窗口按钮" } },
   ],
   notes: [
-    { title: "Corners", body: { en: "The body is inset 6px and its corner is the frame's minus that inset, so the two stay concentric at every radius preset and in the Paper style.", zh: "主体内缩 6px，其圆角为外框圆角减去该内缩值，因此两者在每个圆角预设下以及 Paper 样式中都保持同心。" } },
+    { title: "Corners", body: { en: "The body is inset 6px and its corner is the frame's minus that inset, so the two stay concentric under the theme radius.", zh: "主体内缩 6px，其圆角为外框圆角减去该内缩值，因此两者在主题圆角下保持同心。" } },
     { title: "Decoration only", body: { en: "The window dots are hidden from assistive tech and do nothing. Put real controls in `WindowFrameActions`.", zh: "窗口圆点对辅助技术隐藏且不执行任何操作。请将真实控件放在 `WindowFrameActions` 中。" } },
   ],
   api: [

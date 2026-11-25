@@ -36,18 +36,3 @@ so direct links work without a fallback. See `docs/README.md` for the authoring 
 The browser shell has English and Chinese documentation and saves language and
 theme preferences locally. Preview and Code share the same example modules.
 The device catalogue uses those modules without importing the browser shell.
-
-## Paper style
-
-Pass `style="paper"` to `ThemeProvider`. Omit it or use `style="default"` to keep
-the existing appearance. The docs header and Theming page save this choice locally.
-`useTheme()` exposes the resolved style, colours, radius, controlRadius, headingFont
-and shadows. Regenerate Paper values from the shared stylesheet with `pnpm tokens:gen`.
-
-The browser export self-hosts its serif heading font and respects `NATIVE_BASE_PATH`.
-Devices use a system serif by default. Install `expo-font` with
-`pnpm exec expo install expo-font`, bundle a semibold TTF or OTF in your app, and
-register it with `useFonts({ PaperHeading: require("./assets/heading-semibold.ttf") })`.
-Pass `headingFont={loaded ? "PaperHeading" : undefined}` to the provider. Keep
-the fallback when loading fails. Include the font licence in your app distribution.
-The bilingual Theming guide contains a working provider example.

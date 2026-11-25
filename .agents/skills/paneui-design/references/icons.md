@@ -2,15 +2,12 @@
 
 All glyphs come from the house set (`@paneui/icons`, installed as `components/icons.tsx`), never another
 icon package or an ad-hoc SVG. Drawing new glyphs is the `paneui-icons` skill
-(`npx skills add taimatsuorg/paneui --skill paneui-icons`); it covers the grids, primitives and preview script
-for every style.
+(`npx skills add taimatsuorg/paneui --skill paneui-icons`); it covers the 24×24 grid, primitives, and
+preview script.
 
-## Styles
+## Style
 
-One file, two styles with the same exports: rounded (default, 24×24, 1.75px strokes) and emoji (full-colour
-glossy objects; arrows, chevrons and text tools stay heavier glyphs in the text colour). Switch a project with
-`npx shadcn@latest add <site>/r/icons-emoji.json --overwrite` (or `icons.json` to go back).
-Check a new icon in both styles at 14px.
+One rounded outline style (24×24 grid, 1.75px round strokes, soft corners), checked at 14px and 16px.
 
 ## Families
 
@@ -19,8 +16,7 @@ Check a new icon in both styles at 14px.
 - **Filled pairs**: `HomeFilledIcon`, `InboxFilledIcon`, `ChatFilledIcon`, `CalendarDaysFilledIcon`,
   `BellFilledIcon`, `UserFilledIcon`, `SettingsFilledIcon`, `FolderFilledIcon`, for the active item of a
   nav without a row fill (`TabBarItem activeIcon`). A row fill already marks the active item in sidebars
-  and rails, so they keep the outline glyph. Add a pair when a new glyph goes in a tab bar (in the emoji
-  style it is an alias of the plain drawing).
+  and rails, so they keep the outline glyph. Add a pair when a new glyph goes in a tab bar.
 
 ## Stroke tiers
 

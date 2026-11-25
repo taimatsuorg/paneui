@@ -15,7 +15,7 @@
       "primary-subtle": "oklch(54.5% 0.1191 162.48 / 0.1)",
       "primary-subtle-hover": "oklch(54.5% 0.1191 162.48 / 0.16)",
       "primary-border": "oklch(54.5% 0.1191 162.48 / 0.32)",
-      "primary-text": "oklch(51.5% 0.1072 162.48)",
+      "primary-text": "oklch(51% 0.1072 162.48)",
       "ring": "oklch(54.5% 0.1191 162.48)",
       "selection": "oklch(54.5% 0.1191 162.48 / 0.22)"
     },

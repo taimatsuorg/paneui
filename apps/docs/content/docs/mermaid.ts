@@ -47,8 +47,8 @@ export default {
     {
       title: "Themes and dark mode",
       body: {
-        en: "`theme=\"auto\"` reads `card`, `foreground`, `primary` and `muted-foreground` from the active `<html>` theme via `Diagram` and updates automatically on light/dark, accent or Paper switches with a transparent backdrop. Passing any named preset from `MERMAID_THEMES` applies that palette instead; override any individual role through `colors`.",
-        zh: "`theme=\"auto\"` 通过 `Diagram` 读取当前 `<html>` 上的 `card`、`foreground`、`primary` 与 `muted-foreground` 令牌，并在明暗模式、强调色或 Paper 风格切换时以透明底色自动重绘。传入 `MERMAID_THEMES` 中的预设名可直接应用对应主题，也可通过 `colors` 单独覆盖配色角色。",
+        en: "`theme=\"auto\"` reads `card`, `foreground`, `primary` and `muted-foreground` from the active `<html>` theme via `Diagram` and updates automatically on light/dark or accent switches with a transparent backdrop. Passing any named preset from `MERMAID_THEMES` applies that palette instead; override any individual role through `colors`.",
+        zh: "`theme=\"auto\"` 通过 `Diagram` 读取当前 `<html>` 上的 `card`、`foreground`、`primary` 与 `muted-foreground` 令牌，并在明暗模式或强调色切换时以透明底色自动重绘。传入 `MERMAID_THEMES` 中的预设名可直接应用对应主题，也可通过 `colors` 单独覆盖配色角色。",
       },
     },
     {

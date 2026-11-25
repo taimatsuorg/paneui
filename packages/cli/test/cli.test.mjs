@@ -123,20 +123,20 @@ describe("commands", () => {
 
   test("add delegates to shadcn by URL, then presets and icon styles, and records them", async () => {
     const cwd = project()
-    const r = await run(["add", "button", "@paneui/card", "theme-violet", "icons-emoji", "--yes", "-r", registry.base], { cwd })
+    const r = await run(["add", "button", "@paneui/card", "theme-violet", "icons-custom", "--yes", "-r", registry.base], { cwd })
     assert.equal(r.code, 0, r.stderr)
     assert.deepEqual(
       r.calls.map((c) => c.args),
       [
         ["add", `${registry.base}/button.json`, `${registry.base}/card.json`, "--yes"],
         ["add", `${registry.base}/theme-violet.json`, "--yes"],
-        ["add", `${registry.base}/icons-emoji.json`, "--yes"],
+        ["add", `${registry.base}/icons-custom.json`, "--yes"],
       ],
     )
     const lock = readJson(path.join(cwd, "paneui.json"))
     assert.deepEqual(lock.items, ["button", "card"])
     assert.deepEqual(lock.theme, { accent: "violet" })
-    assert.equal(lock.icons, "icons-emoji")
+    assert.equal(lock.icons, "icons-custom")
     assert.equal(lock.registry, registry.base)
   })
 
@@ -172,21 +172,23 @@ describe("commands", () => {
     assert.deepEqual(r.calls[0].args, ["add", "@paneui/theme", "--overwrite", "--yes"])
   })
 
-  test("theme <accent> reinstalls the theme, then the presets", async () => {
+  test("theme <accent> reinstalls the theme, then the preset", async () => {
     const cwd = project()
-    const r = await run(["theme", "violet", "--radius", "lg", "-y", "-r", registry.base], { cwd })
+    const r = await run(["theme", "violet", "-y", "-r", registry.base], { cwd })
     assert.equal(r.code, 0, r.stderr)
     assert.deepEqual(
       r.calls.map((c) => c.args),
       [
         ["add", `${registry.base}/theme.json`, "--overwrite", "--yes"],
-        ["add", `${registry.base}/theme-violet.json`, `${registry.base}/theme-radius-lg.json`, "--overwrite", "--yes"],
+        ["add", `${registry.base}/theme-violet.json`, "--overwrite", "--yes"],
       ],
     )
-    assert.deepEqual(readJson(path.join(cwd, "paneui.json")).theme, { accent: "violet", radius: "lg" })
+    assert.deepEqual(readJson(path.join(cwd, "paneui.json")).theme, { accent: "violet" })
     const bad = await run(["theme", "pink", "-r", registry.base], { cwd })
     assert.equal(bad.code, 1)
     assert.match(bad.stderr, /Choose one of: blue, violet/)
+    const badOpt = await run(["theme", "violet", "--radius", "lg", "-r", registry.base], { cwd })
+    assert.equal(badOpt.code, 1)
   })
 
   test("update --dry-run finds installed items without a lockfile and summarises changes", async () => {
@@ -201,7 +203,7 @@ describe("commands", () => {
         "components/icons.tsx": "export const A = 1\nexport const B = 2\n// outline\n// thin strokes\n",
       },
     })
-    write(cwd, "app/globals.css", ":root {\n  --primary: #6e56cf;\n  --primary-subtle: #008ff519;\n  --radius: 0.625rem;\n}\n")
+    write(cwd, "app/globals.css", ":root {\n  --primary: #6e56cf;\n  --primary-subtle: #008ff519;\n  --radius: 0.875rem;\n}\n")
     const r = await run(["update", "--dry-run", "-r", registry.base], { cwd })
     assert.equal(r.code, 0, r.stderr)
     assert.equal(r.calls.length, 0, "dry run must not call shadcn")
@@ -212,8 +214,8 @@ describe("commands", () => {
     assert.doesNotMatch(r.stdout, /donut-chart/)
     const cmds = r.stdout.split("Would run")[1]
     assert.match(cmds, /add \S+\/theme\.json \S+\/button\.json \S+\/card\.json --overwrite --yes/)
-    assert.match(cmds, /add \S+\/theme-violet\.json \S+\/theme-radius-lg\.json --overwrite --yes/)
-    assert.match(cmds, /add \S+\/icons-emoji\.json --overwrite --yes/)
+    assert.match(cmds, /add \S+\/theme-violet\.json --overwrite --yes/)
+    assert.match(cmds, /add \S+\/icons-custom\.json --overwrite --yes/)
   })
 
   test("update --yes reinstalls recorded items in order and keeps the lockfile", async () => {
@@ -236,19 +238,19 @@ describe("commands", () => {
 
   test("update --theme-only touches only the theme and presets", async () => {
     const cwd = project()
-    write(cwd, "paneui.json", JSON.stringify({ registry: registry.base, items: ["card"], theme: { radius: "lg" }, icons: "icons-emoji" }))
+    write(cwd, "paneui.json", JSON.stringify({ registry: registry.base, items: ["card"], theme: { accent: "violet" }, icons: "icons-custom" }))
     const r = await run(["update", "--theme-only", "--yes", "--no-detect"], { cwd })
     assert.equal(r.code, 0, r.stderr)
     assert.deepEqual(
       r.calls.map((c) => c.args),
       [
         ["add", `${registry.base}/theme.json`, "--overwrite", "--yes"],
-        ["add", `${registry.base}/theme-radius-lg.json`, "--overwrite", "--yes"],
+        ["add", `${registry.base}/theme-violet.json`, "--overwrite", "--yes"],
       ],
     )
     const lock = readJson(path.join(cwd, "paneui.json"))
     assert.deepEqual(lock.items, ["card"])
-    assert.equal(lock.icons, "icons-emoji")
+    assert.equal(lock.icons, "icons-custom")
   })
 
   test("update without --yes refuses to run non-interactively", async () => {

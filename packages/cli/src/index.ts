@@ -33,11 +33,10 @@ const commands: Record<string, Command> = {
       yes: { type: "boolean", short: "y" },
       "no-theme": { type: "boolean" },
       accent: { type: "string" },
-      radius: { type: "string" },
     },
-    help: ["-y, --yes             Skip shadcn prompts", "    --no-theme        Only register the namespace", "    --accent <name>   Accent preset to install with the theme", "    --radius <size>   Radius preset to install with the theme"],
+    help: ["-y, --yes             Skip shadcn prompts", "    --no-theme        Only register the namespace", "    --accent <name>   Accent preset to install with the theme"],
     run: (_p, v, rest) =>
-      init({ ...v, theme: !v["no-theme"], accent: v.accent as string, radius: v.radius as string, passthrough: rest } as never),
+      init({ ...v, theme: !v["no-theme"], accent: v.accent as string, passthrough: rest } as never),
   },
   add: {
     usage: "add <items...>",
@@ -99,7 +98,7 @@ const commands: Record<string, Command> = {
     },
     help: [
       "    --dry-run         Show what would change and the commands, write nothing",
-      "    --theme-only      Only the theme and its accent and radius presets",
+      "    --theme-only      Only the theme and its accent preset",
       "-y, --yes             Skip the confirmation",
       "    --templates       Also reinstall page templates (replaces their routes)",
       `    --no-detect       Only items recorded in ${LOCKFILE}`,
@@ -108,14 +107,13 @@ const commands: Record<string, Command> = {
   },
   theme: {
     usage: "theme [accent]",
-    summary: "Reinstall the theme, optionally with an accent and radius preset",
+    summary: "Reinstall the theme, optionally with an accent preset",
     options: {
-      radius: { type: "string" },
       list: { type: "boolean" },
       yes: { type: "boolean", short: "y" },
       "dry-run": { type: "boolean" },
     },
-    help: ["    --radius <size>   Radius preset (none, sm, default, lg, xl)", "    --list            List accents and radii", "-y, --yes             Skip confirmation prompts", "    --dry-run         List the changes without writing"],
+    help: ["    --list            List accents", "-y, --yes             Skip confirmation prompts", "    --dry-run         List the changes without writing"],
     run: (p, v) => theme(p[0], { ...v, dryRun: v["dry-run"] } as never),
   },
 }
