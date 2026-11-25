@@ -119,9 +119,9 @@ is never rounder than its container. Two levels are supported; a third computes 
 
 ## Type
 
-Inter Variable (`ss03`) → Noto Sans SC → system for UI; JetBrains Mono → system mono for code, keys and
-terminals; Newsreader → Noto Serif SC only in the reading preset. Letter spacing normal. Self-hosted
-through the `fonts` item; the theme falls back to system fonts without it.
+System UI stack for UI text (no webfont download); JetBrains Mono → system mono for code, keys and
+terminals; Newsreader → Noto Serif SC only in the reading preset. Letter spacing normal. Code and reading
+faces are self-hosted through the `fonts` item; the theme falls back to system fonts without it.
 
 Titles (card, dialog, sheet, empty state, page header, settings section) also take `font-heading`. It
 is the UI face by default; the Paper style points it at Source Serif 4 → Noto Serif SC. Body text never

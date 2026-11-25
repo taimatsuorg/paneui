@@ -109,7 +109,7 @@ const SHADOW_SCALE: { cls: string; token: string; use: Prose }[] = [
 ]
 
 const FONTS: { cls: string; face: string; use: Prose }[] = [
-  { cls: "font-sans", face: "Noto Sans, Noto Sans SC", use: { en: "All UI text.", zh: "所有界面文字。" } },
+  { cls: "font-sans", face: "System UI", use: { en: "All UI text (OS native sans and CJK).", zh: "所有界面文字（系统原生无衬线与中文字体）。" } },
   { cls: "font-mono", face: "JetBrains Mono", use: { en: "Code, keys, terminals and tabular IDs.", zh: "代码、按键、终端和对齐的 ID。" } },
   { cls: "font-serif", face: "Newsreader, Noto Serif SC", use: { en: "Long-form reading (the reading typeset preset).", zh: "长文阅读（阅读排版预设）。" } },
 ]
@@ -392,15 +392,13 @@ export default function ThemingPage({ site, data }: { site: SiteProps; data: The
           <T
             en={
               <>
-                The theme names its faces in <Code>--font-sans</Code>, <Code>--font-mono</Code> and <Code>--font-serif</Code>, each
-                with a CJK face and the system stack behind it. Without the font files it renders in system fonts, so installing
-                them is optional.
+                <Code>--font-sans</Code> uses the OS system UI stack directly. <Code>--font-mono</Code> and <Code>--font-serif</Code> name
+                self-hosted faces with CJK and system fallbacks, so installing the font files is optional.
               </>
             }
             zh={
               <>
-                主题在 <Code>--font-sans</Code>、<Code>--font-mono</Code> 和 <Code>--font-serif</Code> 中声明字体，每个都在系统字体栈之前配有中日韩字体。
-                没有字体文件时会以系统字体渲染，因此安装字体是可选的。
+                <Code>--font-sans</Code> 直接使用操作系统原生界面字体栈。<Code>--font-mono</Code> 与 <Code>--font-serif</Code> 声明了自托管字体并附带中日韩及系统回退，因此安装字体是可选的。
               </>
             }
           />

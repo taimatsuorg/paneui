@@ -32,9 +32,10 @@ test("the fonts note names the faces the current stack lists", () => {
   const out = check(current)
   const line = out.split("\n").find((l) => l.includes("nothing imports fonts.css"))
   assert.ok(line, out)
-  assert.match(line, /Noto Sans/)
   assert.match(line, /JetBrains Mono/)
   assert.match(line, /Newsreader/)
+  assert.match(line, /Noto Serif SC/)
+  assert.doesNotMatch(line, /Noto Sans/)
   assert.doesNotMatch(line, /Inter/)
   assert.doesNotMatch(out, /no longer use/)
 })
@@ -45,10 +46,10 @@ test("the fonts note stays quiet when a source file imports fonts.css", () => {
 })
 
 test("an older stack with a retired face gets its own note", () => {
-  const old = current.replace(/--font-sans:\s*"Noto Sans Variable"/, '--font-sans: "Inter Variable"')
+  const old = current.replace(/--font-sans:\s*/, '--font-sans: "Noto Sans Variable", "Noto Sans SC Variable", ')
   const out = check(old)
   assert.match(out, /the font stack names .*JetBrains Mono.* but nothing imports fonts\.css/)
-  assert.match(out, /still names Inter, which the theme and fonts item no longer use/)
+  assert.match(out, /still names Noto Sans and Noto Sans SC, which the theme and fonts item no longer use/)
 })
 
 test("a stack of system faces only gets no fonts note", () => {

@@ -20,11 +20,12 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family:
-    "Noto Sans Variable",
-    "Noto Sans SC Variable",
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
+    system-ui,
+    "PingFang SC",
+    "Microsoft YaHei",
     sans-serif;
   font-size: 14px;
   line-height: 1.6;
@@ -244,8 +245,8 @@ body {
 }
 .native-docs code {
   font-family:
-    "JetBrains Mono Variable", "Noto Sans SC Variable", ui-monospace,
-    SFMono-Regular, Consolas, monospace;
+    "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Consolas,
+    "PingFang SC", "Microsoft YaHei", monospace;
 }
 .example-frame {
   border: 1px solid var(--border);
@@ -507,11 +508,12 @@ html[lang] [dir="auto"],
 html[lang] input,
 html[lang] textarea {
   font-family:
-    "Noto Sans Variable",
-    "Noto Sans SC Variable",
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
+    system-ui,
+    "PingFang SC",
+    "Microsoft YaHei",
     sans-serif;
 }
 .native-docs table {

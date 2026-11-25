@@ -31,7 +31,7 @@ def mode_block(theme, mode):
     source = theme.LIGHT if mode == "light" else theme.DARK
     skip = set(theme.ACC) | {f"chart-{i}" for i in range(1, 9)}
     d = {
-        "heading-font": '"Noto Sans Variable", "Noto Sans", "Noto Sans SC Variable", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "PingFang SC", sans-serif',
+        "heading-font": '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "PingFang SC", "Microsoft YaHei", sans-serif',
         "heading-font-features": "normal",
     }
     for k, v in source.items():

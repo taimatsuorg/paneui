@@ -34,8 +34,8 @@ const UNDASHED =
   /^[ \t]*(?:primary|primary-[a-z-]+|ring|destructive(?:-[a-z]+)?|success(?:-[a-z]+)?|warning(?:-[a-z]+)?|chart-[1-8]|shadow-lg):[^;]*;[ \t]*\n/gm
 
 /* Faces the fonts item installs, and faces earlier theme versions named that it no longer ships. */
-const SELF_HOSTED = ["Noto Sans", "Noto Sans SC", "JetBrains Mono", "Newsreader", "Noto Serif SC", "Source Serif 4"]
-const RETIRED_FACES = ["Inter"]
+const SELF_HOSTED = ["JetBrains Mono", "Newsreader", "Noto Serif SC", "Source Serif 4"]
+const RETIRED_FACES = ["Inter", "Noto Sans", "Noto Sans SC"]
 
 /** The variable faces the --font-* stacks list, in stack order, without the " Variable" suffix. */
 function fontStackFaces(css) {
