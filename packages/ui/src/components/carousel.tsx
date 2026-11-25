@@ -177,19 +177,24 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   const { orientation, viewportRef } = useCarousel()
   return (
     <div
-      ref={viewportRef}
-      data-slot="carousel-content"
-      tabIndex={-1}
-      className={cn(
-        "scrollbar-none w-full min-w-0 overscroll-contain outline-none",
-        orientation === "horizontal" ? "snap-x snap-mandatory overflow-x-auto" : "h-full snap-y snap-mandatory overflow-y-auto"
-      )}
+      data-slot="carousel-viewport"
+      className={cn("isolate w-full min-w-0 overflow-clip rounded-xl", orientation === "vertical" && "h-full")}
     >
       <div
-        data-slot="carousel-track"
-        className={cn("flex gap-3", orientation === "vertical" && "h-full flex-col", className)}
-        {...props}
-      />
+        ref={viewportRef}
+        data-slot="carousel-content"
+        tabIndex={-1}
+        className={cn(
+          "scrollbar-none w-full min-w-0 rounded-xl overscroll-contain outline-none",
+          orientation === "horizontal" ? "snap-x snap-mandatory overflow-x-auto" : "h-full snap-y snap-mandatory overflow-y-auto"
+        )}
+      >
+        <div
+          data-slot="carousel-track"
+          className={cn("flex gap-3", orientation === "vertical" && "h-full flex-col", className)}
+          {...props}
+        />
+      </div>
     </div>
   )
 }
