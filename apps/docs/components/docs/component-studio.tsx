@@ -161,12 +161,12 @@ function rowForHash(hash: string) {
 }
 
 /**
- * A component page is these two panels and nothing else. The stage shows the selected example
- * (Preview) or the page's docs as white rows (Code: install, usage, the example's source, then
- * composition, API and notes). The side panel holds the title, the one-line summary, the example
- * list (grouped by variant on merged pages), the viewport, and the share and install actions.
- * From `lg` both panels fill the viewport; the side panel stays put and scrolls inside.
- * Phones stack the side panel first.
+ * A component page is these two panels and nothing else. The stage shows the Preview / Code and
+ * viewport switches plus page actions above the selected example (Preview) or docs rows (Code:
+ * install, usage, the example's source, composition, API and notes). The side panel holds the
+ * title, the one-line summary, the example list (grouped by variant on merged pages), and the
+ * share and install actions. From `lg` both panels fill the viewport; the side panel stays put and
+ * scrolls inside. Phones stack the side panel first.
  */
 export function ComponentStudio({
   name,
@@ -305,16 +305,33 @@ export function ComponentStudio({
           className="tile frame-p-2 flex min-h-96 min-w-0 flex-col gap-2 md:min-h-136 lg:min-h-(--studio-h)"
         >
           <div className="flex flex-wrap items-center justify-between gap-2 p-1">
-            <SegmentedControl value={mode} onValueChange={(v) => setMode(v === "code" ? "code" : "preview")} aria-label={label("View")}>
-              <SegmentedControlItem value="preview" data-mode="preview">
-                <EyeIcon />
-                <span className="max-sm:sr-only">{label("Preview")}</span>
-              </SegmentedControlItem>
-              <SegmentedControlItem value="code" data-mode="code">
-                <CodeIcon />
-                <span className="max-sm:sr-only">{label("Code")}</span>
-              </SegmentedControlItem>
-            </SegmentedControl>
+            <div className="flex flex-wrap items-center gap-2">
+              <SegmentedControl value={mode} onValueChange={(v) => setMode(v === "code" ? "code" : "preview")} aria-label={label("View")}>
+                <SegmentedControlItem value="preview" data-mode="preview">
+                  <EyeIcon />
+                  <span className="max-sm:sr-only">{label("Preview")}</span>
+                </SegmentedControlItem>
+                <SegmentedControlItem value="code" data-mode="code">
+                  <CodeIcon />
+                  <span className="max-sm:sr-only">{label("Code")}</span>
+                </SegmentedControlItem>
+              </SegmentedControl>
+              {/* Device widths need room to compare against; phones keep the inline preview. */}
+              {mode === "preview" && !customStage && (
+                <div className="max-md:hidden">
+                  <SegmentedControl value={viewport} onValueChange={(v) => isViewport(v) && setViewport(v)} aria-label={label("Viewport")}>
+                    {VIEWPORTS.map((v) => (
+                      <Tooltip key={v.value}>
+                        <TooltipTrigger render={<SegmentedControlItem value={v.value} aria-label={label(v.label)} />}>
+                          <v.icon />
+                        </TooltipTrigger>
+                        <TooltipContent>{v.width ? `${label(v.label)}, ${v.width}px` : label(v.label)}</TooltipContent>
+                      </Tooltip>
+                    ))}
+                  </SegmentedControl>
+                </div>
+              )}
+            </div>
             <PageActions variant="default" markdownPath={markdownPath} pagePath={pagePath} title={title} />
           </div>
           {mode === "preview" ? (
@@ -364,7 +381,7 @@ export function ComponentStudio({
             <p className="text-ui-lg text-pretty text-muted-foreground">{summary}</p>
           </div>
 
-          {/* Only the example list scrolls; the intro under it and the viewport stay in view. */}
+          {/* Only the example list scrolls; the intro under it stays in view. */}
           <div className="flex min-h-0 flex-1 flex-col gap-5">
             {showList ? (
             <div className="flex min-h-0 min-w-0 flex-col gap-2">
@@ -415,22 +432,6 @@ export function ComponentStudio({
               intro && <p className="text-ui text-pretty text-muted-foreground">{intro}</p>
             )}
 
-            {/* Device widths need room to compare against; phones keep the inline preview. */}
-            {!customStage && (
-              <div className="flex shrink-0 items-center justify-between gap-3 max-md:hidden">
-                <span className="text-ui font-medium text-foreground">{label("Viewport")}</span>
-                <SegmentedControl value={viewport} onValueChange={(v) => isViewport(v) && setViewport(v)} aria-label={label("Viewport")}>
-                  {VIEWPORTS.map((v) => (
-                    <Tooltip key={v.value}>
-                      <TooltipTrigger render={<SegmentedControlItem value={v.value} aria-label={label(v.label)} />}>
-                        <v.icon />
-                      </TooltipTrigger>
-                      <TooltipContent>{v.width ? `${label(v.label)}, ${v.width}px` : label(v.label)}</TooltipContent>
-                    </Tooltip>
-                  ))}
-                </SegmentedControl>
-              </div>
-            )}
           </div>
 
           <div className="flex flex-col gap-2">
