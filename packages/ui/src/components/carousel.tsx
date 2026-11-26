@@ -49,6 +49,12 @@ type CarouselProps = React.ComponentProps<"div"> & {
   onIndexChange?: (index: number) => void
 }
 
+/** Start-edge spacing gutter on each CarouselItem (matches `--carousel-gap`). */
+function itemLeadInset(el: HTMLElement, horizontal: boolean, rtl: boolean) {
+  const s = getComputedStyle(el)
+  return parseFloat(horizontal ? (rtl ? s.paddingRight : s.paddingLeft) : s.paddingTop) || 0
+}
+
 function Carousel({ orientation = "horizontal", loop = false, onIndexChange, className, onKeyDown, children, ...props }: CarouselProps) {
   const viewportRef = React.useRef<HTMLDivElement>(null)
   const [state, setState] = React.useState({ index: 0, count: 0, canPrev: false, canNext: false })
@@ -76,14 +82,21 @@ function Carousel({ orientation = "horizontal", loop = false, onIndexChange, cla
     let best = Infinity
     items.forEach((el, i) => {
       const r = el.getBoundingClientRect()
-      const d = Math.abs((horizontal ? (rtl ? r.right : r.left) : r.top) - start)
+      const inset = itemLeadInset(el, horizontal, rtl)
+      const edge = horizontal ? (rtl ? r.right - inset : r.left + inset) : r.top + inset
+      const d = Math.abs(edge - start)
       if (d < best) {
         best = d
         index = i
       }
     })
     // At the end, the last slide counts as current (it may never reach the start edge).
-    if (max > 0 && pos >= max - 2 && items.length > 0 && items[items.length - 1].getBoundingClientRect().width <= vp.clientWidth) index = Math.max(index, items.length - 1)
+    const last = items[items.length - 1]
+    if (max > 0 && pos >= max - 2 && last) {
+      const lastRect = last.getBoundingClientRect()
+      const lastSize = (horizontal ? lastRect.width : lastRect.height) - itemLeadInset(last, horizontal, rtl)
+      if (lastSize <= (horizontal ? vp.clientWidth : vp.clientHeight) + 1) index = Math.max(index, items.length - 1)
+    }
     if (lastIndex.current !== index) {
       lastIndex.current = index
       onIndex.current?.(index)
@@ -101,12 +114,14 @@ function Carousel({ orientation = "horizontal", loop = false, onIndexChange, cla
       const el = items[Math.max(0, Math.min(items.length - 1, i))]
       if (!vp || !el) return
       const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      const horizontal = orientation === "horizontal"
       const r = el.getBoundingClientRect()
       const v = vp.getBoundingClientRect()
-      const rtl = getComputedStyle(vp).direction === "rtl"
+      const rtl = horizontal && getComputedStyle(vp).direction === "rtl"
+      const inset = itemLeadInset(el, horizontal, rtl)
       vp.scrollBy({
-        left: orientation === "horizontal" ? (rtl ? r.right - v.right : r.left - v.left) : 0,
-        top: orientation === "vertical" ? r.top - v.top : 0,
+        left: horizontal ? (rtl ? r.right - inset - v.right : r.left + inset - v.left) : 0,
+        top: !horizontal ? r.top + inset - v.top : 0,
         behavior: smooth ? "smooth" : "auto",
       })
     },
@@ -178,7 +193,10 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="carousel-viewport"
-      className={cn("isolate w-full min-w-0 overflow-clip rounded-xl", orientation === "vertical" && "h-full")}
+      className={cn(
+        "isolate min-w-0 overflow-clip rounded-xl",
+        orientation === "horizontal" ? "-my-1 w-full" : "-mx-1 h-full w-[calc(100%+var(--spacing)*2)]"
+      )}
     >
       <div
         ref={viewportRef}
@@ -186,12 +204,20 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
         tabIndex={-1}
         className={cn(
           "scrollbar-none w-full min-w-0 rounded-xl overscroll-contain outline-none",
-          orientation === "horizontal" ? "snap-x snap-mandatory overflow-x-auto" : "h-full snap-y snap-mandatory overflow-y-auto"
+          orientation === "horizontal"
+            ? "snap-x snap-mandatory overflow-x-auto py-1"
+            : "h-full snap-y snap-mandatory overflow-y-auto px-1"
         )}
       >
         <div
           data-slot="carousel-track"
-          className={cn("flex gap-3", orientation === "vertical" && "h-full flex-col", className)}
+          className={cn(
+            "flex [--carousel-gap:calc(var(--spacing)*3)]",
+            orientation === "horizontal"
+              ? "-ms-(--carousel-gap)"
+              : "-mt-(--carousel-gap) h-[calc(100%+var(--carousel-gap))] flex-col",
+            className
+          )}
           {...props}
         />
       </div>
@@ -200,11 +226,18 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
+  const { orientation } = useCarousel()
   return (
     <div
       role="group"
       data-slot="carousel-item"
-      className={cn("min-w-0 shrink-0 grow-0 basis-full snap-start", className)}
+      className={cn(
+        "min-w-0 shrink-0 grow-0 basis-full snap-start",
+        orientation === "horizontal"
+          ? "ps-(--carousel-gap) -scroll-ms-(--carousel-gap)"
+          : "pt-(--carousel-gap) -scroll-mt-(--carousel-gap)",
+        className
+      )}
       {...props}
       aria-roledescription={props["aria-roledescription"] ?? "slide"}
     />

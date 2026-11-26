@@ -105,3 +105,24 @@ test("opaque-child tables reserve a 1px inset channel and destructive SettingsGr
   assert.match(settings, /\binset-ring\b/)
   assert.doesNotMatch(settings, /\bring-1\s+ring-destructive/)
 })
+
+test("carousel reserves cross-axis shadow bleed and moves slide gap to leading item padding", () => {
+  const carousel = fs.readFileSync(path.join(root, "packages/ui/src/components/carousel.tsx"), "utf8")
+  assert.match(carousel, /-my-1 w-full/)
+  assert.match(carousel, /\bpy-1\b/)
+  assert.match(carousel, /-mx-1 h-full w-\[calc\(100%\+var\(--spacing\)\*2\)\]/)
+  assert.match(carousel, /\bpx-1\b/)
+  assert.match(carousel, /\[--carousel-gap:calc\(var\(--spacing\)\*3\)\]/)
+  assert.match(carousel, /-ms-\(--carousel-gap\)/)
+  assert.match(carousel, /ps-\(--carousel-gap\)/)
+  assert.match(carousel, /-scroll-ms-\(--carousel-gap\)/)
+  assert.match(carousel, /-mt-\(--carousel-gap\)/)
+  assert.match(carousel, /pt-\(--carousel-gap\)/)
+  assert.match(carousel, /-scroll-mt-\(--carousel-gap\)/)
+  assert.doesNotMatch(carousel, /"flex gap-3"/)
+
+  const published = JSON.parse(fs.readFileSync(path.join(root, "apps/docs/public/r/carousel.json"), "utf8"))
+  const publishedContent = published.files[0].content
+  assert.match(publishedContent, /\bpy-1\b/)
+  assert.match(publishedContent, /--carousel-gap/)
+})

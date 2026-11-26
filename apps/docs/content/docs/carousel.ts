@@ -59,7 +59,7 @@ export default {
     },
     {
       "name": "CarouselContent",
-      "description": { en: "The scroll container; `className` goes on the track (gap, padding).", zh: "滚动容器；`className` 加在轨道上（gap、padding）。" },
+      "description": { en: "The scroll container; `className` goes on the track (spacing via `--carousel-gap`, padding).", zh: "滚动容器；`className` 加在轨道上（通过 `--carousel-gap` 调间距，或设置 padding）。" },
       "extends": "div",
       "props": []
     },
