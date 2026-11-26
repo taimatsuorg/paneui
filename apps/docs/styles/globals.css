@@ -49,10 +49,3 @@
   line-height: 1;
   padding: 0.1em 0.3em;
 }
-
-/* Docs sidebar: the current page is a soft grey pill. */
-[data-docs-nav] [aria-current="page"] {
-  background-color: var(--fill-hover);
-  color: var(--foreground);
-  font-weight: 500;
-}

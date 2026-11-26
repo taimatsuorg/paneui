@@ -184,9 +184,9 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
           <aside
             // Fills the viewport under the header and sticks while the page scrolls.
             style={{ "--docs-aside-h": "calc(100svh - 3rem)" } as React.CSSProperties}
-            className="sticky top-12 hidden h-(--docs-aside-h) w-64 shrink-0 flex-col bg-shell lg:flex"
+            className="sticky top-12 hidden h-(--docs-aside-h) w-64 shrink-0 flex-col border-e border-border bg-background lg:flex"
           >
-            <DocsNav groups={groups} pathname={pathname} section={section} onSearch={openSearch} searchShortcut={shortcut} />
+            <DocsNav groups={groups} pathname={pathname} onSearch={openSearch} searchShortcut={shortcut} />
           </aside>
           )}
 
@@ -218,7 +218,7 @@ export function SiteShell({ groups, children }: { groups: NavGroup[]; children: 
                 </Link>
               ))}
             </nav>
-            <DocsNav groups={groups} pathname={pathname} section={section} onSearch={openSearch} searchShortcut={shortcut} showSearch />
+            <DocsNav groups={groups} pathname={pathname} onSearch={openSearch} searchShortcut={shortcut} showSearch />
           </DrawerContent>
         </Drawer>
 
