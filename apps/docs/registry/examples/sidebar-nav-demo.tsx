@@ -34,7 +34,7 @@ export default function SidebarNavDemo() {
                 <SidebarNavLink
                   href="#"
                   badge={
-                    <Badge variant="success" size="sm">
+                    <Badge variant="primary" size="sm">
                       New
                     </Badge>
                   }

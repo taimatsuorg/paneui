@@ -116,7 +116,7 @@ export function DocsNav({
 
   const newBadge = (name: string) =>
     isNew(name) ? (
-      <Badge variant="success" size="sm">
+      <Badge variant="primary" size="sm">
         {label("New")}
       </Badge>
     ) : undefined
