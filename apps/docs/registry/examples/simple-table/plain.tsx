@@ -16,7 +16,7 @@ const sizes = [
 
 export default function SimpleTablePlain() {
   return (
-    <SimpleTable variant="plain">
+    <SimpleTable variant="default" containerClassName="w-full max-w-xl">
       <SimpleTableHeader>
         <SimpleTableRow>
           <SimpleTableHead>Class</SimpleTableHead>

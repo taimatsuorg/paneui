@@ -167,7 +167,7 @@ const rowClass = cn(
   "flex flex-col gap-1.5 border-t border-border py-2.5 ps-[calc(1rem+var(--schema-depth,0)*1rem)] pe-4",
   "@lg/schema-tree:col-span-full @lg/schema-tree:grid @lg/schema-tree:grid-cols-subgrid @lg/schema-tree:gap-0 @lg/schema-tree:p-0"
 )
-const cellClass = "min-w-0 @lg/schema-tree:border-e @lg/schema-tree:border-border @lg/schema-tree:px-4 @lg/schema-tree:py-2.5 @lg/schema-tree:last:border-e-0"
+const cellClass = "min-w-0 @lg/schema-tree:px-4 @lg/schema-tree:py-2.5"
 const nameCellClass = "@lg/schema-tree:ps-[calc(1rem+var(--schema-depth,0)*1.25rem)]"
 // With an expandable row anywhere in the tree, names start after the chevron's gutter so every level lines up.
 const gutterClass = "ps-5 @lg/schema-tree:ps-[calc(2.25rem+var(--schema-depth,0)*1.25rem)]"
@@ -204,35 +204,34 @@ function SchemaTree({
         className={cn(layout === "auto" && "@container/schema-tree", "w-full min-w-0", className)}
         {...props}
       >
-        <div
-          role="table"
-          data-slot="schema-tree-table"
-          className={cn(
-            "overflow-x-auto rounded-xl bg-background text-sm shadow-raised",
-            "@lg/schema-tree:grid @lg/schema-tree:grid-cols-[minmax(9rem,max-content)_minmax(5rem,max-content)_minmax(12rem,1fr)] @lg/schema-tree:bg-muted/50 @lg/schema-tree:dark:bg-muted"
-          )}
-        >
+        <div className="frame-xl frame-border overflow-hidden bg-card p-px shadow-border">
           <div
-            role="row"
-            data-slot="schema-tree-header"
-            className="sr-only @lg/schema-tree:not-sr-only @lg/schema-tree:col-span-full @lg/schema-tree:grid @lg/schema-tree:grid-cols-subgrid"
+            role="table"
+            data-slot="schema-tree-table"
+            className="overflow-x-auto rounded-inner bg-card text-sm @lg/schema-tree:grid @lg/schema-tree:grid-cols-[minmax(9rem,max-content)_minmax(5rem,max-content)_minmax(12rem,1fr)]"
           >
-            {[labels.schemaProperty, labels.schemaType, labels.description].map((label) => (
-              <div
-                key={label}
-                role="columnheader"
-                className="text-start font-medium text-foreground @lg/schema-tree:border-e @lg/schema-tree:border-border @lg/schema-tree:px-4 @lg/schema-tree:py-2 @lg/schema-tree:last:border-e-0"
-              >
-                {label}
-              </div>
-            ))}
-          </div>
-          <div
-            role="rowgroup"
-            data-slot="schema-tree-body"
-            className="bg-background [&>[data-slot]:first-child]:border-t-0 @lg/schema-tree:col-span-full @lg/schema-tree:grid @lg/schema-tree:grid-cols-subgrid @lg/schema-tree:rounded-t-xl @lg/schema-tree:border-t @lg/schema-tree:border-border"
-          >
-            <SchemaLevel schema={node} depth={0} path={path} />
+            <div
+              role="row"
+              data-slot="schema-tree-header"
+              className="sr-only @lg/schema-tree:not-sr-only @lg/schema-tree:col-span-full @lg/schema-tree:grid @lg/schema-tree:grid-cols-subgrid @lg/schema-tree:bg-[color-mix(in_oklab,var(--foreground)_3.5%,var(--card))]"
+            >
+              {[labels.schemaProperty, labels.schemaType, labels.description].map((label) => (
+                <div
+                  key={label}
+                  role="columnheader"
+                  className="text-start font-medium text-muted-foreground @lg/schema-tree:border-b @lg/schema-tree:border-border @lg/schema-tree:px-4 @lg/schema-tree:py-2.5"
+                >
+                  {label}
+                </div>
+              ))}
+            </div>
+            <div
+              role="rowgroup"
+              data-slot="schema-tree-body"
+              className="bg-card [&>[data-slot]:first-child]:border-t-0 @lg/schema-tree:col-span-full @lg/schema-tree:grid @lg/schema-tree:grid-cols-subgrid"
+            >
+              <SchemaLevel schema={node} depth={0} path={path} />
+            </div>
           </div>
         </div>
       </div>

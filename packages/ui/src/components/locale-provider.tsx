@@ -320,6 +320,9 @@ type LocaleLabels = {
   filters: string
   filter: string
   rowActions: string
+  sortedBy: (column: string, direction: "asc" | "desc") => string
+  sortingRemoved: string
+  searchResultsCount: (count: number) => string
   source: string
   collapseSheet: string
   expandSheet: string
@@ -1102,6 +1105,9 @@ const en: LocaleLabels = {
   filters: "Filters",
   filter: "Filter",
   rowActions: "Row actions",
+  sortedBy: (column, direction) => `Sorted by ${column}, ${direction === "desc" ? "descending" : "ascending"}`,
+  sortingRemoved: "Sorting removed",
+  searchResultsCount: (count) => (count === 1 ? "1 result" : `${count} results`),
   source: "Source",
   collapseSheet: "Collapse sheet",
   expandSheet: "Expand sheet",
@@ -1858,6 +1864,9 @@ const zhCN: LocaleLabels = {
   filters: "筛选条件",
   filter: "筛选",
   rowActions: "行操作",
+  sortedBy: (column, direction) => `已按${column}${direction === "desc" ? "降序" : "升序"}排列`,
+  sortingRemoved: "已取消排序",
+  searchResultsCount: (count) => `${count} 条结果`,
   source: "来源",
   collapseSheet: "收起面板",
   expandSheet: "展开面板",
@@ -2614,6 +2623,9 @@ const ja: LocaleLabels = {
   filters: "フィルター",
   filter: "フィルター",
   rowActions: "行の操作",
+  sortedBy: (column, direction) => `${column}で${direction === "desc" ? "降順" : "昇順"}に並べ替えました`,
+  sortingRemoved: "並べ替えを解除しました",
+  searchResultsCount: (count) => `${count} 件の結果`,
   source: "出典",
   collapseSheet: "シートを折りたたむ",
   expandSheet: "シートを展開",

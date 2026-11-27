@@ -57,7 +57,7 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 - [Slider](https://paneui.dev/docs/slider.md): Picks a value or range by dragging. JSON: https://paneui.dev/r/slider.json
 - [Stepper](https://paneui.dev/docs/stepper.md): Adjusts a number up or down in fixed steps. JSON: https://paneui.dev/r/stepper.json
 - [Swatch Picker](https://paneui.dev/docs/swatch-picker.md): Picks one colour from a fixed palette. JSON: https://paneui.dev/r/swatch-picker.json
-- [Switch](https://paneui.dev/docs/switch.md): Turns a single setting on or off. JSON: https://paneui.dev/r/switch.json
+- [Switch](https://paneui.dev/docs/switch.md): Toggles a setting with drag, press stretch, and async saving. JSON: https://paneui.dev/r/switch.json
 - [Textarea](https://paneui.dev/docs/textarea.md): A text field that grows with your writing. JSON: https://paneui.dev/r/textarea.json
 - [Toggle Group](https://paneui.dev/docs/toggle-group.md): Turns formatting or view options on and off. JSON: https://paneui.dev/r/toggle-group.json
 - [Wheel Picker](https://paneui.dev/docs/wheel-picker.md): Picks values with a scrolling wheel. JSON: https://paneui.dev/r/wheel-picker.json
@@ -171,7 +171,7 @@ Every docs page has a Markdown twin at the same path with `.md` (`/docs/button.m
 - [Comparison Table](https://paneui.dev/docs/comparison-table.md): Compares features across plans with included and excluded marks. JSON: https://paneui.dev/r/comparison-table.json
 - [Data Table](https://paneui.dev/docs/data-table.md): Browses, filters and acts on a set of rows. JSON: https://paneui.dev/r/data-table.json
 - [Schema Tree](https://paneui.dev/docs/schema-tree.md): Lists schema properties in a table that nests objects and arrays. JSON: https://paneui.dev/r/schema-tree.json
-- [Simple Table](https://paneui.dev/docs/simple-table.md): A plain table for reference content like props and tokens. JSON: https://paneui.dev/r/simple-table.json
+- [Simple Table](https://paneui.dev/docs/simple-table.md): Semantic HTML table with sticky headers, pinned columns and scroll fades. JSON: https://paneui.dev/r/simple-table.json
 - [Table](https://paneui.dev/docs/table.md): Shows large data sets that people sort, select and resize. JSON: https://paneui.dev/r/table.json
 - [Table Async](https://paneui.dev/docs/table-async.md): Loads table rows page by page as the reader scrolls. JSON: https://paneui.dev/r/table-async.json
 - [Table Editable](https://paneui.dev/docs/table-editable.md): Lets people edit cells and add or remove rows and columns. JSON: https://paneui.dev/r/table-editable.json

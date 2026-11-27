@@ -1572,7 +1572,7 @@
       "name": "simple-table",
       "type": "registry:ui",
       "title": "Simple Table",
-      "description": "A plain table for reference content like props and tokens.",
+      "description": "Semantic HTML table with sticky headers, pinned columns and scroll fades.",
       "dependencies": [],
       "registryDependencies": [
         "https://paneui.dev/r/theme.json"
@@ -4568,14 +4568,15 @@
       "name": "switch",
       "type": "registry:ui",
       "title": "Switch",
-      "description": "Turns a single setting on or off.",
+      "description": "Toggles a setting with drag, press stretch, and async saving.",
       "dependencies": [
         "@base-ui/react",
         "class-variance-authority"
       ],
       "registryDependencies": [
         "https://paneui.dev/r/theme.json",
-        "https://paneui.dev/r/control-size.json"
+        "https://paneui.dev/r/control-size.json",
+        "https://paneui.dev/r/icons.json"
       ],
       "files": [
         {

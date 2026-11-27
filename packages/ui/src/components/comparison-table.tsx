@@ -16,7 +16,7 @@ import { useLocale } from "@paneui/ui/components/locale-provider"
  *
  * `true` draws the included mark, `false` / `null` the excluded dash, anything else (a string, a
  * number, a node) is shown as is. `sections` groups rows under a heading row instead of `features`.
- * The header band and the body sheet match Table and SimpleTable: the body takes the page colour.
+ * The subtle header band and horizontal row hairlines match SimpleTable and Table.
  */
 
 type ComparisonValue = boolean | null | undefined | React.ReactNode
@@ -68,9 +68,10 @@ type ComparisonTableProps = Omit<React.ComponentProps<"table">, "children"> & {
   containerClassName?: string
 }
 
-/* Sticky cells sit on the band, so they paint it opaquely: the page colour underneath, a light muted fill on top (half in light mode, full in dark). */
-const band = "bg-background shadow-[inset_0_0_0_100vmax_color-mix(in_oklab,var(--muted)_50%,transparent)] dark:shadow-[inset_0_0_0_100vmax_var(--muted)]"
-const highlightFill = "shadow-[inset_0_0_0_100vmax_var(--primary-subtle)]"
+/* Opaque surface tokens so sticky cells hide scrolling content cleanly without blending artifacts. */
+const band = "bg-[color-mix(in_oklab,var(--foreground)_3.5%,var(--card))]"
+const rowHover = "hover:bg-[color-mix(in_oklab,var(--foreground)_3%,var(--card))]"
+const highlightFill = "bg-[color-mix(in_oklab,var(--primary)_6%,var(--card))]"
 
 function ComparisonMark({ value, labels }: { value: ComparisonValue; labels: { included: string; notIncluded: string } }) {
   if (value === true) {
@@ -113,136 +114,119 @@ function ComparisonTable({
   const groups: readonly ComparisonSection[] = sections ?? [{ features: features ?? [] }]
   const highlighted = (plan: ComparisonPlan) => (highlight !== undefined ? plan.id === highlight : !!plan.highlighted)
   const columns = plans.length + 1
-  // The body's first row carries the sheet's rounded top; a section heading can be that row.
-  let firstRow = true
-  const takeFirst = () => {
-    const was = firstRow
-    firstRow = false
-    return was
-  }
 
   return (
     <div
       data-slot="comparison-table-container"
-      className={cn("overflow-auto overscroll-x-contain rounded-xl bg-background shadow-raised", containerClassName)}
-      style={maxHeight !== undefined ? { maxHeight } : undefined}
+      className={cn("frame-xl frame-border overflow-hidden bg-card p-px shadow-border", containerClassName)}
     >
-      <table
-        data-slot="comparison-table"
-        className={cn("w-full table-fixed border-separate border-spacing-0 bg-muted/50 text-start text-ui dark:bg-muted", className)}
-        {...props}
+      <div
+        className="overflow-auto overscroll-x-contain rounded-inner"
+        style={maxHeight !== undefined ? { maxHeight } : undefined}
       >
-        <thead data-slot="comparison-table-header">
-          <tr>
-            <th
-              scope="col"
-              className={cn(
-                // Columns share the width equally; with three plans or more the labels keep 11rem.
-                plans.length > 2 && "w-44",
-                "border-e border-border px-3 py-2 text-start align-bottom font-medium text-foreground",
-                (stickyHeader || stickyFeatureColumn) && band,
-                stickyHeader && "sticky top-0 z-20",
-                stickyFeatureColumn && "sticky start-0 z-30"
-              )}
-            >
-              {featureHeader ?? labels.feature}
-            </th>
-            {plans.map((plan, i) => {
-              const on = highlighted(plan)
+        <table
+          data-slot="comparison-table"
+          className={cn("w-full table-fixed border-separate border-spacing-0 bg-card text-start text-ui", className)}
+          {...props}
+        >
+          <thead data-slot="comparison-table-header">
+            <tr>
+              <th
+                scope="col"
+                className={cn(
+                  // Columns share the width equally; with three plans or more the labels keep 11rem.
+                  plans.length > 2 && "w-44",
+                  "border-b border-border px-4 py-2.5 text-start align-bottom font-medium text-muted-foreground",
+                  band,
+                  stickyHeader && "sticky top-0 z-20",
+                  stickyFeatureColumn && "sticky start-0 z-30"
+                )}
+              >
+                {featureHeader ?? labels.feature}
+              </th>
+              {plans.map((plan) => {
+                const on = highlighted(plan)
+                return (
+                  <th
+                    key={plan.id}
+                    scope="col"
+                    data-highlighted={on || undefined}
+                    className={cn(
+                      "border-b border-border px-4 py-2.5 text-start align-bottom font-medium text-foreground",
+                      on ? "bg-[color-mix(in_oklab,var(--primary)_6%,color-mix(in_oklab,var(--foreground)_3.5%,var(--card)))]" : band,
+                      stickyHeader && "sticky top-0 z-20"
+                    )}
+                  >
+                    <span className="flex min-w-0 items-center gap-1.5">
+                      <span className={cn("truncate", on && "text-primary-text")}>{plan.name}</span>
+                      {plan.badge ? (
+                        <span className="shrink-0 rounded-full bg-primary-subtle px-1.5 text-ui-2xs leading-4 font-medium text-primary-text">
+                          {plan.badge}
+                        </span>
+                      ) : null}
+                    </span>
+                    {plan.detail ? <span className="block text-ui-sm font-normal text-muted-foreground tabular-nums">{plan.detail}</span> : null}
+                  </th>
+                )
+              })}
+            </tr>
+          </thead>
+          <tbody data-slot="comparison-table-body">
+            {groups.map((group, g) => {
+              const last = g === groups.length - 1
               return (
-                <th
-                  key={plan.id}
-                  scope="col"
-                  data-highlighted={on || undefined}
-                  className={cn(
-                    "px-3 py-2 text-start align-bottom font-medium text-foreground",
-                    i < plans.length - 1 && "border-e border-border",
-                    stickyHeader && cn("sticky top-0 z-20", band),
-                    on && (stickyHeader ? "shadow-[inset_0_0_0_100vmax_var(--primary-subtle),inset_0_0_0_100vmax_color-mix(in_oklab,var(--muted)_50%,transparent)] dark:shadow-[inset_0_0_0_100vmax_var(--primary-subtle),inset_0_0_0_100vmax_var(--muted)]" : "bg-primary-subtle")
-                  )}
-                >
-                  <span className="flex min-w-0 items-center gap-1.5">
-                    <span className={cn("truncate", on && "text-primary-text")}>{plan.name}</span>
-                    {plan.badge ? (
-                      <span className="shrink-0 rounded-full bg-primary-subtle px-1.5 text-ui-2xs leading-4 font-medium text-primary-text">
-                        {plan.badge}
-                      </span>
-                    ) : null}
-                  </span>
-                  {plan.detail ? <span className="block text-ui-sm font-normal text-muted-foreground tabular-nums">{plan.detail}</span> : null}
-                </th>
-              )
-            })}
-          </tr>
-        </thead>
-        <tbody data-slot="comparison-table-body">
-          {groups.map((group, g) => {
-            const last = g === groups.length - 1
-            return (
-              <React.Fragment key={group.id ?? g}>
-                {group.label ? (
-                  <tr data-slot="comparison-table-section">
-                    {(() => {
-                      const first = takeFirst()
-                      return (
+                <React.Fragment key={group.id ?? g}>
+                  {group.label ? (
+                    <tr data-slot="comparison-table-section">
+                      <th
+                        scope="colgroup"
+                        colSpan={columns}
+                        className="border-b border-border bg-card px-4 pt-3 pb-2 text-start align-middle text-ui-sm font-medium text-muted-foreground"
+                      >
+                        <span className={cn(stickyFeatureColumn && "sticky start-4")}>{group.label}</span>
+                      </th>
+                    </tr>
+                  ) : null}
+                  {group.features.map((feature, f) => {
+                    const end = last && f === group.features.length - 1
+                    return (
+                      <tr key={featureKey(feature, f)} data-slot="comparison-table-row" className={cn("group/table-row transition-colors duration-150", rowHover)}>
                         <th
-                          scope="colgroup"
-                          colSpan={columns}
+                          scope="row"
                           className={cn(
-                            "border-b border-border bg-background px-3 pt-3 pb-1.5 text-start text-ui-sm font-medium text-muted-foreground",
-                            first && "rounded-t-xl border-t"
+                            "bg-card px-4 py-3 text-start align-middle font-normal text-foreground transition-colors duration-150 group-hover/table-row:bg-[color-mix(in_oklab,var(--foreground)_3%,var(--card))]",
+                            !end && "border-b border-border",
+                            stickyFeatureColumn && "sticky start-0 z-10"
                           )}
                         >
-                          <span className={cn(stickyFeatureColumn && "sticky start-3")}>{group.label}</span>
+                          <span className="block">{feature.label}</span>
+                          {feature.hint ? <span className="block text-ui-sm text-muted-foreground">{feature.hint}</span> : null}
                         </th>
-                      )
-                    })()}
-                  </tr>
-                ) : null}
-                {group.features.map((feature, f) => {
-                  const first = takeFirst()
-                  const end = last && f === group.features.length - 1
-                  return (
-                    <tr key={featureKey(feature, f)} data-slot="comparison-table-row">
-                      <th
-                        scope="row"
-                        className={cn(
-                          "border-e border-border bg-background px-3 py-2 text-start font-normal text-foreground",
-                          !end && "border-b",
-                          first && "rounded-ss-xl border-t",
-                          stickyFeatureColumn && "sticky start-0 z-10"
-                        )}
-                      >
-                        <span className="block">{feature.label}</span>
-                        {feature.hint ? <span className="block text-ui-sm text-muted-foreground">{feature.hint}</span> : null}
-                      </th>
-                      {plans.map((plan, i) => {
-                        const lastCol = i === plans.length - 1
-                        return (
-                          <td
-                            key={plan.id}
-                            data-highlighted={highlighted(plan) || undefined}
-                            className={cn(
-                              "bg-background px-3 py-2 text-start text-foreground tabular-nums",
-                              !lastCol && "border-e border-border",
-                              !end && "border-b border-border",
-                              first && "border-t border-border",
-                              first && lastCol && "rounded-se-xl",
-                              highlighted(plan) && highlightFill
-                            )}
-                          >
-                            <ComparisonMark value={feature.values[plan.id]} labels={labels} />
-                          </td>
-                        )
-                      })}
-                    </tr>
-                  )
-                })}
-              </React.Fragment>
-            )
-          })}
-        </tbody>
-      </table>
+                        {plans.map((plan) => {
+                          const on = highlighted(plan)
+                          return (
+                            <td
+                              key={plan.id}
+                              data-highlighted={on || undefined}
+                              className={cn(
+                                "px-4 py-3 text-start align-middle text-foreground tabular-nums",
+                                !end && "border-b border-border",
+                                on ? highlightFill : "bg-transparent"
+                              )}
+                            >
+                              <ComparisonMark value={feature.values[plan.id]} labels={labels} />
+                            </td>
+                          )
+                        })}
+                      </tr>
+                    )
+                  })}
+                </React.Fragment>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

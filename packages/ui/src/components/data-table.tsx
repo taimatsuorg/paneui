@@ -1,10 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { useLocale } from "@paneui/ui/components/locale-provider"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 
-import { FilterIcon, MoreHorizontalIcon, SearchIcon, SlidersIcon, XIcon } from "@paneui/ui/icons"
+import { ChevronDownIcon, FilterIcon, MoreHorizontalIcon, SearchIcon, SlidersIcon, XIcon } from "@paneui/ui/icons"
 import { cn } from "@paneui/ui/lib/utils"
 import { Button } from "@paneui/ui/components/button"
 import {
@@ -15,14 +14,15 @@ import {
   EmptyStateTitle,
 } from "@paneui/ui/components/empty-state"
 import { Input } from "@paneui/ui/components/input"
+import { useLocale } from "@paneui/ui/components/locale-provider"
 import { Menu, MenuCheckboxItem, MenuContent, MenuGroup, MenuItem, MenuLabel, MenuSeparator, MenuTrigger } from "@paneui/ui/components/menu"
 import { Pagination, PaginationPageSize, PaginationSummary } from "@paneui/ui/components/pagination"
-import { Table, type SortState, type TableColumn, type TableRowContext } from "@paneui/ui/components/table"
+import { Table, type SortState, type TableColumn, type TableRowContext, type TableSize, type TableVariant } from "@paneui/ui/components/table"
 
 /*
  * A table with the toolbar and footer most admin pages need, on top of <Table>:
- * search, faceted filters, column visibility, sorting, row selection with bulk
- * actions, pagination and empty / no-results states.
+ * search, faceted filters, column visibility, sorting, pinned start columns, row selection with
+ * swipe range select and bulk actions, loading skeletons, pagination and empty states.
  *
  *   <DataTable
  *     data={customers}
@@ -71,6 +71,16 @@ type DataTableProps<T> = {
   selectable?: boolean
   selectedRowIds?: readonly string[]
   onSelectionChange?: (ids: string[]) => void
+  /** Drag across row checkboxes with Shift held to toggle a range (default true). */
+  swipeSelect?: boolean
+  /** Pin the first data column (pass `true`) or specific column keys to the start edge when horizontally scrolling. */
+  pinStart?: boolean | readonly string[]
+  /** Show skeleton placeholder rows instead of data rows while fetching. */
+  loading?: boolean
+  /** Number of skeleton rows while `loading` with no data (default 5). */
+  loadingRows?: number
+  /** Cell density: `default` or compact `sm`. */
+  size?: TableSize
   /** Shown in a bar above the table while rows are selected. */
   bulkActions?: (rows: T[], clear: () => void) => React.ReactNode
   /** Extra controls at the end of the toolbar (export, add). */
@@ -82,12 +92,13 @@ type DataTableProps<T> = {
   rowHeight?: number
   onRowClick?: (ctx: TableRowContext<T>, event: React.MouseEvent<HTMLDivElement>) => void
   rowClassName?: (ctx: TableRowContext<T>) => string | undefined
-  /** The table's look: `sheet` (header band, column lines) or `plain`. */
-  variant?: "sheet" | "plain"
+  /** The table's look: `plain` (default, header matches card surface with horizontal row lines) or `surface` (subtle tinted header band). */
+  variant?: TableVariant
   className?: string
 }
 
 const HEADER = 40
+const HEADER_SM = 34
 const EMPTY_HEIGHT = 280
 
 function defaultSearchText(row: unknown) {
@@ -118,21 +129,30 @@ function DataTable<T>({
   selectable = false,
   selectedRowIds,
   onSelectionChange,
+  swipeSelect = true,
+  pinStart = false,
+  loading = false,
+  loadingRows = 5,
+  size = "default",
   bulkActions,
   toolbar,
   emptyState,
   noun,
-  rowHeight = 48,
+  rowHeight,
   onRowClick,
   rowClassName,
-  variant,
+  variant = "plain",
   className,
 }: DataTableProps<T>) {
   const l10n = useLocale().labels
   if (searchPlaceholder === undefined) searchPlaceholder = l10n.search
 
   if (noun === undefined) noun = l10n.rows
+  const resolvedRowHeight = rowHeight ?? (size === "sm" ? 36 : 48)
+  const resolvedHeaderHeight = size === "sm" ? HEADER_SM : HEADER
+
   const reduce = useReducedMotion()
+  const searchInputRef = React.useRef<HTMLInputElement>(null)
   const [query, setQuery] = React.useState("")
   const [active, setActive] = React.useState<Record<string, string[]>>({})
   const [sort, setSort] = React.useState<SortState>(defaultSort)
@@ -188,6 +208,17 @@ function DataTable<T>({
   const pageRows = React.useMemo(() => sorted.slice((current - 1) * pageSize, current * pageSize), [sorted, current, pageSize])
 
   const visibleColumns = React.useMemo(() => columns.filter((c) => !hidden.includes(c.key)), [columns, hidden])
+  const pinnedKeys = React.useMemo(() => {
+    if (!pinStart) return new Set<string>()
+    if (Array.isArray(pinStart)) return new Set(pinStart)
+    const firstData = visibleColumns.find((c) => c.key !== "actions")
+    return firstData ? new Set([firstData.key]) : new Set<string>()
+  }, [pinStart, visibleColumns])
+  const tableColumns = React.useMemo(
+    () => visibleColumns.map((c) => (pinnedKeys.has(c.key) || c.pinned ? { ...c, pinned: c.pinned ?? ("start" as const) } : c)),
+    [visibleColumns, pinnedKeys]
+  )
+
   const hideableColumns = columns.filter((c) => c.hideable ?? (!!c.label || typeof c.header === "string"))
   const filtering = query.trim() !== "" || Object.values(active).some((v) => v.length > 0)
 
@@ -196,6 +227,18 @@ function DataTable<T>({
     setActive({})
     setPage(1)
   }
+
+  /* live-region search announcement --------------------------------------- */
+  const [searchAnnouncement, setSearchAnnouncement] = React.useState("")
+  React.useEffect(() => {
+    const trimmed = query.trim()
+    if (!trimmed) {
+      setSearchAnnouncement("")
+      return
+    }
+    const timer = setTimeout(() => setSearchAnnouncement(l10n.searchResultsCount(sorted.length)), 500)
+    return () => clearTimeout(timer)
+  }, [query, sorted.length, l10n])
 
   /* selection keeps rows on other pages ------------------------------------ */
   const pageIds = React.useMemo(() => new Set(pageRows.map(idOf)), [pageRows, idOf])
@@ -237,8 +280,10 @@ function DataTable<T>({
     if (!collapsed) measure()
   }, [collapsed, measure, active, filtering, hidden])
 
-  const isEmpty = data.length === 0
-  const height = HEADER + (pageRows.length ? pageRows.length * rowHeight : EMPTY_HEIGHT)
+  const isEmpty = data.length === 0 && !loading
+  const showSkeleton = loading && data.length === 0
+  const showFooter = data.length > 0
+  const height = resolvedHeaderHeight + (showSkeleton ? loadingRows * resolvedRowHeight : pageRows.length ? pageRows.length * resolvedRowHeight : EMPTY_HEIGHT)
 
   const empty = isEmpty
     ? (emptyState ?? (
@@ -274,6 +319,10 @@ function DataTable<T>({
 
   return (
     <div data-slot="data-table" className={cn("@container/data-table flex min-w-0 flex-col gap-3", className)}>
+      <span data-slot="data-table-announcer" role="status" aria-live="polite" aria-atomic className="sr-only">
+        {searchAnnouncement}
+      </span>
+
       {/* Toolbar ------------------------------------------------------------ */}
       <div
         ref={toolbarRef}
@@ -287,18 +336,46 @@ function DataTable<T>({
             data-slot="data-table-search"
             className="relative basis-full @[40rem]/data-table:max-w-64 @[40rem]/data-table:min-w-40 @[40rem]/data-table:flex-1 @[40rem]/data-table:basis-0"
           >
-            <SearchIcon aria-hidden className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
+            <SearchIcon aria-hidden className="pointer-events-none absolute start-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
             <Input
+              ref={searchInputRef}
               type="search"
+              size="sm"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value)
                 setPage(1)
               }}
+              onKeyDown={(e) => {
+                if (e.key === "Escape" && query !== "") {
+                  e.preventDefault()
+                  setQuery("")
+                  setPage(1)
+                }
+              }}
               placeholder={searchPlaceholder}
               aria-label={searchPlaceholder.replace(/…$/, "")}
-              className="h-7 pl-7.5"
+              className="ps-7.5 pe-7.5 [&::-webkit-search-cancel-button]:hidden"
             />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-xs"
+              tabIndex={query === "" ? -1 : undefined}
+              aria-label={l10n.clearSearch}
+              aria-hidden={query === "" || undefined}
+              onClick={() => {
+                setQuery("")
+                setPage(1)
+                searchInputRef.current?.focus()
+              }}
+              className={cn(
+                "absolute end-0.5 top-1/2 -translate-y-1/2 rounded-full text-muted-foreground transition-[opacity,scale,color,background-color] duration-150 hover:text-foreground",
+                query === "" ? "pointer-events-none opacity-0 motion-safe:scale-75" : "opacity-100"
+              )}
+            >
+              <XIcon />
+            </Button>
           </div>
         )}
         {filters.length > 0 && collapsed && <DataTableFilterMenu filters={filters} facet={facetProps} count={activeFilterCount} onClear={resetFilters} />}
@@ -322,6 +399,7 @@ function DataTable<T>({
               <MenuTrigger render={<Button variant="outline" size="sm" />}>
                 <SlidersIcon data-icon="inline-start" />
                 {l10n.view}
+                <ChevronDownIcon data-icon="inline-end" className="text-muted-foreground" />
               </MenuTrigger>
               <MenuContent align="end" className="w-48">
                 <MenuGroup>
@@ -371,7 +449,7 @@ function DataTable<T>({
       <Table
         aria-label={ariaLabel}
         data={pageRows}
-        columns={visibleColumns}
+        columns={tableColumns}
         getRowId={idOf}
         sort={sort}
         onSortChange={(s) => {
@@ -381,8 +459,12 @@ function DataTable<T>({
         selectable={selectable}
         selectedRowIds={selectable ? selected.filter((id) => pageIds.has(id)) : undefined}
         onSelectionChange={selectable ? onTableSelection : undefined}
-        rowHeight={rowHeight}
-        headerHeight={HEADER}
+        swipeSelect={swipeSelect}
+        loading={showSkeleton}
+        skeletonRows={loadingRows}
+        size={size}
+        rowHeight={resolvedRowHeight}
+        headerHeight={resolvedHeaderHeight}
         height={height}
         emptyState={empty}
         onRowClick={onRowClick}
@@ -391,7 +473,7 @@ function DataTable<T>({
       />
 
       {/* Footer ------------------------------------------------------------- */}
-      {!isEmpty && (
+      {showFooter && (
         <div data-slot="data-table-footer" className="flex items-center justify-between gap-4 px-1">
           <PaginationSummary page={current} pageSize={pageSize} total={sorted.length} noun={noun} />
           <div className="flex items-center gap-4">

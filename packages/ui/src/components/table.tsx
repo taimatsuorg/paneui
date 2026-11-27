@@ -1,14 +1,14 @@
 "use client"
 
 import * as React from "react"
-import { useLocale } from "@paneui/ui/components/locale-provider"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { useReducedMotion } from "motion/react"
 
-import { ChevronUpIcon, ChevronsUpDownIcon } from "@paneui/ui/icons"
+import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from "@paneui/ui/icons"
 import { cn } from "@paneui/ui/lib/utils"
 import { Checkbox } from "@paneui/ui/components/checkbox"
 import { Loader } from "@paneui/ui/components/loader"
+import { useLocale } from "@paneui/ui/components/locale-provider"
 import { ScrollArea } from "@paneui/ui/components/scroll-area"
 
 /* -------------------------------------------------------------------------- */
@@ -17,6 +17,8 @@ import { ScrollArea } from "@paneui/ui/components/scroll-area"
 
 type SortDirection = "asc" | "desc"
 type SortState = { key: string; direction: SortDirection } | null
+type TableVariant = "surface" | "plain" | "sheet"
+type TableSize = "default" | "sm"
 
 interface TableColumn<T> {
   /** Stable key. Also the property read from the row when there is no `accessor`. */
@@ -32,6 +34,8 @@ interface TableColumn<T> {
   sortable?: boolean
   /** Opt this column out of resizing when the table is `resizable`. */
   resizable?: boolean
+  /** Keep this column pinned to the start edge when scrolling horizontally. */
+  pinned?: "start"
   /** Raw value for the cell, sorting and default rendering. Defaults to `row[key]`. */
   accessor?: (row: T) => unknown
   /** Value used for sorting when it differs from the accessor. */
@@ -91,6 +95,8 @@ interface TableProps<T> {
   selectedRowIds?: readonly string[]
   defaultSelectedRowIds?: readonly string[]
   onSelectionChange?: (ids: string[]) => void
+  /** Drag across row checkboxes with Shift held to select or clear a range (default true). */
+  swipeSelect?: boolean
 
   sort?: SortState
   defaultSort?: SortState
@@ -110,6 +116,7 @@ interface TableProps<T> {
   /** Viewport height in px. */
   height?: number
   overscan?: number
+  size?: TableSize
 
   /** Fetching: skeleton rows when there is no data yet, a loading footer otherwise; pauses `onEndReached`. */
   loading?: boolean
@@ -133,8 +140,8 @@ interface TableProps<T> {
   rowClassName?: (ctx: TableRowContext<T>) => string | undefined
   /** Slide rows and columns into new positions on insert, delete, sort and reorder. */
   animateLayout?: boolean
-  /** `sheet`: a header band with the rows on a sheet laid over it, and column lines. `plain`: row lines only. */
-  variant?: "sheet" | "plain"
+  /** `surface` (default): muted header band on a framed card with horizontal row lines. `plain`: header and body share the card surface with horizontal row lines. */
+  variant?: TableVariant
   className?: string
   ref?: React.Ref<TableHandle>
 }
@@ -148,6 +155,9 @@ const MOVE = "transition-[transform,width,background-color,box-shadow] duration-
 const SELECT_WIDTH = 44
 const DEFAULT_COLUMN_WIDTH = 160
 const DRAG_THRESHOLD = 4
+
+const pinnedEdgeClass =
+  "after:pointer-events-none after:absolute after:inset-y-0 after:-end-4 after:hidden after:w-4 after:bg-linear-to-r after:from-foreground/6 after:to-transparent rtl:after:bg-linear-to-l in-data-scrolled-start:after:block"
 
 const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" })
 
@@ -232,55 +242,22 @@ function skeletonWidth(row: number, col: number) {
 
 const headerLabelBase =
   "group/label flex h-full min-w-0 flex-1 items-center gap-1.5 rounded-lg px-3 font-medium outline-none select-none focus-visible:ring-2 focus-visible:ring-ring data-[reorderable=true]:cursor-grab data-[dragging=true]:cursor-grabbing"
-/** Header label for the `sheet` table: sentence case at body size. */
-const headerLabelClass = cn(headerLabelBase, "text-ui text-foreground")
-/** Header label for the `plain` table: small caps-style label. */
-const plainHeaderLabelClass = cn(headerLabelBase, "text-ui-sm tracking-wide text-muted-foreground uppercase")
-
-/*
- * The sheet's top edge, hung under the sticky header so rows scroll beneath it. Its middle is
- * clear (the first row shows through); only the two corner pieces outside the curve are painted,
- * in the band's colour (the page colour under a light muted fill: half in light mode, full in dark), so rows passing under them are hidden.
- */
-const sheetCornerMask = {
-  left: "[mask-image:radial-gradient(circle_at_100%_100%,transparent_calc(var(--radius-xl)-0.5px),#000_var(--radius-xl))]",
-  right: "[mask-image:radial-gradient(circle_at_0%_100%,transparent_calc(var(--radius-xl)-0.5px),#000_var(--radius-xl))]",
-} as const
-
-function TableSheetEdge() {
-  return (
-    <div aria-hidden data-slot="table-sheet-edge" className="pointer-events-none absolute inset-x-0 top-full h-(--radius-xl)">
-      {(["left", "right"] as const).map((side) => (
-        <span
-          key={side}
-          className={cn("absolute top-0 size-(--radius-xl) bg-background", side === "left" ? "left-0" : "right-0", sheetCornerMask[side])}
-        >
-          <span className="absolute inset-0 bg-muted/50 dark:bg-muted" />
-        </span>
-      ))}
-      <span className="absolute inset-0 rounded-t-xl border-t border-border" />
-    </div>
-  )
-}
+/** Header label for framed tables: sentence case at body size. */
+const headerLabelClass = cn(headerLabelBase, "text-ui text-muted-foreground hover:text-foreground")
+/** Header label for plain tables: matches the clean sentence-case header typography. */
+const plainHeaderLabelClass = cn(headerLabelBase, "text-ui text-muted-foreground hover:text-foreground")
 
 function SortIndicator({ direction }: { direction: SortDirection | null }) {
   if (!direction) {
     return (
       <ChevronsUpDownIcon
         aria-hidden
-        className="size-3.5 shrink-0 opacity-0 transition-opacity duration-150 group-hover/label:opacity-60 group-focus-visible/label:opacity-60"
+        className="size-3.5 shrink-0 opacity-50 transition-opacity duration-150 group-hover/label:opacity-80 group-focus-visible/label:opacity-80"
       />
     )
   }
-  return (
-    <ChevronUpIcon
-      aria-hidden
-      className={cn(
-        "size-3.5 shrink-0 text-foreground transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none",
-        direction === "desc" && "rotate-180"
-      )}
-    />
-  )
+  const Icon = direction === "desc" ? ArrowDownIcon : ArrowUpIcon
+  return <Icon aria-hidden className="size-3.5 shrink-0 text-foreground" />
 }
 
 /** A placeholder row of shimmering bars. */
@@ -288,23 +265,25 @@ function TableSkeletonRow({
   index,
   cells,
   height,
+  cellPaddingClass = "px-3",
   className,
 }: {
   index: number
   /** Cell widths in px, in display order. */
   cells: readonly number[]
   height: number
+  cellPaddingClass?: string
   className?: string
 }) {
   return (
     <div
       aria-hidden
       data-slot="table-skeleton-row"
-      className={cn("flex items-center border-b border-border/60", className)}
+      className={cn("flex items-center border-b border-border last:border-b-0", className)}
       style={{ height }}
     >
       {cells.map((width, c) => (
-        <div key={c} className="shrink-0 px-3" style={{ width }}>
+        <div key={c} className={cn("shrink-0", cellPaddingClass)} style={{ width }}>
           <div
             className="h-2.5 animate-pulse rounded-full bg-muted motion-reduce:animate-none"
             style={{ width: `${skeletonWidth(index, c)}%`, animationDelay: `${(index % 6) * 90}ms` }}
@@ -336,8 +315,8 @@ function TableLoadingFooter({ label }: { label?: React.ReactNode }) {
  * Virtualized data table: 10k+ rows render only what is on screen. Headers sort
  * on click (asc → desc → off), drag to reorder (Alt+←/→ from the keyboard) and
  * resize from their right edge; an optional checkbox lane selects rows, with
- * shift-click for ranges. Rows and columns glide to new positions when the
- * data or layout changes. This is also the core that EditableTable and
+ * shift-click or shift-drag for ranges. Supports pinned start columns and
+ * smooth layout transitions. This is also the core that EditableTable and
  * AsyncTable build on.
  */
 function Table<T>({
@@ -350,6 +329,7 @@ function Table<T>({
   selectedRowIds,
   defaultSelectedRowIds,
   onSelectionChange,
+  swipeSelect = true,
   sort: sortProp,
   defaultSort = null,
   onSortChange,
@@ -360,10 +340,11 @@ function Table<T>({
   columnOrder,
   defaultColumnOrder,
   onColumnOrderChange,
-  rowHeight = 44,
-  headerHeight = 40,
+  rowHeight,
+  headerHeight,
   height = 440,
   overscan = 8,
+  size = "default",
   loading = false,
   skeletonRows,
   onEndReached,
@@ -377,13 +358,17 @@ function Table<T>({
   onRowClick,
   rowClassName,
   animateLayout = true,
-  variant = "sheet",
+  variant = "surface",
   className,
   ref,
 }: TableProps<T>) {
   const l10n = useLocale().labels
 
   if (emptyState === undefined) emptyState = l10n.noRows
+
+  const resolvedRowHeight = rowHeight ?? (size === "sm" ? 36 : 44)
+  const resolvedHeaderHeight = headerHeight ?? (size === "sm" ? 34 : 40)
+  const cellPaddingClass = size === "sm" ? "px-2.5" : "px-3"
 
   const reduce = useReducedMotion()
   const scrollRef = React.useRef<HTMLDivElement>(null)
@@ -412,24 +397,49 @@ function Table<T>({
     defaultColumnOrder ?? null,
     onColumnOrderChange ? (keys) => keys && onColumnOrderChange(keys.slice()) : undefined
   )
-  const baseOrder = React.useMemo(
+  const columnByKey = React.useMemo(() => new Map(columns.map((c) => [c.key, c])), [columns])
+  const reconciledOrder = React.useMemo(
     () => reconcileOrder(orderState, columnKeys),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [orderState, columnKeysSig]
   )
-  const columnByKey = React.useMemo(() => new Map(columns.map((c) => [c.key, c])), [columns])
+  // Pinned columns sit immediately after the leading gutter/checkbox lanes.
+  const baseOrder = React.useMemo(() => {
+    const pinnedKeys: string[] = []
+    const flowKeys: string[] = []
+    for (const k of reconciledOrder) {
+      if (columnByKey.get(k)?.pinned === "start") pinnedKeys.push(k)
+      else flowKeys.push(k)
+    }
+    return [...pinnedKeys, ...flowKeys]
+  }, [reconciledOrder, columnByKey])
+  const pinnedCount = React.useMemo(() => baseOrder.filter((k) => columnByKey.get(k)?.pinned === "start").length, [baseOrder, columnByKey])
 
   const [widthOverrides, setWidthOverrides] = React.useState<Record<string, number>>({})
   const [viewportWidth, setViewportWidth] = React.useState(0)
+  const [isRtl, setIsRtl] = React.useState(false)
   React.useLayoutEffect(() => {
     const el = scrollRef.current
     if (!el) return
-    const update = () => setViewportWidth(el.clientWidth)
+    const update = () => {
+      setViewportWidth(el.clientWidth)
+      setIsRtl(getComputedStyle(el).direction === "rtl")
+      const offset = Math.abs(el.scrollLeft)
+      const max = Math.max(0, el.scrollWidth - el.clientWidth)
+      el.toggleAttribute("data-scrolled-start", offset > 0.5)
+      el.toggleAttribute("data-scrolled-end", offset < max - 0.5)
+      el.toggleAttribute("data-scrolled-top", el.scrollTop > 0.5)
+    }
     update()
+    el.addEventListener("scroll", update, { passive: true })
     const observer = new ResizeObserver(update)
     observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
+    if (el.firstElementChild) observer.observe(el.firstElementChild)
+    return () => {
+      el.removeEventListener("scroll", update)
+      observer.disconnect()
+    }
+  }, [rows.length, baseOrder.length])
 
   const leadWidth = (gutter?.width ?? 0) + (selectable ? SELECT_WIDTH : 0)
   const widths = React.useMemo(() => {
@@ -482,10 +492,18 @@ function Table<T>({
   const displayLayout = React.useMemo(() => layout(displayOrder), [layout, displayOrder])
   const contentWidth = displayLayout.end
 
+  const pinnedFloor = React.useMemo(() => {
+    let cursor = leadWidth
+    for (let i = 0; i < pinnedCount; i++) {
+      cursor += widths[baseOrder[i]] ?? 0
+    }
+    return cursor
+  }, [leadWidth, pinnedCount, baseOrder, widths])
+
   const columnX = (key: string) => {
     if (drag?.active && drag.key === key) {
       const w = widths[key] ?? 0
-      return Math.min(Math.max(drag.origin + drag.dx, leadWidth), Math.max(leadWidth, contentWidth - w))
+      return Math.min(Math.max(drag.origin + drag.dx, pinnedFloor), Math.max(pinnedFloor, contentWidth - w))
     }
     return displayLayout.x[key] ?? 0
   }
@@ -508,7 +526,7 @@ function Table<T>({
       if (cursor + ow / 2 < center) target++
       cursor += ow
     }
-    return target
+    return Math.max(pinnedCount, target)
   }
 
   /* resize ----------------------------------------------------------------- */
@@ -542,6 +560,21 @@ function Table<T>({
       if (prev.direction === "asc") return { key, direction: "desc" }
       return null
     })
+
+  const sortKey = sort ? `${sort.key}:${sort.direction}` : ""
+  const [sortAnnouncement, setSortAnnouncement] = React.useState("")
+  const prevSortKey = React.useRef(sortKey)
+  React.useEffect(() => {
+    if (prevSortKey.current === sortKey) return
+    prevSortKey.current = sortKey
+    if (!sort) {
+      setSortAnnouncement(l10n.sortingRemoved)
+      return
+    }
+    const col = columnByKeyRef.current.get(sort.key)
+    const name = typeof col?.header === "string" ? col.header : sort.key
+    setSortAnnouncement(l10n.sortedBy(name, sort.direction))
+  }, [sortKey, sort, l10n])
 
   /* selection -------------------------------------------------------------- */
   const [selectedList, setSelectedList] = useControllableState<readonly string[]>(
@@ -579,16 +612,119 @@ function Table<T>({
   }
   const toggleAll = () => setSelectedList(allSelected ? [] : rows.map((r) => r.id))
 
+  const onSwipeStart = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!selectable || !swipeSelect || !event.shiftKey || event.button !== 0 || event.pointerType === "touch") return
+    const target = event.target as Element
+    const box = target.closest('[data-slot="checkbox"]')
+    const startRow = box?.closest<HTMLElement>("div[data-row-id]")
+    if (!box || !startRow) return
+    const startId = startRow.dataset.rowId ?? ""
+    const anchor = sortedRows.findIndex((r) => r.id === startId)
+    if (anchor === -1) return
+    event.preventDefault()
+
+    const value = !selected.has(startId)
+    const snapshot = new Set(selected)
+    const body = event.currentTarget
+    const container = scrollRef.current
+    let current = anchor
+    let dragged = false
+    let pointer = { x: event.clientX, y: event.clientY }
+    let frame = 0
+
+    const apply = (index: number) => {
+      const next = new Set(snapshot)
+      const [from, to] = anchor < index ? [anchor, index] : [index, anchor]
+      for (let pos = from; pos <= to; pos++) {
+        const id = sortedRows[pos]?.id
+        if (id == null) continue
+        if (value) next.add(id)
+        else next.delete(id)
+      }
+      anchorRef.current = index
+      setSelectedList(Array.from(next))
+    }
+
+    const visibleBounds = () => {
+      const scrollable = container && container.scrollHeight > container.clientHeight + 1 ? container : null
+      const bounds = scrollable ? scrollable.getBoundingClientRect() : { top: 0, bottom: window.innerHeight }
+      const head = scrollable ? headerRef.current : null
+      const top = head ? Math.max(bounds.top, head.getBoundingClientRect().bottom) : bounds.top
+      return { top, bottom: bounds.bottom }
+    }
+
+    const hitTest = () => {
+      const { top, bottom } = visibleBounds()
+      const rect = body.getBoundingClientRect()
+      const y = Math.min(Math.max(pointer.y, top + 6), bottom - 6)
+      const x = Math.min(Math.max(pointer.x, rect.left + 1), rect.right - 1)
+      const hit = document.elementFromPoint(x, y)?.closest<HTMLElement>("div[data-row-id]")
+      let index = hit ? sortedRows.findIndex((r) => r.id === (hit.dataset.rowId ?? "")) : -1
+      if (index === -1) {
+        if (pointer.y < rect.top) index = 0
+        else if (pointer.y > rect.bottom) index = sortedRows.length - 1
+        else index = Math.min(Math.max(Math.floor((y - rect.top) / resolvedRowHeight), 0), sortedRows.length - 1)
+      }
+      if (index === current) return
+      current = index
+      if (index !== anchor) dragged = true
+      if (dragged) apply(index)
+    }
+
+    const autoScroll = () => {
+      frame = 0
+      const scrollable = container && container.scrollHeight > container.clientHeight + 1 ? container : null
+      const { top, bottom } = visibleBounds()
+      const edge = 40
+      let delta = 0
+      if (pointer.y < top + edge) delta = -Math.ceil((top + edge - pointer.y) / 4)
+      else if (pointer.y > bottom - edge) delta = Math.ceil((pointer.y - (bottom - edge)) / 4)
+      if (delta === 0) return
+      if (scrollable) scrollable.scrollTop += delta
+      else window.scrollBy(0, delta)
+      hitTest()
+      frame = requestAnimationFrame(autoScroll)
+    }
+
+    const onMove = (moveEvent: PointerEvent) => {
+      pointer = { x: moveEvent.clientX, y: moveEvent.clientY }
+      hitTest()
+      if (!frame) frame = requestAnimationFrame(autoScroll)
+    }
+
+    const stopClick = (clickEvent: MouseEvent) => {
+      clickEvent.preventDefault()
+      clickEvent.stopPropagation()
+    }
+
+    const onUp = () => {
+      window.removeEventListener("pointermove", onMove)
+      window.removeEventListener("pointerup", onUp)
+      window.removeEventListener("pointercancel", onUp)
+      cancelAnimationFrame(frame)
+      container?.removeAttribute("data-swipe-selecting")
+      if (dragged) {
+        window.addEventListener("click", stopClick, { capture: true, once: true })
+        setTimeout(() => window.removeEventListener("click", stopClick, { capture: true }), 0)
+      }
+    }
+
+    container?.setAttribute("data-swipe-selecting", "")
+    window.addEventListener("pointermove", onMove)
+    window.addEventListener("pointerup", onUp)
+    window.addEventListener("pointercancel", onUp)
+  }
+
   /* virtualizer ------------------------------------------------------------ */
   const getItemKey = React.useCallback((index: number) => sortedRows[index]?.id ?? index, [sortedRows])
   const virtualizer = useVirtualizer({
     count: sortedRows.length,
     getScrollElement: () => scrollRef.current,
-    estimateSize: () => rowHeight,
+    estimateSize: () => resolvedRowHeight,
     getItemKey,
     overscan,
-    scrollMargin: headerHeight,
-    scrollPaddingStart: headerHeight,
+    scrollMargin: resolvedHeaderHeight,
+    scrollPaddingStart: resolvedHeaderHeight,
     initialRect: { width: 0, height },
     useFlushSync: false,
   })
@@ -652,24 +788,40 @@ function Table<T>({
 
   /* render ----------------------------------------------------------------- */
   const orderedColumns = displayOrder.map((key) => columnByKey.get(key)).filter(Boolean) as TableColumn<T>[]
-  const sheet = variant === "sheet"
-  const labelClass = sheet ? headerLabelClass : plainHeaderLabelClass
-  const lastKey = orderedColumns[orderedColumns.length - 1]?.key
-  // Column lines: every column but the last, in the sheet look.
-  const divided = (key: string) => sheet && key !== lastKey && "border-e border-border"
+  const isSurface = variant !== "plain"
+  const canonicalVariant = isSurface ? "surface" : "plain"
+  const labelClass = cn(isSurface ? headerLabelClass : plainHeaderLabelClass, cellPaddingClass)
   const instant = !animate || resizingKey != null
   const cellMotion = (key: string) => (instant || (drag?.active && drag.key === key) ? "" : MOVE)
   const cellRole = role === "grid" ? "gridcell" : "cell"
   const leadCount = (gutter ? 1 : 0) + (selectable ? 1 : 0)
   const showSkeleton = loading && rows.length === 0
   const resolvedFooter = footer ?? (loading && rows.length > 0 ? <TableLoadingFooter /> : null)
-  const footerHeight = resolvedFooter ? rowHeight : 0
-  const bodyHeight = showSkeleton || rows.length === 0 ? Math.max(height - headerHeight, rowHeight) : totalSize + footerHeight
-  const skeletonCount = skeletonRows ?? Math.max(1, Math.ceil((height - headerHeight) / rowHeight))
+  const footerHeight = resolvedFooter ? resolvedRowHeight : 0
+  const bodyHeight = showSkeleton || rows.length === 0 ? Math.max(height - resolvedHeaderHeight, resolvedRowHeight) : totalSize + footerHeight
+  const skeletonCount = skeletonRows ?? Math.max(1, Math.ceil((height - resolvedHeaderHeight) / resolvedRowHeight))
+
+  const hasPinned = pinnedCount > 0
+  const lastPinnedKey = pinnedCount > 0 ? orderedColumns[pinnedCount - 1]?.key : undefined
+  const pinOffsets = React.useMemo(() => {
+    const offsets: Record<string, number> = {}
+    let cursor = leadWidth
+    for (const col of orderedColumns) {
+      if (col.pinned === "start") {
+        offsets[col.key] = cursor
+        cursor += widths[col.key] ?? 0
+      }
+    }
+    return offsets
+  }, [orderedColumns, widths, leadWidth])
+
+  const pinnedHeadBg = isSurface ? "bg-(--table-head-bg)" : "bg-(--table-bg)"
+  const pinnedBodyBg =
+    "bg-(--table-bg) group-hover/row:bg-(--table-hover) group-data-selected/row:bg-(--table-selected) group-data-selected/row:group-hover/row:bg-(--table-selected-hover)"
 
   const headerContext = (column: TableColumn<T>, colIndex: number): TableHeaderContext<T> => {
     const isDragging = drag?.active === true && drag.key === column.key
-    const canReorder = reorderable
+    const canReorder = reorderable && column.pinned !== "start"
     const labelProps: TableHeaderLabelProps = {
       "data-dragging": isDragging,
       "data-reorderable": canReorder,
@@ -689,7 +841,7 @@ function Table<T>({
       onPointerMove: (e) => {
         const d = dragRef.current
         if (!d || d.key !== column.key) return
-        const dx = e.clientX - d.startX
+        const dx = (e.clientX - d.startX) * (isRtl ? -1 : 1)
         if (!d.active && Math.abs(dx) < DRAG_THRESHOLD) return
         const next = { ...d, dx, active: true, target: dropTarget(d.key, d.origin + dx) }
         dragRef.current = next
@@ -720,7 +872,8 @@ function Table<T>({
         if (!canReorder || !e.altKey || (e.key !== "ArrowLeft" && e.key !== "ArrowRight")) return
         e.preventDefault()
         const from = baseOrder.indexOf(column.key)
-        const to = Math.min(Math.max(from + (e.key === "ArrowLeft" ? -1 : 1), 0), baseOrder.length - 1)
+        const step = (e.key === "ArrowLeft" ? -1 : 1) * (isRtl ? -1 : 1)
+        const to = Math.min(Math.max(from + step, pinnedCount), baseOrder.length - 1)
         if (to !== from) commitOrder(moveItem(baseOrder, from, to))
       },
     }
@@ -730,11 +883,13 @@ function Table<T>({
   return (
     <ScrollArea
       data-slot="table"
+      data-variant={canonicalVariant}
+      data-size={size}
       orientation="both"
       viewportRef={scrollRef}
       // The vertical track runs below the sticky header.
-      scrollbarMargin={{ top: headerHeight }}
-      viewportClassName="rounded-inner"
+      scrollbarMargin={{ top: resolvedHeaderHeight }}
+      viewportClassName="rounded-inner data-swipe-selecting:cursor-default data-swipe-selecting:select-none"
       viewportProps={{
         role,
         "aria-label": ariaLabel,
@@ -744,36 +899,47 @@ function Table<T>({
         "aria-busy": loading || undefined,
         tabIndex: role === "table" ? 0 : undefined,
       }}
-      data-variant={variant}
-      // The sheet's rows sit on the page colour (white in light mode in every style); the header band is that colour under a light muted fill.
-      className={cn("frame-xl frame-border w-full p-px text-ui text-card-foreground shadow-raised", sheet ? "bg-background" : "bg-card", className)}
+      className={cn(
+        "frame-xl frame-border w-full bg-card p-px text-ui text-card-foreground shadow-border",
+        "[--table-bg:var(--card)] [--table-head-bg:color-mix(in_oklab,var(--foreground)_3.5%,var(--table-bg))] [--table-hover:color-mix(in_oklab,var(--foreground)_3%,var(--table-bg))] [--table-selected:color-mix(in_oklab,var(--primary)_7%,var(--table-bg))] [--table-selected-hover:color-mix(in_oklab,var(--primary)_11%,var(--table-bg))]",
+        className
+      )}
       style={{ height }}
     >
       <div className="relative min-w-full" style={{ width: contentWidth }}>
+        <span data-slot="table-announcer" role="status" aria-live="polite" aria-atomic className="sr-only">
+          {sortAnnouncement}
+        </span>
+
         {/* Header ---------------------------------------------------------- */}
         <div
           ref={headerRef}
           role="rowgroup"
-          className={cn("sticky top-0 z-20", sheet ? "bg-background" : "bg-card shadow-[0_1px_0_var(--border)]")}
-          style={{ height: headerHeight }}
+          className={cn(
+            "sticky top-0 z-20 border-b border-border in-data-scrolled-top:shadow-[0_1px_0_var(--border)]",
+            isSurface ? "bg-(--table-head-bg)" : "bg-(--table-bg)"
+          )}
+          style={{ height: resolvedHeaderHeight }}
         >
-          {sheet ? (
-            <>
-              <span aria-hidden className="pointer-events-none absolute inset-0 bg-muted/50 dark:bg-muted" />
-              <TableSheetEdge />
-            </>
-          ) : null}
-          <div role="row" aria-rowindex={1} className="relative h-full">
+          <div role="row" aria-rowindex={1} className={cn("relative h-full", hasPinned && "flex")}>
             {gutter ? (
-              <div role="columnheader" className="absolute inset-y-0 left-0 flex items-center justify-center" style={{ width: gutter.width }}>
+              <div
+                role="columnheader"
+                className={cn(
+                  hasPinned ? cn("sticky start-0 z-30 flex shrink-0 items-center justify-center", pinnedHeadBg) : "absolute inset-y-0 start-0 flex items-center justify-center"
+                )}
+                style={{ width: gutter.width }}
+              >
                 {gutter.header}
               </div>
             ) : null}
             {selectable ? (
               <div
                 role="columnheader"
-                className="absolute inset-y-0 flex items-center justify-center"
-                style={{ left: gutter?.width ?? 0, width: SELECT_WIDTH }}
+                className={cn(
+                  hasPinned ? cn("sticky z-30 flex shrink-0 items-center justify-center", pinnedHeadBg) : "absolute inset-y-0 flex items-center justify-center"
+                )}
+                style={{ insetInlineStart: gutter?.width ?? 0, width: SELECT_WIDTH }}
               >
                 <Checkbox
                   checked={allSelected}
@@ -786,9 +952,12 @@ function Table<T>({
             ) : null}
             {orderedColumns.map((column, colIndex) => {
               const ctx = headerContext(column, colIndex)
+              const isPinned = column.pinned === "start"
+              const isLastPinned = column.key === lastPinnedKey
               const isDragging = drag?.active === true && drag.key === column.key
               const canResize = resizable && column.resizable !== false
               const width = widths[column.key] ?? 0
+              const alignRight = column.align === "right"
               return (
                 <div
                   key={column.key}
@@ -796,30 +965,38 @@ function Table<T>({
                   aria-colindex={leadCount + colIndex + 1}
                   aria-sort={column.sortable ? (ctx.sort === "asc" ? "ascending" : ctx.sort === "desc" ? "descending" : "none") : undefined}
                   data-col-key={column.key}
+                  data-pinned={isPinned ? "start" : undefined}
+                  data-pinned-edge={isLastPinned ? "" : undefined}
                   data-dragging={isDragging || undefined}
                   className={cn(
-                    "group/header absolute inset-y-0 left-0 flex items-center hover:z-10 focus-within:z-10",
-                    !canResize && divided(column.key),
-                    cellMotion(column.key),
-                    isDragging && cn("z-30 hover:z-30 rounded-xl shadow-raised-hover", sheet ? "bg-background" : "bg-card"),
+                    "group/header flex items-center focus-within:z-40 hover:z-10",
+                    isPinned
+                      ? cn("sticky z-30 shrink-0", pinnedHeadBg, isLastPinned && pinnedEdgeClass)
+                      : cn("absolute inset-y-0 start-0", cellMotion(column.key)),
+                    isDragging && cn("z-40 rounded-xl shadow-raised-hover hover:z-40", pinnedHeadBg),
                     column.headerClassName
                   )}
-                  style={{ width, transform: `translateX(${columnX(column.key)}px)` }}
+                  style={
+                    isPinned
+                      ? { insetInlineStart: pinOffsets[column.key], width }
+                      : { width, transform: `translateX(${isRtl ? -columnX(column.key) : columnX(column.key)}px)` }
+                  }
                 >
                   {renderHeader ? (
                     renderHeader(ctx)
-                  ) : column.sortable || reorderable ? (
+                  ) : column.sortable || (reorderable && !isPinned) ? (
                     <button
                       type="button"
                       {...ctx.labelProps}
-                      aria-description={reorderable ? l10n.altPlusArrowKeysMovesTheColumn : undefined}
+                      aria-description={reorderable && !isPinned ? l10n.altPlusArrowKeysMovesTheColumn : undefined}
                       className={cn(labelClass, alignClass(column.align), ctx.sort && "text-foreground", !column.sortable && "cursor-default")}
                     >
+                      {column.sortable && alignRight ? <SortIndicator direction={ctx.sort} /> : null}
                       <span className="truncate">{column.header}</span>
-                      {column.sortable ? <SortIndicator direction={ctx.sort} /> : null}
+                      {column.sortable && !alignRight ? <SortIndicator direction={ctx.sort} /> : null}
                     </button>
                   ) : (
-                    <div className={cn(labelClass, alignClass(column.align))}>
+                    <div className={cn(labelClass, alignClass(column.align), "hover:text-muted-foreground")}>
                       <span className="truncate">{column.header}</span>
                     </div>
                   )}
@@ -833,7 +1010,7 @@ function Table<T>({
                       aria-valuemin={minFor(column)}
                       tabIndex={0}
                       data-resizing={resizingKey === column.key || undefined}
-                      className="group/resize absolute inset-y-1 -right-1.5 z-10 flex w-3 cursor-col-resize touch-none justify-center outline-none"
+                      className="group/resize absolute inset-y-0 -end-1.5 z-10 flex w-3 cursor-col-resize touch-none justify-center outline-none"
                       onPointerDown={(e) => {
                         if (e.button !== 0) return
                         e.preventDefault()
@@ -845,7 +1022,8 @@ function Table<T>({
                       onPointerMove={(e) => {
                         const r = resizeRef.current
                         if (!r) return
-                        setWidth(r.key, Math.max(minFor(column), r.startWidth + e.clientX - r.startX))
+                        const dx = (e.clientX - r.startX) * (isRtl ? -1 : 1)
+                        setWidth(r.key, Math.max(minFor(column), r.startWidth + dx))
                       }}
                       onPointerUp={() => {
                         const r = resizeRef.current
@@ -867,13 +1045,14 @@ function Table<T>({
                       onKeyDown={(e) => {
                         if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return
                         e.preventDefault()
-                        const step = (e.shiftKey ? 48 : 16) * (e.key === "ArrowLeft" ? -1 : 1)
+                        const dir = (e.key === "ArrowLeft" ? -1 : 1) * (isRtl ? -1 : 1)
+                        const step = (e.shiftKey ? 48 : 16) * dir
                         const next = Math.max(minFor(column), width + step)
                         setWidth(column.key, next)
                         onColumnResize?.(column.key, Math.round(next))
                       }}
                     >
-                      <span className="h-full w-0.5 rounded-full bg-border transition-[background-color,width] duration-150 group-hover/header:bg-muted-foreground/40 group-hover/resize:w-[3px] group-hover/resize:bg-primary group-focus-visible/resize:w-[3px] group-focus-visible/resize:bg-primary group-data-resizing/resize:w-[3px] group-data-resizing/resize:bg-primary" />
+                      <span className="h-full w-px bg-transparent transition-[background-color,width] duration-150 group-hover/header:bg-border group-hover/resize:w-0.75 group-hover/resize:rounded-full group-hover/resize:bg-primary group-focus-visible/resize:w-0.75 group-focus-visible/resize:rounded-full group-focus-visible/resize:bg-primary group-data-resizing/resize:w-0.75 group-data-resizing/resize:rounded-full group-data-resizing/resize:bg-primary" />
                     </div>
                   ) : null}
                 </div>
@@ -883,7 +1062,7 @@ function Table<T>({
         </div>
 
         {/* Body ------------------------------------------------------------ */}
-        <div ref={bodyRef} role="rowgroup" className="relative" style={{ height: bodyHeight }}>
+        <div ref={bodyRef} role="rowgroup" onPointerDown={onSwipeStart} className="relative" style={{ height: bodyHeight }}>
           {showSkeleton ? (
             <div role="row" aria-busy className="absolute inset-x-0 top-0">
               <span className="sr-only" role="status">
@@ -893,7 +1072,8 @@ function Table<T>({
                 <TableSkeletonRow
                   key={i}
                   index={i}
-                  height={rowHeight}
+                  height={resolvedRowHeight}
+                  cellPaddingClass={cellPaddingClass}
                   cells={[
                     ...(gutter ? [gutter.width] : []),
                     ...(selectable ? [SELECT_WIDTH] : []),
@@ -903,7 +1083,7 @@ function Table<T>({
               ))}
             </div>
           ) : rows.length === 0 ? (
-            <div role="row" className="sticky left-0 flex h-full items-center justify-center p-8 text-ui text-muted-foreground" style={{ width: viewportWidth || "100%" }}>
+            <div role="row" className="sticky start-0 flex h-full items-center justify-center p-8 text-ui text-muted-foreground" style={{ width: viewportWidth || "100%" }}>
               <div role={cellRole}>{emptyState}</div>
             </div>
           ) : (
@@ -928,24 +1108,34 @@ function Table<T>({
                   data-selected={isSelected || undefined}
                   onClick={onRowClick ? (e) => onRowClick(rowCtx, e) : undefined}
                   className={cn(
-                    "group/row absolute inset-x-0 top-0 border-b border-border/60 hover:z-10 hover:bg-muted/45 focus-within:z-10",
-                    "data-selected:bg-primary/8 data-selected:hover:bg-primary/12",
+                    "group/row absolute inset-x-0 top-0 bg-(--table-bg) hover:z-10 hover:bg-(--table-hover) focus-within:z-10",
+                    hasPinned && "flex",
+                    (item.index < rows.length - 1 || resolvedFooter) && "border-b border-border",
+                    "data-selected:bg-(--table-selected) data-selected:hover:bg-(--table-selected-hover)",
                     animate && "transition-[transform,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
                     onRowClick && "cursor-pointer",
                     rowClassName?.(rowCtx)
                   )}
-                  style={{ height: rowHeight, transform: `translateY(${item.start - headerHeight}px)` }}
+                  style={{ height: resolvedRowHeight, transform: `translateY(${item.start - resolvedHeaderHeight}px)` }}
                 >
                   {gutter ? (
-                    <div role={cellRole} className="absolute inset-y-0 left-0 flex items-center justify-center" style={{ width: gutter.width }}>
+                    <div
+                      role={cellRole}
+                      className={cn(
+                        hasPinned ? cn("sticky start-0 z-10 flex shrink-0 items-center justify-center", pinnedBodyBg) : "absolute inset-y-0 start-0 flex items-center justify-center"
+                      )}
+                      style={{ width: gutter.width }}
+                    >
                       {gutter.cell(rowCtx)}
                     </div>
                   ) : null}
                   {selectable ? (
                     <div
                       role={cellRole}
-                      className="absolute inset-y-0 flex items-center justify-center"
-                      style={{ left: gutter?.width ?? 0, width: SELECT_WIDTH }}
+                      className={cn(
+                        hasPinned ? cn("sticky z-10 flex shrink-0 items-center justify-center", pinnedBodyBg) : "absolute inset-y-0 flex items-center justify-center"
+                      )}
+                      style={{ insetInlineStart: gutter?.width ?? 0, width: SELECT_WIDTH }}
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Checkbox
@@ -959,6 +1149,8 @@ function Table<T>({
                     </div>
                   ) : null}
                   {orderedColumns.map((column, colIndex) => {
+                    const isPinned = column.pinned === "start"
+                    const isLastPinned = column.key === lastPinnedKey
                     const value = readValue(entry.row, column)
                     const cellCtx: TableCellContext<T> = { ...rowCtx, column, colIndex, value }
                     const content = column.cell ? column.cell(entry.row, cellCtx) : formatValue(value)
@@ -969,15 +1161,23 @@ function Table<T>({
                         role={cellRole}
                         aria-colindex={leadCount + colIndex + 1}
                         data-col-key={column.key}
+                        data-pinned={isPinned ? "start" : undefined}
+                        data-pinned-edge={isLastPinned ? "" : undefined}
                         className={cn(
-                          "absolute inset-y-0 left-0 flex min-w-0 items-center px-3 tabular-nums",
-                          divided(column.key),
+                          "flex min-w-0 items-center tabular-nums",
+                          cellPaddingClass,
+                          isPinned
+                            ? cn("sticky z-10 shrink-0 focus-within:z-20", pinnedBodyBg, isLastPinned && pinnedEdgeClass)
+                            : cn("absolute inset-y-0 start-0", cellMotion(column.key)),
                           alignClass(column.align),
-                          cellMotion(column.key),
-                          isDragging && cn("z-20 shadow-raised", sheet ? "bg-background/90" : "bg-card/90"),
+                          isDragging && cn("z-20 shadow-raised", isSurface ? "bg-(--table-bg)" : "bg-card"),
                           column.className
                         )}
-                        style={{ width: widths[column.key] ?? 0, transform: `translateX(${columnX(column.key)}px)` }}
+                        style={
+                          isPinned
+                            ? { insetInlineStart: pinOffsets[column.key], width: widths[column.key] ?? 0 }
+                            : { width: widths[column.key] ?? 0, transform: `translateX(${isRtl ? -columnX(column.key) : columnX(column.key)}px)` }
+                        }
                       >
                         {renderCell ? renderCell({ ...cellCtx, content }) : <div className="min-w-0 truncate">{content}</div>}
                       </div>
@@ -990,7 +1190,7 @@ function Table<T>({
 
           {resolvedFooter && !showSkeleton && rows.length > 0 ? (
             <div className="absolute inset-x-0" style={{ top: totalSize, height: footerHeight }}>
-              <div data-slot="table-footer" className="sticky left-0 h-full" style={{ width: viewportWidth || "100%" }}>
+              <div data-slot="table-footer" className="sticky start-0 h-full" style={{ width: viewportWidth || "100%" }}>
                 {resolvedFooter}
               </div>
             </div>
@@ -1017,6 +1217,8 @@ export {
   type TableCellContext,
   type TableHeaderContext,
   type TableHeaderLabelProps,
+  type TableVariant,
+  type TableSize,
   type SortState,
   type SortDirection,
 }

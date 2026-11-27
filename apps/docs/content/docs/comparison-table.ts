@@ -59,7 +59,7 @@ export default {
         { name: "stickyHeader", type: "boolean", default: "false", description: { en: "Keep the header row in view inside `maxHeight`.", zh: "在 `maxHeight` 内滚动时固定表头。" } },
         { name: "stickyFeatureColumn", type: "boolean", default: "false", description: { en: "Keep the label column in view while scrolling sideways.", zh: "横向滚动时固定功能列。" } },
         { name: "maxHeight", type: "number | string", description: { en: "Height of the scrolling surface.", zh: "滚动表面的高度。" } },
-        { name: "containerClassName", type: "string", description: { en: "Class for the raised, scrolling surface.", zh: "凸起的滚动表面的 class。" } },
+        { name: "containerClassName", type: "string", description: { en: "Class for the scrolling frame around the table.", zh: "表格周围滚动边框容器的 class。" } },
       ],
       dataAttributes: [{ name: "data-highlighted", description: { en: "On the header and cells of the highlighted plan.", zh: "在被突出套餐的表头和单元格上。" } }],
     },
