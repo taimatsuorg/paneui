@@ -18,7 +18,7 @@ export const GITHUB_URL = "https://github.com/taimatsuorg/paneui"
 export const FRAME = "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"
 
 const navLink =
-  "rounded-md px-2 py-1 text-ui text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+  "rounded-md px-2 py-1 text-ui font-medium text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
 
 /** A plain sticky bar on the page's frame: mark and two links on the left, GitHub, language, theme and Get started on the right. */
 export function LandingHeader() {
