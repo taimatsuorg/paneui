@@ -196,3 +196,20 @@ test("switch supports track icons, pointer drag, and optimistic pending state wi
   const published = JSON.parse(fs.readFileSync(path.join(root, "apps/docs/public/r/switch.json"), "utf8"))
   assert.ok(published.registryDependencies.some((d) => /icons(\.json)?$/.test(d)))
 })
+
+test("badge tinted variants use solid same-color fills without contrasting border rings", () => {
+  const badge = fs.readFileSync(path.join(root, "packages/ui/src/components/badge.tsx"), "utf8")
+  assert.match(badge, /chip:\s*"bg-muted text-foreground/)
+  assert.doesNotMatch(badge, /\bshadow-chip\b/)
+  assert.doesNotMatch(badge, /\binset-ring-/)
+  assert.doesNotMatch(badge, /\bbg-(primary|success|warning|destructive)-subtle\b/)
+  for (const role of ["primary", "success", "warning", "destructive"]) {
+    assert.match(badge, new RegExp(`${role}:\\s*"bg-${role} text-${role}-foreground`))
+  }
+  assert.match(badge, /outline:\s*"[^"\n]*shadow-\[inset_0_0_0_1px_var\(--input\)\]/)
+
+  const published = JSON.parse(fs.readFileSync(path.join(root, "apps/docs/public/r/badge.json"), "utf8"))
+  const publishedContent = published.files[0].content
+  assert.match(publishedContent, /bg-primary text-primary-foreground/)
+  assert.doesNotMatch(publishedContent, /\binset-ring-/)
+})

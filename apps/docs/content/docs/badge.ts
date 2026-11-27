@@ -34,7 +34,7 @@ export default {
           name: "variant",
           type: `"chip" | "primary" | "success" | "warning" | "destructive" | "outline"`,
           default: `"chip"`,
-          description: { en: "Visual style. `chip` is neutral; the tinted variants carry status.", zh: "视觉样式。`chip` 为中性；着色变体承载状态。" },
+          description: { en: "Visual style. `chip` uses a soft neutral fill, `primary` and status variants use solid fills matching their edges, and `outline` draws a hairline border.", zh: "视觉样式。`chip` 为柔和中性填充，`primary` 与状态变体为填充与外框同色的实心块，`outline` 保留细线边框。" },
         },
         {
           name: "size",
