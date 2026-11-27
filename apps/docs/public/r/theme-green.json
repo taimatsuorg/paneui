@@ -15,7 +15,7 @@
       "primary-subtle": "oklch(54.5% 0.1191 162.48 / 0.1)",
       "primary-subtle-hover": "oklch(54.5% 0.1191 162.48 / 0.16)",
       "primary-border": "oklch(54.5% 0.1191 162.48 / 0.32)",
-      "primary-text": "oklch(51% 0.1072 162.48)",
+      "primary-text": "oklch(51.5% 0.1072 162.48)",
       "ring": "oklch(54.5% 0.1191 162.48)",
       "selection": "oklch(54.5% 0.1191 162.48 / 0.22)"
     },
@@ -23,7 +23,7 @@
       "primary": "oklch(76.5% 0.165 163.22)",
       "primary-hover": "oklch(80% 0.165 163.22)",
       "primary-active": "oklch(83.5% 0.165 163.22)",
-      "primary-foreground": "oklch(14.5% 0 0)",
+      "primary-foreground": "oklch(10% 0 0)",
       "primary-subtle": "oklch(76.5% 0.165 163.22 / 0.16)",
       "primary-subtle-hover": "oklch(76.5% 0.165 163.22 / 0.24)",
       "primary-border": "oklch(76.5% 0.165 163.22 / 0.42)",

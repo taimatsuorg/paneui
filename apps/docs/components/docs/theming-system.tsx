@@ -22,13 +22,13 @@ const LAYERS: {
 }[] = [
   {
     variable: "--background",
-    value: "oklch(98.8% 0 0)",
+    value: "oklch(100% 0 0)",
     utility: <Code>bg-background</Code>,
     usedBy: { en: "Page canvas", zh: "页面画布" },
   },
   {
     variable: "--primary",
-    value: "oklch(18% 0.003 286)",
+    value: "oklch(10% 0 0)",
     utility: (
       <>
         <Code>bg-primary</Code> <Code>text-primary-foreground</Code>
@@ -38,7 +38,7 @@ const LAYERS: {
   },
   {
     variable: "--border",
-    value: "oklch(18% 0.003 286 / 0.1)",
+    value: "oklch(10% 0 0 / 0.08)",
     utility: <Code>border-border</Code>,
     usedBy: { en: "Every divider and edge", zh: "所有分隔线和边缘" },
   },

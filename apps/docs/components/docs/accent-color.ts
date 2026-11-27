@@ -145,11 +145,11 @@ const fmt = (c: Oklch) => {
 const WHITE: Oklch = { l: 1, c: 0, h: 0 }
 /** The pages an accent must read on in each mode: background, card, popover. */
 const PAGES: Record<"light" | "dark", Oklch[]> = {
-  light: [WHITE, { l: 0.988, c: 0, h: 0 }, { l: 0.972, c: 0.002, h: 286 }],
+  light: [WHITE, { l: 0.976, c: 0, h: 0 }],
   dark: [
-    { l: 0.13, c: 0.002, h: 286 },
-    { l: 0.20, c: 0.003, h: 286 },
-    { l: 0.22, c: 0.003, h: 286 },
+    { l: 0.145, c: 0, h: 0 },
+    { l: 0.205, c: 0, h: 0 },
+    { l: 0.268, c: 0, h: 0 },
   ],
 }
 
@@ -175,7 +175,7 @@ const ratioRgb = (a: number[], b: number[]) => {
  */
 function pickForeground(fill: Oklch): Oklch {
   const dark: Oklch = { l: 0.2, c: Math.min(fill.c, 0.04), h: fill.h }
-  if (fill.c < 0.03) return contrast(fill, WHITE) >= contrast(fill, dark) ? WHITE : { l: 0.205, c: 0, h: 0 }
+  if (fill.c < 0.03) return contrast(fill, WHITE) >= contrast(fill, dark) ? WHITE : { l: 0.1, c: 0, h: 0 }
   return contrast(fill, WHITE) * 1.6 >= contrast(fill, dark) ? WHITE : dark
 }
 

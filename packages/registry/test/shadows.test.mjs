@@ -88,6 +88,27 @@ test("default theme fixes xl radius at 0.875rem with a 1rem cap and removes Pape
   assert.equal(manifest.items.some((i) => i.name.startsWith("theme-radius-")), false, "theme-radius-* items must be removed")
 })
 
+test("default theme uses pure achromatic surfaces, monochrome neutral ink, and royal blue preset", () => {
+  const globalsBlocks = parseBlocks(fs.readFileSync(path.join(root, "packages/tokens/styles/globals.css"), "utf8"))
+  const light = mergeVars(globalsBlocks, (s) => s === ":root")
+  const dark = mergeVars(globalsBlocks, (s) => s === ".dark")
+
+  assert.equal(light.background, "oklch(100% 0 0)")
+  assert.equal(light.shell, "oklch(97.6% 0 0)")
+  assert.equal(light.foreground, "oklch(10% 0 0)")
+  assert.equal(light.primary, "oklch(10% 0 0)")
+
+  assert.equal(dark.background, "oklch(14.5% 0 0)")
+  assert.equal(dark.card, "oklch(20.5% 0 0)")
+  assert.equal(dark.popover, "oklch(26.8% 0 0)")
+  assert.equal(dark.foreground, "oklch(98.5% 0 0)")
+  assert.equal(dark.primary, "oklch(98.5% 0 0)")
+
+  const manifest = JSON.parse(fs.readFileSync(path.join(root, "packages/registry/registry.json"), "utf8"))
+  const blue = manifest.items.find((i) => i.name === "theme-blue")
+  assert.equal(blue.cssVars.light.primary, "oklch(54.61% 0.2152 262.88)")
+})
+
 test("opaque-child tables reserve a 1px inset channel and destructive SettingsGroup uses inset-ring", () => {
   const simpleTable = fs.readFileSync(path.join(root, "packages/ui/src/components/simple-table.tsx"), "utf8")
   assert.match(simpleTable, /\bframe-xl\b/)

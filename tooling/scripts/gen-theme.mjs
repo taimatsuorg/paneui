@@ -24,14 +24,14 @@ const REGISTRY = path.join(ROOT, "packages/registry/registry.json")
 const THEME_VERSION = "2.8"
 
 const WHITE = new Ok(1)
-const PAGE = { light: new Ok(0.988, 0, 0), dark: new Ok(0.13, 0.002, 286) }
-const CARD = { light: new Ok(1, 0, 0), dark: new Ok(0.2, 0.003, 286) }
-const POPOVER = { light: new Ok(1, 0, 0), dark: new Ok(0.22, 0.003, 286) }
-const SHELL = { light: new Ok(0.972, 0.002, 286), dark: new Ok(0.165, 0.002, 286) }
-const CODE = { light: new Ok(1, 0, 0), dark: new Ok(0.18, 0.003, 286) }
+const PAGE = { light: new Ok(1, 0, 0), dark: new Ok(0.145, 0, 0) }
+const CARD = { light: new Ok(1, 0, 0), dark: new Ok(0.205, 0, 0) }
+const POPOVER = { light: new Ok(1, 0, 0), dark: new Ok(0.268, 0, 0) }
+const SHELL = { light: new Ok(0.976, 0, 0), dark: new Ok(0.18, 0, 0) }
+const CODE = { light: new Ok(0.985, 0, 0), dark: new Ok(0.185, 0, 0) }
 
 function inkOk(alpha, dark = false) {
-  return dark ? new Ok(0.96, 0.002, 286, alpha) : new Ok(0.18, 0.003, 286, alpha)
+  return dark ? new Ok(0.985, 0, 0, alpha) : new Ok(0.1, 0, 0, alpha)
 }
 
 function solveInk(target, dark, pages, under) {
@@ -42,28 +42,28 @@ function solveInk(target, dark, pages, under) {
 function neutrals(mode) {
   const dark = mode === "dark"
   const page = PAGE[mode]
-  const fg = dark ? new Ok(0.96, 0.002, 286) : new Ok(0.18, 0.003, 286)
-  const fillHover = inkOk(dark ? 0.07 : 0.05, dark)
-  const fillActive = inkOk(dark ? 0.12 : 0.09, dark)
-  const fillStrong = inkOk(dark ? 0.18 : 0.14, dark)
+  const fg = dark ? new Ok(0.985, 0, 0) : new Ok(0.1, 0, 0)
+  const fillHover = inkOk(dark ? 0.06 : 0.04, dark)
+  const fillActive = inkOk(dark ? 0.1 : 0.08, dark)
+  const fillStrong = inkOk(dark ? 0.16 : 0.14, dark)
   let mutedFg
   if (dark) {
     const surfs = [page, CARD[mode], POPOVER[mode], SHELL[mode], fillHover, fillActive]
-    const mutedL = solveL((L) => new Ok(L, 0.006, 286), (c) => surfs.every((p) => ratio(c, p, page) >= 4.6), 0.7, 0.9, "low")
-    mutedFg = new Ok(mutedL, 0.006, 286)
+    const mutedL = solveL((L) => new Ok(L, 0, 0), (c) => surfs.every((p) => ratio(c, p, page) >= 4.6), 0.7, 0.9, "low")
+    mutedFg = new Ok(mutedL, 0, 0)
   } else {
-    mutedFg = new Ok(0.5, 0.006, 286)
+    mutedFg = new Ok(0.51, 0, 0)
   }
   const tertAlpha = solveInk(3.1, dark, [page, CARD[mode]], page)
   const borderControl = solveInk(3.1, dark, [page, CARD[mode]], page)
   return {
-    // Surfaces: off-white light canvas with pure white panels, deep dark canvas with elevated panels, opaque.
+    // Surfaces: pure white light canvas with soft gray secondary shell, deep achromatic dark canvas with elevated panels, opaque.
     background: page,
     card: CARD[mode],
     popover: POPOVER[mode],
-    "surface-sunken": new Ok(0, 0, 0, dark ? 0.36 : 0.045),
+    "surface-sunken": new Ok(0, 0, 0, dark ? 0.36 : 0.04),
     "surface-standout": fg,
-    "standout-foreground": dark ? new Ok(0.18, 0.003, 286) : new Ok(0.988, 0, 0),
+    "standout-foreground": dark ? new Ok(0.1, 0, 0) : new Ok(1, 0, 0),
     // Text: primary, secondary (>= 4.5:1), tertiary (>= 3:1: meta, placeholders), disabled.
     foreground: fg,
     "card-foreground": fg,
@@ -82,11 +82,11 @@ function neutrals(mode) {
     accent: "var(--fill-active)",
     "accent-foreground": fg,
     // Borders: translucent hairlines for crisp contrast and control edges.
-    border: inkOk(0.1, dark),
-    "border-subtle": inkOk(0.06, dark),
-    "border-strong": inkOk(0.18, dark),
+    border: inkOk(dark ? 0.1 : 0.08, dark),
+    "border-subtle": inkOk(dark ? 0.06 : 0.05, dark),
+    "border-strong": inkOk(dark ? 0.18 : 0.16, dark),
     "border-control": inkOk(borderControl, dark),
-    input: inkOk(0.12, dark),
+    input: inkOk(dark ? 0.14 : 0.12, dark),
   }
 }
 
@@ -105,8 +105,8 @@ const STATUS_SPEC = {
     dark: [new Ok(0.145, 0, 0), 70.08, 0.188, 0.769, new Ok(0.828, 0.189, 84.429)],
   },
   info: {
-    light: [WHITE, 259.815, 0.214, 0.623, new Ok(0.488, 0.243, 264.376)],
-    dark: [new Ok(0.145, 0, 0), 259.815, 0.214, 0.623, new Ok(0.707, 0.165, 254.624)],
+    light: [WHITE, 262.88, 0.2152, 0.5461, new Ok(0.49, 0.215, 262.88)],
+    dark: [new Ok(0.1, 0, 0), 262.88, 0.17, 0.69, new Ok(0.69, 0.155, 262.88)],
   },
 }
 
@@ -133,14 +133,14 @@ function status(mode) {
 // ───────────────────────────── accents ─────────────────────────────
 const PRESET_ORDER = ["neutral", "blue", "green", "orange", "rose", "violet"]
 const PRESET_LIGHT = {
-  blue: [0.623, 0.214, 259.815],
+  blue: [0.5461, 0.2152, 262.88],
   green: [0.696, 0.17, 162.48],
   orange: [0.646, 0.222, 41.116],
   rose: [0.586, 0.253, 17.585],
   violet: [0.558, 0.288, 302.321],
 }
 const PRESET_DARK = {
-  blue: [0.707, 0.165, 254.624],
+  blue: [0.69, 0.17, 262.88],
   green: [0.765, 0.177, 163.223],
   orange: [0.75, 0.183, 55.934],
   rose: [0.712, 0.194, 13.428],
@@ -162,36 +162,36 @@ const ACC = [
 function neutralPreset(mode) {
   if (mode === "light") {
     const ringL = solveL(
-      (L) => new Ok(L, 0.005, 286),
+      (L) => new Ok(L, 0, 0),
       (c) => [PAGE.light, CARD.light].every((p) => ratio(c, p) >= 3.1),
       0.4,
-      0.708,
+      0.72,
       "high",
     )
     return {
-      primary: new Ok(0.18, 0.003, 286),
-      "primary-hover": new Ok(0.25, 0.003, 286),
-      "primary-active": new Ok(0.32, 0.003, 286),
-      "primary-foreground": new Ok(0.988, 0, 0),
-      "primary-subtle": inkOk(0.05, false),
-      "primary-subtle-hover": inkOk(0.09, false),
-      "primary-border": inkOk(0.16, false),
-      "primary-text": new Ok(0.18, 0.003, 286),
-      ring: new Ok(ringL, 0.005, 286),
-      selection: inkOk(0.16, false),
+      primary: new Ok(0.1, 0, 0),
+      "primary-hover": new Ok(0.22, 0, 0),
+      "primary-active": new Ok(0.3, 0, 0),
+      "primary-foreground": new Ok(1, 0, 0),
+      "primary-subtle": inkOk(0.04, false),
+      "primary-subtle-hover": inkOk(0.08, false),
+      "primary-border": inkOk(0.14, false),
+      "primary-text": new Ok(0.1, 0, 0),
+      ring: new Ok(ringL, 0, 0),
+      selection: inkOk(0.14, false),
     }
   }
   return {
-    primary: new Ok(0.96, 0.002, 286),
-    "primary-hover": new Ok(0.9, 0.002, 286),
-    "primary-active": new Ok(0.84, 0.002, 286),
-    "primary-foreground": new Ok(0.18, 0.003, 286),
-    "primary-subtle": inkOk(0.07, true),
-    "primary-subtle-hover": inkOk(0.12, true),
-    "primary-border": inkOk(0.18, true),
-    "primary-text": new Ok(0.96, 0.002, 286),
-    ring: new Ok(0.58, 0.005, 286),
-    selection: inkOk(0.24, true),
+    primary: new Ok(0.985, 0, 0),
+    "primary-hover": new Ok(0.91, 0, 0),
+    "primary-active": new Ok(0.84, 0, 0),
+    "primary-foreground": new Ok(0.1, 0, 0),
+    "primary-subtle": inkOk(0.06, true),
+    "primary-subtle-hover": inkOk(0.1, true),
+    "primary-border": inkOk(0.16, true),
+    "primary-text": new Ok(0.985, 0, 0),
+    ring: new Ok(0.58, 0, 0),
+    selection: inkOk(0.22, true),
   }
 }
 
@@ -204,7 +204,7 @@ function preset(name, mode) {
     return accentRoles(solid, WHITE, PAGE[mode], pages, mode)
   }
   const [L, C, H] = PRESET_DARK[name]
-  const fg = new Ok(0.145, 0, 0)
+  const fg = new Ok(0.1, 0, 0)
   const solid = solidFor(fg, H, C, L)
   return accentRoles(solid, fg, PAGE[mode], pages, mode, { textChroma: 0.95, textStart: solid.L })
 }
@@ -237,8 +237,8 @@ function charts(mode) {
 function tags(mode) {
   const dark = mode === "dark"
   const pages = [PAGE[mode], CARD[mode], POPOVER[mode]]
-  const fg = dark ? new Ok(0.96, 0.002, 286) : new Ok(0.18, 0.003, 286)
-  return tagRoles(mode, pages, fg, inkOk(dark ? 0.08 : 0.06, dark), 0, 0)
+  const fg = dark ? new Ok(0.985, 0, 0) : new Ok(0.1, 0, 0)
+  return tagRoles(mode, pages, fg, inkOk(dark ? 0.08 : 0.05, dark), 0, 0)
 }
 
 const cssVal = (v) => (v instanceof Ok ? v.css() : v)
@@ -255,7 +255,7 @@ function tokens(mode) {
     scrollbar: inkOk(0.16, dark),
     "scrollbar-hover": inkOk(0.28, dark),
     shell: SHELL[mode],
-    "shell-border": inkOk(0.08, dark),
+    "shell-border": inkOk(dark ? 0.08 : 0.06, dark),
     ...tags(mode),
   }
   return Object.fromEntries(Object.entries(d).map(([k, v]) => [k, cssVal(v)]))
@@ -274,7 +274,7 @@ const PRESETS = Object.fromEntries(
 
 // ───────────────────────────── globals.css ─────────────────────────────
 const GROUPS = [
-  ["Surfaces: off-white light and deep dark canvas, elevated container (card) and modal (popover), opaque.", ["background", "card", "popover"]],
+  ["Surfaces: pure white light canvas and deep achromatic dark canvas, elevated container (card) and modal (popover), opaque.", ["background", "card", "popover"]],
   ["Sunken wells, and the inverted standout surface (neutral callouts, toasts).", ["surface-sunken", "surface-standout", "standout-foreground"]],
   ["Text: primary, secondary (≥ 4.5:1), tertiary (≥ 3:1, meta and placeholders) and disabled.", ["foreground", "card-foreground", "popover-foreground", "muted-foreground", "fg-tertiary", "fg-disabled"]],
   ["Accent: solid, hover, active and its label (≥ 4.5:1), subtle fills, border, text (links, active items: ≥ 4.5:1 on the page and the subtle fill), focus ring (≥ 3:1) and text selection. Presets swap these ten.", ACC],
@@ -297,14 +297,14 @@ if (JSON.stringify(groupKeys) !== JSON.stringify(lightKeys)) {
 const SHADOWS = {
   light: `
   /* Shadow scale: inset hairline ring plus subtle bottom drop depth. */
-  --shadow-border: inset 0 0 0 1px oklch(0% 0 0 / 0.08);
-  --shadow-default: inset 0 0 0 1px oklch(0% 0 0 / 0.08), 0 1px 0 oklch(0% 0 0 / 0.04), 0 1px 2px oklch(0% 0 0 / 0.05);
-  --shadow-lg: inset 0 0 0 1px oklch(0% 0 0 / 0.08), 0 1px 0 oklch(0% 0 0 / 0.04), 0 10px 15px -3px oklch(0% 0 0 / 0.05), 0 4px 6px -4px oklch(0% 0 0 / 0.05);
-  --shadow-xl: inset 0 0 0 1px oklch(0% 0 0 / 0.08), 0 1px 0 oklch(0% 0 0 / 0.04), 0 20px 25px -5px oklch(0% 0 0 / 0.08), 0 8px 10px -6px oklch(0% 0 0 / 0.06);
+  --shadow-border: inset 0 0 0 1px oklch(0% 0 0 / 0.07);
+  --shadow-default: inset 0 0 0 1px oklch(0% 0 0 / 0.07), 0 1px 0 oklch(0% 0 0 / 0.03), 0 1px 2px oklch(0% 0 0 / 0.04);
+  --shadow-lg: inset 0 0 0 1px oklch(0% 0 0 / 0.07), 0 1px 0 oklch(0% 0 0 / 0.03), 0 10px 15px -3px oklch(0% 0 0 / 0.05), 0 4px 6px -4px oklch(0% 0 0 / 0.04);
+  --shadow-xl: inset 0 0 0 1px oklch(0% 0 0 / 0.07), 0 1px 0 oklch(0% 0 0 / 0.03), 0 20px 25px -5px oklch(0% 0 0 / 0.07), 0 8px 10px -6px oklch(0% 0 0 / 0.05);
   /* Named elevation (components use these), restated in .dark so they resolve per mode. */
   --skeuo-raised: var(--shadow-default);
-  --skeuo-raised-hover: inset 0 0 0 1px oklch(0% 0 0 / 0.14), 0 1px 0 oklch(0% 0 0 / 0.05), 0 2px 4px oklch(0% 0 0 / 0.06);
-  --skeuo-pressed: inset 0 1px 2px oklch(0% 0 0 / 0.1), inset 0 0 0 1px oklch(0% 0 0 / 0.12);
+  --skeuo-raised-hover: inset 0 0 0 1px oklch(0% 0 0 / 0.13), 0 1px 0 oklch(0% 0 0 / 0.04), 0 2px 4px oklch(0% 0 0 / 0.05);
+  --skeuo-pressed: inset 0 1px 2px oklch(0% 0 0 / 0.09), inset 0 0 0 1px oklch(0% 0 0 / 0.11);
   --skeuo-primary: 0 1px 0 oklch(0% 0 0 / 0.08), 0 1px 2px oklch(0% 0 0 / 0.08);
   --skeuo-well: inset 0 0 0 1px var(--input);
   --skeuo-surface: var(--shadow-lg);
@@ -312,14 +312,14 @@ const SHADOWS = {
 `,
   dark: `
   /* Shadow scale: inset hairline ring plus subtle bottom drop depth and crisp top highlight. */
-  --shadow-border: inset 0 0 0 1px oklch(100% 0 0 / 0.1);
-  --shadow-default: inset 0 0.5px 0 oklch(100% 0 0 / 0.1), inset 0 0 0 1px oklch(100% 0 0 / 0.08), 0 1px 2px oklch(0% 0 0 / 0.28);
-  --shadow-lg: inset 0 0.5px 0 oklch(100% 0 0 / 0.1), inset 0 0 0 1px oklch(100% 0 0 / 0.1), 0 10px 15px -3px oklch(0% 0 0 / 0.45), 0 4px 6px -4px oklch(0% 0 0 / 0.35);
-  --shadow-xl: inset 0 0.5px 0 oklch(100% 0 0 / 0.1), inset 0 0 0 1px oklch(100% 0 0 / 0.1), 0 20px 25px -5px oklch(0% 0 0 / 0.55), 0 8px 10px -6px oklch(0% 0 0 / 0.4);
+  --shadow-border: inset 0 0 0 1px oklch(100% 0 0 / 0.09);
+  --shadow-default: inset 0 0.5px 0 oklch(100% 0 0 / 0.08), inset 0 0 0 1px oklch(100% 0 0 / 0.08), 0 1px 2px oklch(0% 0 0 / 0.36);
+  --shadow-lg: inset 0 0.5px 0 oklch(100% 0 0 / 0.09), inset 0 0 0 1px oklch(100% 0 0 / 0.1), 0 10px 15px -3px oklch(0% 0 0 / 0.5), 0 4px 6px -4px oklch(0% 0 0 / 0.38);
+  --shadow-xl: inset 0 0.5px 0 oklch(100% 0 0 / 0.09), inset 0 0 0 1px oklch(100% 0 0 / 0.1), 0 20px 25px -5px oklch(0% 0 0 / 0.6), 0 8px 10px -6px oklch(0% 0 0 / 0.45);
   /* Named elevation (components use these), restated in .dark so they resolve per mode. */
   --skeuo-raised: var(--shadow-default);
-  --skeuo-raised-hover: inset 0 0.5px 0 oklch(100% 0 0 / 0.14), inset 0 0 0 1px oklch(100% 0 0 / 0.14), 0 1px 3px oklch(0% 0 0 / 0.34);
-  --skeuo-pressed: inset 0 1px 2px oklch(0% 0 0 / 0.45), inset 0 0 0 1px oklch(100% 0 0 / 0.1);
+  --skeuo-raised-hover: inset 0 0.5px 0 oklch(100% 0 0 / 0.12), inset 0 0 0 1px oklch(100% 0 0 / 0.14), 0 1px 3px oklch(0% 0 0 / 0.42);
+  --skeuo-pressed: inset 0 1px 2px oklch(0% 0 0 / 0.5), inset 0 0 0 1px oklch(100% 0 0 / 0.1);
   --skeuo-primary: 0 0 0 0 transparent;
   --skeuo-well: inset 0 0 0 1px var(--input);
   --skeuo-surface: var(--shadow-lg);

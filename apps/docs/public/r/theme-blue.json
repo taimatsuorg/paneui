@@ -8,28 +8,28 @@
   ],
   "cssVars": {
     "light": {
-      "primary": "oklch(57% 0.214 259.82)",
-      "primary-hover": "oklch(53.5% 0.214 259.82)",
-      "primary-active": "oklch(50% 0.2033 259.82)",
+      "primary": "oklch(54.61% 0.2152 262.88)",
+      "primary-hover": "oklch(51.11% 0.2152 262.88)",
+      "primary-active": "oklch(47.61% 0.2152 262.88)",
       "primary-foreground": "oklch(100% 0 0)",
-      "primary-subtle": "oklch(57% 0.214 259.82 / 0.1)",
-      "primary-subtle-hover": "oklch(57% 0.214 259.82 / 0.16)",
-      "primary-border": "oklch(57% 0.214 259.82 / 0.32)",
-      "primary-text": "oklch(53% 0.1926 259.82)",
-      "ring": "oklch(57% 0.214 259.82)",
-      "selection": "oklch(57% 0.214 259.82 / 0.22)"
+      "primary-subtle": "oklch(54.61% 0.2152 262.88 / 0.1)",
+      "primary-subtle-hover": "oklch(54.61% 0.2152 262.88 / 0.16)",
+      "primary-border": "oklch(54.61% 0.2152 262.88 / 0.32)",
+      "primary-text": "oklch(53.5% 0.1937 262.88)",
+      "ring": "oklch(54.61% 0.2152 262.88)",
+      "selection": "oklch(54.61% 0.2152 262.88 / 0.22)"
     },
     "dark": {
-      "primary": "oklch(70.7% 0.156 254.62)",
-      "primary-hover": "oklch(74.2% 0.1355 254.62)",
-      "primary-active": "oklch(77.7% 0.1156 254.62)",
-      "primary-foreground": "oklch(14.5% 0 0)",
-      "primary-subtle": "oklch(70.7% 0.156 254.62 / 0.16)",
-      "primary-subtle-hover": "oklch(70.7% 0.156 254.62 / 0.24)",
-      "primary-border": "oklch(70.7% 0.156 254.62 / 0.42)",
-      "primary-text": "oklch(70.7% 0.1482 254.62)",
-      "ring": "oklch(70.7% 0.156 254.62)",
-      "selection": "oklch(70.7% 0.156 254.62 / 0.4)"
+      "primary": "oklch(69% 0.1626 262.88)",
+      "primary-hover": "oklch(72.5% 0.1423 262.88)",
+      "primary-active": "oklch(76% 0.1225 262.88)",
+      "primary-foreground": "oklch(10% 0 0)",
+      "primary-subtle": "oklch(69% 0.1626 262.88 / 0.16)",
+      "primary-subtle-hover": "oklch(69% 0.1626 262.88 / 0.24)",
+      "primary-border": "oklch(69% 0.1626 262.88 / 0.42)",
+      "primary-text": "oklch(69% 0.1544 262.88)",
+      "ring": "oklch(69% 0.1626 262.88)",
+      "selection": "oklch(69% 0.1626 262.88 / 0.4)"
     }
   },
   "meta": {
