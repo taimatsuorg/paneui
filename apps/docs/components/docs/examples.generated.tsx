@@ -174,7 +174,6 @@ export const examples: Record<string, React.ComponentType> = {
   "command-copy/group": dynamic(() => import("@/registry/examples/command-copy/group"), { ssr: false }),
   "command-copy/no-prompt": dynamic(() => import("@/registry/examples/command-copy/no-prompt"), { ssr: false }),
   "command-copy/prompt": dynamic(() => import("@/registry/examples/command-copy/prompt"), { ssr: false }),
-  "command-copy/sizes": dynamic(() => import("@/registry/examples/command-copy/sizes"), { ssr: false }),
   "command-palette/caller-ranked": dynamic(() => import("@/registry/examples/command-palette/caller-ranked"), { ssr: false }),
   "command/dialog": dynamic(() => import("@/registry/examples/command/dialog"), { ssr: false }),
   "comparison-table/highlighted": dynamic(() => import("@/registry/examples/comparison-table/highlighted"), { ssr: false }),

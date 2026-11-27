@@ -8,7 +8,6 @@ export default {
   },
   examples: [
     { id: "group", title: { en: "Tabs", zh: "标签页" }, description: { en: "Tabs and command in one frame, for a command that changes with a setting.", zh: "标签页与命令共用一个边框，用于随设置变化的命令。" } },
-    { id: "sizes", title: { en: "Sizes", zh: "尺寸" }, description: { en: "Use `lg` for the one install line on a landing page.", zh: "落地页上的安装命令用 `lg`。" } },
     { id: "floating", title: { en: "Floating", zh: "悬浮" }, description: { en: "Use on pictures and tinted sections.", zh: "用于图片或有底色的区块上。" } },
     { id: "no-prompt", title: { en: "Without prompt", zh: "无提示符" } },
     { id: "prompt", title: { en: "Multi-line text", zh: "多行文本" }, description: { en: "Use `PromptCopy` for a prompt or any text longer than one line.", zh: "提示词或超过一行的文本用 `PromptCopy`。" } },
@@ -29,11 +28,9 @@ export default {
         { name: "label", type: "string", description: { en: "Accessible name of the copy button.", zh: "复制按钮的无障碍名称。" } },
         { name: "onCopy", type: "(command: string) => void", description: { en: "Called after the command reaches the clipboard.", zh: "命令到达剪贴板后调用。" } },
         { name: "variant", type: `"default" | "floating" | "plain"`, default: `"default"`, description: { en: "`default` is a raised card; `floating` is a translucent, blurred bar with a deeper shadow; `plain` drops the frame for use inside `CommandGroup`.", zh: "`default` 是凸起卡片；`floating` 是半透明、模糊且阴影更深的条；`plain` 去掉边框，供 `CommandGroup` 内部使用。" } },
-        { name: "size", type: `"default" | "lg"`, default: `"default"`, description: { en: "`default` is 40px with a ghost button; `lg` is a 56px round bar with a solid round 40px button and larger type from the `sm` breakpoint.", zh: "`default` 是 40px 带幽灵按钮；`lg` 是 56px 圆形条，带实心圆形 40px 按钮，从 `sm` 断点起使用更大字号。" } },
       ],
       dataAttributes: [
         { name: "data-variant", description: { en: "The variant.", zh: "变体。" } },
-        { name: "data-size", description: { en: "The size.", zh: "尺寸。" } },
       ],
     },
     {

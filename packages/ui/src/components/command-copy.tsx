@@ -11,29 +11,20 @@ import { useLocale } from "@paneui/ui/components/locale-provider"
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@paneui/ui/components/tabs"
 
 /*
- * One shell command on a bar with a copy button (`PromptCopy` below is the multi-line text version). The command scrolls sideways when it does not
- * fit; the prompt glyph is decoration and never ends up in the copy. `lg` is the round hero bar
- * with a solid round button; `default` is a quieter bar for docs and settings.
+ * One shell command on a bar with a copy button (`PromptCopy` below is the multi-line text version).
+ * The command scrolls sideways when it does not fit; the prompt glyph is decoration and never ends up in the copy.
  */
-const commandCopyVariants = cva("flex w-full min-w-0 items-center text-card-foreground", {
+const commandCopyVariants = cva("flex h-10 w-full min-w-0 items-center gap-2 ps-3 pe-1.5 text-ui text-card-foreground", {
   variants: {
     variant: {
-      default: "bg-code shadow-raised",
-      floating: "bg-card/80 shadow-xl backdrop-blur-xl",
+      // The ghost button sits 6px from the bar's edge, so its corners follow the bar's.
+      default: "frame-xl frame-inset-1.5 bg-code shadow-raised",
+      floating: "frame-xl frame-inset-1.5 bg-card/80 shadow-xl backdrop-blur-xl",
       /** Inside a `CommandGroup`: the group owns the frame, the row is just the command line. */
       plain: "bg-transparent",
     },
-    size: {
-      // The ghost button sits 6px from the bar's edge, so its corners follow the bar's.
-      default: "frame-xl frame-inset-1.5 h-10 gap-2 ps-3 pe-1.5 text-ui",
-      lg: "h-14 gap-3 rounded-control ps-4 pe-2 text-ui-sm sm:ps-6 sm:text-ui-lg",
-    },
   },
-  compoundVariants: [
-    // The group owns the frame, so its row keeps the height but takes no radius of its own.
-    { variant: "plain", size: "default", className: "h-10 gap-2 ps-3 pe-1.5 text-ui" },
-  ],
-  defaultVariants: { variant: "default", size: "default" },
+  defaultVariants: { variant: "default" },
 })
 
 function useCopied(timeout = 1600) {
@@ -76,19 +67,16 @@ function CommandCopy({
   label,
   onCopy,
   variant = "default",
-  size = "default",
   className,
   ...props
 }: CommandCopyProps) {
   const { labels } = useLocale()
   const { copied, copy } = useCopied()
-  const lg = size === "lg"
   return (
     <div
       data-slot="command-copy"
       data-variant={variant}
-      data-size={size}
-      className={cn(commandCopyVariants({ variant, size }), className)}
+      className={cn(commandCopyVariants({ variant }), className)}
       {...props}
     >
       <code
@@ -104,13 +92,13 @@ function CommandCopy({
       </code>
       <Button
         data-slot="command-copy-button"
-        variant={lg ? "inverse" : "ghost"}
-                size={lg ? "icon-lg" : "icon-sm"}
+        variant="ghost"
+        size="icon-sm"
         aria-label={copied ? labels.copied : (label ?? labels.copyCommand)}
         onClick={async () => {
           if (await copy(command)) onCopy?.(command)
         }}
-        className={cn(lg ? "size-10 rounded-[max(calc(var(--radius-control)-var(--spacing)*2),1px)]" : "rounded-inner text-muted-foreground hover:text-foreground")}
+        className="rounded-inner text-muted-foreground hover:text-foreground"
       >
         <ActionSwapBlurIcon value={copied ? "copied" : "copy"}>
           {/* Full strength: the glyph is the whole button. */}
